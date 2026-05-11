@@ -1,0 +1,6 @@
+platform:ios, '17.0'
+ 
+target 'zara' do
+  pod 'Masonry' 
+  pod 'LookinServer', :configurations => ['Debug']
+end
