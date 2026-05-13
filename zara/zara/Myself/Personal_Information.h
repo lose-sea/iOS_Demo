@@ -8,17 +8,21 @@
 #import <UIKit/UIKit.h>
 #import <Masonry/Masonry.h>
 #import "AvatarShow.h"
-#import "ChangeNickName.h" 
+#import "ChangeNickName.h"
+#import "ChangeSignature.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
 @interface Personal_Information : UIViewController <UITableViewDelegate, UITableViewDataSource, ChangeNickName> 
 
+// 昵称
 @property (nonatomic, strong) NSString* Nickname;
-
+// 头像
 @property (nonatomic, strong) UIImage* avatar;
-
-@property (nonatomic, strong) NSString* account; 
+// 账号
+@property (nonatomic, strong) NSString* account;
+// 签名
+@property (nonatomic, strong) NSString* signature;
 
 @end
 

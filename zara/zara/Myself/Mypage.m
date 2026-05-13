@@ -6,6 +6,7 @@
 //
 
 #import "Mypage.h"
+#import "NotificationName.h"
 
 @interface Mypage ()
 @property (nonatomic, strong) UITableView* tableView;
@@ -17,10 +18,6 @@
 @end
 
 
-// 修改头像通知
-static NSString* const AvatarNotification = @"AvatarNotification";
-// 修改昵称通知
-static NSString* const NickNameNotification = @"NickNameNotification";
 
 @implementation Mypage
 
@@ -38,8 +35,9 @@ static NSString* const NickNameNotification = @"NickNameNotification";
     [self setTableView];
     
     // 注册监听
+    // 更换头像
     [[NSNotificationCenter defaultCenter] addObserver: self selector: @selector(receiveAvatar:) name: @"AvatarNotification" object: nil];
-    
+    // 更换昵称
     [[NSNotificationCenter defaultCenter] addObserver: self selector: @selector(receiveNickName:) name: @"NickNameNotification" object: nil];
     
 }

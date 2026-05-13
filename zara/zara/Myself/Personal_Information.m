@@ -6,6 +6,7 @@
 //
 
 #import "Personal_Information.h"
+#import "NotificationName.h"
 
 @interface Personal_Information ()
 
@@ -15,7 +16,6 @@
 
 @end
 
-static NSString* const AvatarNotification = @"AvatarNotification";
 
 @implementation Personal_Information
 
@@ -23,11 +23,18 @@ static NSString* const AvatarNotification = @"AvatarNotification";
     [super viewDidLoad];
     self.title = @"个人信息";
     
+    [self setData];
     [self setTableView];
     
     // 注册通知监听
+    // 更换头像
     [[NSNotificationCenter defaultCenter] addObserver: self selector: @selector(receiveAvatar:) name: AvatarNotification object: nil];
+    // 更换签名
+    [[NSNotificationCenter defaultCenter] addObserver: self selector: @selector(receiveSignature:) name: SignatureNotification object: nil];
+}
 
+- (void) setData {
+    self.signature = @"这个家伙很懒, 什么也没留下";
 }
 
 // 接收通知
@@ -37,6 +44,13 @@ static NSString* const AvatarNotification = @"AvatarNotification";
     
     NSLog(@"接收到通知,更换头像"); 
 }
+
+- (void) receiveSignature: (NSNotification*) notification {
+    self.signature = notification.userInfo[@"signature"];
+    [self.tableView reloadData];
+}
+
+
 
 - (void) setTableView {
     self.tableView = [[UITableView alloc] init];
@@ -94,7 +108,7 @@ static NSString* const AvatarNotification = @"AvatarNotification";
     } else if (indexPath.row == 3) {
         cell.textLabel.text = @"个性签名";
         UILabel* label = [[UILabel alloc] init];
-        label.text = @"这个家伙很懒, 什么也没有留下";
+        label.text = self.signature;
         label.frame = CGRectMake(0, 0, 150, cell.bounds.size.height - 10);
         // 自动调整字体大小
         label.adjustsFontSizeToFitWidth = YES;
@@ -123,6 +137,11 @@ static NSString* const AvatarNotification = @"AvatarNotification";
         ChangeNickName* vc = [[ChangeNickName alloc] init]; 
         vc.nickname = self.Nickname;
         vc.delegate = self; 
+        [self.navigationController pushViewController: vc animated: YES];
+    } else if (indexPath.row == 3) {
+        NSLog(@"点击了昵称");
+        ChangeSignature* vc = [[ChangeSignature alloc] init];
+        vc.signature = self.signature;
         [self.navigationController pushViewController: vc animated: YES];
     }
 }
