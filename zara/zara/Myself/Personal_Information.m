@@ -118,7 +118,19 @@ static NSString* const AvatarNotification = @"AvatarNotification";
         UITableViewCell* cell = [tableView cellForRowAtIndexPath: indexPath];
         vc.avatar = ((UIImageView*)cell.accessoryView).image; 
         [self.navigationController pushViewController: vc animated: YES];
+    } else if (indexPath.row == 1) {
+        NSLog(@"点击了昵称");
+        ChangeNickName* vc = [[ChangeNickName alloc] init]; 
+        vc.nickname = self.Nickname;
+        vc.delegate = self; 
+        [self.navigationController pushViewController: vc animated: YES];
     }
+}
+
+// 实现协议方法
+- (void) vcChangeNickName:(id)vcChangeNickName didSendText:(NSString *)nickName {
+    self.Nickname = nickName;
+    [self.tableView reloadData];
 }
 
 

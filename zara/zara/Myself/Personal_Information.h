@@ -8,10 +8,11 @@
 #import <UIKit/UIKit.h>
 #import <Masonry/Masonry.h>
 #import "AvatarShow.h"
+#import "ChangeNickName.h" 
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface Personal_Information : UIViewController <UITableViewDelegate, UITableViewDataSource>
+@interface Personal_Information : UIViewController <UITableViewDelegate, UITableViewDataSource, ChangeNickName> 
 
 @property (nonatomic, strong) NSString* Nickname;
 

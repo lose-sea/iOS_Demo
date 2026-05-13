@@ -31,11 +31,15 @@
 //    self.navigationController.navigationBar.backgroundColor = [UIColor blueColor];
     [self setNavigationController];
     [self setTimer];
-    [self pageControl];
     
     // 设置界面
     [self setInterface];
+    [self setPageControl];
+
 }
+
+
+
 #pragma mark - 定时器
 
 // 开启定时器
@@ -49,11 +53,15 @@
     return page;
 }
 
-
+// 定时器方法
+// 通过 UIPageControl 来控制翻页
 - (void) nextPage {
-    NSInteger nextpage = [self currentPage] + 1;
-    [self.scrollView setContentOffset: CGPointMake(self.scrollView.bounds.size.width * nextpage, 0)];
-    [self scrollViewDidEndDecelerating: self.scrollView];
+    NSInteger index = self.pageControl.currentPage + 1;
+    if (index == 3) {
+        index = 0;
+    }
+    self.pageControl.currentPage = index;
+    [self.scrollView setContentOffset: CGPointMake(self.scrollView.bounds.size.width * (index + 1), 0) animated:YES];
 }
 // 关闭定时器
 - (void) stopTimer {
@@ -61,13 +69,10 @@
     self.timer = nil;
 }
 
-// 当滑动滚动视图的时候关闭定时器
-- (void) scrollViewDidScroll:(UIScrollView *)scrollView {
-    [self stopTimer];
-}
 
 
-#pragma mark - 界面
+
+#pragma mark - 界面, 滚动视图
 // 设置界面
 - (void) setInterface {
     // 设置标签
@@ -83,8 +88,7 @@
     }];
     
     
-    
-    //设置滚动页面
+    //设置滚动视图
     self.scrollView = [[UIScrollView alloc] init];
     self.scrollView.backgroundColor = [UIColor systemCyanColor];
     [self.view addSubview: self.scrollView];
@@ -151,20 +155,47 @@
     }
 }
 
+
 // 设置代理方法
+// 当将要滑动滚动视图的时候关闭定时器
+- (void) scrollViewWillBeginDragging:(UIScrollView *)scrollView {
+    [self stopTimer];
+}
+
+//// 在滑动过程中实时给更新pageControl
+//- (void) scrollViewDidScroll:(UIScrollView *)scrollView {
+//    NSInteger page = [self currentPage];
+//    
+//    if (page == 0) {
+//        self.pageControl.currentPage = 2;
+//    } else if (page == 4) {
+//        self.pageControl.currentPage = 0;
+//    } else {
+//        self.pageControl.currentPage = page - 1; 
+//    }
+//}
+
+
 // 当视图切换到临时视图的时候进行跳转
+// 在滑动完成时候更新 UIPageControl
 - (void) scrollViewDidEndDecelerating:(UIScrollView *)scrollView {
-    CGFloat width = scrollView.bounds.size.width;
-    NSInteger currIndex = scrollView.contentOffset.x / width;
-    if (currIndex == 0) {
-        [scrollView setContentOffset: CGPointMake(width * 3, 0) animated: NO];
-    } else if (currIndex == 4) {
-        [scrollView setContentOffset: CGPointMake(width * 1, 0) animated: NO];
+    NSInteger page = [self currentPage];
+    
+    if (page == 0) {
+        [scrollView setContentOffset: CGPointMake(self.scrollView.bounds.size.width * 3, 0) animated: NO];
+        self.pageControl.currentPage = 2;
+    } else if (page == 4) {
+        [scrollView setContentOffset: CGPointMake(self.scrollView.bounds.size.width * 1, 0) animated: NO];
+        self.pageControl.currentPage = 0;
+    } else {
+        self.pageControl.currentPage = page - 1;
     }
     // 开启定时器
     [self setTimer];
 }
 
+
+#pragma mark - 导航栏
 // 设置导航栏外观
 - (void) setNavigationController {
     // 导航栏透明
@@ -183,12 +214,13 @@
 }
 
 
+
 #pragma mark - UIPageControl
 - (void) setPageControl {
     self.pageControl = [[UIPageControl alloc] init];
     
     // 设置总页数
-    self.pageControl.numberOfPages = self.scrollView.contentSize.width / self.scrollView.bounds.size.width;
+    self.pageControl.numberOfPages = 3;
     
     // 设置当前页码
     self.pageControl.currentPage = 0;
@@ -208,6 +240,7 @@
                          action: @selector(pageControlChange)
                forControlEvents: UIControlEventValueChanged];
     
+    [self.view addSubview: self.pageControl];
     [self.pageControl mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerX.mas_equalTo(self.view);
         make.bottom.mas_equalTo(self.scrollView.mas_bottom).offset(-10);
@@ -217,8 +250,10 @@
 
 // 更新 pageControl 当前页
 - (void) pageControlChange {
+    [self stopTimer];
     NSInteger index = self.pageControl.currentPage;
-    self.
+    [self.scrollView setContentOffset: CGPointMake(self.scrollView.bounds.size.width * (index + 1), 0) animated:YES];
+    [self setTimer];
 }
 
 

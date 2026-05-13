@@ -17,8 +17,10 @@
 @end
 
 
-
+// 修改头像通知
 static NSString* const AvatarNotification = @"AvatarNotification";
+// 修改昵称通知
+static NSString* const NickNameNotification = @"NickNameNotification";
 
 @implementation Mypage
 
@@ -38,9 +40,18 @@ static NSString* const AvatarNotification = @"AvatarNotification";
     // 注册监听
     [[NSNotificationCenter defaultCenter] addObserver: self selector: @selector(receiveAvatar:) name: @"AvatarNotification" object: nil];
     
+    [[NSNotificationCenter defaultCenter] addObserver: self selector: @selector(receiveNickName:) name: @"NickNameNotification" object: nil];
+    
 }
 
 // 接收消息
+- (void) receiveNickName: (NSNotification*) notification {
+    NSString* nickname = notification.userInfo[@"NickName"];
+    self.NickName = nickname;
+    [self.tableView reloadData];
+}
+
+
 - (void) receiveAvatar: (NSNotification*) notification {
     UIImage* image = notification.userInfo[@"avatar"];
     self.avatar = image;
@@ -103,6 +114,8 @@ static NSString* const AvatarNotification = @"AvatarNotification";
     
     
     self.avatar = [UIImage imageNamed: @"1.jpg"];
+    self.NickName = @"在下雨";
+    self.account = @"xtzytpl0508nrnd";
     
 //    
 //    iView.frame = CGRectMake(200, 200, 200, 200);
@@ -127,7 +140,8 @@ static NSString* const AvatarNotification = @"AvatarNotification";
     
     
     // 注册cell
-//    [self.tableView registerClass: [UITableViewCell class] forCellReuseIdentifier: @"cellID"];
+    [self.tableView registerClass: [UITableViewCell class] forCellReuseIdentifier: @"cellID"];
+    [self.tableView registerClass: [CustomCell class] forCellReuseIdentifier: @"CustomCellID"];
 }
 
 
@@ -149,51 +163,55 @@ static NSString* const AvatarNotification = @"AvatarNotification";
 // 配置cell
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
 //    UITableViewCell* cell = [tableView dequeueReusableCellWithIdentifier: @"cellID" forIndexPath: indexPath];
-    UITableViewCell* cell = [tableView dequeueReusableCellWithIdentifier: @"cellID"];
-    if (cell == nil) {
-        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier: @"cellID"];
+    if (indexPath.section == 0) {
+        CustomCell* cell = [tableView dequeueReusableCellWithIdentifier: @"CustomCellID" forIndexPath: indexPath];
+        cell.NickTextLabel.text = self.NickName;
+        NSString* strOfSubText = [NSString stringWithFormat: @"微信号: %@", self.account];
+        cell.accountTextLabel.text = strOfSubText;
+        cell.avatarView.image = self.avatar;
+        // 在cell的后面加一个 >
+        // 样式: 点击查看详情指示器
+        cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+        return cell;
+    } else {
+        UITableViewCell* cell = [tableView dequeueReusableCellWithIdentifier: @"cellID" forIndexPath: indexPath];
+        // 设置内容
+        if (indexPath.section == 2) {
+            cell.textLabel.text = @"设置";
+            cell.imageView.image = [UIImage systemImageNamed: @"gearshape"];
+            cell.imageView.tintColor = [UIColor blueColor];
+            cell.detailTextLabel.text = nil;
+        } else if (indexPath.section == 1) {
+            cell.textLabel.text = self.textArray[indexPath.row];
+            cell.imageView.image = ((UIImageView* )self.imageViews[indexPath.row]).image;
+            if (indexPath.row == 0) {
+                cell.imageView.tintColor = [UIColor greenColor];
+            } else if (indexPath.row == 3) {
+                cell.imageView.tintColor = [UIColor redColor];
+            } else if (indexPath.row == 4) {
+                cell.imageView.tintColor = [UIColor yellowColor];
+            }
+            cell.detailTextLabel.text = nil;
+        }
+        
+        
+        // 在cell的后面加一个 >
+        // 样式: 点击查看详情指示器
+        cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+        return cell;
     }
+    
     
     
 //    cell.textLabel.text = @"主标题";
 //    cell.detailTextLabel.text = @"副标题";
     
-    // 设置内容
-    if (indexPath.section == 2) {
-        cell.textLabel.text = @"设置";
-        cell.imageView.image = [UIImage systemImageNamed: @"gearshape"];
-        cell.imageView.tintColor = [UIColor blueColor];
-        cell.detailTextLabel.text = nil;
-    } else if (indexPath.section == 1) {
-        cell.textLabel.text = self.textArray[indexPath.row];
-        cell.imageView.image = ((UIImageView* )self.imageViews[indexPath.row]).image;
-        if (indexPath.row == 0) {
-            cell.imageView.tintColor = [UIColor greenColor];
-        } else if (indexPath.row == 3) {
-            cell.imageView.tintColor = [UIColor redColor];
-        } else if (indexPath.row == 4) {
-            cell.imageView.tintColor = [UIColor yellowColor];
-        }
-        cell.detailTextLabel.text = nil;
-    } else {
-        cell.textLabel.text = @"在下雨";
-        cell.detailTextLabel.text = @"微信号: xtzytpl0508nrnd";
-        cell.imageView.image = self.avatar;
-        // 裁剪超出范围的部分
-        cell.imageView.layer.masksToBounds = YES;
-        // 裁剪
-        cell.imageView.clipsToBounds = YES;
-        // 填充
-        cell.imageView.contentMode = UIViewContentModeScaleAspectFill;
-    }
     
     
-    // 在cell的后面加一个 >
-    // 样式: 点击查看详情指示器
-    cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+
     
     
-    return cell;
+
 }
 
 // 设置头标题高度
@@ -229,9 +247,9 @@ static NSString* const AvatarNotification = @"AvatarNotification";
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     if (indexPath.section == 0) {
         Personal_Information* vc = [[Personal_Information alloc] init];
-        vc.Nickname = [tableView cellForRowAtIndexPath: indexPath].textLabel.text;
-        vc.account = [[tableView cellForRowAtIndexPath: indexPath].detailTextLabel.text substringFromIndex: 4] ;
-        vc.avatar = [tableView cellForRowAtIndexPath: indexPath].imageView.image;
+        vc.Nickname = self.NickName;
+        vc.account = self.account;
+        vc.avatar = self.avatar;
         
         [self.navigationController pushViewController: vc animated: YES]; 
     }
@@ -239,8 +257,7 @@ static NSString* const AvatarNotification = @"AvatarNotification";
 
 // 
 - (void) dealloc {
-    [[NSNotificationCenter defaultCenter] removeObserver: self];
-}
+    [[NSNotificationCenter defaultCenter] removeObserver: self];}
 
 /*
 #pragma mark - Navigation
