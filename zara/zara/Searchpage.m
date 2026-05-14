@@ -44,7 +44,6 @@
 
 
 
-
 // 设置分栏控件
 - (void) setSegmentedControl {
     NSArray *items = @[@"女士", @"儿童", @"男士"];
@@ -89,8 +88,8 @@
     
     
     // 为分栏控件添加事件, 当滑动分栏控件的时候, 滚动视图也随之翻页
-    // 当标签发生变化的时候调用事件
-    [self.segmentedControl addTarget: self action: @selector(segmentChanged:) forControlEvents: UIControlEventValueChanged];
+    // 当标签发生变化或被点击的时候调用事件
+    [self.segmentedControl addTarget: self action: @selector(segmentChanged:) forControlEvents: UIControlEventValueChanged | UIControlEventTouchDown];
 }
 
 
@@ -200,6 +199,10 @@
     // 在用户点击分栏控件切换视图后, 再开启定时器
     [self setTimer];
 }
+
+
+
+
 
 
 // 获取当前滚动视图页码

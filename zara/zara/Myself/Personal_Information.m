@@ -23,7 +23,6 @@
     [super viewDidLoad];
     self.title = @"个人信息";
     
-    [self setData];
     [self setTableView];
     
     // 注册通知监听
@@ -33,9 +32,6 @@
     [[NSNotificationCenter defaultCenter] addObserver: self selector: @selector(receiveSignature:) name: SignatureNotification object: nil];
 }
 
-- (void) setData {
-    self.signature = @"这个家伙很懒, 什么也没留下";
-}
 
 // 接收通知
 - (void) receiveAvatar: (NSNotification*) notification {

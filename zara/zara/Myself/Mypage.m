@@ -40,9 +40,18 @@
     // 更换昵称
     [[NSNotificationCenter defaultCenter] addObserver: self selector: @selector(receiveNickName:) name: @"NickNameNotification" object: nil];
     
+    // 更改个性签名
+    [[NSNotificationCenter defaultCenter] addObserver: self selector: @selector(receiveSignature:) name: @"SignatureNotification" object: nil];
+    
 }
 
 // 接收消息
+
+- (void) receiveSignature: (NSNotification*) notification {
+    NSString* signature = notification.userInfo[@"signature"];
+    self.signature = signature;
+}
+
 - (void) receiveNickName: (NSNotification*) notification {
     NSString* nickname = notification.userInfo[@"NickName"];
     self.NickName = nickname;
@@ -58,6 +67,7 @@
 }
 
 - (void) setDataSource {
+    
     self.textArray = [[NSMutableArray alloc] initWithObjects: @"服务", @"收藏", @"朋友圈", @"小店与卡包", @"表情", @"设置", nil];
     self.imageViews = [[NSMutableArray alloc] init];
     
@@ -114,6 +124,7 @@
     self.avatar = [UIImage imageNamed: @"1.jpg"];
     self.NickName = @"在下雨";
     self.account = @"xtzytpl0508nrnd";
+    self.signature = @"这个家伙很懒, 什么都没有留下";
     
 //    
 //    iView.frame = CGRectMake(200, 200, 200, 200);
@@ -140,6 +151,7 @@
     // 注册cell
     [self.tableView registerClass: [UITableViewCell class] forCellReuseIdentifier: @"cellID"];
     [self.tableView registerClass: [CustomCell class] forCellReuseIdentifier: @"CustomCellID"];
+
 }
 
 
@@ -242,20 +254,26 @@
 
 // 设置点击事件
 - (void) tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    
     if (indexPath.section == 0) {
         Personal_Information* vc = [[Personal_Information alloc] init];
         vc.Nickname = self.NickName;
         vc.account = self.account;
         vc.avatar = self.avatar;
-        
-        [self.navigationController pushViewController: vc animated: YES]; 
+        vc.signature = self.signature;
+        [self.navigationController pushViewController: vc animated: YES];
     }
 }
 
-// 
+
+
+
+
 - (void) dealloc {
-    [[NSNotificationCenter defaultCenter] removeObserver: self];}
+    [[NSNotificationCenter defaultCenter] removeObserver: self];
+}
 
 /*
 #pragma mark - Navigation

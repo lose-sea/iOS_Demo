@@ -15,7 +15,8 @@ NS_ASSUME_NONNULL_BEGIN
 @interface Mypage : UIViewController <UITableViewDelegate, UITableViewDataSource>
 @property (nonatomic, strong) UIImage* avatar;
 @property (nonatomic, strong) NSString* account;
-@property (nonatomic, strong) NSString* NickName; 
+@property (nonatomic, strong) NSString* NickName;
+@property (nonatomic, strong) NSString* signature;
 @end
 
 NS_ASSUME_NONNULL_END
