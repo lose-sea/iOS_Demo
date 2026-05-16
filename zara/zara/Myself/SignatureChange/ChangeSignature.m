@@ -23,7 +23,7 @@
     // Do any additional setup after loading the view.
     
     [self  setInterface];
-    [self setNavigationController];
+    [self setNavigationController];    
 }
 
 - (void) setInterface {

@@ -15,6 +15,8 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, strong) NSString* account;
 @property (nonatomic, strong) NSString* signature;
 
+@property (nonatomic, strong) NSMutableArray* pictures; 
+
 + (instancetype) shareinstance; 
 @end
 

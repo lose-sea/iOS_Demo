@@ -9,7 +9,7 @@
 #import <Masonry/Masonry.h>
 #import "Personal_Information.h"
 #import "CustomCell.h"
-#import "Model.h" 
+#import "UserModel.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -18,6 +18,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, strong) NSString* account;
 @property (nonatomic, strong) NSString* NickName;
 @property (nonatomic, strong) NSString* signature;
+
 @end
 
 NS_ASSUME_NONNULL_END

@@ -9,8 +9,11 @@
 
 @implementation CustomCell
 
+
 - (instancetype) initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier {
     self = [super initWithStyle: style reuseIdentifier: reuseIdentifier];
+    
+    
     if (self) {
         // 自定义视图 (圆形图片)
         self.avatarView = [[UIImageView alloc] init];
@@ -45,10 +48,22 @@
             make.top.mas_equalTo(self.contentView.mas_centerY).offset(4);
         }];
     }
-    
-    
+
     return self;
 }
+
+// 在cell被重用之前会调用此方法, 清空就数据
+- (void) prepareForReuse {
+    [super prepareForReuse];
+    
+    // 重置
+    self.avatarView.image = nil;
+    self.NickTextLabel.text = nil;
+    self.accountTextLabel.text = nil;
+}
+
+
+
 
 - (void)awakeFromNib {
     [super awakeFromNib];

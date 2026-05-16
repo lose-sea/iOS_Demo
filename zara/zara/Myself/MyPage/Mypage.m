@@ -22,6 +22,9 @@
 
 @implementation Mypage
 
+
+
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     
@@ -49,6 +52,15 @@
     
 }
 
+
+// 设置界面
+- (void) setinterface {
+    self.tableView = [[UITableView alloc] init];
+    [self.view addSubview: self.tableView];
+    UserModel* model = [[UserModel alloc] init];
+    
+}
+
 // 接收消息
 
 - (void) receiveSignature: (NSNotification*) notification {
@@ -71,9 +83,9 @@
 }
 
 - (void) setData {
-    Model* model = [[Model alloc] init];
+    UserModel* model = [[UserModel alloc] init];
     self.avatar = model.avatar;
-    self.NickName = model.nibName;
+    self.NickName = model.NickName;
     self.account = model.account;
     self.signature = model.signature;
 }
@@ -249,7 +261,6 @@
 
 // 设置点击事件
 - (void) tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     
     if (indexPath.section == 0) {
@@ -538,3 +549,6 @@
 //}
 //
 //@end
+  
+
+
