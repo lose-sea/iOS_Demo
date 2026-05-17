@@ -11,7 +11,8 @@
 NS_ASSUME_NONNULL_BEGIN
 
 @interface Signin : UIViewController
-
+@property (nonatomic, strong) UITextField* accountInput;
+@property (nonatomic, strong) UITextField* passInput;
 @end
 
 NS_ASSUME_NONNULL_END

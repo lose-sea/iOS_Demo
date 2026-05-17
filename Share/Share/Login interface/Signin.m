@@ -20,24 +20,28 @@
     self.view.backgroundColor = [UIColor systemCyanColor];
     // Do any additional setup after loading the view.    self.view.backgroundColor = [UIColor systemCyanColor];
     // Do any additional setup after loading the view.
-    [self setInterface];
-    [self setTimer];
+//    [self setInterface];
+//    [self setTimer];
+    
 }
 
+//- (void) setInterface {
+//    UIImage* image = [UIImage imageNamed: @"1.jpg"];
+//    self.startView = [[UIImageView alloc] initWithImage: image];
+//    [self.view addSubview: self.startView];
+//    [self.startView mas_makeConstraints:^(MASConstraintMaker *make) {
+//        make.edges.mas_equalTo(self.view);
+//    }];
+//}
+//
+//- (void) setTimer {
+//    self.timer = [NSTimer scheduledTimerWithTimeInterval: 1 target: self selector: @selector(hideStartView) userInfo: nil repeats: NO];
+//}
+//- (void) hideStartView {
+//    self.startView.hidden = YES;
+//}
 - (void) setInterface {
-    UIImage* image = [UIImage imageNamed: @"1.jpg"];
-    self.startView = [[UIImageView alloc] initWithImage: image];
-    [self.view addSubview: self.startView];
-    [self.startView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.edges.mas_equalTo(self.view);
-    }];
-}
-
-- (void) setTimer {
-    self.timer = [NSTimer scheduledTimerWithTimeInterval: 1 target: self selector: @selector(hideStartView) userInfo: nil repeats: NO];
-}
-- (void) hideStartView {
-    self.startView.hidden = YES;
+    
 }
 
 /*
