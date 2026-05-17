@@ -10,6 +10,10 @@
 #import "LoginModel.h"
 
 NS_ASSUME_NONNULL_BEGIN
+@protocol SetringView <NSObject>
+- (void) pressAutoLogin;
+@end
+
 
 @interface Signin : UIViewController
 @property (nonatomic, strong) UIImageView* logoShow;
