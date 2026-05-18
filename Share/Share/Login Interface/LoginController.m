@@ -20,9 +20,52 @@
     self.model.autoLogin = NO;
     
     self.signin = [[Signin alloc] init];
-    self.signin.model = self.model; 
+    self.signin.model = self.model;
+    
+    [self.view addSubview: self.signin.view];
+    
+    // 注册监听
+    [[NSNotificationCenter defaultCenter] addObserver: self selector: @selector(pressAutoLoginButton:) name: pressAutoLoginButton object: nil];
+    
+    [[NSNotificationCenter defaultCenter] addObserver: self selector: @selector(pressRegisterButton:) name: pressRegisterButton object: nil];
+    
+    [[NSNotificationCenter defaultCenter] addObserver: self selector: @selector(pressLoginButton:) name: pressLoginButton object: nil];
+    
+    NSLog(@"注册"); 
+}
+
+#pragma mark - 处理自动登录按钮点击
+- (void) pressAutoLoginButton: (NSNotification*) notification {
+    NSLog(@"hello wordl"); 
+    Signin* signin = notification.object;
+    signin.model.autoLogin = !signin.model.autoLogin;
+    // 刷新view
+    [self.signin refreshAutoButton];
+}
+
+- (void) pressRegisterButton: (NSNotification*) notification {
+    RegisterAccountController* vc = [[RegisterAccountController alloc] init];
+    vc.delegate = self;
+    [self.navigationController pushViewController: vc animated: YES];
+}
+
+- (void) pressLoginButton: (NSNotification*) notification {
     
 }
+
+// 协议方法
+// 实现反向传值
+- (void) refreshInterface {
+    [self.signin refreshInterface]; 
+}
+
+// 移除观察者
+- (void)dealloc {
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+    NSLog(@"被释放"); 
+}
+
+
 
 /*
 #pragma mark - Navigation

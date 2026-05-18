@@ -7,11 +7,13 @@
 
 #import <Foundation/Foundation.h>
 
-NS_ASSUME_NONNULL_BEGIN
+
 
 @interface UserModel : NSObject
 @property (nonatomic, strong) NSString* account;
 @property (nonatomic, strong) NSString* password;
+
++ (instancetype) shareInstance; 
 @end
 
-NS_ASSUME_NONNULL_END
+

@@ -8,6 +8,8 @@
 #import <UIKit/UIKit.h>
 #import <Masonry/Masonry.h>
 #import "LoginModel.h"
+#import "NotificationName.h"
+#import "UserModel.h"
 
 NS_ASSUME_NONNULL_BEGIN
 @protocol SetringView <NSObject>
@@ -19,11 +21,17 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, strong) UIImageView* logoShow;
 @property (nonatomic, strong) UITextField* accountInput;
 @property (nonatomic, strong) UITextField* passwordInput;
-@property (nonatomic, assign) BOOL autoLogin;
 @property (nonatomic, strong) UIButton* loginButton;
 @property (nonatomic, strong) UIButton* registerButton;
+@property (nonatomic, strong) UserModel* userModel; 
+@property (nonatomic, strong) UIButton* autoLoginButton; 
 
-@property (nonatomic, strong) LoginModel* model; 
+@property (nonatomic, strong) LoginModel* model;
+// 刷新账号密码
+- (void) refreshInterface;
+// 刷新自动登录按钮
+- (void) refreshAutoButton;
+
 @end
 
 NS_ASSUME_NONNULL_END

@@ -89,6 +89,7 @@
     self.loginButton.layer.borderColor = [UIColor whiteColor].CGColor; // 边框颜色
     self.loginButton.layer.cornerRadius = 5.0;      // 圆角半径
     self.loginButton.clipsToBounds = YES;            // 开启裁剪，让圆角生效
+    [self.loginButton addTarget: self action: @selector(pressLoginButton) forControlEvents: UIControlEventTouchUpInside]; 
     
     [self.view addSubview: self.loginButton];
     [self.loginButton mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -109,6 +110,7 @@
     self.registerButton.layer.cornerRadius = 5.0;      // 圆角半径
     self.registerButton.clipsToBounds = YES;            // 开启裁剪，让圆角生效
 //    self.registerButton.tintColor = [UIColor blackColor];
+    [self.registerButton addTarget: self action: @selector(pressRigisterButton) forControlEvents: UIControlEventTouchUpInside];
     
     [self.view addSubview: self.registerButton];
     [self.registerButton mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -133,28 +135,55 @@
         make.top.mas_equalTo(self.loginButton.mas_bottom).offset(10);
     }];
     
-    UIButton* autoLoginButton = [UIButton buttonWithType: UIButtonTypeCustom];
+    // 设置自动登录按钮
+    self.autoLoginButton = [UIButton buttonWithType: UIButtonTypeCustom];
 //    autoLoginButton.backgroundColor = [UIColor whiteColor];
-    [self.view addSubview: autoLoginButton];
-    if (self.autoLogin == YES) {
-        UIImage* image = [UIImage systemImageNamed: @"checkmark.rectangle"];
-        [autoLoginButton setImage: image forState: UIControlStateNormal];
-    } else {
-        UIImage* image = [UIImage systemImageNamed: @"square"];
-        [autoLoginButton setImage: image forState: UIControlStateNormal];
-    }
+    [self.view addSubview: self.autoLoginButton];
     
-    [autoLoginButton mas_makeConstraints:^(MASConstraintMaker *make) {
+    [self.autoLoginButton mas_makeConstraints:^(MASConstraintMaker *make) {
             make.top.equalTo(self.loginButton.mas_bottom).offset(10);
             make.left.mas_equalTo(self.passwordInput);
             make.width.height.mas_equalTo(20);
     }];
-    autoLoginButton.tintColor = [UIColor blackColor];
-    [autoLoginButton addTarget: self action: @selector(pressAutoLogin) forControlEvents: UIControlEventTouchUpInside];
+    self.autoLoginButton.tintColor = [UIColor blackColor];
+    [self.autoLoginButton addTarget: self action: @selector(pressAutoLogin) forControlEvents: UIControlEventTouchUpInside];
+    
+    [self refreshAutoButton];
+}
+ 
+#pragma mark - 点击自动登录
+- (void) pressAutoLogin {
+    NSLog(@"点击自动登录");
+    //    不处理时间, 传递给controler处理
+    [[NSNotificationCenter defaultCenter] postNotificationName: pressAutoLoginButton object: self];
 }
 
-- (void) pressAutoLogin {
+#pragma mark - 点击注册按钮
+- (void) pressRigisterButton {
+    NSLog(@"点击注册");
+    [[NSNotificationCenter defaultCenter] postNotificationName: pressRegisterButton object: self];
+}
+
+#pragma mark - 点击登录按钮
+- (void) pressLoginButton {
+    [[NSNotificationCenter defaultCenter] postNotificationName: pressLoginButton object: self];
+}
+
+- (void) refreshAutoButton {
+    if (self.model.autoLogin == YES) {
+        UIImage* image = [UIImage systemImageNamed: @"checkmark.rectangle"];
+        [self.autoLoginButton setImage: image forState: UIControlStateNormal];
+    } else {
+        UIImage* image = [UIImage systemImageNamed: @"square"];
+        [self.autoLoginButton setImage: image forState: UIControlStateNormal];
+    }
+}
+
+// 刷新
+- (void) refreshInterface {
     
+    self.accountInput.text = self.userModel.account;
+    self.passwordInput.text = self.userModel.password;
 }
 
 //- (void) setInterface {

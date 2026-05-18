@@ -9,11 +9,10 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface LoginModel : UIViewController
-@property (nonatomic, strong) UIImage* logoShow;
-@property (nonatomic, strong) UITextField* accountInput;
-@property (nonatomic, strong) UITextField* passwordInput;
+@interface LoginModel : NSObject
+
 @property (nonatomic, assign) BOOL autoLogin;
+
 @end
 
 NS_ASSUME_NONNULL_END

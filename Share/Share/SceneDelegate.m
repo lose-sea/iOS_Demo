@@ -20,7 +20,7 @@
     // This delegate does not imply the connecting scene or session are new (see `application:configurationForConnectingSceneSession` instead).
     UIWindowScene* myscene = (UIWindowScene*) scene;
     self.window = [[UIWindow alloc] initWithWindowScene: myscene];
-    UINavigationController* nav = [[UINavigationController alloc] initWithRootViewController: [[Signin alloc] init]];
+    UINavigationController* nav = [[UINavigationController alloc] initWithRootViewController: [[LoginController alloc] init]];
     self.window.rootViewController = nav;
     [self.window makeKeyAndVisible];
     
