@@ -166,6 +166,7 @@
 
 #pragma mark - 点击登录按钮
 - (void) pressLoginButton {
+    NSLog(@"点击登陆按钮"); 
     [[NSNotificationCenter defaultCenter] postNotificationName: pressLoginButton object: self];
 }
 
@@ -181,9 +182,9 @@
 
 // 刷新
 - (void) refreshInterface {
-    
     self.accountInput.text = self.userModel.account;
     self.passwordInput.text = self.userModel.password;
+    
 }
 
 //- (void) setInterface {

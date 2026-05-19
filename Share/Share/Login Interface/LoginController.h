@@ -11,13 +11,15 @@
 #import "NotificationName.h"
 #import "UserModel.h"
 #import "RegisterAccountController.h"
+#import "HomepageController.h"
+#import "SceneDelegate.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
 @interface LoginController : UIViewController <RegisterAccount>
 @property (nonatomic, strong) LoginModel* model;
 @property (nonatomic, strong) Signin* signin;
-@property (nonatomic, strong) UserModel* usermodel;
+//@property (nonatomic, strong) UserModel* usermodel;
 @end
 
 NS_ASSUME_NONNULL_END

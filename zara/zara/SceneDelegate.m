@@ -60,7 +60,7 @@
     mypage.tabBarItem = [[UITabBarItem alloc] initWithTitle: @"我的" image: [UIImage systemImageNamed: @"person"] selectedImage: [UIImage systemImageNamed: @"person.fill"]];
     
         
-    // 3. 创建 TabBarController 并设置控制器数组
+    //  创建 TabBarController 并设置控制器数组
     UITabBarController* tabbarController = [[UITabBarController alloc] init];
     tabbarController.viewControllers = @[homeNav, searchNav, shopNav, myNav];
     

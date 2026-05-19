@@ -23,9 +23,9 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, strong) UITextField* passwordInput;
 @property (nonatomic, strong) UIButton* loginButton;
 @property (nonatomic, strong) UIButton* registerButton;
-@property (nonatomic, strong) UserModel* userModel; 
-@property (nonatomic, strong) UIButton* autoLoginButton; 
+@property (nonatomic, strong) UIButton* autoLoginButton;
 
+@property (nonatomic, strong) UserModel* userModel;
 @property (nonatomic, strong) LoginModel* model;
 // 刷新账号密码
 - (void) refreshInterface;
