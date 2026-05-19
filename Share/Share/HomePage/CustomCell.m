@@ -24,6 +24,13 @@
     self.massageLabel = [[UILabel alloc] init];
     self.authorLabel = [[UILabel alloc] init];
     
+    self.likeImageView = [[UIImageView alloc] initWithImage: [UIImage systemImageNamed: @"heart"]];
+    self.lookImageView = [[UIImageView alloc] initWithImage: [UIImage systemImageNamed: @"eye"]];
+    self.saveImageView = [[UIImageView alloc] initWithImage: [UIImage systemImageNamed: @"star"]];
+    
+    self.likeLabel = [[UILabel alloc] init];
+    self.lookLabel = [[UILabel alloc] init];
+    self.saveLable = [[UILabel alloc] init];
 }
  
 - (void)awakeFromNib {
