@@ -58,7 +58,6 @@
     self.tableView = [[UITableView alloc] init];
     [self.view addSubview: self.tableView];
     UserModel* model = [[UserModel alloc] init];
-    
 }
 
 // 接收消息
