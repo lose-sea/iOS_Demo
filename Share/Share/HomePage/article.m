@@ -7,25 +7,22 @@
 
 #import "article.h"
 
-@interface article ()
-
-@end
-
 @implementation article
 
-- (void)viewDidLoad {
-    [super viewDidLoad];
-    // Do any additional setup after loading the view.
+- (instancetype) initWitImage: (UIImage*) image Name: (NSString*) name autoor: (NSString*) author massage: (NSString*) massage {
+    self = [super init];
+    if (self) {
+        self.image = image; 
+        self.name = name;
+        self.author = author;
+        self.massage = massage;
+        self.isLike = NO;
+        self.likeCount = 66;
+        self.viewCount = 70;
+        self.saveCount = 400;
+    }
+    return self;
 }
 
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
 
 @end

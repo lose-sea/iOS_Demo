@@ -7,11 +7,13 @@
 
 #import <UIKit/UIKit.h>
 #import <Foundation/Foundation.h>
+#import "article.h"
 
 
 @interface HomepageModel : NSObject
-@property (nonatomic, strong) NSMutableArray<UIImage*>* images;
+@property (nonatomic, strong) NSMutableArray<UIImage*>* scrollImages; 
 
+@property (nonatomic, strong) NSMutableArray<article*>* articles;
 @end
 
 

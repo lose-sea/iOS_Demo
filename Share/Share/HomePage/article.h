@@ -9,8 +9,8 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface article : UIViewController
-@property (nonatomic,strong) UIImage* iamge;
+@interface article : NSObject
+@property (nonatomic,strong) UIImage* image;
 @property (nonatomic, strong) NSString* name;
 @property (nonatomic, strong) NSString* massage;
 @property (nonatomic, strong) NSString* author;
@@ -18,7 +18,10 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, assign) BOOL isLike;
 @property (nonatomic, assign) NSInteger likeCount;
 @property (nonatomic, assign) NSInteger viewCount;
-@property (nonatomic, assign) NSInteger saveCount; 
+@property (nonatomic, assign) NSInteger saveCount;
+
+
+- (instancetype) initWitImage: (UIImage*) image Name: (NSString*) name autoor: (NSString*) author massage: (NSString*) massage ;
 @end
 
 NS_ASSUME_NONNULL_END
