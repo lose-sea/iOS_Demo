@@ -30,7 +30,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 
 
-- (void) setData: (article*) article; 
+- (void) configureWithArticle: (article*) article; 
 @end
 
 NS_ASSUME_NONNULL_END

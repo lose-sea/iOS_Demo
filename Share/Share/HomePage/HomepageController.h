@@ -9,15 +9,14 @@
 #import "HomepageModel.h"
 #import "CustomCell.h"
 #import "HomepageView.h"
+#import "ScrollViewCell.h"
 
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface HomepageController : UIViewController <UITableViewDelegate, UITableViewDataSource>
+@interface HomepageController : UIViewController <UITableViewDelegate, UITableViewDataSource, UIScrollViewDelegate>
 @property (nonatomic, strong) HomepageModel* homeModel;
-@property (nonatomic, strong) HomepageView* homepage;
-
-@property (nonatomic, strong) UITableView* tableView; 
+@property (nonatomic, strong) HomepageView* homepageView;
 
 @end
 

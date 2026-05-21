@@ -16,8 +16,31 @@
     self.tableView = [[UITableView alloc] init];
     [self.tableView registerClass: [CustomCell class] forCellReuseIdentifier: @"customCellID"];
     [self.tableView registerClass: [ScrollViewCell class] forCellReuseIdentifier: @"scrollViewCellID"];
-    [self addSubview: self.tableView]; 
+    [self addSubview: self.tableView];
+    
+    [self.tableView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.bottom.left.right.mas_equalTo(self); 
+    }];
 }
+
+- (instancetype) init {
+    self = [super init];
+    if (self) {
+        [self setTableView];
+    }
+    return self;
+}
+
+
+
+
+
+
+
+
+
+
+
 
 
 /*

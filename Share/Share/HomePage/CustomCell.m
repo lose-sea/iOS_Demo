@@ -119,7 +119,7 @@
     }];
 }
 
-- (void) setData:(article *)article {
+- (void) configureWithArticle:(article *)article {
     self.iView.image = article.image;
     self.titleLabel.text = article.name;
     self.authorLabel.text = article.author;

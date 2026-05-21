@@ -19,9 +19,19 @@
     self.title = @"首页"; 
     // Do any additional setup after loading the view.
     [self initData];
+    [self setHomepageView]; 
     
-    
-    [self setTableView];
+}
+
+- (void) setHomepageView {
+    self.homepageView = [[HomepageView alloc] init];
+    [self.view addSubview: self.homepageView];
+    self.homepageView.tableView.backgroundColor = [UIColor systemCyanColor]; 
+    [self.homepageView mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.left.right.top.bottom.mas_equalTo(self.view);
+    }];
+    self.homepageView.tableView.delegate = self;
+    self.homepageView.tableView.dataSource = self;
 }
 
 - (void) initData {
@@ -34,26 +44,22 @@
     article* a4 = [[article alloc] initWitImage: [UIImage imageNamed: @"4.jpg"] Name: @"还会记得我吗" autoor: @"share小白" massage: @"这个家伙很懒, 什么也没有留下"];
     article* a5 = [[article alloc] initWitImage: [UIImage imageNamed: @"5.jpg"] Name: @"庞锦荣是大帅哥" autoor: @"share小白" massage: @"这个家伙很懒, 什么也没有留下"];
     [self.homeModel.articles addObjectsFromArray: @[a, a1, a2, a3, a4, a5]];
-}
-
-- (void) setTableView {
-    self.tableView = [[UITableView alloc] init];
-    self.tableView.backgroundColor = [UIColor systemCyanColor];
-    self.tableView.delegate = self;
-    self.tableView.dataSource = self;
-    // 注册cel
-    [self.tableView registerClass: [CustomCell class] forCellReuseIdentifier: @"CustomCellID"];
-    [self.view addSubview: self.tableView];
-    [self.tableView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.right.mas_equalTo(self.view);
-        make.top.mas_equalTo(self.view);
-        make.bottom.mas_equalTo(self.view.mas_bottom).offset(-60);
-    }];
+    
+    
+    self.homeModel.scrollImages = [[NSMutableArray alloc] init];
+    for (int i = 0; i < 4; i++) {
+        NSString* imageName = [NSString stringWithFormat: @"%d.jpg", i + 19];
+        UIImage* image = [UIImage imageNamed: imageName];
+        [self.homeModel.scrollImages addObject: image];
+    }
 }
                          
                         
-                         
+                
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
+    if (indexPath.row == 0) {
+        return 200; 
+    }
         return 150;
 }
 - (NSInteger) tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
@@ -61,15 +67,22 @@
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    CustomCell* cell = [tableView dequeueReusableCellWithIdentifier: @"CustomCellID" forIndexPath: indexPath];
+    if (indexPath.row == 0) {
+        ScrollViewCell* cell = [tableView dequeueReusableCellWithIdentifier: @"scrollViewCellID" forIndexPath: indexPath];
+        [cell configureData: self.homeModel.scrollImages];
+        return cell;
+    }
+    CustomCell* cell = [tableView dequeueReusableCellWithIdentifier: @"customCellID" forIndexPath: indexPath];
     
     article* article = self.homeModel.articles[indexPath.row];
-    [cell setData: article];
+    [cell configureWithArticle: article];
     return cell;
 }
 
 
-
+- (void) tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    [tableView deselectRowAtIndexPath: indexPath animated: YES];
+}
 /*
 #pragma mark - Navigation
 

@@ -89,8 +89,6 @@
     tabbarController.viewControllers = @[homeNav];
     sceneDelegate.window.rootViewController = tabbarController; 
     
-    
-    
 }
 
 // 协议方法
@@ -106,7 +104,9 @@
     NSLog(@"被释放"); 
 }
 
-
+- (void) touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event {
+    [self.view endEditing: YES]; 
+}
 
 /*
 #pragma mark - Navigation

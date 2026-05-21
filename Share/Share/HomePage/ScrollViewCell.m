@@ -19,14 +19,23 @@
 - (void) setScrollView {
     self.homeModel = [[HomepageModel alloc] init];
     self.scrollView = [[UIScrollView alloc] init];
-    self.homeModel.scrollImages = [[NSMutableArray alloc] init];
-    for (int i = 0; i < 4; i++) {
-        NSString* imageName = [NSString stringWithFormat: @"%d.jpg", i + 19];
-        UIImage* image = [UIImage imageNamed: imageName];
-        [self.homeModel.scrollImages addObject: image];
-    }
+    self.scrollView.pagingEnabled = YES;
+    self.scrollView.scrollEnabled = YES;
     
     self.scrollView.contentSize = CGSizeMake(self.contentView.bounds.size.width * (self.homeModel.scrollImages.count + 2),  self.contentView.bounds.size.height);
+}
+
+- (void) configureData:(NSMutableArray *)images {
+    for (int i = 0; i < images.count; i++) {
+        UIImage* image = images[i];
+        UIImageView* iView = [[UIImageView alloc] initWithImage: image];
+        [self.contentView addSubview: iView];
+        [iView mas_makeConstraints:^(MASConstraintMaker *make) {
+                    make.left.mas_equalTo(self.contentView.bounds.size.width * i);
+                    make.top.mas_equalTo(self.contentView);
+                    make.width.height.mas_equalTo(self.contentView);
+        }]; 
+    }
 }
 
 - (void)awakeFromNib {
