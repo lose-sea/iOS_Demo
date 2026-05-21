@@ -49,7 +49,6 @@
         make.top.mas_equalTo(self.view);
         make.bottom.mas_equalTo(self.view.mas_bottom).offset(-60);
     }];
-    
 }
                          
                         

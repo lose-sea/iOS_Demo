@@ -18,19 +18,17 @@
     // Use this method to optionally configure and attach the UIWindow `window` to the provided UIWindowScene `scene`.
     // If using a storyboard, the `window` property will automatically be initialized and attached to the scene.
     // This delegate does not imply the connecting scene or session are new (see `application:configurationForConnectingSceneSession` instead).
-    UIWindowScene* myscene = (UIWindowScene*) scene;
-    self.window = [[UIWindow alloc] initWithWindowScene: myscene];
+//    UIWindowScene* myscene = (UIWindowScene*) scene;
+//    self.window = [[UIWindow alloc] initWithWindowScene: myscene];
 //    UINavigationController* nav = [[UINavigationController alloc] initWithRootViewController: [[LoginController alloc] init]];
-    
-//    UINavigationController* nav = [[UINavigationController alloc] initWithRootViewController: [[HomepageController alloc] init]];
+//    self.window.rootViewController = nav;
+
     
     HomepageController* homepageController = [[HomepageController alloc] init];
     UINavigationController* homeNav = [[UINavigationController alloc] initWithRootViewController: homepageController];
     homepageController.tabBarItem = [[UITabBarItem alloc] initWithTitle: @"首页" image: [UIImage systemImageNamed: @"house"] selectedImage: [UIImage systemImageNamed: @"house.fill"]];
     UITabBarController* tabbarController = [[UITabBarController alloc] init];
     tabbarController.viewControllers = @[homeNav];
-    
-    
     self.window.rootViewController = tabbarController;
     [self.window makeKeyAndVisible];
     

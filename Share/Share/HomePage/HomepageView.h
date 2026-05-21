@@ -8,13 +8,13 @@
 #import <UIKit/UIKit.h>
 #import "HomepageModel.h"
 #import "CustomCell.h"
+#import "ScrollViewCell.h"
 #import "article.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
 @interface HomepageView : UIView
-@property (nonatomic, strong) UITableView* tebleView;
-
+@property (nonatomic, strong) UITableView* tableView;
 
 @end
 

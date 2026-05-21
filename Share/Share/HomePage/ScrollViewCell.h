@@ -13,6 +13,7 @@ NS_ASSUME_NONNULL_BEGIN
 @interface ScrollViewCell : UITableViewCell
 @property (nonatomic, strong) HomepageModel* homeModel; 
 @property (nonatomic, strong) UIScrollView* scrollView;
+@property (nonatomic, strong) UIPageControl* pageControl; 
 @end
 
 NS_ASSUME_NONNULL_END

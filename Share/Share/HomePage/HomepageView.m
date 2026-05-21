@@ -12,7 +12,12 @@
 @end
 
 @implementation HomepageView
-
+- (void) setTableView {
+    self.tableView = [[UITableView alloc] init];
+    [self.tableView registerClass: [CustomCell class] forCellReuseIdentifier: @"customCellID"];
+    [self.tableView registerClass: [ScrollViewCell class] forCellReuseIdentifier: @"scrollViewCellID"];
+    [self addSubview: self.tableView]; 
+}
 
 
 /*
