@@ -52,6 +52,9 @@
         UIImage* image = [UIImage imageNamed: imageName];
         [self.homeModel.scrollImages addObject: image];
     }
+    [self.homeModel.scrollImages addObject: [self.homeModel.scrollImages firstObject]];
+    [self.homeModel.scrollImages insertObject: [self.homeModel.scrollImages objectAtIndex: self.homeModel.scrollImages.count - 2]  atIndex: 0];
+    
 }
                          
                         
@@ -62,6 +65,7 @@
     }
         return 150;
 }
+
 - (NSInteger) tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     return self.homeModel.articles.count;
 }
@@ -69,6 +73,7 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     if (indexPath.row == 0) {
         ScrollViewCell* cell = [tableView dequeueReusableCellWithIdentifier: @"scrollViewCellID" forIndexPath: indexPath];
+        cell.homeModel = self.homeModel; 
         [cell configureData: self.homeModel.scrollImages];
         return cell;
     }

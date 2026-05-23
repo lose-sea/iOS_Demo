@@ -70,8 +70,6 @@
 }
 
 
-
-
 #pragma mark - 界面, 滚动视图
 // 设置界面
 - (void) setInterface {
