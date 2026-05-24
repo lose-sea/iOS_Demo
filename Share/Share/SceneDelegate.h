@@ -8,6 +8,7 @@
 #import <UIKit/UIKit.h>
 #import "Signin.h"
 #import "LoginController.h"
+#import "SearchPage/SearchPageController.h"
 
 #import "HomePage/HomepageController.h"
 

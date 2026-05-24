@@ -17,7 +17,7 @@
     [super viewDidLoad];
     
     self.title = @"注册账号";
-    self.view.backgroundColor = [UIColor systemBlueColor];
+    self.view.backgroundColor = [UIColor colorWithRed:53.0 / 255.0 green:143.0 / 255.0 blue:203.0 / 255.0 alpha:1.0];
     // Do any additional setup after loading the view.
     [self setInterface];
 }

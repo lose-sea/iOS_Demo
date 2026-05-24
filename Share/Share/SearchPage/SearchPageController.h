@@ -1,0 +1,19 @@
+//
+//  SearchPageController.h
+//  Share
+//
+//  Created by lose_sea on 2026/5/24.
+//
+
+#import <UIKit/UIKit.h>
+#import "SearchPageModel.h"
+#import "SearchPageView.h"
+
+NS_ASSUME_NONNULL_BEGIN
+
+@interface SearchPageController : UIViewController <UISearchResultsUpdating, UICollectionViewDelegate, UICollectionViewDataSource>
+@property (nonatomic, strong) SearchPageModel* searchModel; 
+@property (nonatomic, strong) UISearchController* searchController;
+@end
+
+NS_ASSUME_NONNULL_END

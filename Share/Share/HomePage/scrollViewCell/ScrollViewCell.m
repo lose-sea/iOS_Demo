@@ -114,8 +114,10 @@
     for (int i = 0; i < images.count; i++) {
         UIImage* image = images[i];
         UIImageView* iView = [[UIImageView alloc] initWithImage: image];
+        
         iView.contentMode = UIViewContentModeScaleAspectFill;
         iView.clipsToBounds = YES;
+        
         [self.scrollView addSubview:iView];
         [iView mas_makeConstraints:^(MASConstraintMaker *make) {
             make.left.mas_equalTo(self.scrollView).offset(self.contentView.bounds.size.width * i);
@@ -157,23 +159,27 @@
     if (self.timer == nil) {
         self.timer = [NSTimer scheduledTimerWithTimeInterval: 1 target: self selector: @selector(nextPage) userInfo: nil repeats: YES];
     }
+    
+    //添加到 CommonModes，滑动时也能触发
+    [[NSRunLoop currentRunLoop] addTimer:self.timer forMode: NSRunLoopCommonModes];
 }
 
+    
 - (void) stopTimer {
     [self.timer invalidate];
     self.timer = nil;
 }
 
 - (void) nextPage {
-    NSLog(@"=== nextPage 开始 ===");
-    NSLog(@"1. 改变前 pageControl.currentPage = %ld", self.pageControl.currentPage);
+//    NSLog(@"=== nextPage 开始 ===");
+//    NSLog(@"1. 改变前 pageControl.currentPage = %ld", self.pageControl.currentPage);
     NSInteger page = self.pageControl.currentPage + 1;
     if (page == self.pageControl.numberOfPages) {
         page = 0;
     }
     self.pageControl.currentPage = page;
     if (page == 0) {
-        [self.scrollView setContentOffset: CGPointMake(self.scrollView.bounds.size.width * (page + 1), 0) animated: NO];
+        [self.scrollView setContentOffset: CGPointMake(self.scrollView.bounds.size.width * (page + 1), 0) animated: YES];
     } else {
         [self.scrollView setContentOffset: CGPointMake(self.scrollView.bounds.size.width * (page + 1), 0) animated: YES];
     }

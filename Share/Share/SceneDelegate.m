@@ -24,11 +24,18 @@
     self.window.rootViewController = nav;
 
     
-    HomepageController* homepageController = [[HomepageController alloc] init];
-    UINavigationController* homeNav = [[UINavigationController alloc] initWithRootViewController: homepageController];
-    homepageController.tabBarItem = [[UITabBarItem alloc] initWithTitle: @"首页" image: [UIImage systemImageNamed: @"house"] selectedImage: [UIImage systemImageNamed: @"house.fill"]];
+    HomepageController* homePageController = [[HomepageController alloc] init];
+    UINavigationController* homeNav = [[UINavigationController alloc] initWithRootViewController: homePageController];
+    homePageController.tabBarItem = [[UITabBarItem alloc] initWithTitle: @"首页" image: [UIImage systemImageNamed: @"house"] selectedImage: [UIImage systemImageNamed: @"house.fill"]];
+    
+    SearchPageController* searchPageController = [[SearchPageController alloc] init];
+    UINavigationController* searchNav = [[UINavigationController alloc] initWithRootViewController: searchPageController];
+    searchPageController.tabBarItem =  [[UITabBarItem alloc] initWithTitle: @"搜索" image: [UIImage systemImageNamed: @"magnifyingglass"] selectedImage: [UIImage systemImageNamed: @"magnifyingglass"]];
+    
+    
+    
     UITabBarController* tabbarController = [[UITabBarController alloc] init];
-    tabbarController.viewControllers = @[homeNav];
+    tabbarController.viewControllers = @[homeNav, searchNav];
     
     
     self.window.rootViewController = tabbarController;

@@ -17,6 +17,7 @@
         self.author = author;
         self.massage = massage;
         self.isLike = NO;
+        self.isSave = NO;
         self.likeCount = 66;
         self.viewCount = 70;
         self.saveCount = 400;

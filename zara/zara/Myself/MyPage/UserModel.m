@@ -28,7 +28,7 @@ static UserModel* instance;
     instance.signature = @"这个家伙很懒, 什么也没留下";
     instance.pictures = [[NSMutableArray alloc] init];
     
-    for (int i = 0; i < 40; i++) {
+    for (int i = 0; i < 20; i++) {
         NSString* imageName = [NSString stringWithFormat: @"%d", i + 1];
         UIImage* image = [UIImage imageNamed: imageName];
         [self.pictures addObject: image];

@@ -20,9 +20,9 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, strong) UILabel* massageLabel;
 @property (nonatomic, strong) UILabel* authorLabel;
 
-@property (nonatomic, strong) UIImageView* likeImageView;
+@property (nonatomic, strong) UIButton* likeButton;
 @property (nonatomic, strong) UIImageView* viewImageView;
-@property (nonatomic, strong) UIImageView* saveImageView;
+@property (nonatomic, strong) UIButton* saveButton;
 
 @property (nonatomic, strong) UILabel* likeLabel;
 @property (nonatomic, strong) UILabel* viewLabel;

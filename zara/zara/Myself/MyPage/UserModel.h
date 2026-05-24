@@ -7,7 +7,6 @@
 
 #import <UIKit/UIKit.h>
 
-NS_ASSUME_NONNULL_BEGIN
 
 @interface UserModel : NSObject
 @property (nonatomic, strong) UIImage* avatar;
@@ -20,4 +19,4 @@ NS_ASSUME_NONNULL_BEGIN
 + (instancetype) shareinstance; 
 @end
 
-NS_ASSUME_NONNULL_END
+

@@ -53,12 +53,7 @@
 }
 
 
-// 设置界面
-- (void) setinterface {
-    self.tableView = [[UITableView alloc] init];
-    [self.view addSubview: self.tableView];
-    UserModel* model = [[UserModel alloc] init];
-}
+
 
 // 接收消息
 
@@ -81,12 +76,15 @@
     NSLog(@"我的界面收到通知");
 }
 
+
 - (void) setData {
-    UserModel* model = [[UserModel alloc] init];
-    self.avatar = model.avatar;
-    self.NickName = model.NickName;
-    self.account = model.account;
-    self.signature = model.signature;
+    
+    self.avatar = [UIImage imageNamed: @"1.jpg"];
+    self.NickName = @"在下雨";
+    self.account = @"xtzytpl0508nrnd";
+    self.signature = @"这个家伙很懒, 什么也没留下";
+    
+    
 }
 
 - (void) setDataSource {

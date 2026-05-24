@@ -16,6 +16,8 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, strong) NSString* author;
 
 @property (nonatomic, assign) BOOL isLike;
+@property (nonatomic, assign) BOOL isSave;
+
 @property (nonatomic, assign) NSInteger likeCount;
 @property (nonatomic, assign) NSInteger viewCount;
 @property (nonatomic, assign) NSInteger saveCount;

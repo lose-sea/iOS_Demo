@@ -57,8 +57,7 @@
     
 }
                          
-                        
-                
+    
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     if (indexPath.row == 0) {
         return 200; 
@@ -66,9 +65,11 @@
         return 150;
 }
 
+
 - (NSInteger) tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     return self.homeModel.articles.count;
 }
+
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     if (indexPath.row == 0) {
@@ -78,8 +79,8 @@
         return cell;
     }
     CustomCell* cell = [tableView dequeueReusableCellWithIdentifier: @"customCellID" forIndexPath: indexPath];
-    
     article* article = self.homeModel.articles[indexPath.row];
+    cell.article = article; 
     [cell configureWithArticle: article];
     return cell;
 }
@@ -87,6 +88,7 @@
 
 - (void) tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     [tableView deselectRowAtIndexPath: indexPath animated: YES];
+    
 }
 /*
 #pragma mark - Navigation
