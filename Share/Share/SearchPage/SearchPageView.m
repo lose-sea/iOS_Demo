@@ -12,6 +12,14 @@
 - (void) setCollectionView {
     self.collectionView = [[UICollectionView alloc] init];
     
+    [self addSubview: self.collectionView];
+    [self.collectionView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.centerX.mas_equalTo(self);
+        make.top.mas_equalTo(self);
+        make.height.mas_equalTo(400);
+        make.width.mas_equalTo(self);
+    }];
+    
 }
 
 /*
