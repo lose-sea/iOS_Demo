@@ -8,9 +8,25 @@
 #import "SearchPageView.h"
 
 @implementation SearchPageView
+- (instancetype) init {
+    self = [super init];
+    if (self) {
+        [self setCollectionView];
+    }
+    return self;
+}
 
 - (void) setCollectionView {
-    self.collectionView = [[UICollectionView alloc] init];
+    // 布局
+    UICollectionViewFlowLayout* flowLayout = [[UICollectionViewFlowLayout alloc] init];
+    // 每个cell的大小
+    flowLayout.itemSize = CGSizeMake(80, 20);
+    // 同一行中 cell 之间的间隔
+    flowLayout.minimumLineSpacing = 10;
+    // 行与行之间的间隔
+    flowLayout.minimumInteritemSpacing = 10;
+    
+    self.collectionView = [[UICollectionView alloc] initWithFrame: CGRectZero collectionViewLayout: flowLayout];
     
     [self addSubview: self.collectionView];
     [self.collectionView mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -19,6 +35,9 @@
         make.height.mas_equalTo(400);
         make.width.mas_equalTo(self);
     }];
+    
+    // 注册cell
+    [self.collectionView registerClass: [UICollectionViewCell class] forCellWithReuseIdentifier: @"collectionViewCellID"];
     
 }
 

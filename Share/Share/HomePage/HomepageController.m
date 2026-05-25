@@ -19,7 +19,7 @@
     self.title = @"首页"; 
     // Do any additional setup after loading the view.
     [self initData];
-    [self setHomepageView]; 
+    [self setHomepageView];
     
 }
 
