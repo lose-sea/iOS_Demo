@@ -8,10 +8,14 @@
 #import <UIKit/UIKit.h>
 #import "SearchPageModel.h"
 #import "SearchPageView.h"
+#import <Masonry/Masonry.h>
+#import "tagCollectionVIewCell.h"
+#import "SearchResultShowController.h"
+#import "SearchNotFind.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface SearchPageController : UIViewController <UISearchResultsUpdating, UICollectionViewDelegate, UICollectionViewDataSource>
+@interface SearchPageController : UIViewController <UISearchResultsUpdating, UICollectionViewDelegate, UICollectionViewDataSource, UISearchBarDelegate>
 @property (nonatomic, strong) SearchPageModel* searchModel; 
 @property (nonatomic, strong) UISearchController* searchController;
 @property (nonatomic, strong) SearchPageView* searchPageView;

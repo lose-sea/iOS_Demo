@@ -20,7 +20,7 @@
     // 布局
     UICollectionViewFlowLayout* flowLayout = [[UICollectionViewFlowLayout alloc] init];
     // 每个cell的大小
-    flowLayout.itemSize = CGSizeMake(80, 20);
+    flowLayout.itemSize = CGSizeMake(80, 30);
     // 同一行中 cell 之间的间隔
     flowLayout.minimumLineSpacing = 10;
     // 行与行之间的间隔
@@ -32,12 +32,12 @@
     [self.collectionView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerX.mas_equalTo(self);
         make.top.mas_equalTo(self);
-        make.height.mas_equalTo(400);
+        make.height.mas_equalTo(390);
         make.width.mas_equalTo(self);
     }];
     
     // 注册cell
-    [self.collectionView registerClass: [UICollectionViewCell class] forCellWithReuseIdentifier: @"collectionViewCellID"];
+    [self.collectionView registerClass: [tagCollectionVIewCell class] forCellWithReuseIdentifier: @"collectionViewCellID"];
     
 }
 

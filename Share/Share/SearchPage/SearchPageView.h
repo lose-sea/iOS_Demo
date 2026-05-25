@@ -7,6 +7,7 @@
 
 #import <UIKit/UIKit.h>
 #import <Masonry/Masonry.h>
+#import "tagCollectionVIewCell.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
