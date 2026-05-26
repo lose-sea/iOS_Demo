@@ -12,6 +12,7 @@
 #import "tagCollectionVIewCell.h"
 #import "SearchResultShowController.h"
 #import "SearchNotFind.h"
+#import "UpLoadViewController.h"
 
 NS_ASSUME_NONNULL_BEGIN
 

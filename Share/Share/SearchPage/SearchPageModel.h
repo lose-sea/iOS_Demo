@@ -14,7 +14,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, strong) NSArray* recommends;
 @property (nonatomic, strong) NSArray* timers;
 
-@property (nonatomic, strong) NSArray* articles; 
+@property (nonatomic, strong) NSMutableArray* articles; 
 @end
 
 NS_ASSUME_NONNULL_END
