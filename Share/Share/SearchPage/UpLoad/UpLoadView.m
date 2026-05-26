@@ -77,7 +77,7 @@
         make.width.mas_equalTo(130);
         make.height.mas_equalTo(110);
     }];
-    self.tagTableView.backgroundColor = [UIColor systemRedColor]; 
+//    self.tagTableView.backgroundColor = [UIColor systemRedColor]; 
     [self.tagTableView registerClass: [UITableViewCell class] forCellReuseIdentifier: @"tagTableViewCellID"];
 }
 /*
