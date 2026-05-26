@@ -43,7 +43,8 @@
 
 - (void) pressUpLoad {
     NSLog(@"点击了上传按钮");
-    
+    UpLoadViewController* vc = [[UpLoadViewController alloc] init];
+    [self.navigationController pushViewController: vc animated: YES];
 }
 
 #pragma mark - searchController

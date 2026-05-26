@@ -14,6 +14,7 @@
 #import "SearchNotFind.h"
 #import "UpLoadViewController.h"
 
+
 NS_ASSUME_NONNULL_BEGIN
 
 @interface SearchPageController : UIViewController <UISearchResultsUpdating, UICollectionViewDelegate, UICollectionViewDataSource, UISearchBarDelegate>

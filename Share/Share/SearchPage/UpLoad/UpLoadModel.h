@@ -10,8 +10,10 @@
 NS_ASSUME_NONNULL_BEGIN
 
 @interface UpLoadModel : NSObject
-@property (nonatomic, strong) NSMutableArray* tags;
+@property (nonatomic, strong) NSArray* tags;
+@property (nonatomic, strong) NSArray* categorys;
 @property (nonatomic, assign) BOOL agreeDownLoad;
+@property (nonatomic, assign) BOOL isFold;
 @end
 
 NS_ASSUME_NONNULL_END
