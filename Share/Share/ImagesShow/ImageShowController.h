@@ -11,11 +11,11 @@
 #import <Masonry/Masonry.h>
 
 
-NS_ASSUME_NONNULL_BEGIN
+
 
 @interface ImageShowController : UIViewController <UICollectionViewDelegate, UICollectionViewDataSource>
 @property (nonatomic, strong) ImageShowView* imageShowView;
 @property (nonatomic, strong) ImageShowModel* imageShowModel;
 @end
 
-NS_ASSUME_NONNULL_END
+

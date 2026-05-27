@@ -7,7 +7,7 @@
 
 #import <UIKit/UIKit.h>
 #import <Masonry/Masonry.h> 
-
+#import "tagCollectionVIewCell.h"
 NS_ASSUME_NONNULL_BEGIN
 
 @interface UpLoadView : UIView
@@ -17,6 +17,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, strong) UIButton* coverViewButton;
 @property (nonatomic, strong) UITextField* textField;
 @property (nonatomic, strong) UITextView* textView;
+@property (nonatomic, strong) UILabel* label; 
 @property (nonatomic, strong) UIButton* agreeDownLoadButton;
 @property (nonatomic, strong) UIButton* upLoadButton;
 @property (nonatomic, strong) UILabel* forbiddenDownLoad;

@@ -15,11 +15,19 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    self.title = @"选择图片";
     [self setData];
     [self setCollectionView];
-    
+    [self setNavigation];
     // Do any additional setup after loading the view.
 }
+
+- (void) setNavigation {
+    UIBarButtonItem* upload = [[UIBarButtonItem alloc] initWithTitle: @"上传" style: UIBarButtonItemStylePlain target: self action: @selector(pressUpload)];
+    self.navigationItem.rightBarButtonItem = upload;
+}
+
+
 
 - (void) setCollectionView {
     [self.view addSubview: self.imageShowView];
@@ -31,10 +39,10 @@
 }
 
 - (void) setData {
-    self.imageShowModel = [ImageShowModel alloc];
+    self.imageShowModel = [[ImageShowModel alloc] init];
     self.imageShowView = [[ImageShowView alloc] init];
-    for (int i = 10; i <= 30; i++) {
-        NSString* imageName = [NSString stringWithFormat: @"%d.jpg", i];
+    for (int i = 1; i < 40; i++) {
+        NSString* imageName = [NSString stringWithFormat: @"%d.jpg", i + 1];
         UIImage* image = [UIImage imageNamed: imageName];
         [self.imageShowModel.images addObject: image];
     }
