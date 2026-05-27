@@ -9,13 +9,14 @@
 #import "ImageShowModel.h"
 #import "ImageShowView.h"
 #import <Masonry/Masonry.h>
-
+#import "ImageShowCell.h"
 
 
 
 @interface ImageShowController : UIViewController <UICollectionViewDelegate, UICollectionViewDataSource>
 @property (nonatomic, strong) ImageShowView* imageShowView;
 @property (nonatomic, strong) ImageShowModel* imageShowModel;
+@property (nonatomic, strong) UIAlertController* alertController;
 @end
 
 

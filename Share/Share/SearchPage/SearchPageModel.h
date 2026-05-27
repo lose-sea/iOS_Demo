@@ -14,7 +14,6 @@
 @property (nonatomic, strong) NSArray* recommends;
 @property (nonatomic, strong) NSArray* timers;
 @property (nonatomic, strong) NSMutableArray* coverImages;
-
 @property (nonatomic, strong) NSMutableArray* articles; 
 @end
 

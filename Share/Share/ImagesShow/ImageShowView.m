@@ -6,7 +6,7 @@
 //
 
 #import "ImageShowView.h"
-
+#import "ImageShowCell.h"
 @implementation ImageShowView
 - (instancetype) init {
     self = [super init];
@@ -36,7 +36,7 @@
     }];
     
     // 注册cell
-    [self.collectionView registerClass: [UICollectionViewCell class] forCellWithReuseIdentifier: @"collectionViewCellID"];
+    [self.collectionView registerClass: [ImageShowCell class] forCellWithReuseIdentifier: @"collectionViewCellID"];
     
 }/*
 // Only override drawRect: if you perform custom drawing.

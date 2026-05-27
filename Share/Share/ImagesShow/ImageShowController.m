@@ -27,6 +27,20 @@
     self.navigationItem.rightBarButtonItem = upload;
 }
 
+- (void) pressUpload {
+    self.alertController = [UIAlertController alertControllerWithTitle: nil message: @"确定上传所选内容" preferredStyle: UIAlertControllerStyleAlert];
+
+    UIAlertAction* cacelAction = [UIAlertAction actionWithTitle: @"取消" style: UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
+        NSLog(@"取消");
+    }];
+    [self.alertController addAction: cacelAction];
+    UIAlertAction* okAction = [UIAlertAction actionWithTitle: @"确定" style: UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+        NSLog(@"确定");
+    }];
+    [self.alertController addAction: okAction];
+    
+    [self presentViewController: self.alertController animated: YES completion: nil];
+}
 
 
 - (void) setCollectionView {
@@ -53,7 +67,7 @@
 }
 
 - (__kindof UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
-    UICollectionViewCell* cell = [collectionView dequeueReusableCellWithReuseIdentifier: @"collectionViewCellID" forIndexPath: indexPath];
+    ImageShowCell* cell = [collectionView dequeueReusableCellWithReuseIdentifier: @"collectionViewCellID" forIndexPath: indexPath];
     UIImageView* iView = [[UIImageView alloc] initWithImage: self.imageShowModel.images[indexPath.item]];
     cell.backgroundView = iView;
     return cell;
