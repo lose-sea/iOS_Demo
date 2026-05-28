@@ -70,7 +70,19 @@
     ImageShowCell* cell = [collectionView dequeueReusableCellWithReuseIdentifier: @"collectionViewCellID" forIndexPath: indexPath];
     UIImageView* iView = [[UIImageView alloc] initWithImage: self.imageShowModel.images[indexPath.item]];
     cell.backgroundView = iView;
+    cell.contentMode = UIViewContentModeScaleAspectFill;
+    cell.clipsToBounds = YES;
     return cell;
+}
+
+- (void) collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
+    ImageShowCell* cell = [collectionView cellForItemAtIndexPath: indexPath];
+    cell.isSelected = !cell.isSelected;
+    if (cell.isSelected == YES) {
+        cell.selectImageView.image = [UIImage systemImageNamed: @"checkmark.circle.fill"];
+    } else {
+        cell.selectImageView.image = nil;
+    }
 }
 
 

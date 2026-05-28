@@ -17,6 +17,8 @@
 @property (nonatomic, strong) ImageShowView* imageShowView;
 @property (nonatomic, strong) ImageShowModel* imageShowModel;
 @property (nonatomic, strong) UIAlertController* alertController;
+
+@property (nonatomic, strong) NSMutableArray* selectImages; 
 @end
 
 

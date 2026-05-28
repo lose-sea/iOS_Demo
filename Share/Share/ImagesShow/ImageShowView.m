@@ -21,7 +21,7 @@
     // 布局
     UICollectionViewFlowLayout* flowLayout = [[UICollectionViewFlowLayout alloc] init];
     // 每个cell的大小
-    flowLayout.itemSize = CGSizeMake(100, 130);
+    flowLayout.itemSize = CGSizeMake(100, 120);
     
     // 行与行之间的间隔
     flowLayout.minimumLineSpacing = 0;
