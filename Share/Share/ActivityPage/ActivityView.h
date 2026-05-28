@@ -6,11 +6,13 @@
 //
 
 #import <UIKit/UIKit.h>
+#import <Masonry/Masonry.h>
+#import "ActivityCell.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface ActivityView : UIView
-
+@interface ActivityView : UIView <UITableViewDelegate, UITableViewDataSource>
+@property (nonatomic, strong) UITableView* tableViwe;
 @end
 
 NS_ASSUME_NONNULL_END

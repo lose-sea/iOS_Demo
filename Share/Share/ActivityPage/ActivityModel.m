@@ -9,4 +9,18 @@
 
 @implementation ActivityModel
 
+- (instancetype) init {
+    self = [super init];
+    if (self) {
+        [self setData];
+    }
+    return self;
+}
+
+- (void) setData {
+    self.images = [[NSMutableArray alloc] init];
+    self.massages = [[NSMutableArray alloc] init];
+}
+
+
 @end
