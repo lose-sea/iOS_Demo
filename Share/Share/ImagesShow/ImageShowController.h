@@ -12,13 +12,20 @@
 #import "ImageShowCell.h"
 
 
+@protocol ImageShowDelegate <NSObject>
+
+- (void) configConverImage: (NSMutableArray*) images;
+
+@end
+
 
 @interface ImageShowController : UIViewController <UICollectionViewDelegate, UICollectionViewDataSource>
 @property (nonatomic, strong) ImageShowView* imageShowView;
 @property (nonatomic, strong) ImageShowModel* imageShowModel;
 @property (nonatomic, strong) UIAlertController* alertController;
 
-@property (nonatomic, strong) NSMutableArray* selectImages; 
+@property (nonatomic, weak) id<ImageShowDelegate> delegate;
+@property (nonatomic, strong) NSMutableArray* selectImages;
 @end
 
 

@@ -40,6 +40,8 @@
             make.width.mas_equalTo(220);
             make.height.mas_equalTo(160);
     }];
+    self.coverViewButton.contentMode = UIViewContentModeScaleAspectFill;
+    self.clipsToBounds = YES; 
 }
 
 - (void) setLocationView {

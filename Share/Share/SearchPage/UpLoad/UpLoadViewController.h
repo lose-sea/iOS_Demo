@@ -12,10 +12,11 @@
 #import "ImageShowController.h"
 NS_ASSUME_NONNULL_BEGIN
 
-@interface UpLoadViewController : UIViewController <UITableViewDelegate, UITableViewDataSource, UICollectionViewDelegate, UICollectionViewDataSource, UITextViewDelegate>
+@interface UpLoadViewController : UIViewController <UITableViewDelegate, UITableViewDataSource, UICollectionViewDelegate, UICollectionViewDataSource, UITextViewDelegate, ImageShowDelegate>
 @property (nonatomic, strong) UpLoadModel* upLoadModel;
 @property (nonatomic, strong) UpLoadView* upLoadView;
-@property (nonatomic, strong) UIImage* coverImage; 
+@property (nonatomic, strong) UIImage* coverImage;
+@property (nonatomic, strong) UIAlertController* alertController;
 @end
 
 NS_ASSUME_NONNULL_END

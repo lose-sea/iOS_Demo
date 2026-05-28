@@ -36,6 +36,11 @@
     [self.alertController addAction: cacelAction];
     UIAlertAction* okAction = [UIAlertAction actionWithTitle: @"确定" style: UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
         NSLog(@"确定");
+        if ([self.delegate respondsToSelector: @selector(configConverImage:)]) {
+            [self.delegate configConverImage: self.selectImages];
+            [self.navigationController popViewControllerAnimated: YES]; 
+        }
+        
     }];
     [self.alertController addAction: okAction];
     
@@ -55,6 +60,8 @@
 - (void) setData {
     self.imageShowModel = [[ImageShowModel alloc] init];
     self.imageShowView = [[ImageShowView alloc] init];
+    self.selectImages = [[NSMutableArray alloc] init];
+    
     for (int i = 1; i < 40; i++) {
         NSString* imageName = [NSString stringWithFormat: @"%d.jpg", i + 1];
         UIImage* image = [UIImage imageNamed: imageName];
@@ -68,10 +75,9 @@
 
 - (__kindof UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
     ImageShowCell* cell = [collectionView dequeueReusableCellWithReuseIdentifier: @"collectionViewCellID" forIndexPath: indexPath];
-    UIImageView* iView = [[UIImageView alloc] initWithImage: self.imageShowModel.images[indexPath.item]];
-    cell.backgroundView = iView;
-    cell.contentMode = UIViewContentModeScaleAspectFill;
-    cell.clipsToBounds = YES;
+    cell.iView.image = self.imageShowModel.images[indexPath.item];
+    cell.iView.contentMode = UIViewContentModeScaleAspectFill;
+    cell.iView.clipsToBounds = YES;
     return cell;
 }
 
@@ -80,8 +86,10 @@
     cell.isSelected = !cell.isSelected;
     if (cell.isSelected == YES) {
         cell.selectImageView.image = [UIImage systemImageNamed: @"checkmark.circle.fill"];
+        [self.selectImages addObject: cell.iView.image];
     } else {
         cell.selectImageView.image = nil;
+        [self.selectImages removeObject: cell.iView.image];
     }
 }
 

@@ -60,7 +60,7 @@
     searchController.searchResultsUpdater = self;               // 设置结果更新代理（必须）
     searchController.searchBar.delegate = self;
     searchController.obscuresBackgroundDuringPresentation = NO; // 搜索时是否模糊背景（默认YES）
-    searchController.hidesNavigationBarDuringPresentation = YES; // 搜索时是否隐藏导航栏（默认YES）
+    searchController.hidesNavigationBarDuringPresentation = NO; // 搜索时是否隐藏导航栏（默认YES）
     searchController.searchBar.placeholder = @"搜索";            // 占位文字
 //    searchController.searchBar.delegate = self;                 // 可选：监听搜索栏事件
     searchController.searchBar.returnKeyType = UIReturnKeySearch;
@@ -79,7 +79,7 @@
 // 实现 UISearchController 代理方法
 - (void) updateSearchResultsForSearchController:(UISearchController *)searchController {
 //    NSString* searchText = searchController.searchBar.text;
-    
+    [self.view.window endEditing:YES];
     NSLog(@"点击了搜索框");
     // 在这里根据 searchText 过滤数据并刷新界面
 //    [self.tableView reloadData];
@@ -87,6 +87,7 @@
 
 // 点击搜索按钮
 - (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar {
+    [self.view.window endEditing:YES];
     NSLog(@"搜索按钮被点击了！关键词：%@", searchBar.text);
     [searchBar resignFirstResponder];
     // 执行搜索逻辑
@@ -166,6 +167,7 @@
 }
 
 - (void) collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
+    [self.view.window endEditing:YES];
     if (indexPath.section == 0 || indexPath.section == 2 || indexPath.section == 4) {
         return;
     } else {
@@ -180,10 +182,13 @@
     }
 }
 
+
 - (void) touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event {
     [self.view.window endEditing:YES];
 //    [self.searchController resignFirstResponder];
 }
+
+
 
 /*
 #pragma mark - Navigation

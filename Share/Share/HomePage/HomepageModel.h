@@ -11,8 +11,7 @@
 
 
 @interface HomepageModel : NSObject
-@property (nonatomic, strong) NSMutableArray<UIImage*>* scrollImages; 
-
+@property (nonatomic, strong) NSMutableArray<UIImage*>* scrollImages;
 @property (nonatomic, strong) NSMutableArray<article*>* articles;
 @end
 

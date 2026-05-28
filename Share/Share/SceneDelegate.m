@@ -32,10 +32,16 @@
     UINavigationController* searchNav = [[UINavigationController alloc] initWithRootViewController: searchPageController];
     searchPageController.tabBarItem =  [[UITabBarItem alloc] initWithTitle: @"搜索" image: [UIImage systemImageNamed: @"magnifyingglass"] selectedImage: [UIImage systemImageNamed: @"magnifyingglass"]];
     
+    ArticlesCategoryController* articlesCategoryController = [[ArticlesCategoryController alloc] init];
+    UINavigationController* articlesCategoryNav = [[UINavigationController alloc] initWithRootViewController: articlesCategoryController];
+    articlesCategoryController.tabBarItem =  [[UITabBarItem alloc] initWithTitle: @"文章分类" image: [UIImage systemImageNamed: @"square.and.pencil"] selectedImage: [UIImage systemImageNamed: @"square.and.pencil.fill"]];
     
+    ActivityController* activityController = [[ActivityController alloc] init];
+    UINavigationController* activityNav = [[UINavigationController alloc] initWithRootViewController: activityController];
+    activityController.tabBarItem =  [[UITabBarItem alloc] initWithTitle: @"活动" image: [UIImage systemImageNamed: @"trophy"] selectedImage: [UIImage systemImageNamed: @"trophy.fill"]];
     
     UITabBarController* tabbarController = [[UITabBarController alloc] init];
-    tabbarController.viewControllers = @[homeNav, searchNav];
+    tabbarController.viewControllers = @[homeNav, searchNav, articlesCategoryNav, activityNav];
     
     
     self.window.rootViewController = tabbarController;

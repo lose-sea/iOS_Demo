@@ -47,10 +47,24 @@
     [self.upLoadView.agreeDownLoadButton addTarget: self action: @selector(pressForbiddenLoadDown) forControlEvents: UIControlEventTouchUpInside];
     
     [self.upLoadView.coverViewButton addTarget: self action: @selector(pressCoverButton) forControlEvents: UIControlEventTouchUpInside];
+    
+    [self.upLoadView.upLoadButton addTarget: self action: @selector(pressUpLoad) forControlEvents: UIControlEventTouchUpInside];
 }
+
+- (void) pressUpLoad {
+    self.alertController = [UIAlertController alertControllerWithTitle: @"提示" message: @"您已成功发布" preferredStyle: UIAlertControllerStyleAlert];
+    
+    UIAlertAction* okAction = [UIAlertAction actionWithTitle: @"确定" style: UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+        NSLog(@"确定发布");
+    }];
+    [self.alertController addAction: okAction];
+    [self presentViewController: self.alertController animated: YES completion: nil];
+}
+
 - (void) pressCoverButton {
     [self.upLoadView endEditing: YES];
     ImageShowController* vc = [[ImageShowController alloc] init];
+    vc.delegate = self; 
     [self.navigationController pushViewController: vc animated: YES];
 }
 
@@ -154,6 +168,24 @@
     [self.upLoadView endEditing: YES];
 }
 
+
+- (void) configConverImage:(NSMutableArray *)images {
+    self.upLoadModel.coverImages = images;
+    [self.upLoadView.coverViewButton setImage: [self.upLoadModel.coverImages lastObject] forState: UIControlStateNormal];
+    UILabel* label = [[UILabel alloc] init];
+    [self.upLoadView addSubview: label];
+    [label mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.mas_equalTo(self.upLoadView.coverViewButton.mas_right).offset(-30);
+        make.right.mas_equalTo(self.upLoadView.coverViewButton);
+        make.width.mas_equalTo(30);
+        make.height.mas_equalTo(30);
+        make.top.mas_equalTo(self.upLoadView.coverViewButton.mas_top).offset(5);
+    }];
+    label.backgroundColor = [UIColor systemRedColor];
+    label.text = [NSString stringWithFormat: @"%ld", self.upLoadModel.coverImages.count];
+    label.textColor = [UIColor systemBlueColor];
+    label.textAlignment = NSTextAlignmentCenter;
+}
 
 
 /*

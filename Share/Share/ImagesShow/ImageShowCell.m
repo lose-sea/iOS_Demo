@@ -12,9 +12,19 @@
     self = [super initWithFrame:frame];
     if (self) {
         self.isSelected = NO;
+        
+        [self setIView];
         [self setselectImageView];
     }
     return self;
+}
+
+- (void) setIView {
+    self.iView = [[UIImageView alloc] init];
+    [self.contentView addSubview: self.iView];
+    [self.iView mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.edges.mas_equalTo(self.contentView);
+    }];
 }
 
 

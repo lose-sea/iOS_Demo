@@ -12,6 +12,7 @@
 
 @interface ImageShowCell : UICollectionViewCell
 @property (nonatomic, assign) BOOL isSelected;
+@property (nonatomic, strong) UIImageView* iView; 
 @property (nonatomic, strong) UIImageView* selectImageView;
 @end
 

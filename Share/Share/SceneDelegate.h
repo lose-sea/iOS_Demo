@@ -8,8 +8,9 @@
 #import <UIKit/UIKit.h>
 #import "Signin.h"
 #import "LoginController.h"
-#import "SearchPage/SearchPageController.h"
-
+#import "SearchPageController.h"
+#import "ArticlesCategoryController.h"
+#import "ActivityController.h"
 #import "HomePage/HomepageController.h"
 
 @interface SceneDelegate : UIResponder <UIWindowSceneDelegate>
