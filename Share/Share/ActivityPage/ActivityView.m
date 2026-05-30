@@ -19,12 +19,12 @@
 
 
 - (void) setData {
-    self.tableViwe = [[UITableView alloc] init];
-    [self addSubview: self.tableViwe];
-    [self.tableViwe mas_makeConstraints:^(MASConstraintMaker *make) {
+    self.tableView = [[UITableView alloc] init];
+    [self addSubview: self.tableView];
+    [self.tableView mas_makeConstraints:^(MASConstraintMaker *make) {
             make.edges.mas_equalTo(self);
     }];
-    
+    [self.tableView registerClass: [ActivityCell class] forCellReuseIdentifier: @"ActivityCellID"];
 }
 /*
 // Only override drawRect: if you perform custom drawing.

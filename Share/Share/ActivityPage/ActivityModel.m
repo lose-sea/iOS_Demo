@@ -18,8 +18,7 @@
 }
 
 - (void) setData {
-    self.images = [[NSMutableArray alloc] init];
-    self.massages = [[NSMutableArray alloc] init];
+    self.activities = [[NSMutableArray alloc] init];
 }
 
 

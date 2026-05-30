@@ -40,8 +40,14 @@
     UINavigationController* activityNav = [[UINavigationController alloc] initWithRootViewController: activityController];
     activityController.tabBarItem =  [[UITabBarItem alloc] initWithTitle: @"活动" image: [UIImage systemImageNamed: @"trophy"] selectedImage: [UIImage systemImageNamed: @"trophy.fill"]];
     
+    
+    MyPageController* myPageController = [[MyPageController alloc] init];
+    UINavigationController* myPageControllerNav = [[UINavigationController alloc] initWithRootViewController: myPageController];
+    myPageController.tabBarItem =  [[UITabBarItem alloc] initWithTitle: @"我的" image: [UIImage systemImageNamed: @"person"] selectedImage: [UIImage systemImageNamed: @"person.fill"]];
+    
+    
     UITabBarController* tabbarController = [[UITabBarController alloc] init];
-    tabbarController.viewControllers = @[homeNav, searchNav, articlesCategoryNav, activityNav];
+    tabbarController.viewControllers = @[homeNav, searchNav, articlesCategoryNav, activityNav, myPageControllerNav];
     
     
     self.window.rootViewController = tabbarController;

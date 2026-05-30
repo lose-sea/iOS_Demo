@@ -39,7 +39,7 @@
     article* b2 = [[article alloc] initWitImage: [UIImage imageNamed: @"12.jpg"] Name: @"国外画册欣赏" autoor: @"share小白" massage: @"这个家伙很懒, 什么也没有留下"];
     article* b3 = [[article alloc] initWitImage: [UIImage imageNamed: @"13.jpg"] Name: @"体面" autoor: @"share小白" massage: @"这个家伙很懒, 什么也没有留下"];
     article* b4 = [[article alloc] initWitImage: [UIImage imageNamed: @"14.jpg"] Name: @"还会记得我吗" autoor: @"share小白" massage: @"这个家伙很懒, 什么也没有留下"];
-    article* b5 = [[article alloc] initWitImage: [UIImage imageNamed: @"15.jpg"] Name: @"庞锦荣是大帅哥" autoor: @"share小白" massage: @"这个家伙很懒, 什么也没有留下"];
+    article* b5 = [[article alloc] initWitImage: [UIImage imageNamed: @"15.jpg"] Name: @"字体的故事" autoor: @"share小白" massage: @"这个家伙很懒, 什么也没有留下"];
     [self.articleCategoryModel.featuredArticles addObjectsFromArray: @[b1, b2, b3, b4, b5]];
     
     
@@ -47,7 +47,7 @@
     article* c2 = [[article alloc] initWitImage: [UIImage imageNamed: @"22.jpg"] Name: @"国外画册欣赏" autoor: @"share小白" massage: @"这个家伙很懒, 什么也没有留下"];
     article* c3 = [[article alloc] initWitImage: [UIImage imageNamed: @"23.jpg"] Name: @"体面" autoor: @"share小白" massage: @"这个家伙很懒, 什么也没有留下"];
     article* c4 = [[article alloc] initWitImage: [UIImage imageNamed: @"24.jpg"] Name: @"还会记得我吗" autoor: @"share小白" massage: @"这个家伙很懒, 什么也没有留下"];
-    article* c5 = [[article alloc] initWitImage: [UIImage imageNamed: @"25.jpg"] Name: @"庞锦荣是大帅哥" autoor: @"share小白" massage: @"这个家伙很懒, 什么也没有留下"];
+    article* c5 = [[article alloc] initWitImage: [UIImage imageNamed: @"25.jpg"] Name: @"动物世界" autoor: @"share小白" massage: @"这个家伙很懒, 什么也没有留下"];
     [self.articleCategoryModel.allArticles addObjectsFromArray: @[c1, c2, c3, c4, c5]];
 }
 
@@ -97,7 +97,7 @@
 }
 
 - (void) tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    [tableView deselectRowAtIndexPath: indexPath animated: YES]; 
+    [tableView deselectRowAtIndexPath: indexPath animated: YES];
 }
 /*
 #pragma mark - Navigation

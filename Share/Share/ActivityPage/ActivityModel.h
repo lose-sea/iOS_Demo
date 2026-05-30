@@ -6,12 +6,12 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "Activity.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
 @interface ActivityModel : NSObject
-@property (nonatomic, strong) NSMutableArray* images;
-@property (nonatomic, strong) NSMutableArray* massages; 
+@property (nonatomic, strong) NSMutableArray* activities; 
 @end
 
 NS_ASSUME_NONNULL_END
