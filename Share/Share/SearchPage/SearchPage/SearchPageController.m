@@ -62,8 +62,8 @@
     
     searchController.searchResultsUpdater = self;               // 设置结果更新代理（必须）
     searchController.searchBar.delegate = self;
-    searchController.obscuresBackgroundDuringPresentation = NO; // 搜索时是否模糊背景（默认YES）
-    searchController.hidesNavigationBarDuringPresentation = NO; // 搜索时是否隐藏导航栏（默认YES）
+    searchController.obscuresBackgroundDuringPresentation = YES; // 搜索时是否模糊背景（默认YES）
+    searchController.hidesNavigationBarDuringPresentation = YES; // 搜索时是否隐藏导航栏（默认YES）
     searchController.searchBar.placeholder = @"搜索";            // 占位文字
 //    searchController.searchBar.delegate = self;                 // 可选：监听搜索栏事件
     searchController.searchBar.returnKeyType = UIReturnKeySearch;
