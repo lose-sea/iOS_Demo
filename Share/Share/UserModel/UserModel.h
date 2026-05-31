@@ -13,6 +13,7 @@
 @property (nonatomic, strong) NSString* account;
 @property (nonatomic, strong) NSString* password;
 
+
 + (instancetype) shareInstance; 
 @end
 

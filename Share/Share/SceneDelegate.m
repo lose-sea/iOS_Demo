@@ -48,10 +48,10 @@
     
     UITabBarController* tabbarController = [[UITabBarController alloc] init];
     tabbarController.viewControllers = @[homeNav, searchNav, articlesCategoryNav, activityNav, myPageControllerNav];
+
     
-    
-    self.window.rootViewController = tabbarController;
-//    self.window.rootViewController = nav; 
+//    self.window.rootViewController = tabbarController;
+    self.window.rootViewController = nav; 
     [self.window makeKeyAndVisible];
     
 

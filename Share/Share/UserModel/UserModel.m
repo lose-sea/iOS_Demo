@@ -13,8 +13,8 @@ static UserModel* instance;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
         instance = [[super allocWithZone: nil] init];
-        instance.account = nil;
-        instance.password = nil;
+        instance.account = @"111";
+        instance.password = @"111";
     });
     return instance;
 }

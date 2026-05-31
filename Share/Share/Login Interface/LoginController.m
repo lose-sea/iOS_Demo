@@ -21,12 +21,16 @@
     
     self.signin = [[Signin alloc] init];
     self.signin.model = self.model;
+
+    self.signin.userModel = [[UserModel alloc] init];
+    self.myView = [[UIView alloc] initWithFrame: self.view.bounds];
+    self.myView.backgroundColor = self.signin.view.backgroundColor;
+    [self.view addSubview: self.myView];
+    [self.myView addSubview: self.signin.view];
     
-//    self.usermodel = [[UserModel alloc] init];
-    self.signin.userModel = [[UserModel alloc] init]; 
     
     
-    [self.view addSubview: self.signin.view];
+    
     
     // 注册监听
     [[NSNotificationCenter defaultCenter] addObserver: self selector: @selector(pressAutoLoginButton:) name: pressAutoLoginButton object: nil];
@@ -35,7 +39,32 @@
     
     [[NSNotificationCenter defaultCenter] addObserver: self selector: @selector(pressLoginButton:) name: pressLoginButton object: nil];
     
-    NSLog(@"注册"); 
+    
+    // 注册键盘通知
+        [[NSNotificationCenter defaultCenter] addObserver:self
+                                                 selector:@selector(keyboardWillShow:)
+                                                     name:UIKeyboardWillShowNotification
+                                                   object:nil];
+        [[NSNotificationCenter defaultCenter] addObserver:self
+                                                 selector:@selector(keyboardWillHide:)
+                                                     name:UIKeyboardWillHideNotification
+                                                   object:nil];
+    NSLog(@"注册");
+}
+
+- (void)keyboardWillShow:(NSNotification *)notification {
+    // 获取键盘高度
+    NSDictionary *userInfo = notification.userInfo;
+    CGRect keyboardFrame = [userInfo[UIKeyboardFrameEndUserInfoKey] CGRectValue];
+    CGFloat keyboardHeight = keyboardFrame.size.height;
+    
+    self.signin.view.frame = CGRectMake(0, -keyboardHeight / 2.0, self.view.frame.size.width, self.view.frame.size.height);
+    
+}
+
+- (void)keyboardWillHide:(NSNotification *)notification {
+    
+    self.signin.view.frame = CGRectMake(0, 0, self.view.bounds.size.width, self.view.bounds.size.height);
 }
 
 #pragma mark - 处理自动登录按钮点击
