@@ -23,7 +23,9 @@ NS_ASSUME_NONNULL_BEGIN
 @interface RegisterAccountController : UIViewController
 @property (nonatomic,strong) RegisterAccount* registerAccont;
 @property (nonatomic, strong) UserModel* userModel;
-@property (nonatomic, weak) id<RegisterAccount> delegate; 
+@property (nonatomic, weak) id<RegisterAccount> delegate;
+
+
 @end
 
 NS_ASSUME_NONNULL_END

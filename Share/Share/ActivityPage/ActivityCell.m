@@ -45,8 +45,8 @@
     [self.contentView addSubview: self.stateView];
     [self.stateView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.mas_equalTo(self.contentView);
-        make.left.mas_equalTo(self.contentView.mas_right).offset(-30);
-        make.right.mas_equalTo(self.contentView);
+        make.left.mas_equalTo(self.contentView.mas_right).offset(-50);
+        make.right.mas_equalTo(self.contentView).offset(-10);
         make.height.mas_equalTo(50);
     }];
     if (self.activity.isEnd == YES) {

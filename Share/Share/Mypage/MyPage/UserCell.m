@@ -25,6 +25,7 @@
     self.signatureLabel = [[UILabel alloc] init];
     self.massageLabel = [[UILabel alloc] init];
     
+    
 
     self.likeButton = [UIButton buttonWithType: UIButtonTypeCustom];
     self.saveButton = [UIButton buttonWithType: UIButtonTypeCustom];
@@ -40,6 +41,9 @@
     self.likeLabel = [[UILabel alloc] init];
     self.viewLabel = [[UILabel alloc] init];
     self.saveLabel = [[UILabel alloc] init];
+    
+    self.avatarView.contentMode = UIViewContentModeScaleAspectFill;
+    self.avatarView.clipsToBounds = YES; 
     
     [self.contentView addSubview: self.avatarView];
     [self.avatarView mas_makeConstraints:^(MASConstraintMaker *make) {

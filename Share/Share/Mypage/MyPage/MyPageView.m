@@ -12,7 +12,7 @@
     self = [super init];
     if (self) {
         [self setTableView];
-        self.tableView.backgroundColor = [UIColor systemCyanColor]; 
+        self.tableView.backgroundColor = [UIColor systemBackgroundColor];
     }
     return self;
 }

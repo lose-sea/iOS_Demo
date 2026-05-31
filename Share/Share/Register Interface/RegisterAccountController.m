@@ -17,11 +17,38 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     self.registerAccont = [[RegisterAccount alloc] init];
-    [self.view addSubview: self.registerAccont.view];
     
+    [self.view addSubview: self.registerAccont.view];
+    [self.registerAccont.view mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.edges.mas_equalTo(self.view);
+    }];
+   
+    
+    self.view.backgroundColor = self.registerAccont.view.backgroundColor;
     // 注册监听
     [[NSNotificationCenter defaultCenter] addObserver: self selector: @selector(pressConfirmRegister:) name: pressConfirmRegister object: nil];
+    
+    // 注册键盘通知
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(keyboardWillShow:)
+                                                 name:UIKeyboardWillShowNotification
+                                               object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(keyboardWillHide:)
+                                                 name:UIKeyboardWillHideNotification
+                                               object:nil];
 }
+
+
+- (void) keyboardWillShow: (NSNotification*) notification {
+    CGRect keyboardFrame = [notification.userInfo[UIKeyboardFrameEndUserInfoKey] CGRectValue];
+    self.registerAccont.view.frame = CGRectMake(0, -keyboardFrame.size.height / 2.0, self.view.bounds.size.width,  self.view.bounds.size.height);
+}
+- (void) keyboardWillHide: (NSNotification*) notification {
+    self.registerAccont.view.frame = self.view.frame;
+}
+
+
 
 - (void) pressConfirmRegister: (NSNotification*) notification {
     UIAlertController* alerterController = [UIAlertController alertControllerWithTitle: @"是否确认注册" message: nil preferredStyle: UIAlertControllerStyleAlert];
@@ -47,6 +74,10 @@
 
 - (void) touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event {
     [self.view endEditing: YES];
+}
+
+- (void)dealloc {
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 /*
 #pragma mark - Navigation
