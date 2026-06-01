@@ -9,6 +9,7 @@
 #import <UIKit/UIKit.h>
 
 
+
 @interface MyPageModel : NSObject
 @property (nonatomic, strong) UIImage* avatar;
 @property (nonatomic, strong) NSString* nickName;

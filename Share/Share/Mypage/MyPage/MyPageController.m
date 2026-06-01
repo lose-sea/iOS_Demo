@@ -6,6 +6,9 @@
 //
 
 #import "MyPageController.h"
+#import "UploadByMyselfController.h"
+#import "MyInformationController.h"
+
 
 @interface MyPageController ()
 
@@ -16,6 +19,8 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.title = @"个人信息";
+    self.view.backgroundColor = [UIColor systemCyanColor];
+
     // Do any additional setup after loading the view.
     [self setData];
 }
@@ -47,8 +52,21 @@
     if (indexPath.section == 0) {
         return 150;
     } else {
-        return 80;
+        return 60;
     }
+}
+
+- (CGFloat) tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section {
+    if (section == 0) {
+        return 40;
+    } else {
+        return 10; 
+    }
+}
+
+- (NSString*) tableView:(UITableView *)tableView titleForFooterInSection:(NSInteger)section {
+        
+    return @" ";
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -60,7 +78,12 @@
         return cell;
     } else {
         UITableViewCell* cell = [tableView dequeueReusableCellWithIdentifier: @"UITableViewCellID" forIndexPath: indexPath];
-        cell.accessoryView = [[UIImageView alloc] initWithImage: [UIImage systemImageNamed: @"play.fill"]];
+//        cell.accessoryView = [[UIImageView alloc] initWithImage: [UIImage systemImageNamed: @"play.fill"]];
+        
+        // 在cell的后面加一个 >
+        // 样式: 点击查看详情指示器
+        cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+        
         if (indexPath.row == 0) {
             cell.imageView.image = [UIImage systemImageNamed: @"square.and.arrow.up.fill"];
             cell.textLabel.text = @"我上传的";
@@ -84,10 +107,23 @@
     }
 }
 
+
+
+
 - (void) tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     [tableView deselectRowAtIndexPath: indexPath animated: YES];
-}
+    if (indexPath.section == 0) {
+        return;
+    }
+    if (indexPath.row == 0) {
+        UploadByMyselfController* vc = [[UploadByMyselfController alloc] init];
+        [self.navigationController pushViewController: vc animated: YES];
+    } else if (indexPath.row == 1) {
+        MyInformationController* vc = [[MyInformationController alloc] init];
+        [self.navigationController pushViewController: vc animated: YES]; 
+    }
 
+}
 /*
 #pragma mark - Navigation
 
