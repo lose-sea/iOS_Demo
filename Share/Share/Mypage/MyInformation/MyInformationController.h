@@ -9,6 +9,8 @@
 #import "MyInformationView.h"
 #import "MyImformationModel.h"
 #import "Information.h"
+#import "FollowerController.h"
+
 
 NS_ASSUME_NONNULL_BEGIN
 

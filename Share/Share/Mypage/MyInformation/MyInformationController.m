@@ -50,12 +50,38 @@
 - (UITableViewCell*) tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     ImformationCell* cell = [tableView dequeueReusableCellWithIdentifier: @"InformationCell" forIndexPath: indexPath];
     
+    // 在cell的后面加一个 >
+    // 样式: 点击查看详情指示器
+    cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+    
     Information* information = self.myImformationModel.massages[indexPath.row];
     cell.information = information;
     [cell configWithInformation: information];
     return cell;
 }
 
+
+- (void) tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    [tableView deselectRowAtIndexPath: indexPath animated: YES];
+    ImformationCell* cell = [tableView cellForRowAtIndexPath: indexPath];
+    cell.information.count = 0;
+    [cell configWithInformation: cell.information];
+    
+    if (indexPath.row == 0 || indexPath.row == 1 || indexPath.row == 4) {
+        UIAlertController* alertController = [UIAlertController alertControllerWithTitle: nil message: @"目前没有新消息" preferredStyle: UIAlertControllerStyleAlert];
+        UIAlertAction* okAction = [UIAlertAction actionWithTitle: @"确定" style: UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+            NSLog(@"点击了确定");
+        }];
+        [alertController addAction: okAction];
+        
+        [self presentViewController: alertController animated: YES completion: nil];
+    } else if (indexPath.row == 2) {
+        FollowerController* vc = [[FollowerController alloc] init];
+        [self.navigationController pushViewController: vc animated: YES]; 
+    } else if (indexPath.row == 3) {
+        
+    }
+}
 /*
 #pragma mark - Navigation
 

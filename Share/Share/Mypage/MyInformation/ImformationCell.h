@@ -14,7 +14,7 @@ NS_ASSUME_NONNULL_BEGIN
 @interface ImformationCell : UITableViewCell
 @property (nonatomic, strong) UILabel* label;
 
-@property (nonatomic, assign) Information* information;
+@property (nonatomic, strong) Information* information;
 
 - (void) configWithInformation: (Information*) information;
 @end
