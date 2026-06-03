@@ -66,7 +66,10 @@
 - (void) tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     [tableView deselectRowAtIndexPath: indexPath animated: YES];
     TalkCell* cell = [tableView cellForRowAtIndexPath: indexPath];
-    
+    TalkController* vc = [[TalkController alloc] init];
+    vc.other = cell.user;
+    vc.title = cell.user.nickName;
+    [self.navigationController pushViewController: vc animated: YES];
 }
 
 /*

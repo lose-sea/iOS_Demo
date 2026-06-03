@@ -14,7 +14,9 @@ NS_ASSUME_NONNULL_BEGIN
 @interface TalkView : UIView
 @property (nonatomic, strong) UITableView* tableView;
 
-@property (nonatomic, strong) UITextView* textView; 
+@property (nonatomic, strong) UITextView* textView;
+
+@property (nonatomic, strong) UIButton* sendButton; 
 @end
 
 NS_ASSUME_NONNULL_END

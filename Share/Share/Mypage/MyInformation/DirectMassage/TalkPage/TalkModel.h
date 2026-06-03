@@ -10,8 +10,7 @@
 NS_ASSUME_NONNULL_BEGIN
 
 @interface TalkModel : NSObject
-@property (nonatomic, strong) NSMutableArray* messagesOfMe;
-@property (nonatomic, strong) NSMutableArray* messageOfOther; 
+@property (nonatomic, strong) NSMutableArray* messages;
 @end
 
 NS_ASSUME_NONNULL_END

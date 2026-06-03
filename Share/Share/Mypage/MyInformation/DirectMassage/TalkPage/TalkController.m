@@ -25,11 +25,34 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.title = @"机智张";
-    
+    [self setUpData]; 
     // Do any additional setup after loading the view.
+    
+    // 注册键盘通知
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(keyboardWillShow:)
+                                                 name:UIKeyboardWillShowNotification
+                                               object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                                 selector:@selector(keyboardWillHide:)
+                                                     name:UIKeyboardWillHideNotification
+                                                   object:nil];
 }
 
+- (void)keyboardWillShow:(NSNotification *)notification {
+    // 获取键盘高度
+    NSDictionary *userInfo = notification.userInfo;
+    CGRect keyboardFrame = [userInfo[UIKeyboardFrameEndUserInfoKey] CGRectValue];
+    CGFloat keyboardHeight = keyboardFrame.size.height;
+    
+    self.talkView.frame = CGRectMake(0, -keyboardHeight, self.view.frame.size.width, self.view.frame.size.height);
+    
+}
+
+- (void)keyboardWillHide:(NSNotification *)notification {
+    
+    self.talkView.frame = CGRectMake(0, 0, self.view.bounds.size.width, self.view.bounds.size.height);
+}
 - (void) setUpData {
     self.talkModel = [[TalkModel alloc] init];
     self.talkView = [[TalkView alloc] init];
@@ -43,29 +66,41 @@
     
     self.talkView.tableView.delegate = self;
     self.talkView.tableView.dataSource = self;
+    
+    
+    [self.talkView.sendButton addTarget: self action: @selector(pressSend) forControlEvents: UIControlEventTouchUpInside];
+}
+
+- (void) pressSend {
+    NSLog(@"点击了发送");
+     
+    [self.talkModel.messages addObject: self.talkView.textView.text];
+    [self.talkView.tableView reloadData];
+    self.talkView.textView.text = nil;
 }
 
 
 - (NSInteger) tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return self.talkModel.messagesOfMe.count + self.talkModel.messageOfOther.count;
+    return self.talkModel.messages.count;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath  {
     TalkCell* cell = [tableView dequeueReusableCellWithIdentifier: @"TalkCellID" forIndexPath: indexPath];
     if (indexPath.row % 2 == 0) {
-        cell.isMyself = NO;
-        NSString* message = self.talkModel.messageOfOther[indexPath.row / 2];
+        self.isMyself = NO;
         cell.user = self.other;
-        [cell configWithFollower: cell.user Message: message isMyself: self.isMyself];
+        [cell configWithFollower: self.other Message: self.talkModel.messages[indexPath.row] isMyself: NO];
     } else {
-        cell.isMyself = YES;
-        NSString* message = self.talkModel.messagesOfMe[indexPath.row / 2];
-        cell.user = self.user;
-        [cell configWithFollower: cell.user Message: message isMyself: self.isMyself];
-        
+        self.isMyself = YES;
+        cell.user = self.other;
+        [cell configWithFollower: self.user Message: self.talkModel.messages[indexPath.row] isMyself: YES];
     }
-    
     return cell;
+}
+
+- (void) tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    [tableView deselectRowAtIndexPath: indexPath animated: YES];
+    [self.talkView endEditing: YES]; 
 }
 
 

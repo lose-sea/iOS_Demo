@@ -31,6 +31,9 @@
 - (void) configWithFollower: (Follower*) follower Message: (NSString*) message isMyself: (BOOL)isMyself {
     self.avatarImageView.image = follower.avatar;
     self.messageLabel.text = message;
+    
+    self.messageLabel.layer.masksToBounds = YES;
+    self.messageLabel.layer.cornerRadius = 5; 
 
     if (isMyself) {
         // 头像靠右
@@ -41,14 +44,17 @@
         }];
         
         [self.messageLabel mas_remakeConstraints:^(MASConstraintMaker *make) {
-            make.top.equalTo(self.contentView).offset(10);
+            make.top.equalTo(self.contentView).offset(30);
             make.right.equalTo(self.avatarImageView.mas_left).offset(-10);
-            make.left.mas_equalTo(self.contentView).offset(60);
-//            make.bottom.equalTo(self.contentView).offset(-10);
+            make.left.greaterThanOrEqualTo(self.contentView).offset(60);  // 最小左边距，防止过宽
+            make.bottom.equalTo(self.contentView).offset(-10);
+            // 关键：设置最大宽度（屏幕宽度的 70%）
+            make.width.lessThanOrEqualTo(self.contentView).multipliedBy(0.7);
         }];
         
         self.messageLabel.textAlignment = NSTextAlignmentRight;
-        self.messageLabel.backgroundColor = [UIColor systemBackgroundColor];
+        self.messageLabel.backgroundColor = [UIColor systemGreenColor];
+
         
     } else {
         [self.avatarImageView mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -57,14 +63,16 @@
             make.width.height.mas_equalTo(40);
         }];
         
-        [self.messageLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.top.mas_equalTo(self.contentView).offset(10);
+        [self.messageLabel mas_remakeConstraints:^(MASConstraintMaker *make) {
+            make.top.equalTo(self.contentView).offset(30);
             make.left.equalTo(self.avatarImageView.mas_right).offset(10);
-            make.right.mas_equalTo(self.contentView).offset(-60);
+            make.right.lessThanOrEqualTo(self.contentView).offset(-60); // 最小右边距
+            make.bottom.equalTo(self.contentView).offset(-10);
+            make.width.lessThanOrEqualTo(self.contentView).multipliedBy(0.7);
         }];
         
         self.messageLabel.textAlignment = NSTextAlignmentLeft;
-        self.messageLabel.backgroundColor = [UIColor systemGreenColor];
+        self.messageLabel.backgroundColor = [UIColor systemBackgroundColor];
     }
     
 }

@@ -6,13 +6,14 @@
 //
 
 #import <Foundation/Foundation.h>
-
+#import <UIKit/UIKit.h>
 
 
 @interface UserModel : NSObject
 @property (nonatomic, strong) NSString* account;
 @property (nonatomic, strong) NSString* password;
 
+@property (nonatomic, strong) UIImage* avatar;
 
 + (instancetype) shareInstance; 
 @end
