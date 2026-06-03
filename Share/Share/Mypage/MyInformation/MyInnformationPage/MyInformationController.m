@@ -79,7 +79,8 @@
         FollowerController* vc = [[FollowerController alloc] init];
         [self.navigationController pushViewController: vc animated: YES]; 
     } else if (indexPath.row == 3) {
-        
+        DirectMassageController* vc = [[DirectMassageController alloc] init];
+        [self.navigationController pushViewController: vc animated: YES];
     }
 }
 /*

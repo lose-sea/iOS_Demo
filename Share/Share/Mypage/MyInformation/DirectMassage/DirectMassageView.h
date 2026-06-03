@@ -11,7 +11,7 @@
 NS_ASSUME_NONNULL_BEGIN
 
 @interface DirectMassageView : UIView
-
+@property (nonatomic, strong) UITableView* tableView; 
 @end
 
 NS_ASSUME_NONNULL_END

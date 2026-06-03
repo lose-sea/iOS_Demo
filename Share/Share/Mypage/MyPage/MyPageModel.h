@@ -7,6 +7,7 @@
 
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
+#import "UserModel.h"
 
 
 
@@ -15,6 +16,10 @@
 @property (nonatomic, strong) NSString* nickName;
 @property (nonatomic, strong) NSString* massage;
 @property (nonatomic, strong) NSString* signature;
+@property (nonatomic, strong) NSString* account;
+@property (nonatomic, strong) NSString* password;
+@property (nonatomic, strong) UserModel* user; 
+
 
 @property (nonatomic, assign) NSInteger saveCount;
 @property (nonatomic, assign) NSInteger likeCount;

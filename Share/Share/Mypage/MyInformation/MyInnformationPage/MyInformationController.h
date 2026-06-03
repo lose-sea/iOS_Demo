@@ -10,6 +10,7 @@
 #import "MyImformationModel.h"
 #import "Information.h"
 #import "FollowerController.h"
+#import "DirectMassageController.h"
 
 
 NS_ASSUME_NONNULL_BEGIN

@@ -1,0 +1,83 @@
+//
+//  TalkCell.m
+//  Share
+//
+//  Created by lose_sea on 2026/6/3.
+//
+
+#import "TalkCell.h"
+
+@implementation TalkCell
+
+- (instancetype) initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier {
+    self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
+    if (self) {
+        [self setUpInterface];
+    }
+    return self;
+}
+
+- (void) setUpInterface {
+    self.avatarImageView = [[UIImageView alloc] init];
+    self.messageLabel = [[UILabel alloc] init];
+    
+    self.messageLabel.numberOfLines = 0;
+    self.messageLabel.font = [UIFont systemFontOfSize: 16];
+    
+    [self.contentView addSubview: self.avatarImageView];
+    [self.contentView addSubview: self.messageLabel];
+}
+ 
+- (void) configWithFollower: (Follower*) follower Message: (NSString*) message isMyself: (BOOL)isMyself {
+    self.avatarImageView.image = follower.avatar;
+    self.messageLabel.text = message;
+
+    if (isMyself) {
+        // 头像靠右
+        [self.avatarImageView mas_remakeConstraints:^(MASConstraintMaker *make) {
+            make.top.equalTo(self.contentView).offset(10);
+            make.right.equalTo(self.contentView).offset(-15);
+            make.width.height.mas_equalTo(40);
+        }];
+        
+        [self.messageLabel mas_remakeConstraints:^(MASConstraintMaker *make) {
+            make.top.equalTo(self.contentView).offset(10);
+            make.right.equalTo(self.avatarImageView.mas_left).offset(-10);
+            make.left.mas_equalTo(self.contentView).offset(60);
+//            make.bottom.equalTo(self.contentView).offset(-10);
+        }];
+        
+        self.messageLabel.textAlignment = NSTextAlignmentRight;
+        self.messageLabel.backgroundColor = [UIColor systemBackgroundColor];
+        
+    } else {
+        [self.avatarImageView mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.left.mas_equalTo(self.contentView).offset(15);
+            make.top.mas_equalTo(self.contentView).offset(10);
+            make.width.height.mas_equalTo(40);
+        }];
+        
+        [self.messageLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.top.mas_equalTo(self.contentView).offset(10);
+            make.left.equalTo(self.avatarImageView.mas_right).offset(10);
+            make.right.mas_equalTo(self.contentView).offset(-60);
+        }];
+        
+        self.messageLabel.textAlignment = NSTextAlignmentLeft;
+        self.messageLabel.backgroundColor = [UIColor systemGreenColor];
+    }
+    
+}
+
+- (void)awakeFromNib {
+    [super awakeFromNib];
+    // Initialization code
+}
+
+- (void)setSelected:(BOOL)selected animated:(BOOL)animated {
+    [super setSelected:selected animated:animated];
+
+    // Configure the view for the selected state
+}
+
+@end

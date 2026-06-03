@@ -8,5 +8,11 @@
 #import "DirectMassageModel.h"
 
 @implementation DirectMassageModel
-
+- (instancetype) init {
+    self = [super init];
+    if (self) {
+        self.followers = [[NSMutableArray alloc] init]; 
+    }
+    return self;
+}
 @end

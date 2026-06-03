@@ -8,10 +8,13 @@
 #import <UIKit/UIKit.h>
 #import "DirectMassageModel.h"
 #import "DirectMassageView.h"
+#import "TalkController.h"
+
 
 NS_ASSUME_NONNULL_BEGIN
 
 @interface DirectMassageController : UIViewController <UITableViewDelegate, UITableViewDataSource>
+
 @property (nonatomic, strong) DirectMassageModel* directMassageModel;
 @property (nonatomic, strong) DirectMassageView* directMassageView;
 

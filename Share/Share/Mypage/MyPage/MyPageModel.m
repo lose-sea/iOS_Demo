@@ -24,5 +24,9 @@
     self.likeCount = 130;
     self.saveCount = 39;
     self.viewCount = 850;
+    self.user = [[UserModel alloc] init];
+    self.account = self.user.account;
+    self.password = self.user.password;
 }
+
 @end

@@ -36,7 +36,7 @@
     [self addSubview: self.segmentedControl];
     [self.segmentedControl mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.left.right.mas_equalTo(self);
-        make.height.mas_equalTo(60);
+        make.height.mas_equalTo(40);
     }];
     
 }
@@ -79,12 +79,13 @@
     CGFloat width = self.scrollView.bounds.size.width;
     CGFloat height = self.scrollView.bounds.size.height;
     
+    self.scrollView.contentSize = CGSizeMake(width * 3, height);
+
     // 此时 scrollView 已有真实尺寸
     self.tableViewOfTime.frame = CGRectMake(0, 0, width, height);
     self.tableViewOfRecommend.frame = CGRectMake(width, 0, width, height);
     self.tableViewOfShare.frame = CGRectMake(width * 2, 0, width, height);
     
-    self.scrollView.contentSize = CGSizeMake(width * 3, height);
 }
 
 

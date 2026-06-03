@@ -28,34 +28,37 @@
     [self.avatarImageView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.mas_equalTo(self.contentView).offset(20);
         make.centerY.mas_equalTo(self.contentView);
-        make.height.mas_equalTo(60);
-        make.width.mas_equalTo(60);
+        make.height.mas_equalTo(70);
+        make.width.mas_equalTo(70);
     }];
     
     [self.contentView addSubview: self.nickLabel];
     [self.nickLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.mas_equalTo(self.avatarImageView.mas_right).offset(10);
-        make.top.mas_equalTo(self.avatarImageView).offset(20);
+        make.top.mas_equalTo(self.contentView).offset(10);
         make.width.mas_offset(100);
         make.height.mas_equalTo(40);
     }];
-    self.nickLabel.font = [UIFont systemFontOfSize: 14];
     
     [self.contentView addSubview: self.massageLabel];
     [self.massageLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.mas_equalTo(self.nickLabel.mas_bottom).offset(10);
         make.left.mas_equalTo(self.nickLabel);
         make.width.mas_equalTo(200);
-        make.height.mas_equalTo(40);
+        make.height.mas_equalTo(20);
     }];
+        self.massageLabel.font = [UIFont systemFontOfSize: 14];
+
     
     [self.contentView addSubview: self.timeLabel];
     [self.timeLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.mas_equalTo(self.contentView);
-        make.left.mas_equalTo(self.contentView.mas_right).offset(-120);
+        make.top.mas_equalTo(self.contentView).offset(10);
+        make.left.mas_equalTo(self.contentView.mas_right).offset(-80);
         make.width.mas_equalTo(100);
-        make.height.mas_equalTo(30);
+        make.height.mas_equalTo(20);
     }];
+    self.timeLabel.textColor = [UIColor systemGrayColor];
+    self.timeLabel.font = [UIFont systemFontOfSize: 13]; 
 }
 
 - (void) configWithFollower: (Follower*) follower {
@@ -74,6 +77,6 @@
     [super setSelected:selected animated:animated];
 
     // Configure the view for the selected state
-}
+}  
 
 @end

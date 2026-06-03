@@ -31,7 +31,7 @@
     [self.segmentedControl mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.mas_equalTo(self);
         make.left.right.mas_equalTo(self);
-        make.height.mas_equalTo(60);
+        make.height.mas_equalTo(40);
     }];
     self.segmentedControl.selectedSegmentTintColor = [UIColor systemPinkColor];
     
