@@ -22,6 +22,7 @@
 
 - (void) setUpData {
     self.basicView = [[BasicView alloc] init];
+    self.basicModel = [[BasicModel alloc] init]; 
     self.user = [[UserModel alloc] init];
     
     [self.view addSubview: self.basicView];

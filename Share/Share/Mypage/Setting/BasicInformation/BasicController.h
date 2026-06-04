@@ -7,11 +7,13 @@
 
 #import <UIKit/UIKit.h>
 #import "BasicView.h"
+#import "BasicModel.h"
 #import "UserModel.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
 @interface BasicController : UIViewController <UITableViewDelegate, UITableViewDataSource>
+@property (nonatomic, strong) BasicModel* basicModel;
 @property (nonatomic, strong) BasicView* basicView;
 @property (nonatomic, strong) UserModel* user; 
 @end

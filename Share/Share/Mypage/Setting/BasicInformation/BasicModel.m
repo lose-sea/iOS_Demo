@@ -9,6 +9,11 @@
 
 @implementation BasicModel
 - (instancetype) init {
-    self = [super init]; 
+    self = [super init];
+    if (self) {
+        self.tags = [[NSMutableArray alloc] init];
+    }
+    return self;
 }
+
 @end
