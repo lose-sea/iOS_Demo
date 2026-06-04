@@ -37,12 +37,25 @@
                                              selector:@selector(keyboardWillHide:)
                                                  name:UIKeyboardWillHideNotification
                                                object:nil];
+    
+//    UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(dismissKeyboard)];
+//    // 不取消其他触摸事件，让 cell 的点击仍然有效
+//    tap.cancelsTouchesInView = NO;
+    
+//    [self.registerAccont.emailInput addGestureRecognizer:tap];
+//    [self.registerAccont.accountInput addGestureRecognizer:tap];
+//    [self.registerAccont.passwordInput addGestureRecognizer:tap];
+//    [self.view addGestureRecognizer:tap];
+}
+
+- (void)dismissKeyboard {
+    [self.view endEditing:YES];  // 收起键盘
 }
 
 
 - (void) keyboardWillShow: (NSNotification*) notification {
     CGRect keyboardFrame = [notification.userInfo[UIKeyboardFrameEndUserInfoKey] CGRectValue];
-    self.registerAccont.view.frame = CGRectMake(0, -keyboardFrame.size.height / 2.0, self.view.bounds.size.width,  self.view.bounds.size.height);
+    self.registerAccont.view.frame = CGRectMake(0, -keyboardFrame.size.height / 3.0, self.view.bounds.size.width,  self.view.bounds.size.height);
 }
 - (void) keyboardWillHide: (NSNotification*) notification {
     self.registerAccont.view.frame = self.view.frame;
@@ -51,6 +64,7 @@
 
 
 - (void) pressConfirmRegister: (NSNotification*) notification {
+    [self.view endEditing: YES];
     UIAlertController* alerterController = [UIAlertController alertControllerWithTitle: @"是否确认注册" message: nil preferredStyle: UIAlertControllerStyleAlert];
     UIAlertAction* cacelAction = [UIAlertAction actionWithTitle: @"取消" style: UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
         NSLog(@"取消");

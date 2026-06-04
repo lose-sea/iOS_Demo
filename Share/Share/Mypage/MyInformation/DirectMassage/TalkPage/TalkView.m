@@ -21,6 +21,10 @@
 - (void)setUpTableView {
     self.tableView = [[UITableView alloc] init];
     self.tableView.backgroundColor = [UIColor whiteColor];
+    
+    // 删除cell之间的分割线
+    self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
+    
     [self addSubview:self.tableView];
     [self.tableView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.left.right.equalTo(self);

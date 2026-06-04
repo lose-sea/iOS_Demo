@@ -6,8 +6,7 @@
 //
 
 #import "MyPageController.h"
-#import "UploadByMyselfController.h"
-#import "MyInformationController.h"
+
 
 
 @interface MyPageController ()
@@ -26,7 +25,7 @@
 }
 
 - (void) setData {
-    self.mypageModel = [[MyPageModel alloc] init];
+    self.userModel = [[UserModel alloc] init];
     self.mypageView = [[MyPageView alloc] init];
     [self.view addSubview: self.mypageView];
     [self.mypageView mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -72,7 +71,7 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     if (indexPath.section == 0) {
         UserCell* cell = [tableView dequeueReusableCellWithIdentifier: @"UserCellID" forIndexPath: indexPath];
-        [cell configWithUser: self.mypageModel];
+        [cell configWithUser: self.userModel];
 //        [tableView reloadData]; 
         
         return cell;
@@ -108,8 +107,6 @@
 }
 
 
-
-
 - (void) tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     [tableView deselectRowAtIndexPath: indexPath animated: YES];
     if (indexPath.section == 0) {
@@ -121,9 +118,30 @@
     } else if (indexPath.row == 1) {
         MyInformationController* vc = [[MyInformationController alloc] init];
         [self.navigationController pushViewController: vc animated: YES]; 
-    }
+    } else if (indexPath.row == 2) {
+        MyRecommendController* vc = [[MyRecommendController alloc] init];
+        [self.navigationController pushViewController: vc animated: YES];
+    } else if (indexPath.row == 3) {
+        UIAlertController* alertController = [UIAlertController alertControllerWithTitle: nil message: @"您目前没有通知" preferredStyle: UIAlertControllerStyleAlert];
+        UIAlertAction* okAction = [UIAlertAction actionWithTitle: @"确定" style: UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+            NSLog(@"点击了确定");
+        }];
+        [alertController addAction: okAction];
+        [self presentViewController: alertController animated: YES completion: nil];
+    } else if (indexPath.row == 4) {
+        SettingController* vc = [[SettingController alloc] init];
+        [self.navigationController pushViewController: vc animated: YES];
+    } else {
 
+        
+        SceneDelegate* sceneDelegate = (SceneDelegate*)UIApplication.sharedApplication.connectedScenes.allObjects.firstObject.delegate;
+        UINavigationController* Nav = [[UINavigationController alloc] initWithRootViewController: [[LoginController alloc] init]];
+        
+        sceneDelegate.window.rootViewController = Nav;
+    }
 }
+
+
 /*
 #pragma mark - Navigation
 

@@ -37,6 +37,16 @@
                                                  selector:@selector(keyboardWillHide:)
                                                      name:UIKeyboardWillHideNotification
                                                    object:nil];
+    
+    
+    UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(dismissKeyboard)];
+    // 不取消其他触摸事件，让 cell 的点击仍然有效
+    tap.cancelsTouchesInView = NO;
+    [self.talkView.tableView addGestureRecognizer:tap];
+}
+
+- (void)dismissKeyboard {
+    [self.view endEditing:YES];  // 收起键盘
 }
 
 - (void)keyboardWillShow:(NSNotification *)notification {
@@ -62,7 +72,7 @@
         make.edges.mas_equalTo(self.view);
     }];
     
-    self.user = [[Follower alloc] initWithAvatar: [UIImage imageNamed: @"53.jpg"] nickName: @"share小张"]; 
+    self.user = [[Follower alloc] initWithUser: [[UserModel alloc] init]];
     
     self.talkView.tableView.delegate = self;
     self.talkView.tableView.dataSource = self;
@@ -71,12 +81,25 @@
     [self.talkView.sendButton addTarget: self action: @selector(pressSend) forControlEvents: UIControlEventTouchUpInside];
 }
 
+// 使tableView始终滚动到最底部
+- (void)scrollToBottom {
+    NSInteger rows = [self.talkView.tableView numberOfRowsInSection:0];
+    if (rows == 0) return;
+    NSIndexPath *lastPath = [NSIndexPath indexPathForRow:rows - 1 inSection:0];
+    [self.talkView.tableView scrollToRowAtIndexPath:lastPath atScrollPosition:UITableViewScrollPositionBottom animated:YES];
+}
+
+
+
 - (void) pressSend {
     NSLog(@"点击了发送");
-     
-    [self.talkModel.messages addObject: self.talkView.textView.text];
-    [self.talkView.tableView reloadData];
-    self.talkView.textView.text = nil;
+    if (self.talkView.textView.text.length > 0) {
+        [self.talkModel.messages addObject: self.talkView.textView.text];
+
+        [self.talkView.tableView reloadData];
+        [self scrollToBottom];  // 滚动到底部
+        self.talkView.textView.text = nil;
+    }
 }
 
 
@@ -92,7 +115,7 @@
         [cell configWithFollower: self.other Message: self.talkModel.messages[indexPath.row] isMyself: NO];
     } else {
         self.isMyself = YES;
-        cell.user = self.other;
+        cell.user = self.user;
         [cell configWithFollower: self.user Message: self.talkModel.messages[indexPath.row] isMyself: YES];
     }
     return cell;

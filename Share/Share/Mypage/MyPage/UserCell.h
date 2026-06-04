@@ -7,13 +7,12 @@
 
 #import <UIKit/UIKit.h>
 #import <Masonry/Masonry.h>
-#import "MyPageModel.h"
-
+#import "UserModel.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
 @interface UserCell : UITableViewCell
-@property (nonatomic, strong) MyPageModel* mypageModel; 
+@property (nonatomic, strong) UserModel* mypageModel;
 
 @property (nonatomic, strong) UIImageView* avatarView;
 @property (nonatomic, strong) UILabel* nickLabel;
@@ -26,7 +25,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, strong) UIImageView* viewImageView;
 @property (nonatomic, strong) UILabel* viewLabel;
 
-- (void) configWithUser: (MyPageModel*) User; 
+- (void) configWithUser: (UserModel*) User; 
 @end
 
 NS_ASSUME_NONNULL_END

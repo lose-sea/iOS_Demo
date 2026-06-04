@@ -132,7 +132,7 @@
     }];
 }
 
-- (void) configWithUser: (MyPageModel*) User {
+- (void) configWithUser: (UserModel*) User {
     self.avatarView.image = User.avatar;
     self.nickLabel.text = [NSString stringWithFormat: @"%@", User.nickName];
     self.massageLabel.text = [NSString stringWithFormat: @"%@", User.massage];

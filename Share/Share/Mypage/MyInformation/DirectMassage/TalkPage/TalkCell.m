@@ -52,12 +52,12 @@
             make.width.lessThanOrEqualTo(self.contentView).multipliedBy(0.7);
         }];
         
-        self.messageLabel.textAlignment = NSTextAlignmentRight;
+        self.messageLabel.textAlignment = NSTextAlignmentLeft;
         self.messageLabel.backgroundColor = [UIColor systemGreenColor];
 
         
     } else {
-        [self.avatarImageView mas_makeConstraints:^(MASConstraintMaker *make) {
+        [self.avatarImageView mas_remakeConstraints:^(MASConstraintMaker *make) {
             make.left.mas_equalTo(self.contentView).offset(15);
             make.top.mas_equalTo(self.contentView).offset(10);
             make.width.height.mas_equalTo(40);

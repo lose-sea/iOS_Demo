@@ -8,6 +8,7 @@
 #import <UIKit/UIKit.h>
 #import "TalkModel.h"
 #import "TalkView.h"
+#import "UserModel.h"
 NS_ASSUME_NONNULL_BEGIN
 
 @interface TalkController : UIViewController <UITableViewDelegate, UITableViewDataSource>

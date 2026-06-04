@@ -13,8 +13,11 @@
 
 @implementation LoginController
 
+
+
 - (void)viewDidLoad {
     [super viewDidLoad];
+    [self.view endEditing: YES];
     // Do any additional setup after loading the view.
     self.model = [[LoginModel alloc] init];
     self.model.autoLogin = NO;
@@ -29,9 +32,6 @@
     [self.myView addSubview: self.signin.view];
     
     
-    
-    
-    
     // 注册监听
     [[NSNotificationCenter defaultCenter] addObserver: self selector: @selector(pressAutoLoginButton:) name: pressAutoLoginButton object: nil];
     
@@ -41,15 +41,29 @@
     
     
     // 注册键盘通知
-        [[NSNotificationCenter defaultCenter] addObserver:self
-                                                 selector:@selector(keyboardWillShow:)
-                                                     name:UIKeyboardWillShowNotification
-                                                   object:nil];
-        [[NSNotificationCenter defaultCenter] addObserver:self
-                                                 selector:@selector(keyboardWillHide:)
-                                                     name:UIKeyboardWillHideNotification
-                                                   object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(keyboardWillShow:)
+                                                 name:UIKeyboardWillShowNotification
+                                               object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(keyboardWillHide:)
+                                                 name:UIKeyboardWillHideNotification
+                                               object:nil];
     NSLog(@"注册");
+    
+    
+//    UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(dismissKeyboard)];
+//    // 不取消其他触摸事件，让 cell 的点击仍然有效
+//    tap.cancelsTouchesInView = NO;
+    
+//    [self.signin.accountInput addGestureRecognizer:tap];
+//    [self.signin.passwordInput addGestureRecognizer:tap];
+    
+//    [self.view addGestureRecognizer:tap];
+}
+
+- (void)dismissKeyboard {
+    [self.view endEditing:YES];  // 收起键盘
 }
 
 - (void)keyboardWillShow:(NSNotification *)notification {
@@ -58,7 +72,7 @@
     CGRect keyboardFrame = [userInfo[UIKeyboardFrameEndUserInfoKey] CGRectValue];
     CGFloat keyboardHeight = keyboardFrame.size.height;
     
-    self.signin.view.frame = CGRectMake(0, -keyboardHeight / 2.0, self.view.frame.size.width, self.view.frame.size.height);
+    self.signin.view.frame = CGRectMake(0, -keyboardHeight / 3.0, self.view.frame.size.width, self.view.frame.size.height);
     
 }
 
@@ -78,6 +92,7 @@
 
 #pragma mark - 注册
 - (void) pressRegisterButton: (NSNotification*) notification {
+    [self.view endEditing: YES];
     RegisterAccountController* vc = [[RegisterAccountController alloc] init];
     vc.delegate = self;
     [self.navigationController pushViewController: vc animated: YES];

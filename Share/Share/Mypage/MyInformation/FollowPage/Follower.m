@@ -19,5 +19,15 @@
     return self;
 }
 
+- (instancetype) initWithUser:(UserModel *)user {
+    self = [super init];
+    if (self) {
+        self.avatar = user.avatar;
+        self.nickName = user.nickName;
+        self.massage = user.massage;
+        self.isFollow = NO;
+    }
+    return self;
+}
 
 @end
