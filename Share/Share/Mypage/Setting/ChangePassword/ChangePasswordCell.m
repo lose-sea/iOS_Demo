@@ -51,7 +51,7 @@
     self.warnLabel.text = @"密码由6 - 10位字母或数字组成";
     self.warnLabel.textColor = [UIColor systemRedColor];
 }
-
+    
 - (void)awakeFromNib {
     [super awakeFromNib];
     // Initialization code
