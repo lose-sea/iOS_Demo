@@ -8,6 +8,8 @@
 #import <UIKit/UIKit.h>
 #import "SettingView.h"
 #import "SettingModel.h"
+#import "BasicController.h"
+#import "ChangePasswordController.h"
 
 NS_ASSUME_NONNULL_BEGIN
 

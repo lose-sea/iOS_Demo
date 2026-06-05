@@ -7,6 +7,7 @@
 
 #import <UIKit/UIKit.h>
 #import <Masonry/Masonry.h>
+#import "UserModel.h"
 NS_ASSUME_NONNULL_BEGIN
 
 @interface GenderCell : UITableViewCell
@@ -15,6 +16,10 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, strong) UILabel* maleLabel;
 @property (nonatomic, strong) UIButton* femaleButton;
 @property (nonatomic, strong) UILabel* femaleLabel;
+
+@property (nonatomic, strong) UserModel* user;
+
+- (void) configWithUser: (UserModel*) user; 
 @end
 
 NS_ASSUME_NONNULL_END

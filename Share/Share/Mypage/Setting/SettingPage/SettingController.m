@@ -50,7 +50,11 @@
 - (void) tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     [tableView deselectRowAtIndexPath: indexPath animated: YES];
     if (indexPath.row == 0) {
-        
+        BasicController* vc = [[BasicController alloc] init];
+        [self.navigationController pushViewController: vc animated: YES]; 
+    } else if (indexPath.row == 1) {
+        ChangePasswordController* vc = [[ChangePasswordController alloc] init];
+        [self.navigationController pushViewController: vc animated: YES]; 
     }
 }
 
