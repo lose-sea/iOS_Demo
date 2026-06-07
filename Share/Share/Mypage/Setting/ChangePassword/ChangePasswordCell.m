@@ -35,7 +35,7 @@
         make.top.mas_equalTo(self.contentView).offset(5);
         make.left.mas_equalTo(self.tagLabel.mas_right).offset(10);
         make.width.mas_equalTo(200);
-        make.height.mas_equalTo(35);
+        make.height.mas_equalTo(45);
     }];
     
 //    self.textField.borderStyle = UITextBorderStyleLine;
@@ -59,7 +59,6 @@
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {
     [super setSelected:selected animated:animated];
-
     // Configure the view for the selected state
 }
 

@@ -21,10 +21,12 @@
     UICollectionViewFlowLayout* flowLayout = [[UICollectionViewFlowLayout alloc] init];
     // 每个cell的大小
     flowLayout.itemSize = CGSizeMake(80, 30);
+    
     // 同一行中 cell 之间的间隔
     flowLayout.minimumLineSpacing = 10;
+    
     // 行与行之间的间隔
-    flowLayout.minimumInteritemSpacing = 10;
+    flowLayout.minimumInteritemSpacing = 30;
     
     self.collectionView = [[UICollectionView alloc] initWithFrame: CGRectZero collectionViewLayout: flowLayout];
     
@@ -32,7 +34,7 @@
     [self.collectionView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerX.mas_equalTo(self);
         make.top.mas_equalTo(self);
-        make.height.mas_equalTo(390);
+        make.height.mas_equalTo(600);
         make.width.mas_equalTo(self);
     }];
     

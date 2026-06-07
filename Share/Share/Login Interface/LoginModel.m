@@ -12,6 +12,13 @@
 @end
 
 @implementation LoginModel
-
+- (instancetype) init {
+    self = [super init];
+    if (self) {
+        self.autoLogin = NO;
+        self.user = [[UserModel alloc] init]; 
+    }
+    return self; 
+}
 
 @end

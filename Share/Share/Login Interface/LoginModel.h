@@ -7,13 +7,14 @@
 
 #import <UIKit/UIKit.h>
 
+#import "UserModel.h"
 NS_ASSUME_NONNULL_BEGIN
 
 @interface LoginModel : NSObject
 
 @property (nonatomic, assign) BOOL autoLogin;
 
-
+@property (nonatomic, strong) UserModel* user;
 
 @end
 

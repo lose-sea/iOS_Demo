@@ -18,20 +18,15 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self.view endEditing: YES];
-    // Do any additional setup after loading the view.
-    self.model = [[LoginModel alloc] init];
-    self.model.autoLogin = NO;
     
-    self.signin = [[Signin alloc] init];
-    self.signin.model = self.model;
+    self.view.backgroundColor = [UIColor colorWithRed:53.0 / 255.0 green:143.0 / 255.0 blue:203.0 / 255.0 alpha:1.0]; 
+    
+    
+    [self setUpData];
 
-    self.signin.userModel = [[UserModel alloc] init];
-    self.myView = [[UIView alloc] initWithFrame: self.view.bounds];
-    self.myView.backgroundColor = self.signin.view.backgroundColor;
-    [self.view addSubview: self.myView];
-    [self.myView addSubview: self.signin.view];
-    
-    
+    // Do any additional setup after loading the view.
+
+
     // 注册监听
     [[NSNotificationCenter defaultCenter] addObserver: self selector: @selector(pressAutoLoginButton:) name: pressAutoLoginButton object: nil];
     
@@ -62,6 +57,15 @@
 //    [self.view addGestureRecognizer:tap];
 }
 
+- (void)setUpData {
+    self.model = [[LoginModel alloc] init];
+    self.signin = [[Signin alloc] init];
+    [self.view addSubview: self.signin];
+    [self.signin mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.edges.mas_equalTo(self.view);
+    }];
+}
+
 - (void)dismissKeyboard {
     [self.view endEditing:YES];  // 收起键盘
 }
@@ -72,22 +76,30 @@
     CGRect keyboardFrame = [userInfo[UIKeyboardFrameEndUserInfoKey] CGRectValue];
     CGFloat keyboardHeight = keyboardFrame.size.height;
     
-    self.signin.view.frame = CGRectMake(0, -keyboardHeight / 3.0, self.view.frame.size.width, self.view.frame.size.height);
+    self.signin.iView.frame = CGRectMake(0, -keyboardHeight / 3.0, self.view.frame.size.width, self.view.frame.size.height);
     
 }
 
 - (void)keyboardWillHide:(NSNotification *)notification {
     
-    self.signin.view.frame = CGRectMake(0, 0, self.view.bounds.size.width, self.view.bounds.size.height);
+    self.signin.iView.frame = CGRectMake(0, 0, self.view.bounds.size.width, self.signin.bounds.size.height);
 }
+
+
 
 #pragma mark - 处理自动登录按钮点击
 - (void) pressAutoLoginButton: (NSNotification*) notification {
     NSLog(@"hello wordl"); 
     Signin* signin = notification.object;
-    signin.model.autoLogin = !signin.model.autoLogin;
+    self.model.autoLogin = !self.model.autoLogin;
     // 刷新view
-    [self.signin refreshAutoButton];
+    if (self.model.autoLogin == YES) {
+        UIImage* image = [UIImage systemImageNamed: @"checkmark.rectangle"];
+        [self.signin.autoLoginButton setImage: image forState: UIControlStateNormal];
+    } else {
+        UIImage* image = [UIImage systemImageNamed: @"square"];
+        [self.signin.autoLoginButton setImage: image forState: UIControlStateNormal];
+    }
 }
 
 #pragma mark - 注册
@@ -101,11 +113,18 @@
 - (void) pressLoginButton: (NSNotification*) notification {
     NSLog(@"接收到点击登陆按钮");
     NSLog(@"账号: %@ 密码: %@", self.signin.userModel.account, self.signin.userModel.password);
-    if (self.signin.userModel.account != nil && self.signin.userModel.password != nil && [self.signin.accountInput.text isEqual: self.signin.userModel.account] && [self.signin.passwordInput.text isEqualToString: self.signin.userModel.password]) {
+    if (self.signin.userModel.account != nil && self.signin.userModel.password != nil && [self.signin.accountInput.text isEqualToString: self.signin.userModel.account] && [self.signin.passwordInput.text isEqualToString: self.signin.userModel.password]) {
         NSLog(@"hello");
         
         [self switchToHomepage];
 
+    } else if (self.signin.accountInput.text.length == 0 || self.signin.passwordInput.text.length == 0) {
+        UIAlertController* alertController = [UIAlertController alertControllerWithTitle: nil message: @"账号或密码不能为空" preferredStyle: UIAlertControllerStyleAlert];
+        UIAlertAction* okAction = [UIAlertAction actionWithTitle: @"确认" style: UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+            
+        }];
+        [alertController addAction: okAction];
+        [self presentViewController: alertController animated: YES completion: nil];
     } else {
         UIAlertController* alertController = [UIAlertController alertControllerWithTitle: nil message: @"账号或密码错误, 请重新输入" preferredStyle: UIAlertControllerStyleAlert];
         UIAlertAction* okAction = [UIAlertAction actionWithTitle: @"确认" style: UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {

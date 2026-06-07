@@ -61,33 +61,41 @@
         make.edges.mas_equalTo(self.view);
     }];
     
-    self.articleCategoryView.tableView.delegate = self;
-    self.articleCategoryView.tableView.dataSource = self;
+    self.articleCategoryView.featuredTableView.delegate = self;
+    self.articleCategoryView.featuredTableView.dataSource = self;
+    
+    self.articleCategoryView.hotTableView.delegate = self;
+    self.articleCategoryView.hotTableView.dataSource = self;
+    
+    self.articleCategoryView.allTableView.delegate = self;
+    self.articleCategoryView.allTableView.dataSource = self;
+    
+    self.articleCategoryView.scrollView.delegate = self; 
     
     [self.articleCategoryView.segmentedControl addTarget: self action: @selector(segmentedControlChange) forControlEvents: UIControlEventValueChanged];
 }
 
-- (void) segmentedControlChange {
-    [self.articleCategoryView.tableView reloadData];
-    
-}
+
 
 - (NSInteger) tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     return self.articleCategoryModel.allArticles.count; 
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    CustomCell* cell = [tableView dequeueReusableCellWithIdentifier: @"CustemCellID" forIndexPath: indexPath];
-    article* Myarticle = [[article alloc] init];
-    if (self.articleCategoryView.segmentedControl.selectedSegmentIndex == 0) {
-        Myarticle =  self.articleCategoryModel.featuredArticles[indexPath.row];
-    } else if (self.articleCategoryView.segmentedControl.selectedSegmentIndex == 1) {
-        Myarticle =  self.articleCategoryModel.hotArticles[indexPath.row];
+    CustomCell* cell = [tableView dequeueReusableCellWithIdentifier: @"TableViewCellID" forIndexPath: indexPath];
+    if (tableView == self.articleCategoryView.featuredTableView) {
+        article* article = self.articleCategoryModel.featuredArticles[indexPath.row];
+        cell.article = article;
+        [cell configureWithArticle: article];
+    } else if (tableView == self.articleCategoryView.hotTableView) {
+        article* article = self.articleCategoryModel.hotArticles[indexPath.row];
+        cell.article = article;
+        [cell configureWithArticle: article];
     } else {
-        Myarticle =  self.articleCategoryModel.allArticles[indexPath.row];
+        article* article = self.articleCategoryModel.allArticles[indexPath.row];
+        cell.article = article;
+        [cell configureWithArticle: article];
     }
-    cell.article = Myarticle; 
-    [cell configureWithArticle: Myarticle];
     return cell;
 }
 
@@ -98,6 +106,22 @@
 
 - (void) tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     [tableView deselectRowAtIndexPath: indexPath animated: YES];
+}
+
+#pragma mark -scrollView
+- (NSInteger) currentpage {
+    NSInteger page = (self.articleCategoryView.scrollView.contentOffset.x + 0.5 * self.articleCategoryView.scrollView.bounds.size.width) / self.articleCategoryView.scrollView.bounds.size.width;
+    return page;
+}
+
+- (void) scrollViewDidScroll:(UIScrollView *)scrollView {
+    NSInteger page = [self currentpage];
+    self.articleCategoryView.segmentedControl.selectedSegmentIndex = page;
+}
+
+- (void) segmentedControlChange {
+    NSInteger page = self.articleCategoryView.segmentedControl.selectedSegmentIndex;
+    self.articleCategoryView.scrollView.contentOffset = CGPointMake(self.articleCategoryView.scrollView.bounds.size.width * page,  0);
 }
 /*
 #pragma mark - Navigation

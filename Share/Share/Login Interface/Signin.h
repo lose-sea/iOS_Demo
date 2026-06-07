@@ -12,13 +12,15 @@
 #import "UserModel.h"
 
 NS_ASSUME_NONNULL_BEGIN
-@protocol SetringView <NSObject>
-- (void) pressAutoLogin;
-@end
+   
 
 
-@interface Signin : UIViewController
+
+@interface Signin : UIView
+@property (nonatomic, strong) UIImageView* iView; 
 @property (nonatomic, strong) UIImageView* logoShow;
+@property (nonatomic, strong) UIImageView* shareTextView;
+
 @property (nonatomic, strong) UITextField* accountInput;
 @property (nonatomic, strong) UITextField* passwordInput;
 @property (nonatomic, strong) UIButton* loginButton;
@@ -27,6 +29,9 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (nonatomic, strong) UserModel* userModel;
 @property (nonatomic, strong) LoginModel* model;
+
+
+
 // 刷新账号密码
 - (void) refreshInterface;
 // 刷新自动登录按钮

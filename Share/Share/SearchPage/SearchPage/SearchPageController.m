@@ -30,7 +30,7 @@
 - (void) setData {
     self.searchModel = [[SearchPageModel alloc] init];
     self.searchPageView = [[SearchPageView alloc] init];
-    self.searchModel.categorys = @[@"平面设计", @"网页设计", @"UI", @"插画/手绘", @"虚拟与设计", @"影视", @"摄影", @"其他"];
+    self.searchModel.categorys = @[@"平面设计", @"网页设计", @"UI/icon", @"插画/手绘", @"虚拟与设计", @"影视", @"摄影", @"其他"];
     self.searchModel.recommends = @[@"人气最高", @"收藏最多", @"评论最多", @"编辑精选"];
     self.searchModel.timers = @[@"30分钟前", @"1小时前", @"1月前", @"1年前"];
 }

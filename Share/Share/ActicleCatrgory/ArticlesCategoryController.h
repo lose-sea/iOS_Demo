@@ -15,7 +15,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface ArticlesCategoryController : UIViewController <UITableViewDelegate, UITableViewDataSource>
+@interface ArticlesCategoryController : UIViewController <UITableViewDelegate, UITableViewDataSource, UIScrollViewDelegate>
 @property (nonatomic, strong) ArticlesCategoryView* articleCategoryView;
 @property (nonatomic, strong) ArticlesCategoryModel* articleCategoryModel;
 @end

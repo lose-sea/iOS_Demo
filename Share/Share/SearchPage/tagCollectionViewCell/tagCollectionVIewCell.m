@@ -25,6 +25,8 @@
     [self.label mas_makeConstraints:^(MASConstraintMaker *make) {
         make.edges.mas_equalTo(self).insets(UIEdgeInsetsMake(0, 0, 0, 0));
     }];
+    self.label.clipsToBounds = YES;
+    self.label.layer.cornerRadius = 5;
     
     self.iView = [[UIImageView alloc] init];
     [self.contentView addSubview: self.iView];

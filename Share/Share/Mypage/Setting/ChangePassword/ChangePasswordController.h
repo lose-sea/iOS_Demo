@@ -13,7 +13,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface ChangePasswordController : UIViewController <UITableViewDelegate, UITableViewDataSource>
+@interface ChangePasswordController : UIViewController <UITableViewDelegate, UITableViewDataSource, UITextFieldDelegate> 
 @property (nonatomic, strong) ChangePasswordView* changePasswordView;
 @property (nonatomic, strong) ChangePasswordModel* changePasswordModel; 
 @end

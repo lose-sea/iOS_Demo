@@ -12,7 +12,8 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface RegisterAccount : UIViewController
+@interface RegisterAccount : UIView
+@property (nonatomic, strong) UIImageView* iView; 
 @property (nonatomic, strong) UIImageView* logoShow;
 @property (nonatomic, strong) UITextField* emailInput; 
 @property (nonatomic, strong) UITextField* accountInput;

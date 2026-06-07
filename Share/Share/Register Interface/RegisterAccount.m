@@ -13,31 +13,54 @@
 
 @implementation RegisterAccount
 
-- (void)viewDidLoad {
-    [super viewDidLoad];
-    
-    self.title = @"注册账号";
-    self.view.backgroundColor = [UIColor colorWithRed:53.0 / 255.0 green:143.0 / 255.0 blue:203.0 / 255.0 alpha:1.0];
-    // Do any additional setup after loading the view.
-    [self setInterface];
+
+- (instancetype) init {
+    self = [super init];
+    if (self) {
+        [self setInterface];
+    }
+    return self;
 }
 
 - (void) setInterface {
+    
+    self.iView = [[UIImageView alloc] initWithImage: [UIImage imageNamed: @"登录界面.png"]];
+    [self addSubview: self.iView];
+    [self.iView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.edges.mas_equalTo(self);
+    }];
+    
+    self.iView.userInteractionEnabled = YES; 
+    
+    
+    
+    self.backgroundColor = [UIColor colorWithRed:53.0 / 255.0 green:143.0 / 255.0 blue:203.0 / 255.0 alpha:1.0];
+    
     UIImage* logo = [UIImage imageNamed: @"Logo.png"];
     self.logoShow = [[UIImageView alloc] initWithImage: logo];
-    [self.view addSubview: self.logoShow];
+    [self.iView addSubview: self.logoShow];
     [self.logoShow mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.centerX.mas_equalTo(self.view);
-        make.top.mas_equalTo(self.view).offset(100);
-        make.width.mas_equalTo(300);
+        make.centerX.mas_equalTo(self);
+        make.top.mas_equalTo(self.mas_top).offset(100);
+        make.width.mas_equalTo(200);
         make.height.mas_equalTo(200);
     }];
     
+    UIImage* shareText = [UIImage imageNamed: @"shareText.png"];
+    UIImageView* shareTextView = [[UIImageView alloc] initWithImage: shareText];
+    [self.iView addSubview: shareTextView];
+    [shareTextView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.mas_equalTo(self.logoShow.mas_bottom).offset(10);
+        make.centerX.mas_equalTo(self);
+        make.width.mas_equalTo(600);
+        make.height.mas_equalTo(90);
+    }];
+    
     self.emailInput = [[UITextField alloc] init];
-    [self.view addSubview: self.emailInput];
+    [self.iView addSubview: self.emailInput];
     [self.emailInput mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.mas_equalTo(self.logoShow.mas_bottom).offset(40);
-        make.centerX.mas_equalTo(self.view);
+        make.top.mas_equalTo(shareTextView.mas_bottom).offset(20);
+        make.centerX.mas_equalTo(self);
         make.width.mas_equalTo(300);
         make.height.mas_equalTo(40);
     }];
@@ -54,10 +77,10 @@
     self.emailInput.leftViewMode = UITextFieldViewModeAlways;
     
     self.accountInput = [[UITextField alloc] init];
-    [self.view addSubview: self.accountInput];
+    [self.iView addSubview: self.accountInput];
     [self.accountInput mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.mas_equalTo(self.emailInput.mas_bottom).offset(20);
-        make.centerX.mas_equalTo(self.view);
+        make.top.mas_equalTo(self.emailInput.mas_bottom).offset(10);
+        make.centerX.mas_equalTo(self);
         make.width.mas_equalTo(300);
         make.height.mas_equalTo(40);
     }];
@@ -74,11 +97,32 @@
     self.accountInput.leftViewMode = UITextFieldViewModeAlways;
     
     
+//    self.passwordInput = [[UITextField alloc] init];
+//    [self.view addSubview: self.passwordInput];
+//    [self.passwordInput mas_makeConstraints:^(MASConstraintMaker *make) {
+//        make.top.mas_equalTo(self.accountInput.mas_bottom).offset(20);
+//        make.centerX.mas_equalTo(self.view);
+//        make.width.mas_equalTo(300);
+//        make.height.mas_equalTo(40);
+//    }];
+//    self.passwordInput.backgroundColor = [UIColor whiteColor];
+//    self.passwordInput.textColor = [UIColor blackColor];
+//    self.passwordInput.borderStyle = UITextBorderStyleRoundedRect;
+//    // 设置左边的视图
+//    UIImage* passwordImage = [UIImage systemImageNamed: @"lock"];
+//    UIImageView* passwordImageView = [[UIImageView alloc] initWithImage: passwordImage];
+////    accountImageView.frame = CGRectMake(0, 0, 40, 40);
+//    self.passwordInput.leftView = passwordImageView;
+//    // 设置显示 (默认不显示)
+//    self.passwordInput.leftViewMode = UITextFieldViewModeAlways;
+//    // 密码显示隐藏
+//    self.passwordInput.secureTextEntry = NO;
+    
     self.passwordInput = [[UITextField alloc] init];
-    [self.view addSubview: self.passwordInput];
+    [self.iView addSubview: self.passwordInput];
     [self.passwordInput mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.mas_equalTo(self.accountInput.mas_bottom).offset(20);
-        make.centerX.mas_equalTo(self.view);
+        make.centerX.mas_equalTo(self);
         make.width.mas_equalTo(300);
         make.height.mas_equalTo(40);
     }];
@@ -93,12 +137,17 @@
     // 设置显示 (默认不显示)
     self.passwordInput.leftViewMode = UITextFieldViewModeAlways;
     // 密码显示隐藏
+//    self.passwordInput.secureTextEntry = NO;
     self.passwordInput.secureTextEntry = YES;
     
+
+    
+    
+    
     self.registerButton = [UIButton buttonWithType: UIButtonTypeSystem];
-    [self.view addSubview: self.registerButton];
+    [self.iView addSubview: self.registerButton];
     [self.registerButton mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.centerX.mas_equalTo(self.view);
+            make.centerX.mas_equalTo(self);
             make.top.mas_equalTo(self.passwordInput.mas_bottom).offset(20);
             make.width.mas_equalTo(100);
             make.height.mas_equalTo(40);
@@ -116,9 +165,8 @@
 
 - (void) pressRegisterButton {
     [[NSNotificationCenter defaultCenter] postNotificationName: pressConfirmRegister object: self];
-    
-
 }
+
 
 
 

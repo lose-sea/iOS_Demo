@@ -18,34 +18,63 @@
 
 
 
-- (void)viewDidLoad {
-    [super viewDidLoad];
-    self.view.backgroundColor = [UIColor colorWithRed:53.0 / 255.0 green:143.0 / 255.0 blue:203.0 / 255.0 alpha:1.0];
-    // Do any additional setup after loading the view.    self.view.backgroundColor = [UIColor systemCyanColor];
-    // Do any additional setup after loading the view.
-    [self setInterface];
-//    [self setTimer];
-    
-    
+//- (void)viewDidLoad {
+//    [super viewDidLoad];
+//    
+//    
+////    self.view.backgroundColor = [UIColor colorWithRed:53.0 / 255.0 green:143.0 / 255.0 blue:203.0 / 255.0 alpha:1.0];
+//    // Do any additional setup after loading the view.    self.view.backgroundColor = [UIColor systemCyanColor];
+//    // Do any additional setup after loading the view.
+//    [self setInterface];
+////    [self setTimer];
+//}
+
+- (instancetype) init {
+    self = [super init];
+    if (self) {
+        self.backgroundColor = [UIColor colorWithRed:53.0 / 255.0 green:143.0 / 255.0 blue:203.0 / 255.0 alpha:1.0];
+        self.userModel = [[UserModel alloc] init]; 
+        [self setInterface];
+    }
+    return self; 
 }
 
 
+
 - (void) setInterface {
+    
+    self.iView = [[UIImageView alloc] initWithImage: [UIImage imageNamed: @"登录背景.png"]];
+    [self addSubview: self.iView];
+    [self.iView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.edges.mas_equalTo(self);
+    }];
+    self.iView.userInteractionEnabled = YES;
+    
     UIImage* logo = [UIImage imageNamed: @"Logo.png"];
     self.logoShow = [[UIImageView alloc] initWithImage: logo];
-    [self.view addSubview: self.logoShow];
+    [self.iView addSubview: self.logoShow];
     [self.logoShow mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.centerX.mas_equalTo(self.view);
-        make.top.mas_equalTo(self.view).offset(100);
-        make.width.mas_equalTo(300);
+        make.centerX.mas_equalTo(self);
+        make.top.mas_equalTo(self.iView.mas_top).offset(100);
+        make.width.mas_equalTo(200);
         make.height.mas_equalTo(200);
     }];
     
+    UIImage* shareText = [UIImage imageNamed: @"shareText.png"];
+    UIImageView* shareTextView = [[UIImageView alloc] initWithImage: shareText];
+    [self.iView addSubview: shareTextView];
+    [shareTextView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.mas_equalTo(self.logoShow.mas_bottom).offset(10);
+        make.centerX.mas_equalTo(self);
+        make.width.mas_equalTo(600);
+        make.height.mas_equalTo(90);
+    }];
+    
     self.accountInput = [[UITextField alloc] init];
-    [self.view addSubview: self.accountInput];
+    [self.iView addSubview: self.accountInput];
     [self.accountInput mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.mas_equalTo(self.logoShow.mas_bottom).offset(40);
-        make.centerX.mas_equalTo(self.view);
+        make.top.mas_equalTo(shareTextView.mas_bottom).offset(20);
+        make.centerX.mas_equalTo(self);
         make.width.mas_equalTo(300);
         make.height.mas_equalTo(40);
     }];
@@ -63,10 +92,10 @@
     
     
     self.passwordInput = [[UITextField alloc] init];
-    [self.view addSubview: self.passwordInput];
+    [self.iView addSubview: self.passwordInput];
     [self.passwordInput mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.mas_equalTo(self.accountInput.mas_bottom).offset(20);
-        make.centerX.mas_equalTo(self.view);
+        make.centerX.mas_equalTo(self);
         make.width.mas_equalTo(300);
         make.height.mas_equalTo(40);
     }];
@@ -94,7 +123,7 @@
     self.loginButton.clipsToBounds = YES;            // 开启裁剪，让圆角生效
     [self.loginButton addTarget: self action: @selector(pressLoginButton) forControlEvents: UIControlEventTouchUpInside]; 
     
-    [self.view addSubview: self.loginButton];
+    [self.iView addSubview: self.loginButton];
     [self.loginButton mas_makeConstraints:^(MASConstraintMaker *make) {
             make.left.mas_equalTo(self.passwordInput).offset(40);
             make.width.mas_equalTo(80);
@@ -115,7 +144,7 @@
 //    self.registerButton.tintColor = [UIColor blackColor];
     [self.registerButton addTarget: self action: @selector(pressRigisterButton) forControlEvents: UIControlEventTouchUpInside];
     
-    [self.view addSubview: self.registerButton];
+    [self.iView addSubview: self.registerButton];
     [self.registerButton mas_makeConstraints:^(MASConstraintMaker *make) {
             make.left.mas_equalTo(self.loginButton.mas_right).offset(50);
             make.width.mas_equalTo(80);
@@ -130,7 +159,7 @@
     label.textColor = [UIColor clearColor];
     label.textColor = [UIColor blueColor];
     label.font = [UIFont systemFontOfSize: 15];
-    [self.view addSubview: label];
+    [self.iView addSubview: label];
     [label mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.mas_equalTo(self.passwordInput).offset(23);
         make.width.mas_equalTo(70);
@@ -141,7 +170,7 @@
     // 设置自动登录按钮
     self.autoLoginButton = [UIButton buttonWithType: UIButtonTypeCustom];
 //    autoLoginButton.backgroundColor = [UIColor whiteColor];
-    [self.view addSubview: self.autoLoginButton];
+    [self.iView addSubview: self.autoLoginButton];
     
     [self.autoLoginButton mas_makeConstraints:^(MASConstraintMaker *make) {
             make.top.equalTo(self.loginButton.mas_bottom).offset(10);
@@ -172,6 +201,8 @@
     NSLog(@"点击登陆按钮"); 
     [[NSNotificationCenter defaultCenter] postNotificationName: pressLoginButton object: self];
 }
+
+
 
 - (void) refreshAutoButton {
     if (self.model.autoLogin == YES) {
@@ -222,3 +253,16 @@
 */
 
 @end
+
+
+
+//日期: 2025年 9月 29日
+//
+//西邮方格纸, 三页, 封面
+//
+//谈话记录表 日期  2025 10 13  控制一页
+//
+//请示: 本班的入团申请人数
+//
+//入团志愿 写满
+
