@@ -10,6 +10,8 @@
 #import "CustomCell.h"
 #import "HomepageView.h"
 #import "ScrollViewCell.h"
+#import "ArticlePageController.h"
+
 
 
 NS_ASSUME_NONNULL_BEGIN

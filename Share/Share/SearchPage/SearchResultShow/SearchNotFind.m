@@ -15,6 +15,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    self.view.backgroundColor = [UIColor whiteColor];
     UILabel* label = [[UILabel alloc] init];
     label.text = @"没有找到相关信息";
     [self.view addSubview: label];

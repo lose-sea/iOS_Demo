@@ -9,6 +9,7 @@
 
 @implementation SearchPageModel
 - (instancetype) init {
+    self.tags = [[NSMutableArray alloc] init]; 
     self.articles = [[NSMutableArray alloc] init];
     self.categorys = [[NSArray alloc] init];
     self.recommends = [[NSArray alloc] init];

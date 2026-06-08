@@ -62,7 +62,10 @@
         make.height.mas_equalTo(20);
     }];
     UILabel* label = [[UILabel alloc] init];
-    label.backgroundColor = [UIColor systemCyanColor];
+    label.clipsToBounds = YES;
+    label.layer.cornerRadius = 5;
+
+    label.backgroundColor = [UIColor systemBlueColor];
     label.font = [UIFont systemFontOfSize: 15];
     label.text = @"陕西省,西安市";
     label.textColor = [UIColor whiteColor];

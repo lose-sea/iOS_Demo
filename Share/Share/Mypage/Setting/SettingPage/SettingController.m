@@ -55,6 +55,23 @@
     } else if (indexPath.row == 1) {
         ChangePasswordController* vc = [[ChangePasswordController alloc] init];
         [self.navigationController pushViewController: vc animated: YES]; 
+    } else if (indexPath.row == 2) {
+        MessageSettingController* vc = [[MessageSettingController alloc] init];
+        [self.navigationController pushViewController: vc animated: YES];
+    } else if (indexPath.row == 3) {
+        UIAlertController* alertController = [UIAlertController alertControllerWithTitle: nil message: @"3GShare 1.0" preferredStyle: UIAlertControllerStyleAlert];
+        UIAlertAction* okAction = [UIAlertAction actionWithTitle: @"确定" style: UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+            NSLog(@"关于share");
+        }];
+        [alertController addAction: okAction];
+        [self presentViewController: alertController animated: YES completion: nil];
+    } else {
+        UIAlertController* alertController = [UIAlertController alertControllerWithTitle: nil message: @"缓存已清理" preferredStyle: UIAlertControllerStyleAlert];
+        UIAlertAction* okAction = [UIAlertAction actionWithTitle: @"确定" style: UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+            NSLog(@"缓存已清理");
+        }];
+        [alertController addAction: okAction];
+        [self presentViewController: alertController animated: YES completion: nil];
     }
 }
 

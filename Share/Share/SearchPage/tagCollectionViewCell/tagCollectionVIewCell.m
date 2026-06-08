@@ -34,6 +34,9 @@
         // 上左下右
         make.edges.mas_equalTo(self).insets(UIEdgeInsetsMake(5, 0, 5, self.contentView.bounds.size.width - 20));
     }];
+    
+    self.label.layer.borderWidth = 1;
+    self.label.textAlignment = NSTextAlignmentCenter;
 }
 
 

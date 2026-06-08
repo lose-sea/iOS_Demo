@@ -11,10 +11,15 @@
 
 @end
 
-@implementation SearchPageController
+@implementation SearchPageController\
+
+- (void) viewWillDisappear:(BOOL)animated {
+    [self.view endEditing: YES]; 
+}
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    [self.view endEditing: YES]; 
     
 //    self.view.backgroundColor = [UIColor systemCyanColor];
     
@@ -33,6 +38,8 @@
     self.searchModel.categorys = @[@"平面设计", @"网页设计", @"UI/icon", @"插画/手绘", @"虚拟与设计", @"影视", @"摄影", @"其他"];
     self.searchModel.recommends = @[@"人气最高", @"收藏最多", @"评论最多", @"编辑精选"];
     self.searchModel.timers = @[@"30分钟前", @"1小时前", @"1月前", @"1年前"];
+    
+    [self.searchModel.tags addObjectsFromArray: @[@"分类", @"推荐", @"时间"]]; 
 }
 
 // 设置导航栏
@@ -96,16 +103,18 @@
     [searchBar resignFirstResponder];
     // 执行搜索逻辑
     // 跳转界面
-    if ([searchBar.text  isEqual: @"大白"]) {
+    if ([searchBar.text containsString: @"大白"]) {
         SearchResultShowController* vc = [[SearchResultShowController alloc] init];
         [self.navigationController pushViewController: vc animated: YES];
     } else {
         SearchNotFind* vc = [[SearchNotFind alloc] init];
         [self.navigationController pushViewController: vc animated: YES];
     }
-    
-    
-    
+}
+
+- (void) touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event {
+    [self.view endEditing:YES];
+//    [self.searchController resignFirstResponder];
 }
 
 - (void)searchBarTextDidBeginEditing:(UISearchBar *)searchBar {
@@ -130,67 +139,124 @@
 }
 
 
-#pragma mark - collectionView 协议
-- (NSInteger) numberOfSectionsInCollectionView:(UICollectionView *)collectionView {
-    return 6;
+
+#pragma mark - 配置collectionView的header
+- (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout referenceSizeForHeaderInSection:(NSInteger)section {
+    return CGSizeMake(collectionView.frame.size.width, 60);
 }
 
+- (UICollectionReusableView *)collectionView:(UICollectionView *)collectionView viewForSupplementaryElementOfKind:(NSString *)kind atIndexPath:(NSIndexPath *)indexPath {
+    if ([kind isEqualToString: UICollectionElementKindSectionHeader]) {
+        NSLog(@"%@", self.searchModel.tags);
+        
+    
+        
+        UICollectionReusableView* header = [collectionView dequeueReusableSupplementaryViewOfKind: kind withReuseIdentifier: @"SectionHeader" forIndexPath: indexPath];
+        // 清空旧内容
+        for (UIView *subview in header.subviews) {
+            [subview removeFromSuperview];
+        }
+        UIImage* image = [UIImage systemImageNamed: @"tag.fill"];
+        UIImageView* iView = [[UIImageView alloc] initWithImage: image];
+        [header addSubview: iView];
+        [iView mas_makeConstraints:^(MASConstraintMaker *make) {
+//            make.top.mas_equalTo(header).offset(5);
+            make.centerY.mas_equalTo(header);
+            make.left.mas_equalTo(header).offset(5);
+            make.height.mas_equalTo(30);
+            make.width.mas_equalTo(30);
+        }];
+        iView.backgroundColor = [UIColor systemCyanColor];
+        
+        UILabel* label = [[UILabel alloc] init];
+        [header addSubview: label];
+        label.text = self.searchModel.tags[indexPath.section];
+        [label mas_makeConstraints:^(MASConstraintMaker *make) {
+//            make.top.mas_equalTo(header).offset(5);
+            make.centerY.mas_equalTo(header);
+            make.left.mas_equalTo(iView.mas_right);
+            make.width.mas_equalTo(60);
+            make.height.mas_equalTo(30);
+        }];
+        label.backgroundColor = [UIColor systemCyanColor];
+        label.textColor = [UIColor labelColor];
+        
+        UIView* line = [[UIView alloc] init];
+        line.backgroundColor = [UIColor systemCyanColor];
+        [header addSubview: line];
+        [line mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.top.mas_equalTo(label.mas_bottom);
+            make.left.mas_equalTo(iView);
+            make.width.mas_equalTo(400);
+            make.height.mas_equalTo(3);
+        }];
+            
+        return header;
+    }
+    return nil; 
+}
+
+#pragma mark - collectionView 协议
+- (NSInteger) numberOfSectionsInCollectionView:(UICollectionView *)collectionView {
+    return 3;
+}
+
+//- (NSInteger) numberOfSectionsInCollectionView:(UICollectionView *)collectionView {
+//    return 6;
+//}
+
+//- (NSInteger) collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
+//    if (section == 0 || section == 2 || section == 4) {
+//        return 1;
+//    } else if (section == 1) {
+//        return 8;
+//    } else {
+//        return 4;
+//    }
+//}
+
+
+
 - (NSInteger) collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
-    if (section == 0 || section == 2 || section == 4) {
-        return 1;
-    } else if (section == 1) {
+    if (section == 0) {
         return 8;
     } else {
         return 4;
     }
 }
 
+
 - (__kindof UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
     tagCollectionVIewCell* cell = [collectionView dequeueReusableCellWithReuseIdentifier: @"collectionViewCellID" forIndexPath: indexPath];
-    if (indexPath.section == 0 || indexPath.section == 2 || indexPath.section == 4) {
-        cell.iView.image = [UIImage systemImageNamed: @"tag.fill"];
-        cell.contentView.backgroundColor = [UIColor systemCyanColor];
-        cell.label.textAlignment = NSTextAlignmentCenter;
-        if (indexPath == 0) {
-            cell.label.text = @"分类";
-        } else if (indexPath.section == 2) {
-            cell.label.text = @"推荐";
-        } else {
-            cell.label.text = @"时间";
-        }
-    }
     cell.backgroundColor = [UIColor whiteColor];
-    if (indexPath.section == 1) {
+    if (indexPath.section == 0) {
         cell.label.text = self.searchModel.categorys[indexPath.item];
-    } else if (indexPath.section == 3) {
+    } else if (indexPath.section == 1) {
         cell.label.text = self.searchModel.recommends[indexPath.item];
-    } else if (indexPath.section == 5) {
-        cell.label.text = self.searchModel.timers[indexPath.item]; 
+    } else if (indexPath.section == 2) {
+        cell.label.text = self.searchModel.timers[indexPath.item];
     }
     return cell;
 }
 
 - (void) collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
     [self.view endEditing:YES];
-    if (indexPath.section == 0 || indexPath.section == 2 || indexPath.section == 4) {
-        return;
+    tagCollectionVIewCell* cell = [collectionView cellForItemAtIndexPath: indexPath];
+    if (cell.label.backgroundColor == [UIColor clearColor]) {
+        cell.label.backgroundColor = [UIColor systemCyanColor];
+        cell.label.textColor = [UIColor whiteColor];
     } else {
-        tagCollectionVIewCell* cell = [collectionView cellForItemAtIndexPath: indexPath];
-        if (cell.backgroundColor == [UIColor whiteColor]) {
-            cell.backgroundColor = [UIColor blueColor];
-            cell.label.textColor = [UIColor whiteColor];
-        } else {
-            cell.backgroundColor = [UIColor whiteColor];
-            cell.label.textColor = [UIColor blackColor]; 
-        }
+        cell.label.backgroundColor = [UIColor whiteColor];
+        cell.label.textColor = [UIColor blackColor];
     }
+    
 }
 
 
-- (void) touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event {
-    [self.view endEditing:YES];
-//    [self.searchController resignFirstResponder];
-}
+
+
+
+
 
 
 

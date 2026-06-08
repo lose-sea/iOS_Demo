@@ -10,6 +10,7 @@
 #import "SettingModel.h"
 #import "BasicController.h"
 #import "ChangePasswordController.h"
+#import "MessageSettingController.h"
 
 NS_ASSUME_NONNULL_BEGIN
 

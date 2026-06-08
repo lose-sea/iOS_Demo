@@ -11,7 +11,7 @@
 #import "SearchPageController.h"
 #import "ArticlesCategoryController.h"
 #import "ActivityController.h"
-#import "HomePage/HomepageController.h"
+#import "HomepageController.h"
 #import "MyPageController.h"
 @interface SceneDelegate : UIResponder <UIWindowSceneDelegate>
 

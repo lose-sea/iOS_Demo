@@ -17,7 +17,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface SearchPageController : UIViewController <UISearchResultsUpdating, UICollectionViewDelegate, UICollectionViewDataSource, UISearchBarDelegate>
+@interface SearchPageController : UIViewController <UISearchResultsUpdating, UICollectionViewDelegate, UICollectionViewDataSource, UISearchBarDelegate, UICollectionViewDelegateFlowLayout>
 @property (nonatomic, strong) SearchPageModel* searchModel;
 @property (nonatomic, strong) UISearchController* searchController;
 @property (nonatomic, strong) SearchPageView* searchPageView;

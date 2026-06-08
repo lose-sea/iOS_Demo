@@ -11,7 +11,7 @@
 - (instancetype) init {
     self = [super init];
     if (self) {
-        [self setCollectionView];
+        [self setUpCollectionView];
     }
     return self;
 }
@@ -22,11 +22,14 @@
     // 每个cell的大小
     flowLayout.itemSize = CGSizeMake(80, 30);
     
-    // 同一行中 cell 之间的间隔
-    flowLayout.minimumLineSpacing = 10;
+    flowLayout.sectionInset = UIEdgeInsetsMake(10, 30, 0, 30);
+    
     
     // 行与行之间的间隔
-    flowLayout.minimumInteritemSpacing = 30;
+    flowLayout.minimumLineSpacing = 30;
+    
+    // 同一行中 cell 之间的间隔
+    flowLayout.minimumInteritemSpacing = 20;
     
     self.collectionView = [[UICollectionView alloc] initWithFrame: CGRectZero collectionViewLayout: flowLayout];
     
@@ -42,6 +45,32 @@
     [self.collectionView registerClass: [tagCollectionVIewCell class] forCellWithReuseIdentifier: @"collectionViewCellID"];
     
 }
+
+- (void)setUpCollectionView {
+    UICollectionViewFlowLayout* flowLayout = [[UICollectionViewFlowLayout alloc] init];
+    
+    // 每个cell的大小
+    flowLayout.itemSize = CGSizeMake(80, 30);
+    
+    flowLayout.minimumLineSpacing = 30;
+    
+    flowLayout.minimumInteritemSpacing = 20;
+    
+    self.collectionView = [[UICollectionView alloc] initWithFrame: CGRectZero collectionViewLayout: flowLayout];
+    
+    [self addSubview: self.collectionView];
+    [self.collectionView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.edges.mas_equalTo(self).insets(UIEdgeInsetsMake(10, 20, 0, 20));
+    }];
+    
+    // 注册cell
+    [self.collectionView registerClass: [tagCollectionVIewCell class] forCellWithReuseIdentifier: @"collectionViewCellID"];
+    
+    // 注册辅助视图
+    [self.collectionView  registerClass: [UICollectionReusableView class] forSupplementaryViewOfKind: UICollectionElementKindSectionHeader withReuseIdentifier: @"SectionHeader"]; 
+}
+
+
 
 /*
 // Only override drawRect: if you perform custom drawing.

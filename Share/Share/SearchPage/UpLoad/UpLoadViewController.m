@@ -19,8 +19,19 @@
     [self setData];
     [self setnavigation];
     // Do any additional setup after loading the view.
+    
+    UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(dismissKeyboard)];
+    // 不取消其他触摸事件，让 cell 的点击仍然有效
+    tap.cancelsTouchesInView = NO;
+     
+    [self.upLoadView.textView addGestureRecognizer:tap];
+     
+    [self.view addGestureRecognizer:tap];
 }
 
+- (void)dismissKeyboard {
+    [self.view endEditing:YES];  // 收起键盘
+}
 
 - (void) setData {
     self.upLoadModel = [[UpLoadModel alloc] init];
@@ -151,11 +162,11 @@
 - (void) collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
     [self.upLoadView endEditing: YES];
     tagCollectionVIewCell* cell = [collectionView cellForItemAtIndexPath: indexPath];
-    if (cell.backgroundColor == [UIColor whiteColor]) {
-        cell.backgroundColor = [UIColor blueColor];
+    if (cell.label.backgroundColor == [UIColor clearColor]) {
+        cell.label.backgroundColor = [UIColor systemCyanColor];
         cell.label.textColor = [UIColor whiteColor];
     } else {
-        cell.backgroundColor = [UIColor whiteColor];
+        cell.label.backgroundColor = [UIColor whiteColor];
         cell.label.textColor = [UIColor blackColor];
     }
 }

@@ -90,7 +90,6 @@
 #pragma mark - 处理自动登录按钮点击
 - (void) pressAutoLoginButton: (NSNotification*) notification {
     NSLog(@"hello wordl"); 
-    Signin* signin = notification.object;
     self.model.autoLogin = !self.model.autoLogin;
     // 刷新view
     if (self.model.autoLogin == YES) {

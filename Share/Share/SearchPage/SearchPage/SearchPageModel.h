@@ -10,6 +10,8 @@
 
 
 @interface SearchPageModel : NSObject
+@property (nonatomic, strong) NSMutableArray* tags; 
+
 @property (nonatomic, strong) NSArray* categorys;
 @property (nonatomic, strong) NSArray* recommends;
 @property (nonatomic, strong) NSArray* timers;
