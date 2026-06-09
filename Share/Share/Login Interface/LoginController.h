@@ -18,7 +18,7 @@
 
 
 
-@interface LoginController : UIViewController <RegisterAccount>
+@interface LoginController : UIViewController <RegisterAccountDelegate>
 @property (nonatomic, strong) LoginModel* model;
 @property (nonatomic, strong) Signin* signin;
 

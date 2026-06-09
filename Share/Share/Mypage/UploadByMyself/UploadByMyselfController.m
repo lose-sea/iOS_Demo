@@ -59,7 +59,7 @@
 }
 
 - (void) setUpInterface {
-    self.navigationController.navigationBar.translucent = NO;
+//    self.navigationController.navigationBar.translucent = NO;
     
     [self.view addSubview: self.upLoadView];
     [self.upLoadView mas_makeConstraints:^(MASConstraintMaker *make) {

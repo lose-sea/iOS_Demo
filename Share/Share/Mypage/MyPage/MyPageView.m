@@ -12,7 +12,6 @@
     self = [super init];
     if (self) {
         [self setTableView];
-        self.tableView.backgroundColor = [UIColor systemBackgroundColor];
     }
     return self;
 }
@@ -20,7 +19,9 @@
     self.tableView = [[UITableView alloc] init];
     [self addSubview: self.tableView];
     [self.tableView mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.edges.mas_equalTo(self);
+        make.top.mas_equalTo(self).offset(120); 
+        make.left.right.mas_equalTo(self);
+        make.bottom.mas_equalTo(self).offset(-0);
     }];
     [self.tableView registerClass: [UserCell class] forCellReuseIdentifier: @"UserCellID"];
     [self.tableView registerClass: [UITableViewCell class] forCellReuseIdentifier: @"UITableViewCellID"]; 

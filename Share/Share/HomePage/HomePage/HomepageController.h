@@ -16,9 +16,10 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface HomepageController : UIViewController <UITableViewDelegate, UITableViewDataSource, UIScrollViewDelegate>
+@interface HomepageController : UIViewController <UITableViewDelegate, UITableViewDataSource, UIScrollViewDelegate, ArticleDelegate>
 @property (nonatomic, strong) HomepageModel* homeModel;
 @property (nonatomic, strong) HomepageView* homepageView;
+@property (nonatomic, strong) NSIndexPath* indexPath; 
 
 @end
 

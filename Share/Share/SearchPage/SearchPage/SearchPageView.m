@@ -33,6 +33,8 @@
     
     self.collectionView = [[UICollectionView alloc] initWithFrame: CGRectZero collectionViewLayout: flowLayout];
     
+//    self.collectionView.backgroundColor = [UIColor systemCyanColor]; 
+    
     [self addSubview: self.collectionView];
     [self.collectionView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerX.mas_equalTo(self);

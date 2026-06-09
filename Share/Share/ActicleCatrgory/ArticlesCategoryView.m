@@ -29,7 +29,8 @@
     self.segmentedControl.selectedSegmentIndex = 0;
     [self addSubview: self.segmentedControl];
     [self.segmentedControl mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.left.right.mas_equalTo(self);
+        make.top.mas_equalTo(self).offset(120); 
+        make.left.right.mas_equalTo(self);
         make.height.mas_equalTo(40);
     }];
     self.segmentedControl.selectedSegmentTintColor = [UIColor systemPinkColor];
@@ -92,7 +93,6 @@
 //    self.tableView.backgroundColor = [UIColor systemCyanColor];
     
     [self.tableView registerClass: [CustomCell class] forCellReuseIdentifier: @"CustemCellID"];
-    
 }
 /*
 // Only override drawRect: if you perform custom drawing.

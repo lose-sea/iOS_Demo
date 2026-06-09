@@ -8,5 +8,12 @@
 #import "ArticlePageModel.h"
 
 @implementation ArticlePageModel
-
+- (instancetype) init {
+    self = [super init];
+    if (self) {
+        self.article = [[article alloc] init];
+        self.images = [[NSMutableArray alloc] init];
+    }
+    return self;
+}
 @end

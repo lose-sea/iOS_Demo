@@ -13,6 +13,8 @@
 
 @implementation HomepageController
 
+
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.view.backgroundColor = [UIColor whiteColor];
@@ -88,7 +90,19 @@
 
 - (void) tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     [tableView deselectRowAtIndexPath: indexPath animated: YES];
-    
+    self.indexPath = indexPath;
+    ArticlePageController* vc = [[ArticlePageController alloc] init];
+    CustomCell* cell = [tableView cellForRowAtIndexPath: indexPath];
+    cell.article.viewCount++;
+    vc.title = cell.article.name;
+    vc.article = self.homeModel.articles[indexPath.row];
+    vc.delegate = self;
+    [self.navigationController pushViewController: vc animated: YES];
+}
+
+- (void) refreshArticle:(article *)article {
+    self.homeModel.articles[self.indexPath.row] = article;
+    [self.homepageView.tableView reloadData]; 
 }
 /*
 #pragma mark - Navigation

@@ -15,11 +15,12 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    self.view.backgroundColor = [UIColor systemCyanColor];
     self.title = @"文章";
     // Do any additional setup after loading the view.
     
     [self setData];
-    [self setnavigation]; 
+//    [self setnavigation]; 
     [self setInterface];
 }
 
@@ -106,6 +107,35 @@
 
 - (void) tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     [tableView deselectRowAtIndexPath: indexPath animated: YES];
+    self.indexPath = indexPath;
+//    self.selection = self.articleCategoryView.segmentedControl.selectedSegmentIndex;
+    ArticlePageController* vc = [[ArticlePageController alloc] init];
+    CustomCell* cell = [tableView cellForRowAtIndexPath: indexPath];
+    cell.article.viewCount++;
+    vc.title = cell.article.name;
+    if (self.articleCategoryView.segmentedControl.selectedSegmentIndex == 0) {
+        vc.article = self.articleCategoryModel.featuredArticles[indexPath.row];
+    } else if (self.articleCategoryView.segmentedControl.selectedSegmentIndex == 1) {
+        vc.article = self.articleCategoryModel.hotArticles[indexPath.row];
+    } else {
+        vc.article = self.articleCategoryModel.allArticles[indexPath.row];
+    }
+    
+    vc.delegate = self;
+    [self.navigationController pushViewController: vc animated: YES];
+}
+
+
+- (void) refreshArticle:(article *)article {
+    self.articleCategoryModel.featuredArticles[self.indexPath.row] = article;
+    if (self.articleCategoryView.segmentedControl.selectedSegmentIndex == 0) {
+        [self.articleCategoryView.featuredTableView reloadData];
+    } else if (self.articleCategoryView.segmentedControl.selectedSegmentIndex == 1) {
+        [self.articleCategoryView.hotTableView reloadData];
+    } else {
+        [self.articleCategoryView.allTableView reloadData];;
+    }
+    
 }
 
 #pragma mark -scrollView

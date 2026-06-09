@@ -16,14 +16,16 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@protocol RegisterAccount <NSObject>
+@protocol RegisterAccountDelegate <NSObject>
 - (void) refreshInterface;
 @end
 
 @interface RegisterAccountController : UIViewController
 @property (nonatomic,strong) RegisterAccount* registerAccont;
 @property (nonatomic, strong) UserModel* userModel;
-@property (nonatomic, weak) id<RegisterAccount> delegate;
+@property (nonatomic, weak) id<RegisterAccountDelegate> delegate;
+
+@property (nonatomic, strong) UIView* backView; 
 
 
 @end

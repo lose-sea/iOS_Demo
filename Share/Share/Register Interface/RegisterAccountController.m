@@ -15,16 +15,20 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];self.title = @"注册账号";
-    self.view.backgroundColor = [UIColor colorWithRed:53.0 / 255.0 green:143.0 / 255.0 blue:203.0 / 255.0 alpha:1.0];
+//    self.view.backgroundColor = [UIColor colorWithRed:53.0 / 255.0 green:143.0 / 255.0 blue:203.0 / 255.0 alpha:1.0];
     // Do any additional setup after loading the view.
-    self.registerAccont = [[RegisterAccount alloc] init];
-    
-    [self.view addSubview: self.registerAccont];
-    [self.registerAccont mas_makeConstraints:^(MASConstraintMaker *make) {
+    self.backView = [[UIView alloc] init];
+    [self.view addSubview: self.backView];
+    [self.backView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.edges.mas_equalTo(self.view);
     }];
-   
+    self.registerAccont = [[RegisterAccount alloc] init];
     
+    [self.backView addSubview: self.registerAccont];
+    [self.registerAccont mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.edges.mas_equalTo(self.backView);
+    }];
+    self.backView.backgroundColor = self.registerAccont.backgroundColor;
     self.view.backgroundColor = self.registerAccont.backgroundColor;
     // 注册监听
     [[NSNotificationCenter defaultCenter] addObserver: self selector: @selector(pressConfirmRegister:) name: pressConfirmRegister object: nil];
@@ -53,17 +57,19 @@
     [self.view endEditing:YES];  // 收起键盘
 }
 
-
-- (void) keyboardWillShow: (NSNotification*) notification {
-    CGRect keyboardFrame = [notification.userInfo[UIKeyboardFrameEndUserInfoKey] CGRectValue];
-    self.registerAccont.iView.frame = CGRectMake(0, -keyboardFrame.size.height / 2.0, self.view.bounds.size.width,  self.view.bounds.size.height);
-    [self.view layoutIfNeeded];
-
+- (void)keyboardWillShow:(NSNotification *)notification {
+    // 获取键盘高度
+    NSDictionary *userInfo = notification.userInfo;
+    CGRect keyboardFrame = [userInfo[UIKeyboardFrameEndUserInfoKey] CGRectValue];
+    CGFloat keyboardHeight = keyboardFrame.size.height;
+    
+    self.backView.frame = CGRectMake(0, -keyboardHeight / 3.0, self.view.frame.size.width, self.view.frame.size.height);
+    
 }
-- (void) keyboardWillHide: (NSNotification*) notification {
-    self.registerAccont.iView.frame = self.view.frame;
-    [self.view layoutIfNeeded];
 
+- (void)keyboardWillHide:(NSNotification *)notification {
+    
+    self.backView.frame = CGRectMake(0, 0, self.view.bounds.size.width, self.view.bounds.size.height);
 }
 
 
@@ -77,6 +83,7 @@
         }];
         [alertController addAction: okAction];
         [self presentViewController: alertController animated: YES completion: nil];
+        return;
     }
     if (self.registerAccont.passwordInput.text.length < 6 || self.registerAccont.passwordInput.text.length > 10 || ![self isAlnum: self.registerAccont.passwordInput.text]) {
         UIAlertController* alertController = [UIAlertController alertControllerWithTitle: nil message: @"密码由6 - 10 位数字或字母组成" preferredStyle: UIAlertControllerStyleAlert];

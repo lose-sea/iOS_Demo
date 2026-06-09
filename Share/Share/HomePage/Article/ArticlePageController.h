@@ -6,11 +6,23 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "ArticlePageModel.h"
+#import "ArticlePageView.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface ArticlePageController : UIViewController
+@protocol  ArticleDelegate <NSObject>
+- (void) refreshArticle: (article*) article;
 
 @end
+
+@interface ArticlePageController : UIViewController <UITableViewDelegate, UITableViewDataSource>
+@property (nonatomic, strong) ArticlePageModel* articlePageModel;
+@property (nonatomic, strong) ArticlePageView* articlePageView;
+@property (nonatomic, strong) article* article;
+@property (nonatomic, weak) id<ArticleDelegate> delegate; 
+@end
+
+
 
 NS_ASSUME_NONNULL_END

@@ -79,7 +79,7 @@
     self.accountInput = [[UITextField alloc] init];
     [self.iView addSubview: self.accountInput];
     [self.accountInput mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.mas_equalTo(self.emailInput.mas_bottom).offset(10);
+        make.top.mas_equalTo(self.emailInput.mas_bottom).offset(20);
         make.centerX.mas_equalTo(self);
         make.width.mas_equalTo(300);
         make.height.mas_equalTo(40);
@@ -148,7 +148,7 @@
     [self.iView addSubview: self.registerButton];
     [self.registerButton mas_makeConstraints:^(MASConstraintMaker *make) {
             make.centerX.mas_equalTo(self);
-            make.top.mas_equalTo(self.passwordInput.mas_bottom).offset(20);
+            make.top.mas_equalTo(self.passwordInput.mas_bottom).offset(30);
             make.width.mas_equalTo(100);
             make.height.mas_equalTo(40);
     }];
