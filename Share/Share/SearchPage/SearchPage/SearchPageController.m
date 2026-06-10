@@ -103,7 +103,7 @@
     [searchBar resignFirstResponder];
     // 执行搜索逻辑
     // 跳转界面
-    if ([searchBar.text containsString: @"大白"]) {
+    if ([searchBar.text containsString: @"大白"] || [searchBar.text containsString: @"dabai"]) {
         SearchResultShowController* vc = [[SearchResultShowController alloc] init];
         [self.navigationController pushViewController: vc animated: YES];
     } else {

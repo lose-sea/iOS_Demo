@@ -105,12 +105,27 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     [tableView deselectRowAtIndexPath: indexPath animated: YES];
+    self.indexPath = indexPath;
     CustomCell* cell = [tableView cellForRowAtIndexPath: indexPath];
     cell.article.viewCount++;
-    
-    
+    ArticlePageController* vc = [[ArticlePageController alloc] init];
+    vc.article = cell.article;
+    vc.delegate = self;
+    [self.navigationController pushViewController: vc animated: YES]; 
 }
 
+- (void)refreshArticle:(article *)article {
+    if (self.upLoadView.segmentedControl.selectedSegmentIndex == 0) {
+        self.upLoadModel.articlesOfTime[self.indexPath.row] = article;
+        [self.upLoadView.tableViewOfTime reloadData];
+    } else if (self.upLoadView.segmentedControl.selectedSegmentIndex == 1) {
+        self.upLoadModel.articlesOfRecommend[self.indexPath.row] = article;
+        [self.upLoadView.tableViewOfRecommend reloadData];
+    } else {
+        self.upLoadModel.articlesOfShare[self.indexPath.row] = article;
+        [self.upLoadView.tableViewOfShare reloadData];
+    }
+}
 
 #pragma mark -scrollView
 

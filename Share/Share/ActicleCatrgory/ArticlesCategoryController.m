@@ -127,12 +127,14 @@
 
 
 - (void) refreshArticle:(article *)article {
-    self.articleCategoryModel.featuredArticles[self.indexPath.row] = article;
     if (self.articleCategoryView.segmentedControl.selectedSegmentIndex == 0) {
+        self.articleCategoryModel.featuredArticles[self.indexPath.row] = article;
         [self.articleCategoryView.featuredTableView reloadData];
     } else if (self.articleCategoryView.segmentedControl.selectedSegmentIndex == 1) {
+        self.articleCategoryModel.hotArticles[self.indexPath.row] = article;
         [self.articleCategoryView.hotTableView reloadData];
     } else {
+        self.articleCategoryModel.allArticles[self.indexPath.row] = article; 
         [self.articleCategoryView.allTableView reloadData];;
     }
     
