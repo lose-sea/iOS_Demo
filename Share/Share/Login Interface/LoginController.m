@@ -57,6 +57,10 @@
 //    [self.view addGestureRecognizer:tap];
 }
 
+
+
+
+
 - (void)setUpData {
     self.model = [[LoginModel alloc] init];
     self.signin = [[Signin alloc] init];

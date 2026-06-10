@@ -23,7 +23,7 @@
     self.iView = [[UIImageView alloc] init];
     [self.contentView addSubview: self.iView];
     [self.iView mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.edges.mas_equalTo(self.contentView);
+        make.edges.mas_equalTo(self.contentView);
     }];
 }
 
@@ -32,10 +32,23 @@
     self.selectImageView = [[UIImageView alloc] init];
     [self.contentView addSubview: self.selectImageView];
     [self.selectImageView mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.edges.mas_equalTo(self.contentView).insets(UIEdgeInsetsMake(0, self.bounds.size.width - 20, self.bounds.size.height - 20, 0));
+        make.edges.mas_equalTo(self.contentView).insets(UIEdgeInsetsMake(0, self.bounds.size.width - 20, self.bounds.size.height - 20, 0));
     }];
     self.selectImageView.contentMode = UIViewContentModeScaleAspectFill;
     self.selectImageView.clipsToBounds = YES;
+    
+    
+    self.selectedLabel = [[UILabel alloc] init];
+    [self.selectImageView addSubview: self.selectedLabel];
+    [self.selectedLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.edges.mas_equalTo(self.selectImageView);
+    }];
+    
+    self.selectedLabel.clipsToBounds = YES;
+    self.selectedLabel.layer.cornerRadius = 10;
+    self.selectedLabel.backgroundColor = [UIColor systemBlueColor];
+    self.selectedLabel.hidden = YES;
+    self.selectedLabel.textAlignment = NSTextAlignmentCenter;
 }
 
 

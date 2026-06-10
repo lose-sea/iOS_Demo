@@ -27,7 +27,38 @@
     [self.upLoadView.textView addGestureRecognizer:tap];
      
     [self.view addGestureRecognizer:tap];
+    
+    // 注册键盘通知
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(keyboardWillShow:)
+                                                 name:UIKeyboardWillShowNotification
+                                               object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(keyboardWillHide:)
+                                                 name:UIKeyboardWillHideNotification
+                                               object:nil];
+    
 }
+
+- (void)keyboardWillShow:(NSNotification *)notification{
+    CGRect keyboardFrame = [notification.userInfo[UIKeyboardFrameEndUserInfoKey] CGRectValue];
+    CGFloat keyboardHeight = keyboardFrame.size.height;
+    [UIView animateWithDuration:0.25 animations:^{
+        self.upLoadView.transform = CGAffineTransformMakeTranslation(0, -keyboardHeight / 3.0);
+    }];
+}
+ 
+- (void)keyboardWillHide:(NSNotification *)notification{
+    [UIView animateWithDuration:0.25 animations:^{
+        self.upLoadView.transform = CGAffineTransformIdentity;
+    }];
+}
+
+
+
+
+
+
 
 - (void)dismissKeyboard {
     [self.view endEditing:YES];  // 收起键盘
@@ -184,7 +215,7 @@
     self.upLoadModel.coverImages = images;
     [self.upLoadView.coverViewButton setImage: [self.upLoadModel.coverImages lastObject] forState: UIControlStateNormal];
     UILabel* label = [[UILabel alloc] init];
-    [self.upLoadView addSubview: label];
+    [self.upLoadView addSubview: label];  
     [label mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.mas_equalTo(self.upLoadView.coverViewButton.mas_right).offset(-30);
         make.right.mas_equalTo(self.upLoadView.coverViewButton);
@@ -192,10 +223,13 @@
         make.height.mas_equalTo(30);
         make.top.mas_equalTo(self.upLoadView.coverViewButton.mas_top).offset(5);
     }];
-    label.backgroundColor = [UIColor systemRedColor];
-    label.text = [NSString stringWithFormat: @"%ld", self.upLoadModel.coverImages.count];
-    label.textColor = [UIColor systemBlueColor];
-    label.textAlignment = NSTextAlignmentCenter;
+    if (self.upLoadModel.coverImages.count > 1) {
+        label.backgroundColor = [UIColor systemRedColor];
+        label.text = [NSString stringWithFormat: @"%ld", self.upLoadModel.coverImages.count];
+        label.textColor = [UIColor systemBlueColor];
+        label.textAlignment = NSTextAlignmentCenter;
+    }
+    
 }
 
 

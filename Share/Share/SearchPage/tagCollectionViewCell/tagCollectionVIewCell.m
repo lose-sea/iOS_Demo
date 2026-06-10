@@ -36,6 +36,7 @@
     }];
     
     self.label.layer.borderWidth = 1;
+//    self.label.layer.borderColor = [UIColor systemPinkColor].CGColor; 
     self.label.textAlignment = NSTextAlignmentCenter;
 }
 

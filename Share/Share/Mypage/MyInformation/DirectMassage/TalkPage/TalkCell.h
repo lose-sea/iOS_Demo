@@ -16,7 +16,8 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, strong) UIImageView* avatarImageView;   
 @property (nonatomic, strong) UILabel* messageLabel;
 @property (nonatomic, strong) Follower* user;
-- (void) configWithFollower: (Follower*) follower Message: (NSString*) message isMyself: (BOOL)isMyself; 
+@property (nonatomic, strong) UIView* backView; 
+- (void) configWithFollower: (Follower*) follower Message: (NSString*) message isMyself: (BOOL)isMyself;
 
 @end
 

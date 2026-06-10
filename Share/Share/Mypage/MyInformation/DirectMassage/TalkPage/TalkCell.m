@@ -19,21 +19,26 @@
 
 - (void) setUpInterface {
     self.avatarImageView = [[UIImageView alloc] init];
+    self.backView = [[UIView alloc] init];
     self.messageLabel = [[UILabel alloc] init];
     
     self.messageLabel.numberOfLines = 0;
     self.messageLabel.font = [UIFont systemFontOfSize: 16];
     
     [self.contentView addSubview: self.avatarImageView];
-    [self.contentView addSubview: self.messageLabel];
+    [self.contentView addSubview: self.backView];
+    [self.backView addSubview: self.messageLabel];
+    [self.messageLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.edges.mas_equalTo(self.backView).insets(UIEdgeInsetsMake(10, 10, 10, 10));
+    }];
 }
  
 - (void) configWithFollower: (Follower*) follower Message: (NSString*) message isMyself: (BOOL)isMyself {
     self.avatarImageView.image = follower.avatar;
     self.messageLabel.text = message;
     
-    self.messageLabel.layer.masksToBounds = YES;
-    self.messageLabel.layer.cornerRadius = 5; 
+    self.backView.layer.masksToBounds = YES;
+    self.backView.layer.cornerRadius = 5; 
 
     if (isMyself) {
         // 头像靠右
@@ -43,7 +48,7 @@
             make.width.height.mas_equalTo(40);
         }];
         
-        [self.messageLabel mas_remakeConstraints:^(MASConstraintMaker *make) {
+        [self.backView mas_remakeConstraints:^(MASConstraintMaker *make) {
             make.top.equalTo(self.contentView).offset(30);
             make.right.equalTo(self.avatarImageView.mas_left).offset(-10);
             make.left.greaterThanOrEqualTo(self.contentView).offset(60);  // 最小左边距，防止过宽
@@ -52,8 +57,9 @@
             make.width.lessThanOrEqualTo(self.contentView).multipliedBy(0.7);
         }];
         
+        self.backView.backgroundColor = [UIColor systemGreenColor];
         self.messageLabel.textAlignment = NSTextAlignmentLeft;
-        self.messageLabel.backgroundColor = [UIColor systemGreenColor];
+        self.messageLabel.backgroundColor = [UIColor clearColor];
 
         
     } else {
@@ -63,7 +69,7 @@
             make.width.height.mas_equalTo(40);
         }];
         
-        [self.messageLabel mas_remakeConstraints:^(MASConstraintMaker *make) {
+        [self.backView mas_remakeConstraints:^(MASConstraintMaker *make) {
             make.top.equalTo(self.contentView).offset(30);
             make.left.equalTo(self.avatarImageView.mas_right).offset(10);
             make.right.lessThanOrEqualTo(self.contentView).offset(-60); // 最小右边距
@@ -71,8 +77,9 @@
             make.width.lessThanOrEqualTo(self.contentView).multipliedBy(0.7);
         }];
         
+        self.backView.backgroundColor = [UIColor systemGrayColor];
         self.messageLabel.textAlignment = NSTextAlignmentLeft;
-        self.messageLabel.backgroundColor = [UIColor systemBackgroundColor];
+        self.messageLabel.backgroundColor = [UIColor clearColor];
     }
     
 }

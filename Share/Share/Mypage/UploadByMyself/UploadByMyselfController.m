@@ -111,7 +111,7 @@
     ArticlePageController* vc = [[ArticlePageController alloc] init];
     vc.article = cell.article;
     vc.delegate = self;
-    [self.navigationController pushViewController: vc animated: YES]; 
+    [self.navigationController pushViewController: vc animated: YES];
 }
 
 - (void)refreshArticle:(article *)article {

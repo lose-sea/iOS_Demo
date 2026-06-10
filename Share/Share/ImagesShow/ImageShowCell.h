@@ -14,6 +14,7 @@
 @property (nonatomic, assign) BOOL isSelected;
 @property (nonatomic, strong) UIImageView* iView; 
 @property (nonatomic, strong) UIImageView* selectImageView;
+@property (nonatomic, strong) UILabel* selectedLabel;
 @end
 
 

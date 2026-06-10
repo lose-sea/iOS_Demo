@@ -85,12 +85,16 @@
     ImageShowCell* cell = [collectionView cellForItemAtIndexPath: indexPath];
     cell.isSelected = !cell.isSelected;
     if (cell.isSelected == YES) {
-        cell.selectImageView.image = [UIImage systemImageNamed: @"checkmark.circle.fill"];
         [self.selectImages addObject: cell.iView.image];
+        cell.selectedLabel.hidden = NO;
+//        cell.selectImageView.image = [UIImage systemImageNamed: @"checkmark.circle.fill"];
+        cell.selectedLabel.text = [NSString stringWithFormat: @"%ld", self.selectImages.count];
     } else {
-        cell.selectImageView.image = nil;
+//        cell.selectImageView.image = nil;
         [self.selectImages removeObject: cell.iView.image];
+        cell.selectedLabel.hidden = YES;
     }
+    [self.imageShowView.collectionView reloadData];
 }
 
 
