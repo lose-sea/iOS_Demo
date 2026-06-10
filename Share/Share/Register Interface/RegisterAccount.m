@@ -41,7 +41,7 @@
     [self.iView addSubview: self.logoShow];
     [self.logoShow mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerX.mas_equalTo(self);
-        make.top.mas_equalTo(self.mas_top).offset(100);
+        make.top.mas_equalTo(self.iView.mas_top).offset(100);
         make.width.mas_equalTo(200);
         make.height.mas_equalTo(200);
     }];
@@ -51,8 +51,8 @@
     [self.iView addSubview: shareTextView];
     [shareTextView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.mas_equalTo(self.logoShow.mas_bottom).offset(10);
-        make.centerX.mas_equalTo(self);
-        make.width.mas_equalTo(600);
+        make.centerX.mas_equalTo(self.iView);
+        make.width.mas_equalTo(900);
         make.height.mas_equalTo(90);
     }];
     
@@ -60,10 +60,11 @@
     [self.iView addSubview: self.emailInput];
     [self.emailInput mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.mas_equalTo(shareTextView.mas_bottom).offset(20);
-        make.centerX.mas_equalTo(self);
+        make.centerX.mas_equalTo(self.iView);
         make.width.mas_equalTo(300);
         make.height.mas_equalTo(40);
     }];
+    
     self.emailInput.backgroundColor = [UIColor whiteColor];
     self.emailInput.textColor = [UIColor blackColor];
     // 边框风格
@@ -80,7 +81,7 @@
     [self.iView addSubview: self.accountInput];
     [self.accountInput mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.mas_equalTo(self.emailInput.mas_bottom).offset(20);
-        make.centerX.mas_equalTo(self);
+        make.centerX.mas_equalTo(self.iView);
         make.width.mas_equalTo(300);
         make.height.mas_equalTo(40);
     }];
@@ -122,7 +123,7 @@
     [self.iView addSubview: self.passwordInput];
     [self.passwordInput mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.mas_equalTo(self.accountInput.mas_bottom).offset(20);
-        make.centerX.mas_equalTo(self);
+        make.centerX.mas_equalTo(self.iView);
         make.width.mas_equalTo(300);
         make.height.mas_equalTo(40);
     }];
@@ -147,7 +148,7 @@
     self.registerButton = [UIButton buttonWithType: UIButtonTypeSystem];
     [self.iView addSubview: self.registerButton];
     [self.registerButton mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.centerX.mas_equalTo(self);
+            make.centerX.mas_equalTo(self.iView);
             make.top.mas_equalTo(self.passwordInput.mas_bottom).offset(30);
             make.width.mas_equalTo(100);
             make.height.mas_equalTo(40);

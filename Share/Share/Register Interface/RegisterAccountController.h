@@ -25,9 +25,6 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, strong) UserModel* userModel;
 @property (nonatomic, weak) id<RegisterAccountDelegate> delegate;
 
-@property (nonatomic, strong) UIView* backView; 
-
-
 @end
 
 NS_ASSUME_NONNULL_END

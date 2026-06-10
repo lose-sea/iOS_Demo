@@ -103,9 +103,17 @@
     return cell;
 }
 
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    [tableView deselectRowAtIndexPath: indexPath animated: YES];
+    CustomCell* cell = [tableView cellForRowAtIndexPath: indexPath];
+    cell.article.viewCount++;
+    
+    
+}
 
 
 #pragma mark -scrollView
+
 - (NSInteger) currentpage {
     NSInteger page = (self.upLoadView.scrollView.contentOffset.x + 0.5 * self.upLoadView.scrollView.bounds.size.width) / self.upLoadView.scrollView.bounds.size.width;
     return page;
@@ -120,6 +128,8 @@
     NSInteger page = self.upLoadView.segmentedControl.selectedSegmentIndex;
     self.upLoadView.scrollView.contentOffset = CGPointMake(self.upLoadView.scrollView.bounds.size.width * page,  0); 
 }
+
+
 
 /*
 #pragma mark - Navigation

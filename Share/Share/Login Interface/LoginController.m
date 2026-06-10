@@ -70,21 +70,35 @@
     [self.view endEditing:YES];  // 收起键盘
 }
 
-- (void)keyboardWillShow:(NSNotification *)notification {
-    // 获取键盘高度
-    NSDictionary *userInfo = notification.userInfo;
-    CGRect keyboardFrame = [userInfo[UIKeyboardFrameEndUserInfoKey] CGRectValue];
+//- (void)keyboardWillShow:(NSNotification *)notification {
+//    // 获取键盘高度
+//    NSDictionary *userInfo = notification.userInfo;
+//    CGRect keyboardFrame = [userInfo[UIKeyboardFrameEndUserInfoKey] CGRectValue];
+//    CGFloat keyboardHeight = keyboardFrame.size.height;
+//    
+//    self.signin.iView.frame = CGRectMake(0, -keyboardHeight / 3.0, self.view.frame.size.width, self.view.frame.size.height);
+//    
+//}
+//
+//- (void)keyboardWillHide:(NSNotification *)notification {
+//    
+//    self.signin.iView.frame = CGRectMake(0, 0, self.view.bounds.size.width, self.signin.bounds.size.height);
+//}
+
+
+- (void)keyboardWillShow:(NSNotification *)notification{
+    CGRect keyboardFrame = [notification.userInfo[UIKeyboardFrameEndUserInfoKey] CGRectValue];
     CGFloat keyboardHeight = keyboardFrame.size.height;
-    
-    self.signin.iView.frame = CGRectMake(0, -keyboardHeight / 3.0, self.view.frame.size.width, self.view.frame.size.height);
-    
+    [UIView animateWithDuration:0.25 animations:^{
+        self.signin.transform = CGAffineTransformMakeTranslation(0, -keyboardHeight / 3.0);
+    }];
 }
-
-- (void)keyboardWillHide:(NSNotification *)notification {
-    
-    self.signin.iView.frame = CGRectMake(0, 0, self.view.bounds.size.width, self.signin.bounds.size.height);
+ 
+- (void)keyboardWillHide:(NSNotification *)notification{
+    [UIView animateWithDuration:0.25 animations:^{
+        self.signin.transform = CGAffineTransformIdentity;
+    }];
 }
-
 
 
 #pragma mark - 处理自动登录按钮点击

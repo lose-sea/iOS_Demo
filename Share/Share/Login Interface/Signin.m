@@ -66,7 +66,7 @@
     [shareTextView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.mas_equalTo(self.logoShow.mas_bottom).offset(10);
         make.centerX.mas_equalTo(self);
-        make.width.mas_equalTo(600);
+        make.width.mas_equalTo(900);
         make.height.mas_equalTo(90);
     }];
     

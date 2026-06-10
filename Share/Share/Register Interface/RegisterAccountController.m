@@ -17,18 +17,12 @@
     [super viewDidLoad];self.title = @"注册账号";
 //    self.view.backgroundColor = [UIColor colorWithRed:53.0 / 255.0 green:143.0 / 255.0 blue:203.0 / 255.0 alpha:1.0];
     // Do any additional setup after loading the view.
-    self.backView = [[UIView alloc] init];
-    [self.view addSubview: self.backView];
-    [self.backView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.edges.mas_equalTo(self.view);
-    }];
     self.registerAccont = [[RegisterAccount alloc] init];
     
-    [self.backView addSubview: self.registerAccont];
+    [self.view addSubview: self.registerAccont];
     [self.registerAccont mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.edges.mas_equalTo(self.backView);
+        make.edges.mas_equalTo(self.view);
     }];
-    self.backView.backgroundColor = self.registerAccont.backgroundColor;
     self.view.backgroundColor = self.registerAccont.backgroundColor;
     // 注册监听
     [[NSNotificationCenter defaultCenter] addObserver: self selector: @selector(pressConfirmRegister:) name: pressConfirmRegister object: nil];
@@ -57,20 +51,40 @@
     [self.view endEditing:YES];  // 收起键盘
 }
 
-- (void)keyboardWillShow:(NSNotification *)notification {
-    // 获取键盘高度
-    NSDictionary *userInfo = notification.userInfo;
-    CGRect keyboardFrame = [userInfo[UIKeyboardFrameEndUserInfoKey] CGRectValue];
+//- (void)keyboardWillShow:(NSNotification *)notification {
+//    // 获取键盘高度
+//    NSDictionary *userInfo = notification.userInfo;
+//    CGRect keyboardFrame = [userInfo[UIKeyboardFrameEndUserInfoKey] CGRectValue];
+//    CGFloat keyboardHeight = keyboardFrame.size.height;
+//    
+//    self.registerAccont.iView.frame = CGRectMake(0, -keyboardHeight / 3.0, self.view.frame.size.width, self.view.frame.size.height);
+//    
+////    [self.registerAccont mas_makeConstraints:^(MASConstraintMaker *make) {
+////        make.bottom.mas_equalTo(self.view.mas_bottom).offset(-keyboardHeight / 3);
+////    }];
+////    [self.view layoutIfNeeded];
+//}
+//
+//- (void)keyboardWillHide:(NSNotification *)notification {
+//    self.registerAccont.iView.frame = CGRectMake(0, 0, self.view.bounds.size.width, self.view.bounds.size.height);
+//}
+
+
+- (void)keyboardWillShow:(NSNotification *)notification{
+    CGRect keyboardFrame = [notification.userInfo[UIKeyboardFrameEndUserInfoKey] CGRectValue];
     CGFloat keyboardHeight = keyboardFrame.size.height;
-    
-    self.backView.frame = CGRectMake(0, -keyboardHeight / 3.0, self.view.frame.size.width, self.view.frame.size.height);
-    
+    [UIView animateWithDuration:0.25 animations:^{
+        self.registerAccont.transform = CGAffineTransformMakeTranslation(0, -keyboardHeight / 3.0);
+    }];
+}
+ 
+- (void)keyboardWillHide:(NSNotification *)notification{
+    [UIView animateWithDuration:0.25 animations:^{
+        self.registerAccont.transform = CGAffineTransformIdentity;
+    }];
 }
 
-- (void)keyboardWillHide:(NSNotification *)notification {
-    
-    self.backView.frame = CGRectMake(0, 0, self.view.bounds.size.width, self.view.bounds.size.height);
-}
+
 
 
 
