@@ -18,7 +18,7 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
-		54CCF0F22FA23EA800512C59 /* Exceptions for "Music" folder in "Music" target */ = {
+		544B845F2FDAD3C200933AC9 /* Exceptions for "Music" folder in "Music" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
 				Info.plist,
@@ -28,10 +28,10 @@
 /* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
-		54CCF0DD2FA23EA800512C59 /* Music */ = {
+		544B841A2FDAD3C200933AC9 /* Music */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			exceptions = (
-				54CCF0F22FA23EA800512C59 /* Exceptions for "Music" folder in "Music" target */,
+				544B845F2FDAD3C200933AC9 /* Exceptions for "Music" folder in "Music" target */,
 			);
 			path = Music;
 			sourceTree = "<group>";
@@ -53,7 +53,7 @@
 		54CCF0D22FA23EA800512C59 = {
 			isa = PBXGroup;
 			children = (
-				54CCF0DD2FA23EA800512C59 /* Music */,
+				544B841A2FDAD3C200933AC9 /* Music */,
 				54CCF0DC2FA23EA800512C59 /* Products */,
 				A61FC31C4DA4EC1AE04B9AB1 /* Pods */,
 				B34547F482BBA5F0DFB0573C /* Frameworks */,
@@ -102,7 +102,7 @@
 			dependencies = (
 			);
 			fileSystemSynchronizedGroups = (
-				54CCF0DD2FA23EA800512C59 /* Music */,
+				544B841A2FDAD3C200933AC9 /* Music */,
 			);
 			name = Music;
 			productName = Music;
@@ -302,6 +302,7 @@
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
 			};
 			name = Debug;
 		};
@@ -356,6 +357,7 @@
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
 				VALIDATE_PRODUCT = YES;
 			};
 			name = Release;

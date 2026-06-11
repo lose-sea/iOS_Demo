@@ -44,7 +44,7 @@
     article* a2 = [[article alloc] initWitImage: [UIImage imageNamed: @"2.jpg"] Name: @"国外画册欣赏" autoor: @"share小白" massage: @"这个家伙很懒, 什么也没有留下"];
     article* a3 = [[article alloc] initWitImage: [UIImage imageNamed: @"3.jpg"] Name: @"体面" autoor: @"share小白" massage: @"这个家伙很懒, 什么也没有留下"];
     article* a4 = [[article alloc] initWitImage: [UIImage imageNamed: @"4.jpg"] Name: @"还会记得我吗" autoor: @"share小白" massage: @"这个家伙很懒, 什么也没有留下"];
-    article* a5 = [[article alloc] initWitImage: [UIImage imageNamed: @"5.jpg"] Name: @"庞锦荣是大帅哥" autoor: @"share小白" massage: @"这个家伙很懒, 什么也没有留下"];
+    article* a5 = [[article alloc] initWitImage: [UIImage imageNamed: @"5.jpg"] Name: @"collection扁平化设计" autoor: @"share小白" massage: @"这个家伙很懒, 什么也没有留下"];
     [self.homeModel.articles addObjectsFromArray: @[a, a1, a2, a3, a4, a5]];
     
     

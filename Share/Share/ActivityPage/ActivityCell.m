@@ -31,13 +31,14 @@
 
 - (void) setLabel {
     self.label = [[UILabel alloc] init];
+    self.label.textColor = [UIColor labelColor]; 
     [self.contentView addSubview: self.label];
     [self.label mas_makeConstraints:^(MASConstraintMaker *make) {
             make.top.mas_equalTo(self.contentView.mas_bottom).offset(-40);
             make.left.right.mas_equalTo(self.contentView);
             make.bottom.mas_equalTo(self.contentView).offset(-20);
     }];
-    self.label.backgroundColor = [UIColor whiteColor];
+    self.label.backgroundColor = [UIColor systemBackgroundColor];
 }
 
 - (void) setStateView {
@@ -61,6 +62,7 @@
 - (void) configWithActivity:(Activity *)activity {
     self.iView.image = activity.image;
     self.label.text = activity.massage;
+    self.label.textColor = [UIColor labelColor];
     if (self.activity.isEnd == YES) {
         UIImage* image = [UIImage imageNamed: @"end.png"];
         self.stateView.image = image;

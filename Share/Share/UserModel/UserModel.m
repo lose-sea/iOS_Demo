@@ -32,9 +32,12 @@ static UserModel* instance;
 }
 
 
-
 + (instancetype) allocWithZone: (struct _NSZone*) zone {
     return [self shareInstance];
+}
+
+- (id) initWithZone: (NSZone*) zone {
+    return self;
 }
 
 - (id) copyWithZone: (NSZone*) zone {

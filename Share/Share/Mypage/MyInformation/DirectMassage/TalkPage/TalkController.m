@@ -121,6 +121,10 @@
     return cell;
 }
 
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView {
+    [self.view endEditing: YES]; 
+}
+
 - (void) tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     [tableView deselectRowAtIndexPath: indexPath animated: YES];
     [self.talkView endEditing: YES]; 

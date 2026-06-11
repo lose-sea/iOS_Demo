@@ -23,7 +23,8 @@
     UINavigationController* nav = [[UINavigationController alloc] initWithRootViewController: [[LoginController alloc] init]];
     self.window.rootViewController = nav;
 
-    
+    self.window.overrideUserInterfaceStyle = UIUserInterfaceStyleDark;
+
     HomepageController* homePageController = [[HomepageController alloc] init];
     UINavigationController* homeNav = [[UINavigationController alloc] initWithRootViewController: homePageController];
     homePageController.tabBarItem = [[UITabBarItem alloc] initWithTitle: @"首页" image: [UIImage systemImageNamed: @"house"] selectedImage: [UIImage systemImageNamed: @"house.fill"]];

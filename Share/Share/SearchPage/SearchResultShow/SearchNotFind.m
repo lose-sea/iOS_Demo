@@ -15,9 +15,10 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.view.backgroundColor = [UIColor whiteColor];
+    self.view.backgroundColor = [UIColor systemBackgroundColor];
     UILabel* label = [[UILabel alloc] init];
     label.text = @"没有找到相关信息";
+    label.textColor = [UIColor labelColor];
     [self.view addSubview: label];
     [label mas_makeConstraints:^(MASConstraintMaker *make) {
             make.edges.mas_equalTo(self.view).insets(UIEdgeInsetsMake(300, 0, 400, 0));

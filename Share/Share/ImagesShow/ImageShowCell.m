@@ -49,9 +49,20 @@
     self.selectedLabel.backgroundColor = [UIColor systemBlueColor];
     self.selectedLabel.hidden = YES;
     self.selectedLabel.textAlignment = NSTextAlignmentCenter;
+    self.selectedLabel.textColor = [UIColor labelColor];
 }
 
-
+- (void)prepareForReuse {
+    [super prepareForReuse];
+    
+    // 清空图片视图
+    self.iView.image = nil;
+    
+    // 隐藏并清空选中角标
+    self.selectedLabel.hidden = YES;
+    self.selectedLabel.text = nil;
+    self.isSelected = NO;
+}
 
 - (void)awakeFromNib {
     [super awakeFromNib];

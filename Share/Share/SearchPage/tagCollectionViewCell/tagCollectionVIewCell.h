@@ -13,6 +13,6 @@ NS_ASSUME_NONNULL_BEGIN
 @interface tagCollectionVIewCell : UICollectionViewCell
 @property (nonatomic, strong) UILabel* label;
 @property (nonatomic, strong) UIImageView* iView;
-@end
+@end        
 
 NS_ASSUME_NONNULL_END

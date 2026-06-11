@@ -78,24 +78,28 @@
     cell.iView.image = self.imageShowModel.images[indexPath.item];
     cell.iView.contentMode = UIViewContentModeScaleAspectFill;
     cell.iView.clipsToBounds = YES;
+    cell.selectedLabel.hidden = NO;
+    UIImage* image = cell.iView.image;
+    if ([self.selectImages containsObject: image]) {
+        cell.selectedLabel.text = [NSString stringWithFormat: @"%lu", (unsigned long)[self.selectImages indexOfObject: cell.iView.image] + 1];
+    } else {
+        cell.selectedLabel.hidden = YES;
+    }
+    
     return cell;
 }
 
 - (void) collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
     ImageShowCell* cell = [collectionView cellForItemAtIndexPath: indexPath];
     cell.isSelected = !cell.isSelected;
-    if (cell.isSelected == YES) {
-        [self.selectImages addObject: cell.iView.image];
-        cell.selectedLabel.hidden = NO;
-//        cell.selectImageView.image = [UIImage systemImageNamed: @"checkmark.circle.fill"];
-        cell.selectedLabel.text = [NSString stringWithFormat: @"%ld", self.selectImages.count];
-    } else {
-//        cell.selectImageView.image = nil;
+    if ([self.selectImages containsObject: cell.iView.image]) {
         [self.selectImages removeObject: cell.iView.image];
-        cell.selectedLabel.hidden = YES;
+    } else {
+        [self.selectImages addObject: cell.iView.image];
     }
     [self.imageShowView.collectionView reloadData];
 }
+
 
 
 /*

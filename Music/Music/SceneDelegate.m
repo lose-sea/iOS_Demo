@@ -20,9 +20,31 @@
     // This delegate does not imply the connecting scene or session are new (see `application:configurationForConnectingSceneSession` instead).
     UIWindowScene* myscene = (UIWindowScene*) scene;
     self.window = [[UIWindow alloc] initWithWindowScene: myscene];
-    UINavigationController* nav = [[UINavigationController alloc] initWithRootViewController: [[VCFirst alloc] init]];
-    self.window.rootViewController = nav;
-    [self.window makeKeyAndVisible]; 
+    UINavigationController* nav = [[UINavigationController alloc] initWithRootViewController: [[ViewController alloc] init]];
+    
+    HomeController* homeController = [[HomeController alloc] init];
+    UINavigationController* homeNav = [[UINavigationController alloc] initWithRootViewController: homeController];
+    homeController.tabBarItem = [[UITabBarItem alloc] initWithTitle: @"首页" image: [UIImage systemImageNamed: @"house"] selectedImage: [UIImage systemImageNamed: @"house.fill"]];
+    
+    SearchController* searchController = [[SearchController alloc] init];
+    UINavigationController* searchNav = [[UINavigationController alloc] initWithRootViewController: searchController];
+    searchController.tabBarItem =  [[UITabBarItem alloc] initWithTitle: @"搜索" image: [UIImage systemImageNamed: @"magnifyingglass"] selectedImage: [UIImage systemImageNamed: @"magnifyingglass"]];
+    
+    NoteController* noteController = [[NoteController alloc] init];
+    UINavigationController* noteNav = [[UINavigationController alloc] initWithRootViewController: noteController];
+    noteController.tabBarItem =  [[UITabBarItem alloc] initWithTitle: @"文章分类" image: [UIImage systemImageNamed: @"square.and.pencil"] selectedImage: [UIImage systemImageNamed: @"square.and.pencil.fill"]];
+    
+    MyController* myController = [[MyController alloc] init];
+    UINavigationController* myNav = [[UINavigationController alloc] initWithRootViewController: myController];
+    myController.tabBarItem =  [[UITabBarItem alloc] initWithTitle: @"我的" image: [UIImage systemImageNamed: @"person"] selectedImage: [UIImage systemImageNamed: @"person.fill"]];
+    
+    UITabBarController* tabBarController = [[UITabBarController alloc] init];
+    
+    
+    tabBarController.viewControllers = @[homeNav, searchNav, noteNav, myNav];
+//    self.window.rootViewController = nav;
+    self.window.rootViewController = tabBarController;
+    [self.window makeKeyAndVisible];
 }
 
 

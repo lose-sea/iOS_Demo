@@ -11,7 +11,7 @@
 #import "UserModel.h"
 NS_ASSUME_NONNULL_BEGIN
 
-@interface TalkController : UIViewController <UITableViewDelegate, UITableViewDataSource>
+@interface TalkController : UIViewController <UITableViewDelegate, UITableViewDataSource, UIScrollViewDelegate>
 @property (nonatomic, strong) TalkModel* talkModel;
 @property (nonatomic, strong) TalkView* talkView;
 @property (nonatomic, assign) BOOL isMyself;

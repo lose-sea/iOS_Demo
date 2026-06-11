@@ -44,7 +44,6 @@
 
 // 设置导航栏
 - (void) setNavigationController {
-    
     // 添加上传按钮
     UIBarButtonItem* item = [[UIBarButtonItem alloc] initWithImage: [UIImage systemImageNamed: @"square.and.arrow.up"] style: UIBarButtonItemStylePlain target: self action: @selector(pressUpLoad)];
     self.navigationItem.rightBarButtonItem = item;
@@ -179,7 +178,7 @@
             make.height.mas_equalTo(30);
         }];
         label.backgroundColor = [UIColor systemCyanColor];
-        label.textColor = [UIColor labelColor];
+        label.textColor = [UIColor blackColor];
         
         UIView* line = [[UIView alloc] init];
         line.backgroundColor = [UIColor systemCyanColor];
@@ -200,21 +199,6 @@
 - (NSInteger) numberOfSectionsInCollectionView:(UICollectionView *)collectionView {
     return 3;
 }
-
-//- (NSInteger) numberOfSectionsInCollectionView:(UICollectionView *)collectionView {
-//    return 6;
-//}
-
-//- (NSInteger) collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
-//    if (section == 0 || section == 2 || section == 4) {
-//        return 1;
-//    } else if (section == 1) {
-//        return 8;
-//    } else {
-//        return 4;
-//    }
-//}
-
 
 
 - (NSInteger) collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
@@ -240,14 +224,15 @@
 }
 
 - (void) collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
+    
     [self.view endEditing:YES];
     tagCollectionVIewCell* cell = [collectionView cellForItemAtIndexPath: indexPath];
-    if (cell.label.backgroundColor == [UIColor clearColor]) {
-        cell.label.backgroundColor = [UIColor systemCyanColor];
-        cell.label.textColor = [UIColor whiteColor];
+    if (cell.iView.backgroundColor == [UIColor systemBackgroundColor]) {
+        cell.iView.backgroundColor = [UIColor systemCyanColor];
+        cell.label.backgroundColor = cell.iView.backgroundColor;
     } else {
-        cell.label.backgroundColor = [UIColor whiteColor];
-        cell.label.textColor = [UIColor blackColor];
+        cell.iView.backgroundColor = [UIColor systemBackgroundColor];
+        cell.label.backgroundColor = cell.iView.backgroundColor;
     }
     
 }

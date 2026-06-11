@@ -6,8 +6,11 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "VCFirst.h"
 #import "ViewController.h"
+#import "HomeController.h"
+#import "SearchController.h"
+#import "NoteController.h"
+#import "MyController.h"
 
 @interface SceneDelegate : UIResponder <UIWindowSceneDelegate>
 

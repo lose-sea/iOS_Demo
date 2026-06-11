@@ -63,6 +63,7 @@
     }
     
     // 热门歌曲数据
+//    self.view.window.overrideUserInterfaceStyle = UIUserInterfaceStyleDark;
     self.hotSongs = [[NSMutableArray alloc] init];
     NSArray *songNames = @[@"孤勇者", @"稻香", @"夜曲", @"告白气球", @"演员", @"消愁", @"平凡之路", @"年少有为", @"无人之岛", @"起风了"];
     NSArray *artistNames = @[@"陈奕迅", @"周杰伦", @"周杰伦", @"周杰伦", @"薛之谦", @"毛不易", @"朴树", @"李荣浩", @"任然", @"买辣椒也用券"];

@@ -16,48 +16,18 @@
     return self;
 }
 
-- (void) setCollectionView {
-    // 布局
-    UICollectionViewFlowLayout* flowLayout = [[UICollectionViewFlowLayout alloc] init];
-    // 每个cell的大小
-    flowLayout.itemSize = CGSizeMake(80, 30);
-    
-    flowLayout.sectionInset = UIEdgeInsetsMake(10, 30, 0, 30);
-    
-    
-    // 行与行之间的间隔
-    flowLayout.minimumLineSpacing = 30;
-    
-    // 同一行中 cell 之间的间隔
-    flowLayout.minimumInteritemSpacing = 20;
-    
-    self.collectionView = [[UICollectionView alloc] initWithFrame: CGRectZero collectionViewLayout: flowLayout];
-    
-//    self.collectionView.backgroundColor = [UIColor systemCyanColor]; 
-    
-    [self addSubview: self.collectionView];
-    [self.collectionView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.centerX.mas_equalTo(self);
-        make.top.mas_equalTo(self);
-        make.height.mas_equalTo(600);
-        make.width.mas_equalTo(self);
-    }];
-    
-    // 注册cell
-    [self.collectionView registerClass: [tagCollectionVIewCell class] forCellWithReuseIdentifier: @"collectionViewCellID"];
-    
-}
 
 - (void)setUpCollectionView {
     UICollectionViewFlowLayout* flowLayout = [[UICollectionViewFlowLayout alloc] init];
     
     // 每个cell的大小
-    flowLayout.itemSize = CGSizeMake(80, 30);
+//    flowLayout.itemSize = CGSizeMake(80, 30);
     
-    flowLayout.minimumLineSpacing = 30;
+    flowLayout.minimumLineSpacing = 5;
     
-    flowLayout.minimumInteritemSpacing = 20;
-    
+    flowLayout.minimumInteritemSpacing = 10;
+    flowLayout.estimatedItemSize = CGSizeMake(100, 30);
+
     self.collectionView = [[UICollectionView alloc] initWithFrame: CGRectZero collectionViewLayout: flowLayout];
     
     [self addSubview: self.collectionView];
