@@ -132,12 +132,21 @@
         SettingController* vc = [[SettingController alloc] init];
         [self.navigationController pushViewController: vc animated: YES];
     } else {
-
+        UIAlertController* alertController = [UIAlertController alertControllerWithTitle: nil message: @"是否退出登录" preferredStyle: UIAlertControllerStyleAlert];
+        UIAlertAction* okAction = [UIAlertAction actionWithTitle: @"确定" style: UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+            SceneDelegate* sceneDelegate = (SceneDelegate*)UIApplication.sharedApplication.connectedScenes.allObjects.firstObject.delegate;
+            UINavigationController* Nav = [[UINavigationController alloc] initWithRootViewController: [[LoginController alloc] init]];
+            
+            sceneDelegate.window.rootViewController = Nav;
+        }];
+        [alertController addAction: okAction];
         
-        SceneDelegate* sceneDelegate = (SceneDelegate*)UIApplication.sharedApplication.connectedScenes.allObjects.firstObject.delegate;
-        UINavigationController* Nav = [[UINavigationController alloc] initWithRootViewController: [[LoginController alloc] init]];
+        UIAlertAction* cancelAction = [UIAlertAction actionWithTitle: @"取消" style: UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
+            
+        }];
+        [alertController addAction: cancelAction];
         
-        sceneDelegate.window.rootViewController = Nav;
+        [self presentViewController: alertController animated: YES completion: nil];
     }
 }
 

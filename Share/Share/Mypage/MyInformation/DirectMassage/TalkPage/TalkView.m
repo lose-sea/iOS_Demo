@@ -20,7 +20,7 @@
 
 - (void)setUpTableView {
     self.tableView = [[UITableView alloc] init];
-    self.tableView.backgroundColor = [UIColor whiteColor];
+    self.tableView.backgroundColor = [UIColor systemBackgroundColor];
     
     // 删除cell之间的分割线
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;

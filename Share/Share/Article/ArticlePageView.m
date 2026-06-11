@@ -11,7 +11,6 @@
 - (instancetype) init {
     self = [super init];
     if (self) {
-        self.backgroundColor = [UIColor whiteColor];
         [self setUpData];
         [self setUpInterface];
     }
@@ -35,6 +34,7 @@
 - (void)setUpInterface {
 //    UIImageView* iView = [[UIImageView alloc] initWithImage: [UIImage imageNamed: @"37.jpg"]];
     self.backgroundColor = [UIColor systemBrownColor];
+    self.alpha = 1; 
     UILabel* label = [[UILabel alloc] init];
     label.text = @"想在威尔湖的旁边,听风诉说你的思念\n我想在傍晚的暖风里\n将你慢慢遗忘";
     label.numberOfLines = 0;

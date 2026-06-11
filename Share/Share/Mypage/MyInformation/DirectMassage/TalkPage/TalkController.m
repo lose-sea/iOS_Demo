@@ -77,7 +77,6 @@
     self.talkView.tableView.delegate = self;
     self.talkView.tableView.dataSource = self;
     
-    
     [self.talkView.sendButton addTarget: self action: @selector(pressSend) forControlEvents: UIControlEventTouchUpInside];
 }
 

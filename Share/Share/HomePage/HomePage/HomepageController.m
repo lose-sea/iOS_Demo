@@ -90,6 +90,9 @@
 
 - (void) tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     [tableView deselectRowAtIndexPath: indexPath animated: YES];
+    if (indexPath.row == 0) {
+        return; 
+    }
     self.indexPath = indexPath;
     ArticlePageController* vc = [[ArticlePageController alloc] init];
     CustomCell* cell = [tableView cellForRowAtIndexPath: indexPath];

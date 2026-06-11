@@ -119,7 +119,7 @@
     self.textView.font = [UIFont systemFontOfSize: 15];
     self.textView.textColor = [UIColor blackColor];
 //    self.textView.backgroundColor = [UIColor systemGrayColor];
-    self.backgroundColor = [UIColor whiteColor];
+    self.backgroundColor = [UIColor systemBackgroundColor];
     self.label = [[UILabel alloc] init];
     self.label.text = @"请输入文本作为作品介绍...";
     self.label.textColor = [UIColor systemGrayColor];
