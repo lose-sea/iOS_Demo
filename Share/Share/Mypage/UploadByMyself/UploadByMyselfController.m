@@ -13,16 +13,34 @@
 
 @implementation UploadByMyselfController
 
+
+
+//- (void)viewWillAppear:(BOOL)animated {
+//    [super viewWillAppear:animated];
+//    
+//    UINavigationBarAppearance *appearance = [[UINavigationBarAppearance alloc] init];
+//    [appearance configureWithOpaqueBackground];
+//    appearance.titleTextAttributes = @{
+//        NSForegroundColorAttributeName: [UIColor labelColor]
+//    };
+//    
+//    self.navigationController.navigationBar.standardAppearance = appearance;
+//    self.navigationController.navigationBar.scrollEdgeAppearance = appearance;
+//}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.title = @"我上传的";
+    self.view.backgroundColor = [UIColor systemCyanColor]; 
+    // 强制设置导航栏标题颜色
+    [self.navigationController.navigationBar setTitleTextAttributes:@{
+        NSForegroundColorAttributeName: [UIColor labelColor]
+    }];
 //    self.view.backgroundColor = [UIColor systemCyanColor];
     // Do any additional setup after loading the view.
     
     [self setUpData];
     [self setUpInterface];
-    
-    
 }
 
 
@@ -110,6 +128,7 @@
     cell.article.viewCount++;
     ArticlePageController* vc = [[ArticlePageController alloc] init];
     vc.article = cell.article;
+    vc.title = cell.article.name;
     vc.delegate = self;
     [self.navigationController pushViewController: vc animated: YES];
 }

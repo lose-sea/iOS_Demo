@@ -9,10 +9,11 @@
 #import <Masonry/Masonry.h> 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface PlayListCell : UICollectionViewCell
+@interface DailyRecommendCell : UICollectionViewCell
 @property (nonatomic, strong) UIImageView* iView;
 @property (nonatomic, strong) UILabel* tagLabel;
 @property (nonatomic, strong) UILabel* messageLabel;
+
 @end
 
 NS_ASSUME_NONNULL_END

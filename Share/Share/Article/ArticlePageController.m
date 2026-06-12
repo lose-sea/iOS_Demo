@@ -22,6 +22,13 @@
     return self;
 }
 
+- (void)viewWillDisappear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    [self.navigationController.navigationBar setTitleTextAttributes:@{
+        NSForegroundColorAttributeName: [UIColor labelColor]
+    }];
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     

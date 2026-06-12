@@ -22,6 +22,7 @@
     self.window = [[UIWindow alloc] initWithWindowScene: myscene];
     UINavigationController* nav = [[UINavigationController alloc] initWithRootViewController: [[LoginController alloc] init]];
     self.window.rootViewController = nav;
+    
 
     self.window.overrideUserInterfaceStyle = UIUserInterfaceStyleDark;
 

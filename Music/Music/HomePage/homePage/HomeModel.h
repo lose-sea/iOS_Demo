@@ -7,11 +7,10 @@
 
 #import <Foundation/Foundation.h>
 
-NS_ASSUME_NONNULL_BEGIN
 
 @interface HomeModel : NSObject
-@property (nonatomic, strong) NSMutableArray* recommendImages;
-@property (nonatomic, strong) NSMutableArray* songersImages;
+@property (nonatomic, strong) NSMutableArray* DailyRecommendImages;
+
+@property (nonatomic, strong) NSMutableArray* RecommendSongListImages;
 @end
 
-NS_ASSUME_NONNULL_END

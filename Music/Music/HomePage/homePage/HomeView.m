@@ -17,6 +17,7 @@
 }
 
 
+
 - (void) setUpInterface {
     self.tableView = [[UITableView alloc] init];
     [self addSubview: self.tableView];
@@ -24,7 +25,12 @@
         make.edges.mas_equalTo(self);
     }];
     
+//    self.tableView.backgroundColor = [[UIColor clearColor] colorWithAlphaComponent: 0.8];
+    
     [self.tableView registerClass: [RecommendTableViewCell class] forCellReuseIdentifier: @"RecommendTableViewCellID"]; 
 }
 
 @end
+
+
+

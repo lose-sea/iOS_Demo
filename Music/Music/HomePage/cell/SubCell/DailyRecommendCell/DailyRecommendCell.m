@@ -5,9 +5,9 @@
 //  Created by lose_sea on 2026/6/11.
 //
 
-#import "PlayListCell.h"
+#import "DailyRecommendCell.h"
 
-@implementation PlayListCell
+@implementation DailyRecommendCell
 
 - (instancetype) initWithFrame:(CGRect)frame {
     self = [super initWithFrame: frame];
@@ -26,17 +26,27 @@
     
     self.tagLabel = [[UILabel alloc] init];
     self.messageLabel = [[UILabel alloc] init];
+    
     [self.contentView addSubview: self.tagLabel];
     [self.tagLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.left.right.mas_equalTo(self.contentView);
         make.height.mas_equalTo(30);
     }];
-    
+    self.tagLabel.backgroundColor = [[UIColor labelColor] colorWithAlphaComponent: 0.1];
+    self.tagLabel.textColor = [UIColor systemBackgroundColor];
+
     [self.contentView addSubview: self.messageLabel];
     [self.messageLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.bottom.left.right.mas_equalTo(self.contentView);
         make.height.mas_equalTo(30);
     }];
+    self.messageLabel.backgroundColor = [[UIColor labelColor] colorWithAlphaComponent: 0.1];
+    self.messageLabel.textColor = [UIColor systemBackgroundColor];
+    
+    self.messageLabel.numberOfLines = 0;
+    self.messageLabel.adjustsFontSizeToFitWidth = YES;   // 允许字体自动缩小以适应宽度
+//    label.minimumScaleFactor = 0.5;          // 最小可缩小到原字体的 0.5 倍（即最大缩小一半）
+//    label.numberOfLines = 1;                 // 单行时效果最明显
 }
 
 

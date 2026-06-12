@@ -23,9 +23,9 @@
     self.tableView.backgroundView = iView; 
     [self addSubview: self.tableView];
     [self.tableView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.mas_equalTo(self).offset(40);
+        make.top.mas_equalTo(self).offset(80);
         make.left.right.mas_equalTo(self);
-        make.height.mas_equalTo(220);
+        make.height.mas_equalTo(160);
     }];
     
     [self.tableView registerClass: [CustomCell class] forCellReuseIdentifier: @"ArticleCellID"];

@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 71;
+	objectVersion = 77;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -209,13 +209,13 @@
 		1B98203420883EBD3E68ABEDE79E3366 /* UIView+LookinServer.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = "UIView+LookinServer.h"; path = "Src/Main/Server/Category/UIView+LookinServer.h"; sourceTree = "<group>"; };
 		1C03B28F9FACA0A822BC331925F1B373 /* LKS_TraceManager.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = LKS_TraceManager.h; path = Src/Main/Server/Others/LKS_TraceManager.h; sourceTree = "<group>"; };
 		1CC31B52A045D1A3393748351A932503 /* MASLayoutConstraint.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = MASLayoutConstraint.h; path = Masonry/MASLayoutConstraint.h; sourceTree = "<group>"; };
-		1FFED36A657123030ABB700256D73F15 /* libMasonry.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libMasonry.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		1FFED36A657123030ABB700256D73F15 /* Masonry */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; name = Masonry; path = libMasonry.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		20A3376AC1F88A7E57A6B47EABDDAECB /* LookinServer-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "LookinServer-prefix.pch"; sourceTree = "<group>"; };
 		2196FBEB7E94ECA123A749D8245F9743 /* MASCompositeConstraint.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = MASCompositeConstraint.m; path = Masonry/MASCompositeConstraint.m; sourceTree = "<group>"; };
 		21AD6CD80E60CA081AB61688A5AB8193 /* NSSet+Lookin.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = "NSSet+Lookin.h"; path = "Src/Main/Shared/Category/NSSet+Lookin.h"; sourceTree = "<group>"; };
 		21FF744CAA464DCDDD12746C74A38C45 /* CALayer+LookinServer.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = "CALayer+LookinServer.m"; path = "Src/Main/Server/Category/CALayer+LookinServer.m"; sourceTree = "<group>"; };
 		2317518663943F35A5405EEEAE94BD42 /* MASViewAttribute.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = MASViewAttribute.h; path = Masonry/MASViewAttribute.h; sourceTree = "<group>"; };
-		25664483ABF4DC8EC03E7472AA04333B /* libLookinServer.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libLookinServer.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		25664483ABF4DC8EC03E7472AA04333B /* LookinServer */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; name = LookinServer; path = libLookinServer.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		279416CF11ED49C0E37D8A2CBF8CFE51 /* LKS_AttrGroupsMaker.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = LKS_AttrGroupsMaker.h; path = Src/Main/Server/Others/LKS_AttrGroupsMaker.h; sourceTree = "<group>"; };
 		283B2A64C098449B6D12B2212C3B9675 /* UILabel+LookinServer.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = "UILabel+LookinServer.m"; path = "Src/Main/Server/Category/UILabel+LookinServer.m"; sourceTree = "<group>"; };
 		2A8D3AD0EA30009365ED3F541EF5CBD9 /* LookinAutoLayoutConstraint.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = LookinAutoLayoutConstraint.h; path = Src/Main/Shared/LookinAutoLayoutConstraint.h; sourceTree = "<group>"; };
@@ -263,7 +263,7 @@
 		7213722EDBEDDAF73946A89778DC4E5F /* NSObject+LookinServer.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = "NSObject+LookinServer.m"; path = "Src/Main/Server/Category/NSObject+LookinServer.m"; sourceTree = "<group>"; };
 		722858E1085C01AECD32CEFEE6A36D77 /* LKS_CustomAttrGroupsMaker.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = LKS_CustomAttrGroupsMaker.h; path = Src/Main/Server/Others/LKS_CustomAttrGroupsMaker.h; sourceTree = "<group>"; };
 		72C1897BC14B58DEE1E203F9405112EF /* Peertalk.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = Peertalk.h; path = Src/Main/Shared/Peertalk/Peertalk.h; sourceTree = "<group>"; };
-		73A9C2CE2EB5D4C2A9F03FF8E2B4B252 /* libPods-Music.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Music.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		73A9C2CE2EB5D4C2A9F03FF8E2B4B252 /* Pods-Music */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; name = "Pods-Music"; path = "libPods-Music.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		75B6B1609EFA7C768163E2F3C898704E /* Lookin_PTUSBHub.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = Lookin_PTUSBHub.h; path = Src/Main/Shared/Peertalk/Lookin_PTUSBHub.h; sourceTree = "<group>"; };
 		78D9FD2C21E381C566F36E08401580C8 /* NSString+Lookin.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = "NSString+Lookin.h"; path = "Src/Main/Shared/Category/NSString+Lookin.h"; sourceTree = "<group>"; };
 		7AB58F9C7EE470A77468C557766C7B32 /* LKS_CustomAttrGroupsMaker.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = LKS_CustomAttrGroupsMaker.m; path = Src/Main/Server/Others/LKS_CustomAttrGroupsMaker.m; sourceTree = "<group>"; };
@@ -291,7 +291,7 @@
 		9C70588A262F868D36FFFC4151D6DAAB /* NSLayoutConstraint+MASDebugAdditions.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = "NSLayoutConstraint+MASDebugAdditions.h"; path = "Masonry/NSLayoutConstraint+MASDebugAdditions.h"; sourceTree = "<group>"; };
 		9CA01864E469A38D7F43544C455FC0C6 /* LKS_GestureTargetActionsSearcher.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = LKS_GestureTargetActionsSearcher.m; path = Src/Main/Server/Others/LKS_GestureTargetActionsSearcher.m; sourceTree = "<group>"; };
 		9D30DF2A3F9411C44AD0B575495C3098 /* LKS_ConnectionManager.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = LKS_ConnectionManager.m; path = Src/Main/Server/Connection/LKS_ConnectionManager.m; sourceTree = "<group>"; };
-		9D940727FF8FB9C785EB98E56350EF41 /* Podfile */ = {isa = PBXFileReference; explicitFileType = text.script.ruby; includeInIndex = 1; indentWidth = 2; name = Podfile; path = ../Podfile; sourceTree = SOURCE_ROOT; tabWidth = 2; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
+		9D940727FF8FB9C785EB98E56350EF41 /* Podfile */ = {isa = PBXFileReference; explicitFileType = text.script.ruby; includeInIndex = 1; indentWidth = 2; lastKnownFileType = text; name = Podfile; path = ../Podfile; sourceTree = SOURCE_ROOT; tabWidth = 2; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
 		9F67E0234D4B8619E0F3AC19FBC469A0 /* Image+Lookin.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = "Image+Lookin.h"; path = "Src/Main/Shared/Category/Image+Lookin.h"; sourceTree = "<group>"; };
 		9FE8A3A6F6A890F51EDB68C5A77D9883 /* Lookin_PTPrivate.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = Lookin_PTPrivate.h; path = Src/Main/Shared/Peertalk/Lookin_PTPrivate.h; sourceTree = "<group>"; };
 		A08E5691C99F3E39F9123FCFADCA8A5A /* LookinConnectionResponseAttachment.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = LookinConnectionResponseAttachment.h; path = Src/Main/Shared/LookinConnectionResponseAttachment.h; sourceTree = "<group>"; };
@@ -369,10 +369,6 @@
 		FEC5A672CB0A4EC0C9AE0DEC527B40D2 /* MASConstraintMaker.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = MASConstraintMaker.m; path = Masonry/MASConstraintMaker.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
-/* Begin PBXFileSystemSynchronizedRootGroup section */
-		544B83C32FDAD3B800933AC9 /* Music */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = Music; sourceTree = "<group>"; };
-/* End PBXFileSystemSynchronizedRootGroup section */
-
 /* Begin PBXFrameworksBuildPhase section */
 		A877A4B639381A43F79C3FFE8DB589D9 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
@@ -409,9 +405,9 @@
 		3C995612C1989CF20525CB7DE4811AFB /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				25664483ABF4DC8EC03E7472AA04333B /* libLookinServer.a */,
-				1FFED36A657123030ABB700256D73F15 /* libMasonry.a */,
-				73A9C2CE2EB5D4C2A9F03FF8E2B4B252 /* libPods-Music.a */,
+				25664483ABF4DC8EC03E7472AA04333B /* LookinServer */,
+				1FFED36A657123030ABB700256D73F15 /* Masonry */,
+				73A9C2CE2EB5D4C2A9F03FF8E2B4B252 /* Pods-Music */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -434,6 +430,7 @@
 				66D88165CD2DFB0DC249CE47A0795FB2 /* Core */,
 				54281CE64FA43DD56B4C2EF20F01FD9B /* Support Files */,
 			);
+			name = LookinServer;
 			path = LookinServer;
 			sourceTree = "<group>";
 		};
@@ -609,6 +606,7 @@
 				B688B9D84631B0477E73561FE053B0B2 /* ViewController+MASAdditions.m */,
 				D1E3210170FD052FB0670D1989AE6980 /* Support Files */,
 			);
+			name = Masonry;
 			path = Masonry;
 			sourceTree = "<group>";
 		};
@@ -624,7 +622,6 @@
 		CF1408CF629C7361332E53B88F7BD30C = {
 			isa = PBXGroup;
 			children = (
-				544B83C32FDAD3B800933AC9 /* Music */,
 				9D940727FF8FB9C785EB98E56350EF41 /* Podfile */,
 				D89477F20FB1DE18A04690586D7808C4 /* Frameworks */,
 				BD7A0A9094DB33C01A87C0D2577FB825 /* Pods */,
@@ -794,7 +791,7 @@
 			);
 			name = "Pods-Music";
 			productName = "Pods-Music";
-			productReference = 73A9C2CE2EB5D4C2A9F03FF8E2B4B252 /* libPods-Music.a */;
+			productReference = 73A9C2CE2EB5D4C2A9F03FF8E2B4B252 /* Pods-Music */;
 			productType = "com.apple.product-type.library.static";
 		};
 		55AF53E6C77A10ED4985E04D74A8878E /* Masonry */ = {
@@ -811,7 +808,7 @@
 			);
 			name = Masonry;
 			productName = Masonry;
-			productReference = 1FFED36A657123030ABB700256D73F15 /* libMasonry.a */;
+			productReference = 1FFED36A657123030ABB700256D73F15 /* Masonry */;
 			productType = "com.apple.product-type.library.static";
 		};
 		638FEAAFC575BB76BC6AC055CDDA3506 /* LookinServer */ = {
@@ -828,7 +825,7 @@
 			);
 			name = LookinServer;
 			productName = LookinServer;
-			productReference = 25664483ABF4DC8EC03E7472AA04333B /* libLookinServer.a */;
+			productReference = 25664483ABF4DC8EC03E7472AA04333B /* LookinServer */;
 			productType = "com.apple.product-type.library.static";
 		};
 /* End PBXNativeTarget section */
@@ -837,9 +834,8 @@
 		BFDFE7DC352907FC980B868725387E98 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				BuildIndependentTargetsInParallel = YES;
 				LastSwiftUpdateCheck = 1600;
-				LastUpgradeCheck = 2600;
+				LastUpgradeCheck = 1600;
 			};
 			buildConfigurationList = 4821239608C13582E20E6DA73FD5F1F9 /* Build configuration list for PBXProject "Pods" */;
 			compatibilityVersion = "Xcode 16.0";
@@ -850,6 +846,8 @@
 				en,
 			);
 			mainGroup = CF1408CF629C7361332E53B88F7BD30C;
+			minimizedProjectReferenceProxies = 0;
+			preferredProjectObjectVersion = 77;
 			productRefGroup = 3C995612C1989CF20525CB7DE4811AFB /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -989,7 +987,7 @@
 				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				GCC_PREFIX_HEADER = "Target Support Files/LookinServer/LookinServer-prefix.pch";
 				GENERATE_INFOPLIST_FILE = NO;
-				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				OTHER_LDFLAGS = "";
 				OTHER_LIBTOOLFLAGS = "";
 				PRIVATE_HEADERS_FOLDER_PATH = "";
@@ -1039,7 +1037,6 @@
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = NO;
-				DEAD_CODE_STRIPPING = YES;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
@@ -1063,7 +1060,7 @@
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				STRIP_INSTALLED_PRODUCT = NO;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
@@ -1082,7 +1079,7 @@
 				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				GCC_PREFIX_HEADER = "Target Support Files/Masonry/Masonry-prefix.pch";
 				GENERATE_INFOPLIST_FILE = NO;
-				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
 				OTHER_LDFLAGS = "";
 				OTHER_LIBTOOLFLAGS = "";
 				PRIVATE_HEADERS_FOLDER_PATH = "";
@@ -1101,6 +1098,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = B79656E136FE6E44D48E78FD926FC9B6 /* Pods-Music.release.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = NO;
 				CLANG_ENABLE_OBJC_WEAK = NO;
 				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
@@ -1131,7 +1129,7 @@
 				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				GCC_PREFIX_HEADER = "Target Support Files/Masonry/Masonry-prefix.pch";
 				GENERATE_INFOPLIST_FILE = NO;
-				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
 				OTHER_LDFLAGS = "";
 				OTHER_LIBTOOLFLAGS = "";
 				PRIVATE_HEADERS_FOLDER_PATH = "";
@@ -1158,7 +1156,7 @@
 				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				GCC_PREFIX_HEADER = "Target Support Files/LookinServer/LookinServer-prefix.pch";
 				GENERATE_INFOPLIST_FILE = NO;
-				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				OTHER_LDFLAGS = "";
 				OTHER_LIBTOOLFLAGS = "";
 				PRIVATE_HEADERS_FOLDER_PATH = "";
@@ -1176,6 +1174,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = CADA664EF082098555BC0AAF6DC5503A /* Pods-Music.debug.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = NO;
 				CLANG_ENABLE_OBJC_WEAK = NO;
 				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
@@ -1229,7 +1228,6 @@
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = NO;
-				DEAD_CODE_STRIPPING = YES;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
@@ -1249,7 +1247,7 @@
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				STRIP_INSTALLED_PRODUCT = NO;
 				SWIFT_COMPILATION_MODE = wholemodule;
 				SWIFT_OPTIMIZATION_LEVEL = "-O";
 				SWIFT_VERSION = 5.0;

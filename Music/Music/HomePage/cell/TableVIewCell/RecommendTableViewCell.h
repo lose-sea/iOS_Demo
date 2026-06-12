@@ -7,12 +7,14 @@
 
 #import <UIKit/UIKit.h>
 #import <Masonry/Masonry.h>
-#import "PlayListCell.h"
+#import "DailyRecommendCell.h"
+#import "RecommendPlayListCell.h"
 
 NS_ASSUME_NONNULL_BEGIN
 @interface RecommendTableViewCell : UITableViewCell
 
-@property (nonatomic, strong) UICollectionView* collectionView; 
+@property (nonatomic, strong) UICollectionView* collectionView;
+@property (nonatomic, assign) NSInteger sectionType; 
 @end
 
 NS_ASSUME_NONNULL_END

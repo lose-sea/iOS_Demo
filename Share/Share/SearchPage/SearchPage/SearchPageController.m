@@ -144,12 +144,10 @@
     return CGSizeMake(collectionView.frame.size.width, 60);
 }
 
+
 - (UICollectionReusableView *)collectionView:(UICollectionView *)collectionView viewForSupplementaryElementOfKind:(NSString *)kind atIndexPath:(NSIndexPath *)indexPath {
     if ([kind isEqualToString: UICollectionElementKindSectionHeader]) {
         NSLog(@"%@", self.searchModel.tags);
-        
-    
-        
         UICollectionReusableView* header = [collectionView dequeueReusableSupplementaryViewOfKind: kind withReuseIdentifier: @"SectionHeader" forIndexPath: indexPath];
         // 清空旧内容
         for (UIView *subview in header.subviews) {
@@ -208,7 +206,7 @@
         return 4;
     }
 }
-
+    
 
 - (__kindof UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
     tagCollectionVIewCell* cell = [collectionView dequeueReusableCellWithReuseIdentifier: @"collectionViewCellID" forIndexPath: indexPath];
@@ -223,8 +221,9 @@
     return cell;
 }
 
+
 - (void) collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
-    
+      
     [self.view endEditing:YES];
     tagCollectionVIewCell* cell = [collectionView cellForItemAtIndexPath: indexPath];
     if (cell.iView.backgroundColor == [UIColor systemBackgroundColor]) {
