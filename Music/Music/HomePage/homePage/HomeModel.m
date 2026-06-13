@@ -19,5 +19,6 @@
 - (void)setUpData {
     self.DailyRecommendImages = [[NSMutableArray alloc] init];
     self.RecommendSongListImages = [[NSMutableArray alloc] init];
+    self.songs = [[NSMutableArray alloc] init];
 }
 @end

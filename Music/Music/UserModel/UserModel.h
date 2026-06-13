@@ -16,7 +16,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (nonatomic, strong) UIImage* songImage;
 @property (nonatomic, strong) NSString* songName;
-@property (nonatomic, strong) NSString* singerName;
+@property (nonatomic, strong) NSString* artist;
 
 @property (nonatomic, strong) Song* song;
 @property (nonatomic, assign) BOOL isPlay;

@@ -16,9 +16,19 @@
     return self;
 }
 
+- (instancetype)initWithCover:(UIImage *)coverImage Name:(NSString *)name Artist:(NSString *)artist {
+    self = [self init];
+    if (self) {
+        self.coverImage = coverImage;
+        self.name = name;
+        self.artist = artist;
+    }
+    return self; 
+}
+
 - (void) setUpData {
-    self.avatar = [UIImage imageNamed: @"47.jpg"];
+    self.coverImage = [UIImage imageNamed: @"47.jpg"];
     self.name = @"好不好";
-    self.songer = @"颜人中";
+    self.artist = @"颜人中";
 }
 @end

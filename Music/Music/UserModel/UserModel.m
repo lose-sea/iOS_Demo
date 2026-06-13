@@ -18,7 +18,7 @@ static UserModel* instance = nil;
         
         instance.songImage = [UIImage imageNamed: @"46.jpg"];
         instance.songName = @"这世界有那么多人";
-        instance.singerName = @"筷子兄弟";
+        instance.artist = @"筷子兄弟";
         instance.isPlay = NO;
     });
     return instance;

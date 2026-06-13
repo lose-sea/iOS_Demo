@@ -12,5 +12,7 @@
 @property (nonatomic, strong) NSMutableArray* DailyRecommendImages;
 
 @property (nonatomic, strong) NSMutableArray* RecommendSongListImages;
+
+@property (nonatomic, strong) NSMutableArray* songs; 
 @end
 

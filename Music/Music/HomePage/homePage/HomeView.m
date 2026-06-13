@@ -27,7 +27,8 @@
     
 //    self.tableView.backgroundColor = [[UIColor clearColor] colorWithAlphaComponent: 0.8];
     
-    [self.tableView registerClass: [RecommendTableViewCell class] forCellReuseIdentifier: @"RecommendTableViewCellID"]; 
+    [self.tableView registerClass: [RecommendTableViewCell class] forCellReuseIdentifier: @"RecommendTableViewCellID"];
+    [self.tableView registerClass: [HotSongTableViewCell class] forCellReuseIdentifier: @"HotSongTableViewCellID"];
 }
 
 @end

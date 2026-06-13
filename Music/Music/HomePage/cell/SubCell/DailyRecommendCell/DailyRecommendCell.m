@@ -29,11 +29,14 @@
     
     [self.contentView addSubview: self.tagLabel];
     [self.tagLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.left.right.mas_equalTo(self.contentView);
+        make.top.left.mas_equalTo(self.contentView);
+        make.width.mas_equalTo(80);
         make.height.mas_equalTo(30);
     }];
     self.tagLabel.backgroundColor = [[UIColor labelColor] colorWithAlphaComponent: 0.1];
     self.tagLabel.textColor = [UIColor systemBackgroundColor];
+    self.tagLabel.clipsToBounds = YES;
+    self.tagLabel.layer.cornerRadius = 5;
 
     [self.contentView addSubview: self.messageLabel];
     [self.messageLabel mas_makeConstraints:^(MASConstraintMaker *make) {
