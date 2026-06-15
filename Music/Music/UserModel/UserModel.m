@@ -16,9 +16,15 @@ static UserModel* instance = nil;
         instance.avatar = [UIImage imageNamed: @"51.jpg"];
         instance.nickName = @"缘起.执迷";
         
-        instance.songImage = [UIImage imageNamed: @"46.jpg"];
-        instance.songName = @"这世界有那么多人";
-        instance.artist = @"筷子兄弟";
+        instance.followCount = 21;
+        instance.followerCount = 345; 
+        
+        UIImage* songCover = [UIImage imageNamed: @"46.jpg"];
+        NSString* songName = @"这世界有那么多人";
+        NSString* artist = @"筷子兄弟";
+        
+        instance.song = [[Song alloc] initWithCover: songCover Name: songName Artist:artist];
+        
         instance.isPlay = NO;
     });
     return instance;

@@ -13,10 +13,12 @@ NS_ASSUME_NONNULL_BEGIN
 @interface UserModel : NSObject
 @property (nonatomic, strong) UIImage* avatar;
 @property (nonatomic, strong) NSString* nickName;
+@property (nonatomic, assign) NSInteger followCount;
+@property (nonatomic, assign) NSInteger followerCount;
 
-@property (nonatomic, strong) UIImage* songImage;
-@property (nonatomic, strong) NSString* songName;
-@property (nonatomic, strong) NSString* artist;
+//@property (nonatomic, strong) UIImage* songImage;
+//@property (nonatomic, strong) NSString* songName;
+//@property (nonatomic, strong) NSString* artist;
 
 @property (nonatomic, strong) Song* song;
 @property (nonatomic, assign) BOOL isPlay;

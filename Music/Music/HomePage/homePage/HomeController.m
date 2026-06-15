@@ -27,10 +27,14 @@
     self.navigationItem.leftBarButtonItem = menus;
 }
 
-- (void) pressMenuButton {
-    NSLog(@"点击了菜单按钮");
+// HomeController.m
+- (void)pressMenuButton {
+    NSLog(@"点击了菜单"); 
+    UIViewController *root = self.view.window.rootViewController;
+    if ([root isKindOfClass:[DrawerController class]]) {
+        [(DrawerController *)root switchOpen];
+    }
 }
-
 - (void)setUpData {
     self.homeModel = [[HomeModel alloc] init];
     for (int i = 20; i < 30; i++) {
@@ -45,8 +49,8 @@
         [self.homeModel.RecommendSongListImages addObject: image];
     }
     
-    for (int i = 0; i < 12; i++) {
-        NSString* songCoverName = [NSString stringWithFormat: @"%d.jpg", i + 36];
+    for (int i = 0; i < 20; i++) {
+        NSString* songCoverName = [NSString stringWithFormat: @"%d.jpg", i + 26];
         UIImage* songCover = [UIImage imageNamed: songCoverName];
         Song* song = [[Song alloc] initWithCover: songCover Name: @"我真的很爱你" Artist: @"林俊杰"];
         [self.homeModel.songs addObject: song];
@@ -58,12 +62,15 @@
 //        make.edges.mas_equalTo(self.view);
 //    }];
     
+    self.user = [[UserModel alloc] init];
     
     self.homeView = [[HomeView alloc] init];
     [self.view addSubview: self.homeView];
     [self.homeView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.edges.mas_equalTo(self.view);
     }];
+    self.homeView.playView.song = self.user.song;
+    [self.homeView.playView configWithSong: self.user.song];
     
     self.homeView.tableView.delegate = self;
     self.homeView.tableView.dataSource = self;
@@ -182,7 +189,7 @@
     } else if (cell.sectionType == 1) {
         return 7;
     }
-    return 12; 
+    return 15; 
 }
 
 
@@ -207,13 +214,70 @@
         cell.song = song;
         [cell configWithSong: song];
         
-        [cell.playButton addTarget: self action: @selector(pressPlayButton) forControlEvents: UIControlEventTouchUpInside];
+        [cell.playButton addTarget: self action: @selector(pressPlayButton:) forControlEvents: UIControlEventTouchUpInside];
         return cell;
     }
 }
 
-- (void) pressPlayButton {
-    NSLog(@"点击了播放按钮");
+
+- (void)scrollViewWillEndDragging:(UIScrollView *)scrollView
+                     withVelocity:(CGPoint)velocity
+              targetContentOffset:(inout CGPoint *)targetContentOffset {
+    // 只处理 UICollectionView
+    if (![scrollView isKindOfClass:[UICollectionView class]]) return;
+    UICollectionView *collectionView = (UICollectionView *)scrollView;
+    
+    // 找到所在的 TableViewCell，只处理第三部分（近期云村热播）
+    UITableViewCell *cell = [self findSuperViewOfCell:collectionView];
+    if (![cell isKindOfClass:[HotSongTableViewCell class]]) return;
+    HotSongTableViewCell *hotCell = (HotSongTableViewCell *)cell;
+    if (hotCell.sectionType != 2) return;
+    
+    //  获取布局参数
+    UICollectionViewFlowLayout *layout = (UICollectionViewFlowLayout *)collectionView.collectionViewLayout;
+    if (![layout isKindOfClass:[UICollectionViewFlowLayout class]]) return;
+    
+    CGFloat itemWidth = layout.itemSize.width;          // 300
+    CGFloat spacing = layout.minimumLineSpacing;       // 20
+    CGFloat pageWidth = itemWidth + spacing;           // 320
+    
+    //  计算滚动范围
+    CGFloat maxOffsetX = collectionView.contentSize.width - (self.view.bounds.size.width - itemWidth);
+
+    if (maxOffsetX <= 0) return;
+    
+    CGFloat proposedX = targetContentOffset->x;
+    CGFloat currentX = collectionView.contentOffset.x;
+    
+    //  计算建议的页面索引（四舍五入）
+    NSInteger targetIndex = (NSInteger)(proposedX + pageWidth * 0.5 / pageWidth);
+    
+    
+    // 7. 计算目标偏移量，并确保不超过最大滚动范围
+    CGFloat targetX = targetIndex * pageWidth;
+    
+    if (targetX > maxOffsetX) {
+        targetX = maxOffsetX;   // 关键：让最后一个 Cell 完整显示在左边
+    }
+    if (targetX < 0) targetX = 0;
+    
+    targetContentOffset->x = targetX;
+}
+
+
+- (void)pressPlayButton:(UIButton *)button {
+    UIView *view = button.superview;
+    while (view && ![view isKindOfClass:[HotSongCell class]]) {
+        view = view.superview;
+    }
+    HotSongCell *cell = (HotSongCell *)view;
+    if (cell) {
+        cell.song.isPlay = !cell.song.isPlay; 
+        NSLog(@"点击了歌曲：%@", cell.song.name);
+        self.user.song = cell.song;
+        self.homeView.playView.song = self.user.song;
+        [self.homeView.playView configWithSong: self.user.song];
+    }
 }
 
 

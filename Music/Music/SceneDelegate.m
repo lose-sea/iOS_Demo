@@ -39,11 +39,15 @@
     myController.tabBarItem =  [[UITabBarItem alloc] initWithTitle: @"我的" image: [UIImage systemImageNamed: @"person"] selectedImage: [UIImage systemImageNamed: @"person.fill"]];
     
     UITabBarController* tabBarController = [[UITabBarController alloc] init];
-    
-    
     tabBarController.viewControllers = @[homeNav, searchNav, noteNav, myNav];
+    
+    
 //    self.window.rootViewController = nav;
-    self.window.rootViewController = tabBarController;
+//    self.window.rootViewController = tabBarController;
+//    DrawerController* drawerController = [[DrawerController alloc] init];
+    MenuViewController* menuViewController = [[MenuViewController alloc] init]; 
+    DrawerController* drawerController = [[DrawerController alloc] initWithMainViewController: tabBarController menuViewController: menuViewController];
+    self.window.rootViewController = drawerController;
     [self.window makeKeyAndVisible];
 }
 

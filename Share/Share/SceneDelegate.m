@@ -24,7 +24,7 @@
     self.window.rootViewController = nav;
     
 
-    self.window.overrideUserInterfaceStyle = UIUserInterfaceStyleDark;
+//    self.window.overrideUserInterfaceStyle = UIUserInterfaceStyleDark;
 
     HomepageController* homePageController = [[HomepageController alloc] init];
     UINavigationController* homeNav = [[UINavigationController alloc] initWithRootViewController: homePageController];
@@ -52,8 +52,8 @@
     tabbarController.viewControllers = @[homeNav, searchNav, articlesCategoryNav, activityNav, myPageControllerNav];
 
     
-    self.window.rootViewController = tabbarController;
-//    self.window.rootViewController = nav;
+//    self.window.rootViewController = tabbarController;
+    self.window.rootViewController = nav;
     [self.window makeKeyAndVisible];
     
 

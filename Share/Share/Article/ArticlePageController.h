@@ -13,7 +13,6 @@ NS_ASSUME_NONNULL_BEGIN
 
 @protocol  ArticleDelegate <NSObject>
 - (void) refreshArticle: (article*) article;
-
 @end
 
 @interface ArticlePageController : UIViewController <UITableViewDelegate, UITableViewDataSource>

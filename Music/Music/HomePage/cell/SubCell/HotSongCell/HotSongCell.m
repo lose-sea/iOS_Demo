@@ -31,7 +31,7 @@
     [self.coverView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.mas_equalTo(self.contentView).offset(10);
         make.centerY.mas_equalTo(self.contentView);
-        make.width.height.mas_equalTo(40);
+        make.width.height.mas_equalTo(60);
     }];
     self.coverView.clipsToBounds = YES;
     self.contentMode = UIViewContentModeScaleAspectFill;

@@ -13,6 +13,9 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, strong) UIImage* coverImage;
 @property (nonatomic, strong) NSString* name;
 @property (nonatomic, strong) NSString* artist;
+@property (nonatomic, assign) BOOL isPlay;
+@property (nonatomic, assign) BOOL isLike;
+
 
 - (instancetype) initWithCover: (UIImage*) coverImage Name: (NSString*) name Artist: (NSString*) artist;
 @end

@@ -30,5 +30,7 @@
     self.coverImage = [UIImage imageNamed: @"47.jpg"];
     self.name = @"好不好";
     self.artist = @"颜人中";
+    self.isLike = NO;
+    self.isPlay = NO;
 }
 @end

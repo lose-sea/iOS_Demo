@@ -11,6 +11,8 @@
 #import "SearchController.h"
 #import "NoteController.h"
 #import "MyController.h"
+#import "DrawerController.h"
+#import "MenuViewController.h"
 
 @interface SceneDelegate : UIResponder <UIWindowSceneDelegate>
 

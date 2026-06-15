@@ -24,9 +24,12 @@
     flowLayout.minimumLineSpacing = 20;
     flowLayout.minimumInteritemSpacing = 10;
     
-    flowLayout.itemSize = CGSizeMake(260, 80);
+    flowLayout.itemSize = CGSizeMake(300, 70);
     
     self.collectionView = [[UICollectionView alloc] initWithFrame: CGRectZero collectionViewLayout: flowLayout];
+    
+//    self.collectionView.pagingEnabled = YES;
+    
     
     [self.contentView addSubview: self.collectionView];
     [self.collectionView mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -43,7 +46,6 @@
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {
     [super setSelected:selected animated:animated];
-
     // Configure the view for the selected state
 }
 
