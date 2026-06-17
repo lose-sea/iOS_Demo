@@ -1,0 +1,134 @@
+//
+//  MyController.m
+//  Music
+//
+//  Created by lose_sea on 2026/6/11.
+//
+
+#import "MyController.h"
+
+@interface MyController ()
+
+@end
+
+@implementation MyController
+
+- (void)viewDidLoad {
+    [super viewDidLoad];
+    self.title = @"我的";
+    // Do any additional setup after loading the view.
+    [self setUpData];
+    [self setUpNavigation];
+    [self setUpSearchController];
+    [self setUpInterface];
+    
+}
+
+- (void)setUpData {
+    self.myModel = [[MyModel alloc] init];
+    self.myView = [[MyView alloc] init];
+}
+
+- (void)setUpInterface {
+    [self.view addSubview: self.myView];
+    [self.myView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.edges.mas_equalTo(self.view);
+    }];
+    
+    self.myView.tableView.delegate = self;
+    self.myView.tableView.dataSource = self; 
+}
+
+- (void) setUpNavigation {
+    UIBarButtonItem* menuButton = [[UIBarButtonItem alloc] initWithImage: [UIImage systemImageNamed: @"text.justify"] style: UIBarButtonItemStylePlain target: self action: @selector(pressMenuButton)];
+    self.navigationItem.leftBarButtonItem = menuButton;
+    
+    UIBarButtonItem* addButton = [[UIBarButtonItem alloc] initWithImage: [UIImage systemImageNamed: @"plus"] style: UIBarButtonItemStylePlain target: self action: @selector(pressAddButton)];
+    
+    UIBarButtonItem* moreButton = [[UIBarButtonItem alloc] initWithImage: [UIImage systemImageNamed: @"ellipsis"] style: UIBarButtonItemStylePlain target: self action: @selector(pressMoreButton)];
+    self.navigationItem.rightBarButtonItems = @[moreButton, addButton];
+}
+
+- (void)pressMenuButton {
+    NSLog(@"点击了菜单");
+    UIViewController *root = self.view.window.rootViewController;
+    if ([root isKindOfClass:[DrawerController class]]) {
+        [(DrawerController *)root switchOpen];
+    }
+}
+
+- (void)pressAddButton {
+    NSLog(@"点击了添加按钮");
+}
+
+-(void)pressMoreButton {
+    NSLog(@"点击了更多按钮");
+}
+
+- (void)setUpSearchController {
+    self.searchController = [[UISearchController alloc] initWithSearchResultsController: nil];
+    
+    self.searchController.searchBar.delegate = self;
+    // 模糊背景
+    self.searchController.obscuresBackgroundDuringPresentation = YES;
+    // 隐藏导航栏
+    self.searchController.hidesNavigationBarDuringPresentation = NO;
+    
+    // 添加到导航栏
+    self.navigationItem.searchController = self.searchController;
+    
+    self.searchController.searchBar.placeholder = @"安河桥 宋冬野";
+    
+    // iOS 26 新增/调整的 API，尝试让搜索栏顶替标题位置
+//    self.navigationItem.preferredSearchBarPlacement = UINavigationItemSearchBarPlacementIntegrated;
+    
+    // 搜索成一个按钮,点击展开搜索栏
+    self.navigationItem.preferredSearchBarPlacement = UINavigationItemSearchBarPlacementIntegratedButton;
+//    self.searchController.searchBar.hidden = YES;
+}
+
+
+
+#pragma mark - UITableView
+- (NSInteger) numberOfSectionsInTableView:(UITableView *)tableView {
+    return 2;
+}
+
+- (NSInteger) tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+    if (section == 0) {
+        return 1;
+    }
+    return 9; 
+}
+
+- (CGFloat) tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
+    if (indexPath.row == 0) {
+        return 240;
+    }
+    return 60;
+}
+
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+    if (indexPath.section == 0) {
+        UserCell* cell = [tableView dequeueReusableCellWithIdentifier: @"UserCellID" forIndexPath: indexPath];
+        cell.user = self.myModel.user;
+        [cell configWithUser: self.myModel.user];
+        return cell;
+    } else {
+        PlayListCell* cell = [tableView dequeueReusableCellWithIdentifier: @"PlayListCellID" forIndexPath:  indexPath];
+        
+        return cell;
+    }
+}
+
+/*
+#pragma mark - Navigation
+
+// In a storyboard-based application, you will often want to do a little preparation before navigation
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+    // Get the new view controller using [segue destinationViewController].
+    // Pass the selected object to the new view controller.
+}
+*/
+
+@end

@@ -80,6 +80,8 @@
 
 - (void) setTagTableView {
     self.tagTableView = [[UITableView alloc] init];
+    
+    self.tagTableView.bounces = NO; 
     [self addSubview: self.tagTableView];
     [self.tagTableView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.mas_equalTo(self.coverViewButton.mas_right).offset(10);
@@ -116,6 +118,7 @@
 
 - (void) setTextView {
     self.textView = [[UITextView alloc] init];
+
     self.textView.font = [UIFont systemFontOfSize: 15];
     self.textView.textColor = [UIColor blackColor];
 //    self.textView.backgroundColor = [UIColor systemGrayColor];

@@ -13,10 +13,12 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface HomeController : UIViewController <UITableViewDelegate, UITableViewDataSource, UICollectionViewDelegate, UICollectionViewDataSource>
+@interface HomeController : UIViewController <UITableViewDelegate, UITableViewDataSource, UICollectionViewDelegate, UICollectionViewDataSource, UISearchBarDelegate>
 @property (nonatomic, strong) HomeModel* homeModel;
 @property (nonatomic, strong) HomeView* homeView;
-@property (nonatomic, strong) UserModel* user; 
+@property (nonatomic, strong) UserModel* user;
+
+@property (nonatomic, strong) UISearchController* searchController; 
 @end
 
 NS_ASSUME_NONNULL_END

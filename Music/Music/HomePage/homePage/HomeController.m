@@ -14,20 +14,20 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.title = @"推荐";
-    
-
-    
     // Do any additional setup after loading the view.
     
     [self setUpData];
+    [self setUpSearchController];
     [self setUpNavigation];
 }
 - (void) setUpNavigation {
     UIBarButtonItem* menus = [[UIBarButtonItem alloc] initWithImage: [UIImage systemImageNamed: @"text.justify"] style: UIBarButtonItemStylePlain target: self action: @selector(pressMenuButton)];
     self.navigationItem.leftBarButtonItem = menus;
+    
+//    UIBarButtonItem* search = [[UIBarButtonItem alloc] initWithImage: [UIImage systemImageNamed: @"magnifyingglass"] style: UIBarButtonItemStylePlain target: self action: @selector(pressSearchButton)];
+//    self.navigationItem.rightBarButtonItem = search;
 }
 
-// HomeController.m
 - (void)pressMenuButton {
     NSLog(@"点击了菜单"); 
     UIViewController *root = self.view.window.rootViewController;
@@ -35,6 +35,39 @@
         [(DrawerController *)root switchOpen];
     }
 }
+
+
+- (void)pressSearchButton {
+    NSLog(@"点击了搜索按钮");
+    self.searchController.searchBar.hidden = NO;
+}
+
+
+- (void)setUpSearchController {
+    self.searchController = [[UISearchController alloc] initWithSearchResultsController: nil];
+    
+    self.searchController.searchBar.delegate = self;
+    // 模糊背景
+    self.searchController.obscuresBackgroundDuringPresentation = YES;
+    // 隐藏导航栏
+    self.searchController.hidesNavigationBarDuringPresentation = NO;
+    
+    // 添加到导航栏
+    self.navigationItem.searchController = self.searchController;
+    
+    self.searchController.searchBar.placeholder = @"安河桥 宋冬野";
+    
+    // iOS 26 新增/调整的 API，尝试让搜索栏顶替标题位置
+//    self.navigationItem.preferredSearchBarPlacement = UINavigationItemSearchBarPlacementIntegrated;
+    
+    // 搜索成一个按钮,点击展开搜索栏
+    self.navigationItem.preferredSearchBarPlacement = UINavigationItemSearchBarPlacementIntegratedButton;
+    
+//    self.searchController.searchBar.hidden = YES;
+}
+
+
+
 - (void)setUpData {
     self.homeModel = [[HomeModel alloc] init];
     for (int i = 20; i < 30; i++) {
@@ -75,6 +108,22 @@
     self.homeView.tableView.delegate = self;
     self.homeView.tableView.dataSource = self;
 }
+
+- (void)pressPlayButton:(UIButton *)button {
+    UIView *view = button.superview;
+    while (view && ![view isKindOfClass:[HotSongCell class]]) {
+        view = view.superview;
+    }
+    HotSongCell *cell = (HotSongCell *)view;
+    if (cell) {
+        cell.song.isPlay = !cell.song.isPlay;
+        NSLog(@"点击了歌曲：%@", cell.song.name);
+        self.user.song = cell.song;
+        self.homeView.playView.song = self.user.song;
+        [self.homeView.playView configWithSong: self.user.song];
+    }
+}
+
 
 
 
@@ -161,10 +210,13 @@
     }
 }
 
-
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     [tableView deselectRowAtIndexPath: indexPath animated: YES];
 }
+
+
+
+
 
 #pragma mark - UICollectionView
 
@@ -219,7 +271,7 @@
     }
 }
 
-
+// 设置滚动结束时cell可以完整显示
 - (void)scrollViewWillEndDragging:(UIScrollView *)scrollView
                      withVelocity:(CGPoint)velocity
               targetContentOffset:(inout CGPoint *)targetContentOffset {
@@ -242,18 +294,15 @@
     CGFloat pageWidth = itemWidth + spacing;           // 320
     
     //  计算滚动范围
-    CGFloat maxOffsetX = collectionView.contentSize.width - (self.view.bounds.size.width - itemWidth);
+    CGFloat maxOffsetX = collectionView.contentSize.width - layout.itemSize.width;
 
     if (maxOffsetX <= 0) return;
     
     CGFloat proposedX = targetContentOffset->x;
-    CGFloat currentX = collectionView.contentOffset.x;
     
-    //  计算建议的页面索引（四舍五入）
-    NSInteger targetIndex = (NSInteger)(proposedX + pageWidth * 0.5 / pageWidth);
-    
-    
-    // 7. 计算目标偏移量，并确保不超过最大滚动范围
+    //  计算建页面索引
+    NSInteger targetIndex = (NSInteger)((proposedX + pageWidth * 0.5) / pageWidth);
+    // 计算目标偏移量
     CGFloat targetX = targetIndex * pageWidth;
     
     if (targetX > maxOffsetX) {
@@ -265,20 +314,8 @@
 }
 
 
-- (void)pressPlayButton:(UIButton *)button {
-    UIView *view = button.superview;
-    while (view && ![view isKindOfClass:[HotSongCell class]]) {
-        view = view.superview;
-    }
-    HotSongCell *cell = (HotSongCell *)view;
-    if (cell) {
-        cell.song.isPlay = !cell.song.isPlay; 
-        NSLog(@"点击了歌曲：%@", cell.song.name);
-        self.user.song = cell.song;
-        self.homeView.playView.song = self.user.song;
-        [self.homeView.playView configWithSong: self.user.song];
-    }
-}
+
+
 
 
 /*

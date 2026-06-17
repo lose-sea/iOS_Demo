@@ -68,8 +68,6 @@
         [self.followButton setTitleColor: [UIColor systemGrayColor] forState: UIControlStateNormal];
         self.followButton.tintColor = [UIColor systemGrayColor];
         self.followButton.layer.borderColor = [UIColor systemGrayColor].CGColor;
-
-
     } else {
         [self.followButton setTitle: @"+关注" forState: UIControlStateNormal];
         [self.followButton setTitleColor: [UIColor systemCyanColor] forState: UIControlStateNormal];

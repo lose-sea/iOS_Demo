@@ -45,7 +45,7 @@
     [self setupMask];
     
     
-    self.menuWidth = self.view.bounds.size.width * 0.66;
+    self.menuWidth = self.view.bounds.size.width * 0.7;
     NSLog(@"%lf", self.menuWidth);
     // 添加菜单视图
     [self addChildViewController: self.menuViewController];
@@ -58,12 +58,9 @@
         make.bottom.mas_equalTo(self.view);
     }];
 //    self.menuViewController.view.frame = CGRectMake(-self.menuWidth, 0, self.menuWidth, self.view.bounds.size.height);
-
-
-
-    
     [self setUpGesture];
 }
+
 
 - (void)setupMask {
     self.maskView = [[UIView alloc] init];

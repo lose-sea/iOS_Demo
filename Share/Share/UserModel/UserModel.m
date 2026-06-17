@@ -13,8 +13,8 @@ static UserModel* instance;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
         instance = [[super allocWithZone: nil] init];
-        instance.account = @"111111";
-        instance.password = @"111111";
+        instance.account = @"";
+        instance.password = @"";
         
         instance.avatar = [UIImage imageNamed: @"53.jpg"];
         instance.gender = @"男";

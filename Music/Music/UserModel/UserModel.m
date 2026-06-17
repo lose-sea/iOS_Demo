@@ -26,6 +26,7 @@ static UserModel* instance = nil;
         instance.song = [[Song alloc] initWithCover: songCover Name: songName Artist:artist];
         
         instance.isPlay = NO;
+        
     });
     return instance;
 }
