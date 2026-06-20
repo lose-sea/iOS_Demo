@@ -101,11 +101,33 @@
     return 9; 
 }
 
+- (CGFloat) tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
+    return 50;
+}
+
 - (CGFloat) tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    if (indexPath.row == 0) {
+    if (indexPath.section == 0) {
         return 240;
     }
-    return 60;
+    return 80;
+}
+
+
+
+- (UIView*) tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
+    UIView* view = [[UIView alloc] init];
+    UISegmentedControl* segmentedControl = [[UISegmentedControl alloc] init];
+    [view addSubview: segmentedControl];
+    [segmentedControl mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.edges.mas_equalTo(view);
+    }];
+    [segmentedControl insertSegmentWithTitle: @"音乐" atIndex: 0 animated: YES];
+    [segmentedControl insertSegmentWithTitle: @"博客" atIndex: 1 animated: YES];
+    [segmentedControl insertSegmentWithTitle: @"笔记" atIndex: 2 animated: YES];
+    
+    segmentedControl.selectedSegmentIndex = 0;
+    segmentedControl.selectedSegmentTintColor = [[UIColor systemGrayColor]colorWithAlphaComponent: 0.4];
+    return view;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -121,6 +143,10 @@
     }
 }
 
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    [tableView deselectRowAtIndexPath: indexPath animated: YES];
+}
 /*
 #pragma mark - Navigation
 

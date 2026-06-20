@@ -12,8 +12,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface PlayListCell : UITableViewCell
 @property (nonatomic, strong) Song* song;
-@property (nonatomic, strong) UIImageView* songView;
-@property (nonatomic, strong) UILabel* songName;
+@property (nonatomic, strong) UIImageView* coverView;
+@property (nonatomic, strong) UILabel* nameLabel;
 @property (nonatomic, strong) UILabel* messageLabel;
 - (void)configWithSong: (Song*) song;
 @end

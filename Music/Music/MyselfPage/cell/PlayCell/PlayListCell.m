@@ -10,7 +10,7 @@
 @implementation PlayListCell
 
 - (instancetype) initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier {
-    self = [super init];
+    self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
         
     }
@@ -18,17 +18,28 @@
 }
 
 - (void)setUpInterface {
-    self.songView = [[UIImageView alloc] init];
-    self.songName = [[UILabel alloc] init];
+    self.coverView = [[UIImageView alloc] init];
+    self.nameLabel = [[UILabel alloc] init];
     self.messageLabel = [[UILabel alloc] init];
     
-    [self.contentView addSubview: self.songView];
-    [self.songView mas_makeConstraints:^(MASConstraintMaker *make) {
+    [self.contentView addSubview: self.coverView];
+    [self.coverView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerY.mas_equalTo(self.contentView);
         make.left.mas_equalTo(self.contentView).offset(10);
         make.width.height.mas_equalTo(50);
     }];
     
+    [self.contentView addSubview: self.nameLabel];
+    [self.nameLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.mas_equalTo(self.contentView).offset(10);
+        make.left.mas_equalTo(self.coverView.mas_right).offset(10);
+    }];
+    
+}
+
+- (void) configWithSong:(Song *)song {
+    self.coverView.image = song.coverImage;
+    self.nameLabel.text = song.name;
 }
 
 - (void)awakeFromNib {

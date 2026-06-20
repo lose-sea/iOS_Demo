@@ -27,7 +27,7 @@
     
     [self.contentView addSubview: self.avatarView];
     [self.avatarView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.mas_equalTo(self.contentView).offset(10);
+        make.top.mas_equalTo(self.contentView).offset(15);
         make.centerX.mas_equalTo(self.contentView);
         make.width.height.mas_equalTo(80);
     }];
@@ -39,8 +39,8 @@
     [self.contentView addSubview: self.nickLabel];
     [self.nickLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.mas_equalTo(self.avatarView.mas_bottom).offset(5);
-        make.centerX.mas_equalTo(self.contentView).offset(-40);
-        make.width.mas_equalTo(100);
+        make.centerX.mas_equalTo(self.contentView).offset(-35);
+        make.width.mas_equalTo(90);
         make.height.mas_equalTo(30);
     }];
     self.nickLabel.font = [UIFont boldSystemFontOfSize: 20];
