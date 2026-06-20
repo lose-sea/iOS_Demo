@@ -76,8 +76,8 @@
         make.edges.equalTo(self.view);
     }];
     
-    UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(closeMenu)];
-    [self.maskView addGestureRecognizer:tap];
+//    UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(closeMenu)];
+//    [self.maskView addGestureRecognizer:tap];
 }
 
 - (void)setUpGesture {

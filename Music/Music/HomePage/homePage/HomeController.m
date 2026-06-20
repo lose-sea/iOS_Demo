@@ -23,9 +23,6 @@
 - (void) setUpNavigation {
     UIBarButtonItem* menus = [[UIBarButtonItem alloc] initWithImage: [UIImage systemImageNamed: @"text.justify"] style: UIBarButtonItemStylePlain target: self action: @selector(pressMenuButton)];
     self.navigationItem.leftBarButtonItem = menus;
-    
-//    UIBarButtonItem* search = [[UIBarButtonItem alloc] initWithImage: [UIImage systemImageNamed: @"magnifyingglass"] style: UIBarButtonItemStylePlain target: self action: @selector(pressSearchButton)];
-//    self.navigationItem.rightBarButtonItem = search;
 }
 
 - (void)pressMenuButton {
