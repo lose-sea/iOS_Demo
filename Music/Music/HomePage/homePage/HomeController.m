@@ -238,7 +238,7 @@
     } else if (cell.sectionType == 1) {
         return 7;
     }
-    return 15; 
+    return 15;
 }
 
 
@@ -324,5 +324,6 @@
     // Pass the selected object to the new view controller.
 }
 */
+
 
 @end
