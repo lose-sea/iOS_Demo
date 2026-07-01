@@ -72,7 +72,7 @@
     // 模糊背景
     self.searchController.obscuresBackgroundDuringPresentation = YES;
     // 隐藏导航栏
-    self.searchController.hidesNavigationBarDuringPresentation = NO;
+    self.searchController.hidesNavigationBarDuringPresentation = YES;
     
     // 添加到导航栏
     self.navigationItem.searchController = self.searchController;
@@ -102,12 +102,15 @@
 }
 
 - (CGFloat) tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
-    return 50;
+    if (section == 1) {
+        return 50; 
+    }
+    return 0;
 }
 
 - (CGFloat) tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     if (indexPath.section == 0) {
-        return 240;
+        return 220;
     }
     return 80;
 }
@@ -127,7 +130,10 @@
     
     segmentedControl.selectedSegmentIndex = 0;
     segmentedControl.selectedSegmentTintColor = [[UIColor systemGrayColor]colorWithAlphaComponent: 0.4];
-    return view;
+    if (section == 1) {
+        return view;
+    }
+    return nil;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {

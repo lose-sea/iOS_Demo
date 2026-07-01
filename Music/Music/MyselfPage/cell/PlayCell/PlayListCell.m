@@ -12,7 +12,7 @@
 - (instancetype) initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier {
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
-        
+        [self setUpInterface];
     }
     return self;
 }
@@ -33,6 +33,14 @@
     [self.nameLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.mas_equalTo(self.contentView).offset(10);
         make.left.mas_equalTo(self.coverView.mas_right).offset(10);
+        make.width.mas_equalTo(300);
+        make.height.mas_equalTo(50);
+    }];
+    
+    [self.contentView addSubview: self.messageLabel];
+    [self.messageLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.mas_equalTo(self.nameLabel);
+            
     }];
     
 }
