@@ -34,14 +34,16 @@
         make.top.mas_equalTo(self.contentView).offset(10);
         make.left.mas_equalTo(self.coverView.mas_right).offset(10);
         make.width.mas_equalTo(300);
-        make.height.mas_equalTo(50);
+        make.height.mas_equalTo(30);
     }];
     
     [self.contentView addSubview: self.messageLabel];
     [self.messageLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.mas_equalTo(self.nameLabel);
-            
-    }];
+        make.top.mas_equalTo(self.nameLabel.mas_bottom).offset(5);
+        make.width.mas_equalTo(300);
+        make.height.mas_equalTo(20);
+    }];  
     
 }
 
