@@ -16,7 +16,7 @@
 }
 
 - (void) setUpData {
-    self.songListCover = [[UIImage alloc] init];
+    self.coverImage = [[UIImage alloc] init];
     self.name = [[NSString alloc] init];
     self.message = [[NSString alloc] init];
 }
@@ -24,7 +24,7 @@
 - (instancetype) initWithCover: (UIImage*) cover Name: (NSString*) name message: (NSString*) message {
     self = [self init];
     if (self) {
-        self.songListCover = cover;
+        self.coverImage = cover;
         self.name = name;
         self.message = message;
     }

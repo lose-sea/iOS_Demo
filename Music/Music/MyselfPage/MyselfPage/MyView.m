@@ -28,7 +28,8 @@
     }];
     
     [self.tableView registerClass: [UserCell class] forCellReuseIdentifier: @"UserCellID"];
-    [self.tableView registerClass: [PlayListCell class] forCellReuseIdentifier: @"PlayListCellID"]; 
+    [self.tableView registerClass: [PlayListCell class] forCellReuseIdentifier: @"PlayListCellID"];
+    [self.tableView registerClass: [ScrollViewCell class] forCellReuseIdentifier: @"ScrollViewCellID"]; 
 }
 /*
 // Only override drawRect: if you perform custom drawing.

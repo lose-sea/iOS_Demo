@@ -10,9 +10,11 @@
 NS_ASSUME_NONNULL_BEGIN
 
 @interface SongList : NSObject
-@property (nonatomic, strong) UIImage* songListCover;
+@property (nonatomic, strong) UIImage* coverImage;
 @property (nonatomic, strong) NSString* name;
 @property (nonatomic, strong) NSString* message;
+
+- (instancetype) initWithCover: (UIImage*) cover Name: (NSString*) name message: (NSString*) message; 
 @end
 
 NS_ASSUME_NONNULL_END

@@ -21,12 +21,23 @@
     [self setUpNavigation];
     [self setUpSearchController];
     [self setUpInterface];
-    
 }
 
 - (void)setUpData {
     self.myModel = [[MyModel alloc] init];
     self.myView = [[MyView alloc] init];
+    
+    SongList* s1 = [[SongList alloc] initWithCover: [UIImage imageNamed: @"43.jpg"] Name: @"你的声音,身上的香味,瞳孔的深度,看我的眼睛,我都快忘了" message: @"歌单 466首 先爱上的那个人,是输家"];
+    SongList* s2 = [[SongList alloc] initWithCover: [UIImage imageNamed: @"44.jpg"] Name: @"同学:,我们没有以后了" message: @"歌单 466首 先爱上的那个人,是输家"];
+    SongList* s3 = [[SongList alloc] initWithCover: [UIImage imageNamed: @"45.jpg"] Name: @"同学:,我们没有以后了" message: @"歌单 466首 先爱上的那个人,是输家"];
+    SongList* s4 = [[SongList alloc] initWithCover: [UIImage imageNamed: @"46.jpg"] Name: @"同学:,我们没有以后了" message: @"歌单 466首 先爱上的那个人,是输家"];
+    SongList* s5 = [[SongList alloc] initWithCover: [UIImage imageNamed: @"47.jpg"] Name: @"同学:,我们没有以后了" message: @"歌单 466首 先爱上的那个人,是输家"];
+    SongList* s6 = [[SongList alloc] initWithCover: [UIImage imageNamed: @"48.jpg"] Name: @"同学:,我们没有以后了" message: @"歌单 466首 先爱上的那个人,是输家"];
+    SongList* s7 = [[SongList alloc] initWithCover: [UIImage imageNamed: @"49.jpg"] Name: @"同学:,我们没有以后了" message: @"歌单 466首 先爱上的那个人,是输家"];
+    SongList* s8 = [[SongList alloc] initWithCover: [UIImage imageNamed: @"50.jpg"] Name: @"同学:,我们没有以后了" message: @"歌单 466首 先爱上的那个人,是输家"];
+    SongList* s9 = [[SongList alloc] initWithCover: [UIImage imageNamed: @"51.jpg"] Name: @"同学:,我们没有以后了" message: @"歌单 466首 先爱上的那个人,是输家"];
+    
+    [self.myModel.songLists addObjectsFromArray: @[s1, s2, s3, s4, s5, s6, s7, s8, s9]];
 }
 
 - (void)setUpInterface {
@@ -36,7 +47,7 @@
     }];
     
     self.myView.tableView.delegate = self;
-    self.myView.tableView.dataSource = self; 
+    self.myView.tableView.dataSource = self;
 }
 
 - (void) setUpNavigation {
@@ -95,10 +106,12 @@
 }
 
 - (NSInteger) tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    if (section == 0) {
-        return 1;
+    if (tableView.tag == 101) {
+        return 9;
+    } else if (tableView.tag == 102) {
+        return 9;
     }
-    return 9; 
+    return 1; 
 }
 
 - (CGFloat) tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
@@ -112,7 +125,7 @@
     if (indexPath.section == 0) {
         return 220;
     }
-    return 80;
+    return 500;
 }
 
 
@@ -125,7 +138,7 @@
         make.edges.mas_equalTo(view);
     }];
     [segmentedControl insertSegmentWithTitle: @"音乐" atIndex: 0 animated: YES];
-    [segmentedControl insertSegmentWithTitle: @"博客" atIndex: 1 animated: YES];
+    [segmentedControl insertSegmentWithTitle: @"播客" atIndex: 1 animated: YES];
     [segmentedControl insertSegmentWithTitle: @"笔记" atIndex: 2 animated: YES];
     
     segmentedControl.selectedSegmentIndex = 0;
@@ -137,14 +150,31 @@
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    if (indexPath.section == 0) {
-        UserCell* cell = [tableView dequeueReusableCellWithIdentifier: @"UserCellID" forIndexPath: indexPath];
-        cell.user = self.myModel.user;
-        [cell configWithUser: self.myModel.user];
+    if (tableView == self.myView.tableView) {
+        if (indexPath.section == 0) {
+            UserCell* cell = [tableView dequeueReusableCellWithIdentifier: @"UserCellID" forIndexPath: indexPath];
+            cell.user = self.myModel.user;
+            [cell configWithUser: self.myModel.user];
+            return cell;
+        } else {
+            ScrollViewCell* cell = [tableView dequeueReusableCellWithIdentifier: @"ScrollViewCellID" forIndexPath: indexPath];
+            cell.musicTableView.delegate = self;
+            cell.musicTableView.dataSource = self;
+            cell.playTableView.delegate = self;
+            cell.playTableView.dataSource = self;
+            return cell;
+        }
+    } else if (tableView.tag == 101) {
+        PlayListCell* cell = [tableView dequeueReusableCellWithIdentifier: @"MusicCellID" forIndexPath: indexPath];
+        SongList* songList = self.myModel.songLists[indexPath.row];
+        cell.songList = songList;
+        [cell configWithSongList: songList];
         return cell;
     } else {
-        PlayListCell* cell = [tableView dequeueReusableCellWithIdentifier: @"PlayListCellID" forIndexPath:  indexPath];
-        
+        PlayListCell* cell = [tableView dequeueReusableCellWithIdentifier: @"playTableCellID" forIndexPath: indexPath];
+        SongList* songList = self.myModel.songLists[indexPath.row];
+        cell.songList = songList;
+        [cell configWithSongList: songList];
         return cell;
     }
 }

@@ -19,6 +19,18 @@
 
 
 - (void) setUpInterface {
+    
+    
+    self.scrollView = [[UIScrollView alloc] init];
+    [self addSubview: self.scrollView];
+    [self.scrollView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.edges.equalTo(self);
+    }];
+    
+    self.scrollView.contentSize = CGSizeMake(self.bounds.size.width * 3, self.bounds.size.height);
+    NSLog(@"%f, %f", self.bounds.size.width * 3, self.bounds.size.height);
+    
+    
     self.tableView = [[UITableView alloc] init];
     [self addSubview: self.tableView];
     [self.tableView mas_makeConstraints:^(MASConstraintMaker *make) {

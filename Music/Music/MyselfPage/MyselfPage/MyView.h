@@ -9,6 +9,7 @@
 #import <Masonry/Masonry.h> 
 #import "UserCell.h"
 #import "PlayListCell.h"
+#import "ScrollViewCell.h"
 
 NS_ASSUME_NONNULL_BEGIN
 

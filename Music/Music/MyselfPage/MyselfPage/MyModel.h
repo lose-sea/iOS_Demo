@@ -8,12 +8,15 @@
 #import <Foundation/Foundation.h>
 #import "UserModel.h"
 #import "Song.h"
+#import "PlayListCell.h"
+
 NS_ASSUME_NONNULL_BEGIN
 
 @interface MyModel : NSObject
 @property (nonatomic, strong) UserModel* user;
+@property (nonatomic, strong) NSMutableArray* songs;
 
-@property (nonatomic, strong) NSMutableArray* songs; 
+@property (nonatomic, strong) NSMutableArray* songLists;
 @end
 
 NS_ASSUME_NONNULL_END

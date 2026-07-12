@@ -36,20 +36,24 @@
         make.width.mas_equalTo(300);
         make.height.mas_equalTo(30);
     }];
+    self.nameLabel.font = [UIFont boldSystemFontOfSize: 18];
     
     [self.contentView addSubview: self.messageLabel];
     [self.messageLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.mas_equalTo(self.nameLabel);
         make.top.mas_equalTo(self.nameLabel.mas_bottom).offset(5);
         make.width.mas_equalTo(300);
-        make.height.mas_equalTo(20);
-    }];  
+        make.height.mas_equalTo(15);
+    }];
+    self.messageLabel.font = [UIFont systemFontOfSize: 14];
+    self.messageLabel.textColor = [UIColor systemGrayColor]; 
     
 }
 
-- (void) configWithSong:(Song *)song {
-    self.coverView.image = song.coverImage;
-    self.nameLabel.text = song.name;
+- (void) configWithSongList:(SongList *)songList {
+    self.coverView.image = songList.coverImage;
+    self.nameLabel.text = songList.name;
+    self.messageLabel.text = songList.message;
 }
 
 - (void)awakeFromNib {

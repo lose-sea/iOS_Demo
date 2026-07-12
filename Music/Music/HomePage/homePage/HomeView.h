@@ -14,5 +14,6 @@
 
 @interface HomeView : UIView
 @property (nonatomic, strong) UITableView* tableView;
-@property (nonatomic, strong) PlayView* playView; 
+@property (nonatomic, strong) UIScrollView* scrollView; 
+@property (nonatomic, strong) PlayView* playView;
 @end

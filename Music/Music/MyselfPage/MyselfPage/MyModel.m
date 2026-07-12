@@ -19,5 +19,6 @@
 - (void)setUpData {
     self.user = [[UserModel alloc] init];
     self.songs = [[NSMutableArray alloc] init];
+    self.songLists = [[NSMutableArray alloc] init];
 }
 @end
