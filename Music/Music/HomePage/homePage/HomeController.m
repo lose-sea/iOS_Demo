@@ -92,15 +92,15 @@
 //        make.edges.mas_equalTo(self.view);
 //    }];
     
-    self.user = [[UserModel alloc] init];
+    self.homeModel.user = [[UserModel alloc] init];
     
     self.homeView = [[HomeView alloc] init];
     [self.view addSubview: self.homeView];
     [self.homeView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.edges.mas_equalTo(self.view);
     }];
-    self.homeView.playView.song = self.user.song;
-    [self.homeView.playView configWithSong: self.user.song];
+    self.homeView.playView.song = self.homeModel.user.song;
+    [self.homeView.playView configWithSong: self.homeModel.user.song];
     
     self.homeView.tableView.delegate = self;
     self.homeView.tableView.dataSource = self;
@@ -115,9 +115,9 @@
     if (cell) {
         cell.song.isPlay = !cell.song.isPlay;
         NSLog(@"点击了歌曲：%@", cell.song.name);
-        self.user.song = cell.song;
-        self.homeView.playView.song = self.user.song;
-        [self.homeView.playView configWithSong: self.user.song];
+        self.homeModel.user.song = cell.song;
+        self.homeView.playView.song = self.homeModel.user.song;
+        [self.homeView.playView configWithSong: self.homeModel.user.song];
     }
 }
 

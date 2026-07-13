@@ -46,7 +46,9 @@
         make.height.mas_equalTo(15);
     }];
     self.messageLabel.font = [UIFont systemFontOfSize: 14];
-    self.messageLabel.textColor = [UIColor systemGrayColor]; 
+    self.messageLabel.textColor = [UIColor systemGrayColor];
+    
+    self.accessoryView = [[UIImageView alloc] initWithImage: [UIImage systemImageNamed: @"ellipsis.circle"]];
     
 }
 

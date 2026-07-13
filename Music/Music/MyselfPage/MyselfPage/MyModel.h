@@ -15,7 +15,6 @@ NS_ASSUME_NONNULL_BEGIN
 @interface MyModel : NSObject
 @property (nonatomic, strong) UserModel* user;
 @property (nonatomic, strong) NSMutableArray* songs;
-
 @property (nonatomic, strong) NSMutableArray* songLists;
 @end
 

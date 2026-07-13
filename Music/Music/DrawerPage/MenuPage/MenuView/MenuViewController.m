@@ -25,7 +25,6 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
      
-    NSLog(@"调用了 viewDidLoad ");
     self.view.backgroundColor = [UIColor systemBackgroundColor];
     // Do any additional setup after loading the view.
     [self setUpData];

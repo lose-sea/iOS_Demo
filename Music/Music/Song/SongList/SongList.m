@@ -19,6 +19,7 @@
     self.coverImage = [[UIImage alloc] init];
     self.name = [[NSString alloc] init];
     self.message = [[NSString alloc] init];
+    self.author = @"回忆风起云涌";
 }
 
 - (instancetype) initWithCover: (UIImage*) cover Name: (NSString*) name message: (NSString*) message {

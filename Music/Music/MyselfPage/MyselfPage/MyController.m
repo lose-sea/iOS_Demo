@@ -23,21 +23,28 @@
     [self setUpInterface];
 }
 
+- (void) viewWillAppear:(BOOL)animated {
+    self.myView.playView.song = self.myModel.user.song;
+    [self.myView.playView configWithSong: self.myModel.user.song];
+}
+
 - (void)setUpData {
     self.myModel = [[MyModel alloc] init];
     self.myView = [[MyView alloc] init];
     
     SongList* s1 = [[SongList alloc] initWithCover: [UIImage imageNamed: @"43.jpg"] Name: @"你的声音,身上的香味,瞳孔的深度,看我的眼睛,我都快忘了" message: @"歌单 466首 先爱上的那个人,是输家"];
-    SongList* s2 = [[SongList alloc] initWithCover: [UIImage imageNamed: @"44.jpg"] Name: @"同学:,我们没有以后了" message: @"歌单 466首 先爱上的那个人,是输家"];
-    SongList* s3 = [[SongList alloc] initWithCover: [UIImage imageNamed: @"45.jpg"] Name: @"同学:,我们没有以后了" message: @"歌单 466首 先爱上的那个人,是输家"];
-    SongList* s4 = [[SongList alloc] initWithCover: [UIImage imageNamed: @"46.jpg"] Name: @"同学:,我们没有以后了" message: @"歌单 466首 先爱上的那个人,是输家"];
-    SongList* s5 = [[SongList alloc] initWithCover: [UIImage imageNamed: @"47.jpg"] Name: @"同学:,我们没有以后了" message: @"歌单 466首 先爱上的那个人,是输家"];
-    SongList* s6 = [[SongList alloc] initWithCover: [UIImage imageNamed: @"48.jpg"] Name: @"同学:,我们没有以后了" message: @"歌单 466首 先爱上的那个人,是输家"];
-    SongList* s7 = [[SongList alloc] initWithCover: [UIImage imageNamed: @"49.jpg"] Name: @"同学:,我们没有以后了" message: @"歌单 466首 先爱上的那个人,是输家"];
-    SongList* s8 = [[SongList alloc] initWithCover: [UIImage imageNamed: @"50.jpg"] Name: @"同学:,我们没有以后了" message: @"歌单 466首 先爱上的那个人,是输家"];
-    SongList* s9 = [[SongList alloc] initWithCover: [UIImage imageNamed: @"51.jpg"] Name: @"同学:,我们没有以后了" message: @"歌单 466首 先爱上的那个人,是输家"];
+    SongList* s2 = [[SongList alloc] initWithCover: [UIImage imageNamed: @"44.jpg"] Name: @"同学,我们没有以后了" message: @"歌单 466首 先爱上的那个人,是输家"];
+    SongList* s3 = [[SongList alloc] initWithCover: [UIImage imageNamed: @"45.jpg"] Name: @"同学,我们没有以后了" message: @"歌单 466首 先爱上的那个人,是输家"];
+    SongList* s4 = [[SongList alloc] initWithCover: [UIImage imageNamed: @"46.jpg"] Name: @"同学,我们没有以后了" message: @"歌单 466首 先爱上的那个人,是输家"];
+    SongList* s5 = [[SongList alloc] initWithCover: [UIImage imageNamed: @"47.jpg"] Name: @"同学,我们没有以后了" message: @"歌单 466首 先爱上的那个人,是输家"];
+    SongList* s6 = [[SongList alloc] initWithCover: [UIImage imageNamed: @"48.jpg"] Name: @"同学,我们没有以后了" message: @"歌单 466首 先爱上的那个人,是输家"];
+    SongList* s7 = [[SongList alloc] initWithCover: [UIImage imageNamed: @"49.jpg"] Name: @"同学,我们没有以后了" message: @"歌单 466首 先爱上的那个人,是输家"];
+    SongList* s8 = [[SongList alloc] initWithCover: [UIImage imageNamed: @"50.jpg"] Name: @"同学,我们没有以后了" message: @"歌单 466首 先爱上的那个人,是输家"];
+    SongList* s9 = [[SongList alloc] initWithCover: [UIImage imageNamed: @"51.jpg"] Name: @"同学,我们没有以后了" message: @"歌单 466首 先爱上的那个人,是输家"];
     
     [self.myModel.songLists addObjectsFromArray: @[s1, s2, s3, s4, s5, s6, s7, s8, s9]];
+    
+    [self.myView.playView configWithSong: self.myModel.user.song];
 }
 
 - (void)setUpInterface {
@@ -102,16 +109,17 @@
 
 #pragma mark - UITableView
 - (NSInteger) numberOfSectionsInTableView:(UITableView *)tableView {
+    if (tableView.tag == 101 || tableView.tag == 102) {
+        return 1;
+    }
     return 2;
 }
 
 - (NSInteger) tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    if (tableView.tag == 101) {
-        return 9;
-    } else if (tableView.tag == 102) {
+    if (tableView.tag == 101 || tableView.tag == 102) {
         return 9;
     }
-    return 1; 
+    return 1;
 }
 
 - (CGFloat) tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
@@ -122,10 +130,13 @@
 }
 
 - (CGFloat) tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    if (indexPath.section == 0) {
-        return 220;
+    if (tableView == self.myView.tableView) {
+        if (indexPath.section == 0) {
+            return 220;
+        }
+        return 800;
     }
-    return 500;
+    return 80;
 }
 
 
@@ -143,6 +154,8 @@
     
     segmentedControl.selectedSegmentIndex = 0;
     segmentedControl.selectedSegmentTintColor = [[UIColor systemGrayColor]colorWithAlphaComponent: 0.4];
+    self.segmentedControl = segmentedControl;
+    [self.segmentedControl addTarget: self action: @selector(segmentedControlChange) forControlEvents: UIControlEventValueChanged];
     if (section == 1) {
         return view;
     }
@@ -158,11 +171,16 @@
             return cell;
         } else {
             ScrollViewCell* cell = [tableView dequeueReusableCellWithIdentifier: @"ScrollViewCellID" forIndexPath: indexPath];
+            
+            self.scrollView = cell.scrollView;
+            self.scrollView.delegate = self;
+            
             cell.musicTableView.delegate = self;
             cell.musicTableView.dataSource = self;
             cell.playTableView.delegate = self;
             cell.playTableView.dataSource = self;
             return cell;
+            
         }
     } else if (tableView.tag == 101) {
         PlayListCell* cell = [tableView dequeueReusableCellWithIdentifier: @"MusicCellID" forIndexPath: indexPath];
@@ -172,7 +190,7 @@
         return cell;
     } else {
         PlayListCell* cell = [tableView dequeueReusableCellWithIdentifier: @"playTableCellID" forIndexPath: indexPath];
-        SongList* songList = self.myModel.songLists[indexPath.row];
+        SongList* songList = self.myModel.songLists[(indexPath.row + 5) % 9];
         cell.songList = songList;
         [cell configWithSongList: songList];
         return cell;
@@ -182,6 +200,34 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     [tableView deselectRowAtIndexPath: indexPath animated: YES];
+    if (tableView.tag == 101 || tableView.tag == 102) {
+        SongListViewController* vc = [[SongListViewController alloc] init];
+        PlayListCell* cell = [tableView cellForRowAtIndexPath: indexPath];
+        
+        vc.songListModel.songList = cell.songList;
+        [self.navigationController pushViewController: vc animated: YES];
+    }
+}
+
+
+
+
+#pragma mark - UIScrollView
+- (NSInteger) currentPage {
+    CGFloat width = self.scrollView.bounds.size.width;
+    NSInteger page = (self.scrollView.contentOffset.x + width * 0.5) / width;
+    return page;
+}
+
+- (void) scrollViewDidScroll:(UIScrollView *)scrollView {
+    NSInteger page = [self currentPage];
+    self.segmentedControl.selectedSegmentIndex = page;
+}
+
+#pragma mark - UISegmentedControl
+- (void)segmentedControlChange {
+    NSInteger index = self.segmentedControl.selectedSegmentIndex;
+    self.scrollView.contentOffset = CGPointMake(self.scrollView.bounds.size.width * index, 0);
 }
 /*
 #pragma mark - Navigation

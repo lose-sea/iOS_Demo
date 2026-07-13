@@ -10,11 +10,11 @@
 #import <Masonry/Masonry.h>
 NS_ASSUME_NONNULL_BEGIN
 
-@interface ScrollViewCell : UITableViewCell
+@interface ScrollViewCell : UITableViewCell 
 @property (nonatomic, strong) UIScrollView* scrollView;
-@property (nonatomic, strong) UIView* scrollContentView; 
 @property (nonatomic, strong) UITableView* musicTableView;
 @property (nonatomic, strong) UITableView* playTableView;
+@property (nonatomic, strong) UIView* noteView; 
 
 @end
 

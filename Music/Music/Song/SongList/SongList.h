@@ -13,6 +13,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, strong) UIImage* coverImage;
 @property (nonatomic, strong) NSString* name;
 @property (nonatomic, strong) NSString* message;
+@property (nonatomic, strong) NSString* author; 
 
 - (instancetype) initWithCover: (UIImage*) cover Name: (NSString*) name message: (NSString*) message; 
 @end

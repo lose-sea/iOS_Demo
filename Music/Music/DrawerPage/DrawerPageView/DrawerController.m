@@ -46,7 +46,6 @@
     
     
     self.menuWidth = self.view.bounds.size.width * 0.7;
-    NSLog(@"%lf", self.menuWidth);
     // 添加菜单视图
     [self addChildViewController: self.menuViewController];
     [self.view addSubview: self.menuViewController.view];

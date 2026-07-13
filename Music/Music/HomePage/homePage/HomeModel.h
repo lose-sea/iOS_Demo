@@ -6,13 +6,15 @@
 //
 
 #import <Foundation/Foundation.h>
-
+#import "UserModel.h"
 
 @interface HomeModel : NSObject
 @property (nonatomic, strong) NSMutableArray* DailyRecommendImages;
 
 @property (nonatomic, strong) NSMutableArray* RecommendSongListImages;
 
-@property (nonatomic, strong) NSMutableArray* songs; 
+@property (nonatomic, strong) NSMutableArray* songs;
+
+@property (nonatomic, strong) UserModel* user;
 @end
 

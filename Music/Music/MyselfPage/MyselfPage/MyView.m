@@ -29,7 +29,19 @@
     
     [self.tableView registerClass: [UserCell class] forCellReuseIdentifier: @"UserCellID"];
     [self.tableView registerClass: [PlayListCell class] forCellReuseIdentifier: @"PlayListCellID"];
-    [self.tableView registerClass: [ScrollViewCell class] forCellReuseIdentifier: @"ScrollViewCellID"]; 
+    [self.tableView registerClass: [ScrollViewCell class] forCellReuseIdentifier: @"ScrollViewCellID"];
+    
+    self.playView = [[PlayView alloc] init];
+    [self addSubview: self.playView];
+    [self.playView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.bottom.mas_equalTo(self.mas_bottom).offset(-90);
+        make.left.mas_equalTo(self).offset(10);
+        make.right.mas_equalTo(self).offset(-10);
+        make.height.mas_equalTo(50);
+    }];
+    
+    self.playView.clipsToBounds = YES;
+    self.playView.layer.cornerRadius = 25;
 }
 /*
 // Only override drawRect: if you perform custom drawing.
