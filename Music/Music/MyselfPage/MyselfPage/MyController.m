@@ -33,9 +33,9 @@
     self.myView = [[MyView alloc] init];
     
     SongList* s1 = [[SongList alloc] initWithCover: [UIImage imageNamed: @"43.jpg"] Name: @"你的声音,身上的香味,瞳孔的深度,看我的眼睛,我都快忘了" message: @"歌单 466首 先爱上的那个人,是输家"];
-    SongList* s2 = [[SongList alloc] initWithCover: [UIImage imageNamed: @"44.jpg"] Name: @"同学,我们没有以后了" message: @"歌单 466首 先爱上的那个人,是输家"];
-    SongList* s3 = [[SongList alloc] initWithCover: [UIImage imageNamed: @"45.jpg"] Name: @"同学,我们没有以后了" message: @"歌单 466首 先爱上的那个人,是输家"];
-    SongList* s4 = [[SongList alloc] initWithCover: [UIImage imageNamed: @"46.jpg"] Name: @"同学,我们没有以后了" message: @"歌单 466首 先爱上的那个人,是输家"];
+    SongList* s2 = [[SongList alloc] initWithCover: [UIImage imageNamed: @"44.jpg"] Name: @"我把故事告诉雨,它替我哭了很久" message: @"歌单 466首 先爱上的那个人,是输家"];
+    SongList* s3 = [[SongList alloc] initWithCover: [UIImage imageNamed: @"45.jpg"] Name: @"我把故事告诉雨,它替我哭了很久" message: @"歌单 466首 先爱上的那个人,是输家"];
+    SongList* s4 = [[SongList alloc] initWithCover: [UIImage imageNamed: @"46.jpg"] Name: @"我把故事告诉雨,它替我哭了很久" message: @"歌单 466首 先爱上的那个人,是输家"];
     SongList* s5 = [[SongList alloc] initWithCover: [UIImage imageNamed: @"47.jpg"] Name: @"同学,我们没有以后了" message: @"歌单 466首 先爱上的那个人,是输家"];
     SongList* s6 = [[SongList alloc] initWithCover: [UIImage imageNamed: @"48.jpg"] Name: @"同学,我们没有以后了" message: @"歌单 466首 先爱上的那个人,是输家"];
     SongList* s7 = [[SongList alloc] initWithCover: [UIImage imageNamed: @"49.jpg"] Name: @"同学,我们没有以后了" message: @"歌单 466首 先爱上的那个人,是输家"];

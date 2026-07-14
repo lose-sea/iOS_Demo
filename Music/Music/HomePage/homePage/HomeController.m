@@ -20,6 +20,13 @@
     [self setUpSearchController];
     [self setUpNavigation];
 }
+
+- (void) viewWillAppear:(BOOL)animated {
+    self.homeView.playView.song = self.homeModel.user.song;
+    [self.homeView.playView configWithSong: self.homeModel.user.song];
+}
+
+
 - (void) setUpNavigation {
     UIBarButtonItem* menus = [[UIBarButtonItem alloc] initWithImage: [UIImage systemImageNamed: @"text.justify"] style: UIBarButtonItemStylePlain target: self action: @selector(pressMenuButton)];
     self.navigationItem.leftBarButtonItem = menus;
@@ -72,6 +79,18 @@
         UIImage* image = [UIImage imageNamed: imageName];
         [self.homeModel.DailyRecommendImages addObject: image];
     }
+    SongList* s1 = [[SongList alloc] initWithCover: [UIImage imageNamed: @"43.jpg"] Name: @"你的声音,身上的香味,瞳孔的深度,看我的眼睛,我都快忘了" message: @"歌单 466首 先爱上的那个人,是输家"];
+    SongList* s2 = [[SongList alloc] initWithCover: [UIImage imageNamed: @"44.jpg"] Name: @"我把故事告诉雨,它替我哭了很久" message: @"歌单 466首 先爱上的那个人,是输家"];
+    SongList* s3 = [[SongList alloc] initWithCover: [UIImage imageNamed: @"45.jpg"] Name: @"我把故事告诉雨,它替我哭了很久" message: @"歌单 466首 先爱上的那个人,是输家"];
+    SongList* s4 = [[SongList alloc] initWithCover: [UIImage imageNamed: @"46.jpg"] Name: @"我把故事告诉雨,它替我哭了很久" message: @"歌单 466首 先爱上的那个人,是输家"];
+    SongList* s5 = [[SongList alloc] initWithCover: [UIImage imageNamed: @"47.jpg"] Name: @"同学,我们没有以后了" message: @"歌单 466首 先爱上的那个人,是输家"];
+    SongList* s6 = [[SongList alloc] initWithCover: [UIImage imageNamed: @"48.jpg"] Name: @"同学,我们没有以后了" message: @"歌单 466首 先爱上的那个人,是输家"];
+    SongList* s7 = [[SongList alloc] initWithCover: [UIImage imageNamed: @"49.jpg"] Name: @"同学,我们没有以后了" message: @"歌单 466首 先爱上的那个人,是输家"];
+    SongList* s8 = [[SongList alloc] initWithCover: [UIImage imageNamed: @"50.jpg"] Name: @"同学,我们没有以后了" message: @"歌单 466首 先爱上的那个人,是输家"];
+    SongList* s9 = [[SongList alloc] initWithCover: [UIImage imageNamed: @"51.jpg"] Name: @"同学,我们没有以后了" message: @"歌单 466首 先爱上的那个人,是输家"];
+    
+    [self.homeModel.songLists addObjectsFromArray: @[s1, s2, s3, s4, s5, s6, s7, s8, s9]];
+    
     
     for (int i = 0; i < 13; i++) {
         NSString* imageName = [NSString stringWithFormat: @"%d.jpg", i + 11];
@@ -248,14 +267,14 @@
     if (view.sectionType == 0) {
         DailyRecommendCell* cell = [collectionView dequeueReusableCellWithReuseIdentifier: @"DailyRecommendCellID" forIndexPath: indexPath];
         cell.backgroundColor = [UIColor systemBlueColor];
-        cell.tagLabel.text = @"每日推荐";
-        cell.iView.image = self.homeModel.DailyRecommendImages[indexPath.item];
-        cell.messageLabel.text = @"今晚星星很少, 思念很长";
+//        cell.tagLabel.text = @"每日推荐";
+        cell.songList = self.homeModel.songLists[indexPath.item];
+        [cell configWitSongList: self.homeModel.songLists[indexPath.item]];
         return cell;
     } else if (view.sectionType == 1) {
         RecommendPlayListCell* cell = [collectionView dequeueReusableCellWithReuseIdentifier: @"RecommendPlayListCellID" forIndexPath: indexPath];
-        cell.iView.image = self.homeModel.RecommendSongListImages[indexPath.item];
-        cell.label.text = @" \"你在我心里是个很烂很烂的人\"";
+        cell.songList = self.homeModel.songLists[(indexPath.item + 6) % 9]; 
+        [cell configWitSongList: self.homeModel.songLists[(indexPath.item + 6) % 9]];
         return cell;
     } else {
         HotSongCell* cell = [collectionView dequeueReusableCellWithReuseIdentifier: @"HotSongCellID" forIndexPath: indexPath];
@@ -266,6 +285,27 @@
         [cell.playButton addTarget: self action: @selector(pressPlayButton:) forControlEvents: UIControlEventTouchUpInside];
         return cell;
     }
+}
+
+- (void) collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
+    [collectionView deselectItemAtIndexPath: indexPath animated: YES];
+
+    RecommendTableViewCell* view = [self findSuperViewOfCell: collectionView];
+    if (view.sectionType == 0) {
+        SongListViewController* vc = [[SongListViewController alloc] init];
+        DailyRecommendCell* cell = [collectionView cellForItemAtIndexPath: indexPath];
+        
+        vc.songList = cell.songList;
+        [self.navigationController pushViewController: vc animated: YES];
+    } else if (view.sectionType == 1) {
+        SongListViewController* vc = [[SongListViewController alloc] init];
+        RecommendPlayListCell* cell = [collectionView cellForItemAtIndexPath: indexPath];
+        
+        vc.songList = cell.songList;
+        [self.navigationController pushViewController: vc animated: YES];
+    }
+    
+    
 }
 
 // 设置滚动结束时cell可以完整显示

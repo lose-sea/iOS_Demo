@@ -20,6 +20,11 @@
     [self setUpData];
 }
 
+- (void) viewWillAppear:(BOOL)animated {
+    self.songListView.playView.song = self.songListModel.user.song;
+    [self.songListView.playView configWithSong: self.songListModel.user.song];
+}
+
 - (void)viewWillDisappear:(BOOL)animated {
     [super viewWillDisappear: YES];
     self.tabBarController.tabBar.hidden = NO; 
@@ -32,9 +37,9 @@
     self.songListView.coverView.image = self.songListModel.songList.coverImage;
     
     for (int i = 0; i < 20; i++) {
-        NSString* songCoverName = [NSString stringWithFormat: @"%d.jpg", i + 16];
+        NSString* songCoverName = [NSString stringWithFormat: @"%d.jpg", i + 26];
         UIImage* songCover = [UIImage imageNamed: songCoverName];
-        Song* song = [[Song alloc] initWithCover: songCover Name: @"回忆满山遍野" Artist: @"张杰"];
+        Song* song = [[Song alloc] initWithCover: songCover Name: @"其实雨也没多大" Artist: @"大碗小面 - 玻璃 (cover汤令山)"];
         [self.songListModel.songs addObject: song];
     }
     
@@ -48,23 +53,33 @@
     
     self.songListView.coverView.image = self.songList.coverImage;
     self.songListView.nameLabel.text = self.songList.name;
+    self.songListView.authorLabel.text = self.songList.author;
 }
 
 
 #pragma mark - UITableView
 - (NSInteger) tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return 9;
+    return 13;
 }
 
 - (CGFloat) tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    return 80;
+    return 90;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     songCell* cell = [tableView dequeueReusableCellWithIdentifier: @"SongCellID" forIndexPath: indexPath];
+    cell.song = self.songListModel.songs[indexPath.row];
     [cell configWithSong: self.songListModel.songs[indexPath.row]];
     
     return cell;
+}
+
+- (void) tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    [tableView deselectRowAtIndexPath: indexPath animated: YES];
+    songCell* cell = [tableView cellForRowAtIndexPath: indexPath];
+    self.songListModel.user.song = cell.song;
+    self.songListView.playView.song = cell.song;
+    [self.songListView.playView configWithSong: self.songListModel.user.song]; 
 }
 
 /*

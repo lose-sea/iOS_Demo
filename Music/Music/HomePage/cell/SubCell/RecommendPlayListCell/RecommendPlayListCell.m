@@ -57,6 +57,11 @@
 }
 
 
+- (void)configWitSongList:(SongList *)songList {
+    self.iView.image = songList.coverImage;
+    self.label.text = songList.name;
+}
+
 
 
 - (void)awakeFromNib {

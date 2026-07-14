@@ -37,6 +37,8 @@
     self.tagLabel.textColor = [UIColor systemBackgroundColor];
     self.tagLabel.clipsToBounds = YES;
     self.tagLabel.layer.cornerRadius = 5;
+    self.tagLabel.text = @"每日推荐";
+
 
     [self.contentView addSubview: self.messageLabel];
     [self.messageLabel mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -52,6 +54,10 @@
 //    label.numberOfLines = 1;                 // 单行时效果最明显
 }
 
+- (void)configWitSongList:(SongList *)songList {
+    self.iView.image = songList.coverImage;
+    self.messageLabel.text = songList.name; 
+}
 
 
 

@@ -16,9 +16,11 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, strong) UIImageView* coverView;
 @property (nonatomic, strong) UILabel* nameLabel;
 @property (nonatomic, strong) UILabel* authorLabel;
-@property (nonatomic, strong) UIView* menuView;
+@property (nonatomic, strong) UIButton* playButton;
+@property (nonatomic, strong) UIButton* shareButton;
+@property (nonatomic, strong) UIButton* commentButton;
 @property (nonatomic, strong) UITableView* tableView;
-@property (nonatomic, strong) PlayView* playView; 
+@property (nonatomic, strong) PlayView* playView;
 
 @end
 

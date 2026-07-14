@@ -13,6 +13,8 @@
 
 @property (nonatomic, strong) NSMutableArray* RecommendSongListImages;
 
+@property (nonatomic, strong) NSMutableArray* songLists; 
+
 @property (nonatomic, strong) NSMutableArray* songs;
 
 @property (nonatomic, strong) UserModel* user;
