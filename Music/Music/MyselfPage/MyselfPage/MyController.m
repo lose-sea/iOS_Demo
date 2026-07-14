@@ -204,7 +204,7 @@
         SongListViewController* vc = [[SongListViewController alloc] init];
         PlayListCell* cell = [tableView cellForRowAtIndexPath: indexPath];
         
-        vc.songListModel.songList = cell.songList;
+        vc.songList = cell.songList;
         [self.navigationController pushViewController: vc animated: YES];
     }
 }

@@ -18,6 +18,6 @@
 
 - (void) setUpdata {
     self.songList = [[SongList alloc] init];
-    self.songs = [[NSArray alloc] init];
+    self.songs = [[NSMutableArray alloc] init];
 }
 @end

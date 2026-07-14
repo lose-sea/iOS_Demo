@@ -34,13 +34,21 @@
         make.width.mas_equalTo(300);
         make.height.mas_equalTo(30);
     }];
+    self.nameLabel.font = [UIFont systemFontOfSize: 18];
     
     
     self.authorLabel = [[UILabel alloc] init];
     [self.contentView addSubview: self.authorLabel];
-    self.authorLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.mas_equalTo(self.)
-    }
+    [self.authorLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.mas_equalTo(self.nameLabel);
+        make.top.mas_equalTo(self.nameLabel.mas_bottom).offset(5);
+        make.width.mas_equalTo(300);
+        make.height.mas_equalTo(15);
+    }];
+    self.authorLabel.font = [UIFont systemFontOfSize: 16];
+    self.authorLabel.textColor = [UIColor systemGrayColor];
+
+    
 }
 
 - (void) configWithSong:(Song *)song {

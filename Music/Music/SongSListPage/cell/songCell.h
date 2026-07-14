@@ -14,6 +14,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, strong) UIImageView* coverView;
 @property (nonatomic, strong) UILabel* nameLabel;
 @property (nonatomic, strong) UILabel* authorLabel;
+@property (nonatomic, strong) Song* song; 
 
 - (void) configWithSong: (Song*) song; 
 @end
