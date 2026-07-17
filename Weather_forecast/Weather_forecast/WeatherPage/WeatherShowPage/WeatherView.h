@@ -12,13 +12,12 @@
 NS_ASSUME_NONNULL_BEGIN
 
 @interface WeatherView : UIView
-@property (nonatomic, strong) UIImageView* backView;
 @property (nonatomic, strong) UITableView* tableView;
 @property (nonatomic, strong) UIButton* addButton;
 @property (nonatomic, strong) UIButton* backButton; 
 
 
-
+- (void) configWithCurrentWeather: (NSDictionary*) currentWeather; 
 @end
 
 NS_ASSUME_NONNULL_END

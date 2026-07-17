@@ -26,12 +26,6 @@
 }
 
 - (void) setUpInterface {
-//    self.backView = [[UIImageView alloc] initWithImage: [UIImage imageNamed: @"1.jpg"]];
-
-//    [self addSubview: self.backView];
-//    [self.backView mas_makeConstraints:^(MASConstraintMaker *make) {
-//        make.edges.mas_equalTo(self);
-//    }];
     
     self.tableView = [[UITableView alloc] init];
     [self addSubview: self.tableView];
@@ -74,18 +68,12 @@
     }];
     self.addButton.layer.cornerRadius = 20;
     self.addButton.clipsToBounds = YES;
-    
-    
- 
-//    UILabel* label = [[UILabel alloc] init];
-//    [self addSubview: label];
-//    [label mas_makeConstraints:^(MASConstraintMaker *make) {
-//        make.top.mas_equalTo(self).offset(50);
-//        make.left.right.bottom.mas_equalTo(self);
-//    }];
-//    label.text = @"西安市长安区 \n 最高 37°C 最低 25°C";
-//    label.numberOfLines = 0;
-//    label.textAlignment = NSTextAlignmentCenter;
 }
+
+- (void) configWithCurrentWeather:(NSDictionary *)currentWeather {
+    
+}
+
+
 
 @end

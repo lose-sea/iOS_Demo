@@ -6,14 +6,15 @@
 //
 
 #import <UIKit/UIKit.h>
-
+#import <Masonry/Masonry.h> 
 NS_ASSUME_NONNULL_BEGIN
 
 @interface HourlyCell : UICollectionViewCell
 
 @property (nonatomic, strong) UILabel* hourLabel;
 @property (nonatomic, strong) UIImageView* weatherView;
-@property (nonatomic, strong) UILabel* hourWeatherLabel; 
+@property (nonatomic, strong) UILabel* hourTemperatureLabel;
+//@property (nonatomic, strong)
 
 @end
 
