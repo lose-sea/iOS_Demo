@@ -140,7 +140,7 @@
     // 密码显示隐藏
 //    self.passwordInput.secureTextEntry = NO;
     self.passwordInput.secureTextEntry = YES;
-    
+    self.passwordInput.textContentType = UITextContentTypeOneTimeCode;
 
     
     
