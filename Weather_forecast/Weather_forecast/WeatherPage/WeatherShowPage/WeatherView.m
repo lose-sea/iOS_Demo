@@ -39,8 +39,8 @@
         make.top.mas_equalTo(self);
         make.left.right.bottom.mas_equalTo(self);
     }];
-    self.tableView.backgroundView = [[UIImageView alloc] initWithImage: [UIImage imageNamed: @"3.jpg"]];
-    self.tableView.backgroundColor = [UIColor clearColor]; 
+    self.tableView.backgroundView = [[UIImageView alloc] initWithImage: [UIImage imageNamed: @"1.jpg"]];
+    self.tableView.backgroundColor = [UIColor clearColor];
 
     [self.tableView registerClass: [TemperatureCell class] forCellReuseIdentifier: @"TemperatureCellID"];
     

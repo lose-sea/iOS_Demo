@@ -114,6 +114,10 @@
     NSLog(@"%lf", longitude);
     
     WeatherController* vc = [[WeatherController alloc] init];
+    
+    vc.cityName = [NSString stringWithFormat: @"%@ -- %@", cityInfo[@"name"], cityInfo[@"admin1"]];
+    vc.latitude = latitude;
+    vc.longitude = longitude;
     [self presentViewController: vc animated: YES completion: nil];
 }
 

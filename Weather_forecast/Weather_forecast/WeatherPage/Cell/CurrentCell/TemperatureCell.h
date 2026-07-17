@@ -14,7 +14,9 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, strong) UILabel* temperatureLabel;
 @property (nonatomic, strong) UILabel* maxLabel;
 @property (nonatomic, strong) UILabel* minLabel; 
-@property (nonatomic, strong) UILabel* weatherLabel; 
+@property (nonatomic, strong) UILabel* weatherLabel;
+
+- (void) configWithCurrentWeather: (NSDictionary*) currentWeather dailyWeather: (NSDictionary*) dailyWeather; 
 @end
 
 NS_ASSUME_NONNULL_END
