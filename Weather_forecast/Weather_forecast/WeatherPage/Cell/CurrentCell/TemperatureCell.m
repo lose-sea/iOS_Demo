@@ -18,7 +18,7 @@
 
 - (void) setUpInterface {
     self.backgroundColor = [UIColor clearColor];
-//    self.contentView.backgroundColor = [UIColor clearColor];
+    self.contentView.backgroundColor = [UIColor clearColor];
     
     self.nameLabel = [[UILabel alloc] init];
     [self.contentView addSubview: self.nameLabel];
@@ -52,7 +52,7 @@
     maxLabel.textAlignment = NSTextAlignmentCenter;
     maxLabel.numberOfLines = 2;
     maxLabel.text = @"最高";
-    maxLabel.font = [UIFont systemFontOfSize: 14];
+    maxLabel.font = [UIFont boldSystemFontOfSize: 14];
     
     self.maxLabel = [[UILabel alloc] init];
     [self.contentView addSubview: self.maxLabel];
@@ -78,7 +78,7 @@
     minLabel.textAlignment = NSTextAlignmentCenter;
     minLabel.numberOfLines = 2;
     minLabel.text = @"最低";
-    minLabel.font = [UIFont systemFontOfSize: 14];
+    minLabel.font = [UIFont boldSystemFontOfSize: 14];
     
     self.minLabel = [[UILabel alloc] init];
     [self.contentView addSubview: self.minLabel];
@@ -119,12 +119,11 @@
     CGFloat minTemperature = [minNum doubleValue];
     self.minLabel.text = [NSString stringWithFormat: @"%.1f°", minTemperature];
     
-    
     NSInteger weather_code = [currentWeather[@"weather_code"] integerValue];
     self.weatherLabel.text = [self descriptionForWeatherCode: weather_code];
     
-    
 }
+
 
 - (NSString *)descriptionForWeatherCode:(NSInteger)code {
     // 0: 晴天

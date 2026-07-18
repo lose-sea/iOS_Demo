@@ -11,11 +11,12 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface HourlyCell : UICollectionViewCell
 
-@property (nonatomic, strong) UILabel* hourLabel;
+@property (nonatomic, strong) UILabel* timeLabel;
 @property (nonatomic, strong) UIImageView* weatherView;
+@property (nonatomic, strong) UILabel* weatherLabel; 
 @property (nonatomic, strong) UILabel* hourTemperatureLabel;
-//@property (nonatomic, strong)
 
+- (void) configWithHourlyWeather: (NSDictionary*) hourlyWeather withIndex: (NSInteger)item; 
 @end
 
 NS_ASSUME_NONNULL_END

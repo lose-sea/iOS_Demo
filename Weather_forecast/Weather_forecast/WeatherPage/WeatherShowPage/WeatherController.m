@@ -17,9 +17,12 @@
     [super viewDidLoad];
 //    self.view.backgroundColor = [UIColor systemRedColor];
     // Do any additional setup after loading the view.
-    
     [self setUpData];
     [self setUpInterface];
+}
+
+- (void) viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
     
 }
 
@@ -31,16 +34,22 @@
 }
 
 - (void) setUpInterface {
-    [self.view addSubview: self.weatherView];
-    [self.weatherView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.edges.mas_equalTo(self.view);
-    }];
-    self.weatherView.tableView.delegate = self;
-    self.weatherView.tableView.dataSource = self; 
-    
-    [self.weatherView.backButton addTarget: self action: @selector(pressBack) forControlEvents: UIControlEventTouchUpInside];
-    
-    
+    if (self.weatherModel.CurrentWeatherModel.count > 0 && self.weatherModel.HourlyWeatherModel.count > 0 && self.weatherModel.DailyWeatherModel.count > 0) {
+        [self.view addSubview: self.weatherView];
+        [self.weatherView mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.edges.mas_equalTo(self.view);
+        }];
+        self.weatherView.tableView.delegate = self;
+        self.weatherView.tableView.dataSource = self;
+        
+        [self.weatherView.backButton addTarget: self action: @selector(pressBack) forControlEvents: UIControlEventTouchUpInside];
+    } else {
+        LoadView* loadView = [[LoadView alloc] init];
+        [self.view addSubview: loadView];
+        [loadView mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.edges.mas_equalTo(self.view);
+        }];
+    }
 }
 
 
@@ -49,11 +58,10 @@
     [self dismissViewControllerAnimated: YES completion: nil];
 }
 
-
-
-
 - (void) createURL {
     NSString* urlString = [NSString stringWithFormat: @"https://api.open-meteo.com/v1/forecast?latitude=%f&longitude=%f&current=temperature_2m,weather_code&hourly=temperature_2m,weather_code&daily=weather_code,temperature_2m_max,temperature_2m_min&timezone=auto", self.latitude, self.longitude];
+    
+    NSLog(@"%@", urlString);
     
     NSURL* url = [NSURL URLWithString: urlString];
     NSMutableURLRequest* request = [NSMutableURLRequest requestWithURL: url];
@@ -67,12 +75,17 @@
             return;
         }
         NSDictionary* dict = [NSJSONSerialization JSONObjectWithData: data options:0 error: nil];
-        NSLog(@"天气数据: %@", dict);
+//        NSLog(@"天气数据: %@", dict);
         dispatch_async(dispatch_get_main_queue(), ^{
 //            NSDictionary* current = dict[@"current"];
             self.weatherModel.CurrentWeatherModel = dict[@"current"];
             self.weatherModel.DailyWeatherModel = dict[@"daily"];
+            self.weatherModel.HourlyWeatherModel = dict[@"hourly"];
+
+            [self setUpInterface];
+            [self.weatherView configWithCurrentWeather: self.weatherModel.CurrentWeatherModel];
             [self.weatherView.tableView reloadData];
+            
         });
     }];
     [task resume];
@@ -116,7 +129,11 @@
 }
 
 - (NSInteger) tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return 1;
+    if (section == 0 || section == 1) {
+        return 1;
+    } else {
+        return 7;
+    }
 }
 
 - (CGFloat) tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
@@ -129,8 +146,11 @@
 - (CGFloat) tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     if (indexPath.section == 0) {
         return 300;
+    } else if (indexPath.section == 1) {
+        return 180;
+    } else {
+        return 90;
     }
-    return 150;
 }
 
 - (UIView*) tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
@@ -143,14 +163,49 @@
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    if (indexPath.row == 0) {
+    if (indexPath.section == 0) {
         TemperatureCell* cell = [tableView dequeueReusableCellWithIdentifier: @"TemperatureCellID" forIndexPath: indexPath];
         cell.nameLabel.text = self.cityName;
         [cell configWithCurrentWeather: self.weatherModel.CurrentWeatherModel dailyWeather: self.weatherModel.DailyWeatherModel];
         
         return cell;
+    } else if (indexPath.section == 1) {
+        ScrollHourCell* cell = [tableView dequeueReusableCellWithIdentifier: @"ScrollHourCellID" forIndexPath: indexPath];
+        cell.collectionView.delegate = self;
+        cell.collectionView.dataSource = self;
+        [cell.collectionView reloadData];
+
+        return cell;
+    } else {
+        DailyCell* cell = [tableView dequeueReusableCellWithIdentifier: @"DailyCellID" forIndexPath: indexPath];
+        [cell configWithDailyWeather: self.weatherModel.DailyWeatherModel atIndex: indexPath.row]; 
+        return cell;
     }
-    return nil;
+}
+
+
+- (void) tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    [tableView deselectRowAtIndexPath: indexPath animated: YES]; 
+}
+
+#pragma mark - UICollectionView
+- (NSInteger) collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
+    return 24;
+}
+
+- (__kindof UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
+    HourlyCell* cell = [collectionView dequeueReusableCellWithReuseIdentifier: @"HourlyCellID" forIndexPath: indexPath];
+//    NSDictionary* hourDictionary = self.weatherModel.HourlyWeatherModel[@"hourly"];
+    
+//    NSLog(@"时间数组: %@", self.weatherModel.HourlyWeatherModel[@"time"]);
+//    NSArray* times = self.weatherModel.HourlyWeatherModel[@"time"];
+    [cell configWithHourlyWeather: self.weatherModel.HourlyWeatherModel withIndex: indexPath.row];
+    
+    return cell;
+}
+
+- (void) collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
+    [collectionView deselectItemAtIndexPath: indexPath animated: YES]; 
 }
 
 

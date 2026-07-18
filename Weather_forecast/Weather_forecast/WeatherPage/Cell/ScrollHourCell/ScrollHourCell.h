@@ -6,10 +6,14 @@
 //
 
 #import <UIKit/UIKit.h>
+#import <Masonry/Masonry.h>
+#import "HourlyCell.h"
+#import "ScrollHourCell.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
 @interface ScrollHourCell : UITableViewCell
+@property (nonatomic, strong) UICollectionView* collectionView;
 
 @end
 

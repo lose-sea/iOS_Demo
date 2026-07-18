@@ -15,7 +15,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.view.backgroundColor = [UIColor systemCyanColor];
+//    self.view.backgroundColor = [UIColor systemCyanColor];
     // Do any additional setup after loading the view.
     [self setUpNavigation];
     
@@ -42,7 +42,7 @@
     self.navigationItem.searchController = self.searchController;
     
     // 搜索成一个按钮,点击展开搜索栏
-    self.navigationItem.preferredSearchBarPlacement = UINavigationItemSearchBarPlacementIntegratedButton;
+//    self.navigationItem.preferredSearchBarPlacement = UINavigationItemSearchBarPlacementIntegratedButton;
     
     
 }

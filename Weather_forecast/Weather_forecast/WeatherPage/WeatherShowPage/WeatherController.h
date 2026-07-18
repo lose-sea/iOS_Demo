@@ -9,10 +9,11 @@
 #import "WeatherView.h"
 #import "WeatherModel.h"
 #import "TemperatureCell.h"
+#import "LoadView.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface WeatherController : UIViewController <UITableViewDelegate, UITableViewDataSource>
+@interface WeatherController : UIViewController <UITableViewDelegate, UITableViewDataSource, UICollectionViewDelegate, UICollectionViewDataSource>
 @property (nonatomic, strong) WeatherModel* weatherModel;
 @property (nonatomic, strong) WeatherView* weatherView;
 @property (nonatomic, strong) NSString* cityName;

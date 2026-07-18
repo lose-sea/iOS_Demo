@@ -8,6 +8,8 @@
 #import <UIKit/UIKit.h>
 #import <Masonry/Masonry.h>
 #import "TemperatureCell.h"
+#import "ScrollHourCell.h"
+#import "DailyCell.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -15,7 +17,6 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, strong) UITableView* tableView;
 @property (nonatomic, strong) UIButton* addButton;
 @property (nonatomic, strong) UIButton* backButton; 
-
 
 - (void) configWithCurrentWeather: (NSDictionary*) currentWeather; 
 @end
