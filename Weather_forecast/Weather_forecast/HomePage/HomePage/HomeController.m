@@ -17,7 +17,24 @@
     [super viewDidLoad];
 //    self.view.backgroundColor = [UIColor systemCyanColor];
     // Do any additional setup after loading the view.
+    [self setUpData];
     [self setUpNavigation];
+    
+}
+
+- (void) setUpData {
+    self.homeModel = [[HomeModel alloc] init];
+    self.homeView = [[HomeView alloc] init];
+    
+    self.homeView.tableView.delegate = self;
+    self.homeView.tableView.dataSource = self;
+}
+
+- (void) setUpInterface {
+    [self.view addSubview: self.homeView];
+    [self.homeView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.edges.mas_equalTo(self.view);
+    }];
     
 }
 
@@ -43,13 +60,22 @@
     
     // 搜索成一个按钮,点击展开搜索栏
 //    self.navigationItem.preferredSearchBarPlacement = UINavigationItemSearchBarPlacementIntegratedButton;
-    
-    
 }
 
-- (void)setUpInterface {
-    
+
+#pragma mark - UITableView
+- (NSInteger) tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+    return 0;
 }
+
+
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+    SaveCell* cell = [tableView dequeueReusableCellWithIdentifier: @"SaveCellID" forIndexPath: indexPath];
+    
+    return cell;
+}
+
+
 
 /*
 #pragma mark - Navigation
