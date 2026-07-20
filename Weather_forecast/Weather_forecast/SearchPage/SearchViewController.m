@@ -43,6 +43,15 @@
 
 - (void)updateSearchResultsForSearchController:(UISearchController *)searchController {
     self.searchText = searchController.searchBar.text;
+    
+//    // 取消之前尚未执行的延迟调用
+//       [NSObject cancelPreviousPerformRequestsWithTarget:self selector:@selector(performSearch) object:nil];
+       
+       // 延迟 0.5 秒后执行实际搜索
+       [self performSelector:@selector(performSearch) withObject:nil afterDelay:0.5];
+}
+
+- (void) performSearch {
     [self createURL];
 }
 
@@ -89,8 +98,6 @@
 //    return 9;
 }
 
-
-
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     UITableViewCell* cell = [tableView dequeueReusableCellWithIdentifier: @"UITableViewCellID" forIndexPath: indexPath];
     
@@ -104,21 +111,28 @@
     [tableView deselectRowAtIndexPath: indexPath animated: YES];
     
     NSDictionary* cityInfo = self.searchModel.cityArray[indexPath.row];
-    NSString* cityName = cityInfo[@"name"];
     CGFloat latitude = [cityInfo[@"latitude"] doubleValue];
     CGFloat longitude = [cityInfo[@"longitude"] doubleValue];
     
+    UITableViewCell* cell = [tableView cellForRowAtIndexPath: indexPath];
     
-    NSLog(@"%@", cityName);
-    NSLog(@"%lf", latitude);
-    NSLog(@"%lf", longitude);
+    NSLog(@"%@", cell.textLabel.text);
+    NSLog(@"latitude: %lf", latitude);
+    NSLog(@"longitude: %lf", longitude);
     
     WeatherController* vc = [[WeatherController alloc] init];
-    
     vc.cityName = [NSString stringWithFormat: @"%@ -- %@", cityInfo[@"name"], cityInfo[@"admin1"]];
     vc.latitude = latitude;
     vc.longitude = longitude;
-    [self presentViewController: vc animated: YES completion: nil];
+    vc.modalPresentationStyle = UIModalPresentationFullScreen;
+    UINavigationController* Nav = [[UINavigationController alloc] initWithRootViewController: vc];
+    
+    [self presentViewController: Nav animated: YES completion: nil];
+}
+
+//取消延迟调用，防止内存泄漏
+- (void)dealloc {
+    [NSObject cancelPreviousPerformRequestsWithTarget:self];
 }
 
 

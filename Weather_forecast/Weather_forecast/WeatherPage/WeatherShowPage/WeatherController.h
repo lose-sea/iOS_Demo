@@ -10,6 +10,8 @@
 #import "WeatherModel.h"
 #import "TemperatureCell.h"
 #import "LoadView.h"
+#import "HomeController.h"
+
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -20,6 +22,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (nonatomic, assign) CGFloat latitude;
 @property (nonatomic, assign) CGFloat longitude;
+
+@property (nonatomic, assign) NSInteger index; 
 @end
 
 NS_ASSUME_NONNULL_END

@@ -6,10 +6,21 @@
 //
 
 #import <UIKit/UIKit.h>
-#import <Masonry/Masonry.h> 
+#import <Masonry/Masonry.h>
+#import "WeatherTool.h"
+
 NS_ASSUME_NONNULL_BEGIN
 
 @interface SaveCell : UITableViewCell
+@property (nonatomic, strong) UIImageView* backView; 
+@property (nonatomic, strong) UILabel* cityLabel;
+@property (nonatomic, strong) UILabel* weatherLabel;
+@property (nonatomic, strong) UILabel* temperatureLabel;
+@property (nonatomic, strong) UILabel* maxLabel;
+@property (nonatomic, strong) UILabel* minLabel;
+
+- (void) configWithName: (NSString*) name dict: (NSDictionary*) dict;
+
 
 @end
 

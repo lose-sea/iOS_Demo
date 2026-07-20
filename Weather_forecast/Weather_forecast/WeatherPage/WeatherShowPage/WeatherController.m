@@ -8,7 +8,8 @@
 #import "WeatherController.h"
 
 @interface WeatherController ()
-
+@property (nonatomic, strong) UIButton* addButton;
+@property (nonatomic, strong) UIButton* backButton; 
 @end
 
 @implementation WeatherController
@@ -18,6 +19,7 @@
 //    self.view.backgroundColor = [UIColor systemRedColor];
     // Do any additional setup after loading the view.
     [self setUpData];
+    [self setUpNavigation];
     [self setUpInterface];
 }
 
@@ -33,6 +35,18 @@
     [self createURL];
 }
 
+- (void) setUpNavigation {
+    UIBarButtonItem* backButton = [[UIBarButtonItem alloc] initWithImage: [UIImage systemImageNamed: @"chevron.left"] style: UIBarButtonItemStylePlain target: self action: @selector(pressBack)];
+    
+    self.backButton.layer.cornerRadius = 20;
+    self.backButton.clipsToBounds = YES;
+    
+    UIBarButtonItem* addButton = [[UIBarButtonItem alloc] initWithImage: [UIImage systemImageNamed: @"plus"] style: UIBarButtonItemStylePlain target: self action: @selector(pressAdd)];
+    
+    self.navigationItem.leftBarButtonItem = backButton;
+    self.navigationItem.rightBarButtonItem = addButton;
+}
+
 - (void) setUpInterface {
     if (self.weatherModel.CurrentWeatherModel.count > 0 && self.weatherModel.HourlyWeatherModel.count > 0 && self.weatherModel.DailyWeatherModel.count > 0) {
         [self.view addSubview: self.weatherView];
@@ -42,7 +56,6 @@
         self.weatherView.tableView.delegate = self;
         self.weatherView.tableView.dataSource = self;
         
-        [self.weatherView.backButton addTarget: self action: @selector(pressBack) forControlEvents: UIControlEventTouchUpInside];
     } else {
         LoadView* loadView = [[LoadView alloc] init];
         [self.view addSubview: loadView];
@@ -53,10 +66,36 @@
 }
 
 
-
 - (void) pressBack {
+    NSLog(@"back"); 
     [self dismissViewControllerAnimated: YES completion: nil];
 }
+
+- (void) pressAdd {
+    HomeModel* homeModel = [[HomeModel alloc] init];
+    NSDictionary* dict = @{@"name": self.cityName, @"latitude": @(self.latitude), @"longitude": @(self.longitude)};
+    if ([homeModel.saveCities indexOfObject: dict] == NSNotFound) {
+        [homeModel.saveCities addObject: dict];
+        [homeModel.dicts addObject: @{}]; 
+        
+        UIAlertController* alertController = [UIAlertController alertControllerWithTitle: nil  message: @"添加成功" preferredStyle: UIAlertControllerStyleAlert];
+        UIAlertAction* okAction = [UIAlertAction actionWithTitle: @"确定" style: UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+            NSLog(@"OK");
+        }];
+        [alertController addAction: okAction];
+        [self presentViewController: alertController animated: YES completion: nil];
+    } else {
+        UIAlertController* alertController = [UIAlertController alertControllerWithTitle: nil  message: @"该城市已经添加收藏夹, 重复添加" preferredStyle: UIAlertControllerStyleAlert];
+        UIAlertAction* okAction = [UIAlertAction actionWithTitle: @"确定" style: UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+            NSLog(@"OK");
+        }];
+        [alertController addAction: okAction];
+        [self presentViewController: alertController animated: YES completion: nil];
+    }
+    
+}
+
+
 
 - (void) createURL {
     NSString* urlString = [NSString stringWithFormat: @"https://api.open-meteo.com/v1/forecast?latitude=%f&longitude=%f&current=temperature_2m,weather_code&hourly=temperature_2m,weather_code&daily=weather_code,temperature_2m_max,temperature_2m_min&timezone=auto", self.latitude, self.longitude];
@@ -92,34 +131,6 @@
 //     https:api.open-meteo.com/v1/forecast?latitude=39.907500&longitude=116.397230&current=temperature_2m,weather_code&hourly=temperature_2m,weather_code&daily=weather_code,temperature_2m_max,temperature_2m_min&timezone=auto
 }
 
-
-- (NSString *)descriptionForWeatherCode:(NSInteger)code {
-    // 0: 晴天
-    if (code == 0) return @"晴";
-    // 1,2,3: 多云
-    if (code >= 1 && code <= 3) return @"多云";
-    // 45,48: 雾
-    if (code == 45 || code == 48) return @"雾";
-    // 51,53,55: 毛毛雨
-    if (code >= 51 && code <= 55) return @"毛毛雨";
-    // 56,57: 冻毛毛雨
-    if (code == 56 || code == 57) return @"冻毛毛雨";
-    // 61,63,65: 雨
-    if (code >= 61 && code <= 65) return @"雨";
-    // 66,67: 冻雨
-    if (code == 66 || code == 67) return @"冻雨";
-    // 71,73,75: 雪
-    if (code >= 71 && code <= 75) return @"雪";
-    // 77: 雪粒
-    if (code == 77) return @"雪粒";
-    // 80,81,82: 阵雨
-    if (code >= 80 && code <= 82) return @"阵雨";
-    // 85,86: 阵雪
-    if (code == 85 || code == 86) return @"阵雪";
-    // 95,96,99: 雷暴
-    if (code >= 95 && code <= 99) return @"雷暴";
-    return @"未知天气";
-}
 
 
 
@@ -221,3 +232,4 @@
 */
 
 @end
+    

@@ -41,6 +41,8 @@
     self.temperatureLabel.text = @"37°";
     self.temperatureLabel.font = [UIFont systemFontOfSize: 100];
     
+    
+    
     UILabel* maxLabel = [[UILabel alloc] init];
     [self.contentView addSubview: maxLabel];
     [maxLabel mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -120,38 +122,9 @@
     self.minLabel.text = [NSString stringWithFormat: @"%.1f°", minTemperature];
     
     NSInteger weather_code = [currentWeather[@"weather_code"] integerValue];
-    self.weatherLabel.text = [self descriptionForWeatherCode: weather_code];
-    
+    self.weatherLabel.text = [WeatherTool descriptionForWeatherCode: weather_code];
 }
 
-
-- (NSString *)descriptionForWeatherCode:(NSInteger)code {
-    // 0: 晴天
-    if (code == 0) return @"晴";
-    // 1,2,3: 多云
-    if (code >= 1 && code <= 3) return @"多云";
-    // 45,48: 雾
-    if (code == 45 || code == 48) return @"雾";
-    // 51,53,55: 毛毛雨
-    if (code >= 51 && code <= 55) return @"毛毛雨";
-    // 56,57: 冻毛毛雨
-    if (code == 56 || code == 57) return @"冻毛毛雨";
-    // 61,63,65: 雨
-    if (code >= 61 && code <= 65) return @"雨";
-    // 66,67: 冻雨
-    if (code == 66 || code == 67) return @"冻雨";
-    // 71,73,75: 雪
-    if (code >= 71 && code <= 75) return @"雪";
-    // 77: 雪粒
-    if (code == 77) return @"雪粒";
-    // 80,81,82: 阵雨
-    if (code >= 80 && code <= 82) return @"阵雨";
-    // 85,86: 阵雪
-    if (code == 85 || code == 86) return @"阵雪";
-    // 95,96,99: 雷暴
-    if (code >= 95 && code <= 99) return @"雷暴";
-    return @"未知天气";
-}
 
 
 - (void)awakeFromNib {

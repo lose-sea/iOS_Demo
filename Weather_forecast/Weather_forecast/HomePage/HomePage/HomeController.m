@@ -13,21 +13,47 @@
 
 @implementation HomeController
 
+- (void) viewWillAppear:(BOOL)animated {
+    [super viewWillAppear: animated]; 
+    NSLog(@"appear");
+//    [self.homeView.tableView reloadData]; 
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
 //    self.view.backgroundColor = [UIColor systemCyanColor];
     // Do any additional setup after loading the view.
     [self setUpData];
+    [self createURLForCities];
+
     [self setUpNavigation];
-    
+    [self setUpInterface]; 
 }
 
 - (void) setUpData {
     self.homeModel = [[HomeModel alloc] init];
     self.homeView = [[HomeView alloc] init];
     
+    NSDictionary* c1 = @{@"name": @"西安 -- 陕西", @"latitude": @34.258330, @"longitude": @108.928610};
+    NSDictionary* c2 = @{@"name": @"北京 -- 北京市", @"latitude": @39.907500, @"longitude": @116.397230};
+    NSDictionary* c3 = @{@"name": @"兰州 -- 甘肃", @"latitude": @36.057010, @"longitude": @103.839870};
+    [self.homeModel.saveCities addObjectsFromArray: @[c1, c2, c3]];
+    
+    for (NSInteger i = 0; i < self.homeModel.saveCities.count; i++) {
+        [self.homeModel.dicts addObject: @{}]; 
+    }
+    
     self.homeView.tableView.delegate = self;
     self.homeView.tableView.dataSource = self;
+}
+
+- (void) createURLForCities {
+    for (NSInteger i = 0; i < self.homeModel.saveCities.count; i++) {
+        NSDictionary* dict = self.homeModel.saveCities[i];
+        CGFloat latitude = [dict[@"latitude"] doubleValue];
+        CGFloat longitude = [dict[@"longitude"] doubleValue];
+        [self createURLWithlatitude: latitude longitude: longitude index: i];
+    }
 }
 
 - (void) setUpInterface {
@@ -35,8 +61,8 @@
     [self.homeView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.edges.mas_equalTo(self.view);
     }];
-    
 }
+
 
 - (void)setUpNavigation {
     SearchViewController* vc = [[SearchViewController alloc] init];
@@ -59,22 +85,77 @@
     self.navigationItem.searchController = self.searchController;
     
     // 搜索成一个按钮,点击展开搜索栏
-//    self.navigationItem.preferredSearchBarPlacement = UINavigationItemSearchBarPlacementIntegratedButton;
+//    self.navigationItem.preferredSearchBarPlacement = UINavigationItemSearchBarPlacementIntegratedButton; \
+    
+    self.searchController.delegate = self;
 }
+
+
+// 搜索界面被关闭时调用
+- (void)didDismissSearchController:(UISearchController *)searchController {
+    NSLog(@"搜索界面关闭");
+    [self createURLForCities];
+    [self.homeView.tableView reloadData];
+}
+
 
 
 #pragma mark - UITableView
 - (NSInteger) tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return 0;
+    return self.homeModel.saveCities.count;
 }
 
+- (CGFloat) tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
+    return 150;
+}
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     SaveCell* cell = [tableView dequeueReusableCellWithIdentifier: @"SaveCellID" forIndexPath: indexPath];
+//    [self createURLWithlatitude: [self.homeModel.saveCities[indexPath.row][@"latitude"] doubleValue] longitude: [self.homeModel.saveCities[indexPath.row][@"longitude"] doubleValue] index: indexPath.row];
+    [cell configWithName: self.homeModel.saveCities[indexPath.row][@"name"] dict: self.homeModel.dicts[indexPath.row]];
     
     return cell;
 }
 
+- (void) tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    [tableView deselectRowAtIndexPath: indexPath animated: YES];
+    CityPageViewController* pageVC = [[CityPageViewController alloc] initWithTransitionStyle: UIPageViewControllerTransitionStyleScroll navigationOrientation: UIPageViewControllerNavigationOrientationHorizontal options: nil];
+    pageVC.cityList = self.homeModel.saveCities;
+    pageVC.initialIndex = indexPath.row;
+    pageVC.modalPresentationStyle = UIModalPresentationFullScreen;
+    UINavigationController* Nav = [[UINavigationController alloc] initWithRootViewController: pageVC];
+    [self presentViewController: Nav animated: YES completion: nil];
+}
+
+
+
+- (void) createURLWithlatitude: (CGFloat) latitude longitude: (CGFloat) longitude index: (NSInteger) index {
+    
+    NSString* urlString = [NSString stringWithFormat: @"https://api.open-meteo.com/v1/forecast?latitude=%f&longitude=%f&current=temperature_2m,weather_code&hourly=temperature_2m,weather_code&daily=weather_code,temperature_2m_max,temperature_2m_min&timezone=auto", latitude, longitude];
+        
+    NSURL* url = [NSURL URLWithString: urlString];
+    NSMutableURLRequest* request = [NSMutableURLRequest requestWithURL: url];
+    request.HTTPMethod = @"GET";
+    request.timeoutInterval = 15;
+    
+    NSURLSession* session = [NSURLSession sharedSession];
+    NSURLSessionDataTask* task = [session dataTaskWithRequest: request completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
+        if (error) {
+            NSLog(@"%@", error);
+            return;
+        }
+        NSDictionary* dict = [NSJSONSerialization JSONObjectWithData: data options:0 error: nil];
+//        NSLog(@"天气数据: %@", dict);
+        dispatch_async(dispatch_get_main_queue(), ^{
+            self.homeModel.dicts[index] = dict;
+//            [self.homeModel.dicts removeAllObjects];
+//            [self.homeModel.dicts addObject: dict];
+            
+            [self.homeView.tableView reloadRowsAtIndexPaths: @[[NSIndexPath indexPathForRow:index inSection:0]] withRowAnimation: UITableViewRowAnimationNone];
+        });
+    }];
+    [task resume];
+}
 
 
 /*

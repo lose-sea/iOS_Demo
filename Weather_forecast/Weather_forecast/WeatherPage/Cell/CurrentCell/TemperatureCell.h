@@ -6,7 +6,8 @@
 //
 
 #import <UIKit/UIKit.h>
-#import <Masonry/Masonry.h> 
+#import <Masonry/Masonry.h>
+#import "WeatherTool.h"
 NS_ASSUME_NONNULL_BEGIN
 
 @interface TemperatureCell : UITableViewCell
