@@ -21,7 +21,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (void) GET: (NSString*) urlString
 
   parameters: (NSDictionary* _Nullable) parameters
-  completion: (void (^ _Nullable)(NSDictionary* _Nullable json, NSError* _Nullable error)) complete;
+  completion: (void (^ _Nullable)(NSDictionary* _Nullable json, NSError* _Nullable error)) completion;
 
 // 取消所有请求
 - (void) cacelAllRequests;

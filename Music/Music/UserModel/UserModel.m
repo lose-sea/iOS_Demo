@@ -35,7 +35,7 @@ static UserModel* instance = nil;
     return [self shareInstance];
 }
 
-- (id) initWithZone: (NSZone*) zone {
+- (id) init: (NSZone*) zone {
     return self;
 }
 
