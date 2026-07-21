@@ -106,35 +106,28 @@
 
 
 - (void) createURL {
-    NSString* urlString = [NSString stringWithFormat: @"https://api.open-meteo.com/v1/forecast?latitude=%f&longitude=%f&current=temperature_2m,weather_code&hourly=temperature_2m,weather_code&daily=weather_code,temperature_2m_max,temperature_2m_min&timezone=auto", self.latitude, self.longitude];
-    
-    NSURL* url = [NSURL URLWithString: urlString];
-    NSMutableURLRequest* request = [NSMutableURLRequest requestWithURL: url];
-    request.HTTPMethod = @"GET";
-    request.timeoutInterval = 15;
-    
-    NSURLSession* session = [NSURLSession sharedSession];
-    NSURLSessionDataTask* task = [session dataTaskWithRequest: request completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
-        if (error) {
-            NSLog(@"%@", error);
-            return;
-        }
-        NSDictionary* dict = [NSJSONSerialization JSONObjectWithData: data options:0 error: nil];
-//        NSLog(@"天气数据: %@", dict);
-        dispatch_async(dispatch_get_main_queue(), ^{
-//            NSDictionary* current = dict[@"current"];
-            self.weatherModel.CurrentWeatherModel = dict[@"current"];
-            self.weatherModel.DailyWeatherModel = dict[@"daily"];
-            self.weatherModel.HourlyWeatherModel = dict[@"hourly"];
+    [[NetworkManager sharedManager] GET: @"https://api.open-meteo.com/v1/forecast" parameters: @{
+            @"latitude": @(self.latitude),
+            @"longitude": @(self.longitude),
+            @"daily" : @"temperature_2m_max,temperature_2m_min,sunrise,sunset,precipitation_sum,wind_speed_10m_max,wind_direction_10m_dominant,weather_code,uv_index_max",
 
-            [self setUpInterface];
-            [self.weatherView configWithCurrentWeather: self.weatherModel.CurrentWeatherModel];
-            [self.weatherView.tableView reloadData];
-            
-        });
-    }];
-    [task resume];
-//     https:api.open-meteo.com/v1/forecast?latitude=39.907500&longitude=116.397230&current=temperature_2m,weather_code&hourly=temperature_2m,weather_code&daily=weather_code,temperature_2m_max,temperature_2m_min&timezone=auto
+                @"hourly" : @"temperature_2m,precipitation,snowfall,weather_code,wind_speed_10m,wind_direction_10m",
+
+                @"current" : @"temperature_2m,is_day,precipitation,weather_code,wind_speed_10m,wind_direction_10m",
+
+                @"timezone" : @"Europe/Moscow"
+        }
+                                 completion:^(NSDictionary * _Nullable json, NSError * _Nullable error) {
+            if (!error && json) {
+                self.weatherModel.CurrentWeatherModel = json[@"current"];
+                self.weatherModel.DailyWeatherModel = json[@"daily"];
+                self.weatherModel.HourlyWeatherModel = json[@"hourly"];
+
+                [self setUpInterface];
+                [self.weatherView configWithCurrentWeather: self.weatherModel.CurrentWeatherModel];
+                [self.weatherView.tableView reloadData];
+            }
+        }];
 }
 
 

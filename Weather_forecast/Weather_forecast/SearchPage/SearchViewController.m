@@ -56,39 +56,24 @@
 
 
 - (void) createURL {
-    // 对搜索框中的内容进行URL编码
-    NSString* endcode = [self.searchText stringByAddingPercentEncodingWithAllowedCharacters: [NSCharacterSet URLQueryAllowedCharacterSet]];
-    // 拼接URL
-    NSString* urlString = [NSString stringWithFormat: @"https://geocoding-api.open-meteo.com/v1/search?name=%@&count=10&language=zh&format=json", endcode];
+    NSString* inputText = self.searchText;
     
-    NSURL* url = [NSURL URLWithString: urlString];
-    
-    NSMutableURLRequest* request = [NSMutableURLRequest requestWithURL: url];
-    request.HTTPMethod = @"GET";
-    request.timeoutInterval = 15;
-    
-    NSURLSession* session = [NSURLSession sharedSession];
-    
-    NSURLSessionDataTask* task = [session dataTaskWithRequest: request completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
-        if (error) {
-            NSLog(@"请求错误: %@", error);
-            return;
+    [[NetworkManager sharedManager] GET: @"https://geocoding-api.open-meteo.com/v1/search" parameters: @{
+            @"name": inputText,
+            @"count": @10,
+            @"language": @"zh",
+            @"format": @"json"
         }
-        NSDictionary* dict = [NSJSONSerialization JSONObjectWithData: data options: kNilOptions error: nil];
-        NSLog(@"%@", dict);
-        
-        NSArray* results = dict[@"results"];
-        
-        // 更新主线程UI
-        dispatch_async(dispatch_get_main_queue(), ^{
-            [self.searchModel.cityArray removeAllObjects];
-            if (results) {
-                [self.searchModel.cityArray addObjectsFromArray: results];
+                                 completion:^(NSDictionary * _Nullable json, NSError * _Nullable error) {
+            if (!error && json) {
+                NSArray* results = json[@"results"];
+                [self.searchModel.cityArray removeAllObjects];
+                if (results) {
+                    [self.searchModel.cityArray addObjectsFromArray: results];
+                }
+                [self.searchView.tableView reloadData];
             }
-            [self.searchView.tableView reloadData];
-        });
-    }];
-    [task resume];
+        }];
 }
 
 #pragma mark - UITableView
@@ -133,16 +118,5 @@
 - (void)dealloc {
     [NSObject cancelPreviousPerformRequestsWithTarget:self];
 }
-
-
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
 
 @end
