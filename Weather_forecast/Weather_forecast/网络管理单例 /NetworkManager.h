@@ -23,7 +23,10 @@ NS_ASSUME_NONNULL_BEGIN
   parameters: (NSDictionary* _Nullable) parameters
   completion: (void (^ _Nullable)(NSDictionary* _Nullable json, NSError* _Nullable error)) complete;
 
-// 请求取消  
+// 请求所有
+
+// 取消特定 URL 请求
+- (void) cacelRequestForURL: (NSString*) urlString;
 @end
 
 NS_ASSUME_NONNULL_END
