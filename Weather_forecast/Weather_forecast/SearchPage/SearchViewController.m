@@ -11,6 +11,9 @@
 // 搜索框中的内容
 @property (nonatomic, strong) NSString* searchText;
 
+// 当前最新请求ID
+@property (nonatomic, assign) NSInteger currentRequestID;
+
 @end
 
 @implementation SearchViewController
@@ -56,24 +59,33 @@
 
 
 - (void) createURL {
-    NSString* inputText = self.searchText;
+    // 增加请求ID
+    self.currentRequestID++;
+    // 保存本次请求的 ID
+    NSInteger requestID = self.currentRequestID;
+
     
     [[NetworkManager sharedManager] GET: @"https://geocoding-api.open-meteo.com/v1/search" parameters: @{
-            @"name": inputText,
+            @"name": self.searchText,
             @"count": @10,
             @"language": @"zh",
             @"format": @"json"
         }
                                  completion:^(NSDictionary * _Nullable json, NSError * _Nullable error) {
-            if (!error && json) {
-                NSArray* results = json[@"results"];
-                [self.searchModel.cityArray removeAllObjects];
-                if (results) {
-                    [self.searchModel.cityArray addObjectsFromArray: results];
-                }
-                [self.searchView.tableView reloadData];
+            // 检查本次回调是否属于当前的最新请求
+        if (requestID != self.currentRequestID) {
+            return;
+        }
+        
+        if (!error && json) {
+            NSArray* results = json[@"results"];
+            [self.searchModel.cityArray removeAllObjects];
+            if (results) {
+                [self.searchModel.cityArray addObjectsFromArray: results];
             }
-        }];
+            [self.searchView.tableView reloadData];
+        }
+    }];
 }
 
 #pragma mark - UITableView

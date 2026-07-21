@@ -25,7 +25,7 @@
 }
 
 - (void) setUpData {
-    self.homeModel = [[HomeModel alloc] init];
+    self.homeModel = [HomeModel shareInstance];
     self.homeView = [[HomeView alloc] init];
     
     NSDictionary* c1 = @{@"name": @"西安 -- 陕西", @"latitude": @34.258330, @"longitude": @108.928610};

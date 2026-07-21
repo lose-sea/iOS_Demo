@@ -80,8 +80,11 @@
 }
 
 - (void) pressAdd {
-    HomeModel* homeModel = [[HomeModel alloc] init];
+    HomeModel* homeModel = [HomeModel shareInstance];
     NSDictionary* dict = @{@"name": self.cityName, @"latitude": @(self.latitude), @"longitude": @(self.longitude)};
+    if (!homeModel.saveCities) {
+        homeModel.saveCities = [[NSMutableArray alloc] init];
+    }
     if ([homeModel.saveCities indexOfObject: dict] == NSNotFound) {
         [homeModel.saveCities addObject: dict];
         [homeModel.dicts addObject: @{}]; 

@@ -27,11 +27,11 @@ static HomeModel* instance = nil;
 }
 
 
-- (id) copyWithZone: (NSZone*) zone {
+- (instancetype) copyWithZone: (NSZone*) zone {
     return self;
 }
 
-- (id) mutableCopyWithZone: (NSZone*) zone {
+- (instancetype) mutableCopyWithZone: (NSZone*) zone {
     return self;
 }
 

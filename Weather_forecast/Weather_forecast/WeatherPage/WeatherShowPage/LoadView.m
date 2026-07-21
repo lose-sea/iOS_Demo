@@ -36,8 +36,8 @@
         make.height.mas_equalTo(50);
     }];
     
-    self.label.text = @"-- --";
-    self.label.font = [UIFont systemFontOfSize: 40];
+    self.label.text = @"正在加载 ...";
+    self.label.font = [UIFont systemFontOfSize: 30];
     self.label.textAlignment = NSTextAlignmentCenter;
 }
 
