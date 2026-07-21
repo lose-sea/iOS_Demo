@@ -23,7 +23,11 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, assign) CGFloat latitude;
 @property (nonatomic, assign) CGFloat longitude;
 
-@property (nonatomic, assign) NSInteger index; 
+@property (nonatomic, assign) NSInteger index;
+
+- (void) setUpData;
+
+- (void) configWithDict: (NSDictionary*) dict; 
 @end
 
 NS_ASSUME_NONNULL_END

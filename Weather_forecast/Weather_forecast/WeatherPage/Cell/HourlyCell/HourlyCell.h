@@ -18,7 +18,6 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, strong) UILabel* weatherLabel; 
 @property (nonatomic, strong) UILabel* hourTemperatureLabel;
 
-- (void) configWithHourlyWeather: (NSDictionary*) hourlyWeather withIndex: (NSInteger)item; 
+- (void) configWithHourlyWeather: (NSDictionary*) hourlyWeather startIndex: (NSInteger) startIndex withIndex: (NSInteger) item; 
 @end
-
 NS_ASSUME_NONNULL_END

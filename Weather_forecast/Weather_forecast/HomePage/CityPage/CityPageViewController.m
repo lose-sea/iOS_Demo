@@ -19,9 +19,13 @@
     
     self.dataSource = self;
     self.delegate = self;
-    
+    [self setUpData];
     [self setUpNavigation];
     [self setUpInitialPage];
+    
+}
+
+- (void) setUpData {
     
 }
 
@@ -35,12 +39,17 @@
 }
 
 - (UIViewController*) viewControllerAtIndex: (NSInteger) index {
-    NSDictionary* dict = self.cityList[index];
+    
+    NSDictionary* cityInformation = self.cityList[index];
     WeatherController* vc = [[WeatherController alloc] init];
-    vc.cityName = dict[@"name"];
-    vc.latitude = [dict[@"latitude"] doubleValue];
-    vc.longitude = [dict[@"longitude"] doubleValue];
+    vc.cityName = cityInformation[@"name"];
+    vc.latitude = [cityInformation[@"latitude"] doubleValue];
+    vc.longitude = [cityInformation[@"longitude"] doubleValue];
     vc.index = index;
+    HomeModel* homeModel = [[HomeModel alloc] init];
+    NSDictionary* dict = homeModel.dicts[index];
+    [vc configWithDict: dict];
+    
     return vc;
 }
 

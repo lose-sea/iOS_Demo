@@ -40,15 +40,15 @@
 + (UIImage*) backImageForWeatherCode: (NSInteger) weather_code {
     switch (weather_code) {
         case 0:
-            return [UIImage imageNamed: @"3.jpg"];
+            return [UIImage imageNamed: @"1.jpg"];
         case 1:
         case 2:
         case 3:
         case 45:
         case 48:
-            return [UIImage imageNamed: @"1.jpg"];
-        default:
             return [UIImage imageNamed: @"2.jpg"];
+        default:
+            return [UIImage imageNamed: @"3.jpg"];
     }
 }
 

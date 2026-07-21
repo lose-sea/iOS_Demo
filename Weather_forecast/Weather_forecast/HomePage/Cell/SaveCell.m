@@ -77,7 +77,7 @@
     [self.contentView addSubview: maxLabel];
     [maxLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.mas_equalTo(self.weatherLabel);
-        make.left.mas_equalTo(self.weatherLabel.mas_right).offset(35);
+        make.left.mas_equalTo(self.weatherLabel.mas_right).offset(40);
         make.width.mas_equalTo(20);
     }];
     maxLabel.textAlignment = NSTextAlignmentCenter;

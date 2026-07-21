@@ -15,6 +15,7 @@
 
 @implementation SearchViewController
 
+
 - (void)viewDidLoad {
     [super viewDidLoad];
 //    self.view.backgroundColor = [UIColor systemRedColor];
@@ -43,10 +44,8 @@
 
 - (void)updateSearchResultsForSearchController:(UISearchController *)searchController {
     self.searchText = searchController.searchBar.text;
-    
 //    // 取消之前尚未执行的延迟调用
 //       [NSObject cancelPreviousPerformRequestsWithTarget:self selector:@selector(performSearch) object:nil];
-       
        // 延迟 0.5 秒后执行实际搜索
        [self performSelector:@selector(performSearch) withObject:nil afterDelay:0.5];
 }
@@ -124,7 +123,7 @@
     vc.cityName = [NSString stringWithFormat: @"%@ -- %@", cityInfo[@"name"], cityInfo[@"admin1"]];
     vc.latitude = latitude;
     vc.longitude = longitude;
-    vc.modalPresentationStyle = UIModalPresentationFullScreen;
+    [vc setUpData]; 
     UINavigationController* Nav = [[UINavigationController alloc] initWithRootViewController: vc];
     
     [self presentViewController: Nav animated: YES completion: nil];

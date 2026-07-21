@@ -14,28 +14,34 @@
 
 @implementation WeatherController
 
+
+- (void) viewWillAppear:(BOOL)animated {
+
+    
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
-//    self.view.backgroundColor = [UIColor systemRedColor];
-    // Do any additional setup after loading the view.
-    [self setUpData];
+    
     [self setUpNavigation];
     [self setUpInterface];
 }
 
-- (void) viewWillAppear:(BOOL)animated {
-    [super viewWillAppear:animated];
-    
+- (void) configWithDict:(NSDictionary *)dict {
+    [self setUpData];
+    self.weatherModel.HourlyWeatherModel = dict[@"hourly"];
+    self.weatherModel.CurrentWeatherModel = dict[@"current"];
+    self.weatherModel.DailyWeatherModel = dict[@"daily"];
 }
 
 - (void) setUpData {
     self.weatherModel = [[WeatherModel alloc] init];
-    self.weatherView = [[WeatherView alloc] init];
     
     [self createURL];
 }
 
 - (void) setUpNavigation {
+
     UIBarButtonItem* backButton = [[UIBarButtonItem alloc] initWithImage: [UIImage systemImageNamed: @"chevron.left"] style: UIBarButtonItemStylePlain target: self action: @selector(pressBack)];
     
     self.backButton.layer.cornerRadius = 20;
@@ -48,6 +54,8 @@
 }
 
 - (void) setUpInterface {
+    self.weatherView = [[WeatherView alloc] init];
+
     if (self.weatherModel.CurrentWeatherModel.count > 0 && self.weatherModel.HourlyWeatherModel.count > 0 && self.weatherModel.DailyWeatherModel.count > 0) {
         [self.view addSubview: self.weatherView];
         [self.weatherView mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -210,10 +218,20 @@
     
 //    NSLog(@"时间数组: %@", self.weatherModel.HourlyWeatherModel[@"time"]);
 //    NSArray* times = self.weatherModel.HourlyWeatherModel[@"time"];
-    [cell configWithHourlyWeather: self.weatherModel.HourlyWeatherModel withIndex: indexPath.row];
+    
+    NSString* originTime = self.weatherModel.CurrentWeatherModel[@"time"];
+    NSMutableString* currentTime = [NSMutableString stringWithString: originTime];
+    NSRange range = NSMakeRange(currentTime.length - 2,  2);
+    [currentTime replaceCharactersInRange: range withString: @"00"];
+//    NSLog(@"%@", currentTime);
+
+    NSInteger currentIndex = [self.weatherModel.HourlyWeatherModel[@"time"] indexOfObject: currentTime];
+    
+    [cell configWithHourlyWeather: self.weatherModel.HourlyWeatherModel startIndex: currentIndex withIndex: indexPath.item];
     
     return cell;
 }
+
 
 - (void) collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
     [collectionView deselectItemAtIndexPath: indexPath animated: YES]; 

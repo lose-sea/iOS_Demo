@@ -61,20 +61,21 @@
 
 }
 
-- (void) configWithHourlyWeather:(NSDictionary *)hourlyWeather withIndex:(NSInteger)item {
-    NSString* timeStr = hourlyWeather[@"time"][item];
+- (void) configWithHourlyWeather:(NSDictionary *)hourlyWeather startIndex:(NSInteger) startIndex withIndex:(NSInteger)item {
+
+    NSString* timeStr = hourlyWeather[@"time"][item + startIndex];
     timeStr = [timeStr substringFromIndex: 11];
     if ([timeStr characterAtIndex: 0] == '0') {
         timeStr = [timeStr substringFromIndex: 1];
     }
     self.timeLabel.text = timeStr;
     
-    NSInteger weather_code = [hourlyWeather[@"weather_code"][item] intValue];
+    NSInteger weather_code = [hourlyWeather[@"weather_code"][item + startIndex] intValue];
     self.weatherView.image = [WeatherTool imageForWeatherCode: weather_code];
     self.weatherView.tintColor = [UIColor labelColor];
     
     self.weatherLabel.text = [WeatherTool descriptionForWeatherCode: weather_code]; 
-    if (hourlyWeather[@"temperature_2m"][item]) {
+    if (hourlyWeather[@"temperature_2m"][item + startIndex]) {
         self.hourTemperatureLabel.text = [NSString stringWithFormat: @"%@°", hourlyWeather[@"temperature_2m"][item]];
     } else {
         self.hourTemperatureLabel.text = @"-- --";
