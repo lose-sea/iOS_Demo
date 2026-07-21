@@ -16,15 +16,14 @@
 
 
 - (void) viewWillAppear:(BOOL)animated {
-
-    
+    [self setUpNavigation];
+    [self setUpInterface];
 }
 
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    [self setUpNavigation];
-    [self setUpInterface];
+    
 }
 
 - (void) configWithDict:(NSDictionary *)dict {
@@ -121,16 +120,20 @@
                 @"timezone" : @"Europe/Moscow"
         }
                                  completion:^(NSDictionary * _Nullable json, NSError * _Nullable error) {
-            if (!error && json) {
-                self.weatherModel.CurrentWeatherModel = json[@"current"];
-                self.weatherModel.DailyWeatherModel = json[@"daily"];
-                self.weatherModel.HourlyWeatherModel = json[@"hourly"];
+        if (error) {
+            
+        }
+            
+        if (!error && json) {
+            self.weatherModel.CurrentWeatherModel = json[@"current"];
+            self.weatherModel.DailyWeatherModel = json[@"daily"];
+            self.weatherModel.HourlyWeatherModel = json[@"hourly"];
 
-                [self setUpInterface];
-                [self.weatherView configWithCurrentWeather: self.weatherModel.CurrentWeatherModel];
-                [self.weatherView.tableView reloadData];
-            }
-        }];
+            [self setUpInterface];
+            [self.weatherView configWithCurrentWeather: self.weatherModel.CurrentWeatherModel];
+            [self.weatherView.tableView reloadData];
+        }
+    }];
 }
 
 

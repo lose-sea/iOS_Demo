@@ -14,6 +14,9 @@
 // 当前最新请求ID
 @property (nonatomic, assign) NSInteger currentRequestID;
 
+// 保存上一次的网络请求
+@property (nonatomic, strong) NSString *lastRequestURL;
+
 @end
 
 @implementation SearchViewController
@@ -54,6 +57,9 @@
 }
 
 - (void) performSearch {
+    if (self.lastRequestURL) {
+        [[NetworkManager sharedManager] cancelRequestForURL: self.lastRequestURL];
+    }
     [self createURL];
 }
 
@@ -63,6 +69,7 @@
     self.currentRequestID++;
     // 保存本次请求的 ID
     NSInteger requestID = self.currentRequestID;
+    
 
     
     [[NetworkManager sharedManager] GET: @"https://geocoding-api.open-meteo.com/v1/search" parameters: @{
@@ -74,6 +81,7 @@
                                  completion:^(NSDictionary * _Nullable json, NSError * _Nullable error) {
             // 检查本次回调是否属于当前的最新请求
         if (requestID != self.currentRequestID) {
+            // 与本次请求不一致, 不响应
             return;
         }
         
