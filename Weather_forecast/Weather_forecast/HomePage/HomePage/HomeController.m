@@ -13,17 +13,6 @@
 
 @implementation HomeController
 
-- (void) viewWillAppear:(BOOL)animated {
-    [super viewWillAppear: animated]; 
-    NSLog(@"appear");
-//    [self.homeView.tableView reloadData];
-//    [self setUpData];
-//    [self createURLForCities];
-//
-//    [self setUpNavigation];
-//    [self setUpInterface];
-}
-
 - (void)viewDidLoad {
     [super viewDidLoad];
 //    self.view.backgroundColor = [UIColor systemCyanColor];
@@ -57,6 +46,7 @@
         NSDictionary* dict = self.homeModel.saveCities[i];
         CGFloat latitude = [dict[@"latitude"] doubleValue];
         CGFloat longitude = [dict[@"longitude"] doubleValue];
+        
         [self createURLWithlatitude: latitude longitude: longitude index: i];
     }
 }
@@ -76,12 +66,6 @@
     // 控制显示规则
     self.navigationItem.largeTitleDisplayMode = UINavigationItemLargeTitleDisplayModeAutomatic;
     self.navigationItem.title = @"天气";
-    
-    
-//    UIBarButtonItem* editButton = [[UIBarButtonItem alloc] initWithImage: [UIImage systemImageNamed: @"ellipsis"] style: UIBarButtonItemStylePlain target: self action: @selector(pressEdit)];
-//    self.navigationItem.rightBarButtonItem = editButton;
-//    editButton.menu = menu;
-    
     
     // 创建菜单动作
     UIAction *addAction = [UIAction actionWithTitle:@"添加城市" image:[UIImage systemImageNamed:@"plus"] identifier:nil handler:^(UIAction *action) {
@@ -128,9 +112,6 @@
     
 }
 
-- (void) pressEdit {
-    
-}
 
 // 搜索界面被关闭时调用
 - (void)didDismissSearchController:(UISearchController *)searchController {
@@ -181,31 +162,24 @@
 
 
 - (void) createURLWithlatitude: (CGFloat) latitude longitude: (CGFloat) longitude index: (NSInteger) index {
-    
-    NSString* urlString = [NSString stringWithFormat: @"https://api.open-meteo.com/v1/forecast?latitude=%f&longitude=%f&current=temperature_2m,weather_code&hourly=temperature_2m,weather_code&daily=weather_code,temperature_2m_max,temperature_2m_min&timezone=auto", latitude, longitude];
-        
-    NSURL* url = [NSURL URLWithString: urlString];
-    NSMutableURLRequest* request = [NSMutableURLRequest requestWithURL: url];
-    request.HTTPMethod = @"GET";
-    request.timeoutInterval = 15;
-    
-    NSURLSession* session = [NSURLSession sharedSession];
-    NSURLSessionDataTask* task = [session dataTaskWithRequest: request completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
-        if (error) {
-            NSLog(@"%@", error);
-            return;
-        }
-        NSDictionary* dict = [NSJSONSerialization JSONObjectWithData: data options:0 error: nil];
-//        NSLog(@"天气数据: %@", dict);
-        dispatch_async(dispatch_get_main_queue(), ^{
-            self.homeModel.dicts[index] = dict;
-//            [self.homeModel.dicts removeAllObjects];
-//            [self.homeModel.dicts addObject: dict];
-            
+
+    [[NetworkManager sharedManager] GET: @"https://api.open-meteo.com/v1/forecast" parameters: @{
+        @"latitude": @(latitude),
+        @"longitude": @(longitude),
+        @"daily" : @"temperature_2m_max,temperature_2m_min,sunrise,sunset,precipitation_sum,wind_speed_10m_max,wind_direction_10m_dominant,weather_code,uv_index_max",
+
+            @"hourly" : @"temperature_2m,precipitation,snowfall,weather_code,wind_speed_10m,wind_direction_10m",
+
+            @"current" : @"temperature_2m,is_day,precipitation,weather_code,wind_speed_10m,wind_direction_10m",
+
+            @"timezone" : @"Europe/Moscow"
+    }
+                             completion:^(NSDictionary * _Nullable json, NSError * _Nullable error) {
+        if (!error && json) {
+            self.homeModel.dicts[index] = json;
             [self.homeView.tableView reloadRowsAtIndexPaths: @[[NSIndexPath indexPathForRow:index inSection:0]] withRowAnimation: UITableViewRowAnimationNone];
-        });
+        }
     }];
-    [task resume];
 }
 
 @end

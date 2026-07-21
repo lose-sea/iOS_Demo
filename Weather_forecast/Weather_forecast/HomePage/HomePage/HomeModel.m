@@ -22,9 +22,10 @@ static HomeModel* instance = nil;
     return [self shareInstance];
 }
 
-- (id) initWithZone: (NSZone*) zone {
+- (instancetype) init {
     return self;
 }
+
 
 - (id) copyWithZone: (NSZone*) zone {
     return self;

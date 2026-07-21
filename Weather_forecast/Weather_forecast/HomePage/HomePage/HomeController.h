@@ -10,6 +10,7 @@
 #import "HomeModel.h"
 #import "HomeView.h"
 #import "CityPageViewController.h"
+#import "NetworkManager.h"
 
 NS_ASSUME_NONNULL_BEGIN
 

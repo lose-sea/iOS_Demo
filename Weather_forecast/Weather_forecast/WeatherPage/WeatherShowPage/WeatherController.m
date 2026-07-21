@@ -108,8 +108,6 @@
 - (void) createURL {
     NSString* urlString = [NSString stringWithFormat: @"https://api.open-meteo.com/v1/forecast?latitude=%f&longitude=%f&current=temperature_2m,weather_code&hourly=temperature_2m,weather_code&daily=weather_code,temperature_2m_max,temperature_2m_min&timezone=auto", self.latitude, self.longitude];
     
-    NSLog(@"%@", urlString);
-    
     NSURL* url = [NSURL URLWithString: urlString];
     NSMutableURLRequest* request = [NSMutableURLRequest requestWithURL: url];
     request.HTTPMethod = @"GET";

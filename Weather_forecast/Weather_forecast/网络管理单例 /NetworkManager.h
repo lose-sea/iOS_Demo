@@ -10,6 +10,8 @@
 NS_ASSUME_NONNULL_BEGIN
 
 @interface NetworkManager : NSObject
++ (instancetype) sharedManager; 
+
 // 参数1: 请求地址
 // 参数2: 查询参数, 键值对字典, 会自动拼接到url后
 // 参数3: 长Block回调
@@ -24,10 +26,10 @@ NS_ASSUME_NONNULL_BEGIN
   completion: (void (^ _Nullable)(NSDictionary* _Nullable json, NSError* _Nullable error)) completion;
 
 // 取消所有请求
-- (void) cacelAllRequests;
+- (void) cancelAllRequests;
 
 // 取消特定 URL 请求
-- (void) cacelRequestForURL: (NSString*) urlString;
+- (void) cancelRequestForURL: (NSString*) urlString;
 
 @end
 

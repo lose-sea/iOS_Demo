@@ -27,7 +27,7 @@
  
 
 #pragma mark - 单例创建
-+ (instancetype) shareInstance {
++ (instancetype) sharedManager {
     static dispatch_once_t onceToken;
     static NetworkManager* instance = nil;
     dispatch_once(&onceToken, ^{
@@ -37,7 +37,27 @@
 }
 
 + (instancetype) allocWithZone: (struct _NSZone*) zone {
-    return [self shareInstance];
+    return [self sharedManager];
+}
+
+- (instancetype)init
+{
+    self = [super init];
+    if (self) {
+
+        
+        NSURLSessionConfiguration *config = [NSURLSessionConfiguration defaultSessionConfiguration];
+        config.timeoutIntervalForRequest = 15.0;
+        self.session = [NSURLSession sessionWithConfiguration:config];
+
+        self.runningTasks = [NSMutableDictionary dictionary];
+
+        // 创建串行任务队列
+        // 参数1: 队列的名字
+        // 参数2: 串行属性
+        self.syncQueue =dispatch_queue_create("com.weather.sync",DISPATCH_QUEUE_SERIAL);
+    }
+    return self;
 }
 
 - (id) copyWithZone: (NSZone*) zone {
@@ -59,9 +79,9 @@
         NSMutableArray* pairs = [NSMutableArray array];
         for (NSString* key in parameters.allKeys) {
             id value = parameters[key];
-            
+            NSString* valueStr = [NSString stringWithFormat: @"%@", value];
             // URL编码
-            NSString* encodeValue = [value stringByAddingPercentEncodingWithAllowedCharacters: [NSCharacterSet URLQueryAllowedCharacterSet]];
+            NSString* encodeValue = [valueStr stringByAddingPercentEncodingWithAllowedCharacters: [NSCharacterSet URLQueryAllowedCharacterSet]];
             
             [pairs addObject: [NSString stringWithFormat: @"%@=%@", key, encodeValue]];
         }
@@ -70,10 +90,13 @@
     }
     
     // 取消相同的 URL 的旧请求
-    [self cancelURLRequestForURL: fullUrl];
+    [self cancelRequestForURL: fullUrl];
+    
+//    NSLog(@"开始请求：%@", fullUrl);
+
     
     // 创建URLRequest
-    NSURL* url = [NSURL URLWithString: urlString];
+    NSURL* url = [NSURL URLWithString: fullUrl];
     NSMutableURLRequest* request = [NSMutableURLRequest requestWithURL: url];
         // HTTP方法
     request.HTTPMethod = @"GET";
@@ -88,10 +111,14 @@
     __weak typeof(self) weakSelf = self;
     
     NSURLSessionDataTask* task = [self.session dataTaskWithRequest: request completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
+//        NSLog(@"收到服务器响应");
         // 无论成功, 任务结束后都从 runningTasks 中删除
         dispatch_sync(weakSelf.syncQueue, ^{
             [weakSelf.runningTasks removeObjectForKey: fullUrl];
         });
+        
+        
+//        NSLog(@"网络错误：%@", error);
         
         if (error) {
             dispatch_sync(dispatch_get_main_queue(), ^{
@@ -126,8 +153,6 @@
             return;
         }
         
-        
-        
         // jSON 解析
         NSError* jsonError = nil;
         
@@ -137,19 +162,25 @@
         NSDictionary* json = [NSJSONSerialization JSONObjectWithData: data options: kNilOptions error: &jsonError];
         
         // 回到主线程执行业务回调
-        dispatch_sync(dispatch_get_main_queue(), ^{
+        dispatch_async(dispatch_get_main_queue(), ^{
             if (completion) {
-                completion(json)
+                completion(json, jsonError);
             }
-        })
-        
+        });
     }];
     
+    dispatch_sync(self.syncQueue, ^{
+        weakSelf.runningTasks[fullUrl] = task;
+    });
+    
+    // 启动请求
+    [task resume];
 }
 
 
 // 取消正在进行的请求
-- (void) cancelURLRequestForURL: (NSString*) urlString {
+
+- (void)cancelRequestForURL:(nonnull NSString *)urlString {
     // dispatch_sync: GCD 同步派发函数
     // 将后面的任务(Block) 提交到指定的对列, 并阻塞当前的线程, 直到 Block 执行完毕才继续往下走
     
@@ -167,6 +198,20 @@
         [self.runningTasks removeObjectForKey: urlString];
     });
 }
+
+
+- (void) cancelAllRequests {
+    dispatch_sync(self.syncQueue, ^{
+        for (NSURLSessionDataTask* task in self.runningTasks.allValues) {
+            if (task.state == NSURLSessionTaskStateRunning) {
+                [task cancel];
+            }
+        }
+        [self.runningTasks removeAllObjects];
+    });
+}
+
+
 
 
 @end
