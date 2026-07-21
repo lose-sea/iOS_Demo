@@ -22,8 +22,6 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
-    
 }
 
 - (void) configWithDict:(NSDictionary *)dict {
@@ -62,7 +60,6 @@
         }];
         self.weatherView.tableView.delegate = self;
         self.weatherView.tableView.dataSource = self;
-        
     } else {
         LoadView* loadView = [[LoadView alloc] init];
         [self.view addSubview: loadView];
@@ -132,6 +129,13 @@
             [self setUpInterface];
             [self.weatherView configWithCurrentWeather: self.weatherModel.CurrentWeatherModel];
             [self.weatherView.tableView reloadData];
+        } else {
+            UIAlertController* alertController = [UIAlertController alertControllerWithTitle: nil message: @"加载失败, 请检查网络" preferredStyle: UIAlertControllerStyleAlert];
+            UIAlertAction* okAction = [UIAlertAction actionWithTitle: @"确定" style: UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+                [self pressBack];
+            }];
+            [alertController addAction: okAction];
+            [self presentViewController: alertController animated: YES completion: nil];
         }
     }];
 }

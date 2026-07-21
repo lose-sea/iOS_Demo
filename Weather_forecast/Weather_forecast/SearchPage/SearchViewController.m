@@ -14,8 +14,6 @@
 // 当前最新请求ID
 @property (nonatomic, assign) NSInteger currentRequestID;
 
-// 保存上一次的网络请求
-@property (nonatomic, strong) NSString *lastRequestURL;
 
 @end
 
@@ -57,10 +55,10 @@
 }
 
 - (void) performSearch {
-    if (self.lastRequestURL) {
-        [[NetworkManager sharedManager] cancelRequestForURL: self.lastRequestURL];
+    if (self.searchText.length > 0) {
+        [self createURL];
     }
-    [self createURL];
+    return;
 }
 
 
@@ -131,8 +129,12 @@
     [vc setUpData]; 
     UINavigationController* Nav = [[UINavigationController alloc] initWithRootViewController: vc];
     
+    self.navigationItem.searchController.searchBar.text = @"";
+    
     [self presentViewController: Nav animated: YES completion: nil];
 }
+
+
 
 //取消延迟调用，防止内存泄漏
 - (void)dealloc {

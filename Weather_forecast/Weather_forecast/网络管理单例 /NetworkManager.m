@@ -158,8 +158,10 @@
         
         // 将服务器返回的原始二进制数据转换为可操作的字典对象
         // data: 服务器通过网路传回来的原始字节
-        // options:
-        NSDictionary* json = [NSJSONSerialization JSONObjectWithData: data options: kNilOptions error: &jsonError];
+        // options: 解析选项 KNilOptions 值为 0 不开启任何特殊模式
+        NSDictionary* json = [NSJSONSerialization JSONObjectWithData: data
+                                                             options: kNilOptions
+                                                               error: &jsonError];
         
         // 回到主线程执行业务回调
         dispatch_async(dispatch_get_main_queue(), ^{
