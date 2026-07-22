@@ -32,8 +32,6 @@
 - (void) setUpData {
     self.searchModel = [[SearchModel alloc] init];
     self.searchView = [[SearchView alloc] init];
-    
-    
 }
 
 
