@@ -34,12 +34,17 @@
 }
 
 - (void) setUpData {
+    
+    NSLog(@"调用 setData");
+    
     self.weatherModel = [[WeatherModel alloc] init];
     
     [self createURL];
 }
 
 - (void) setUpNavigation {
+    
+    NSLog(@"调用 setUpNavigation");
 
     UIBarButtonItem* backButton = [[UIBarButtonItem alloc] initWithImage: [UIImage systemImageNamed: @"chevron.left"] style: UIBarButtonItemStylePlain target: self action: @selector(pressBack)];
     
