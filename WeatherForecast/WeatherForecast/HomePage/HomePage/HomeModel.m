@@ -14,7 +14,7 @@ static HomeModel* instance = nil;
     dispatch_once(&onceToken, ^{
         instance = [[super allocWithZone: nil] init];
         
-//        [instance loadFormUserDefaults];
+        [instance loadFormUserDefaults];
     });
     return instance;
 }

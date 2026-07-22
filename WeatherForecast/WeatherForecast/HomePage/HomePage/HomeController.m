@@ -36,7 +36,7 @@
     self.homeModel = [HomeModel shareInstance];
     self.homeView = [[HomeView alloc] init];
 //    [self.homeModel setUpDefaultCites];
-    [self.homeModel loadFormUserDefaults]; 
+//    [self.homeModel loadFormUserDefaults]; 
     
     self.homeView.tableView.delegate = self;
     self.homeView.tableView.dataSource = self;
@@ -73,6 +73,11 @@
 
 
 - (void)setUpNavigation {
+    
+//    NSLog(@"%@", self.homeModel.homeCities);
+//    for (int i = 0; i < self.homeModel.homeCities.count; i++) {
+//        NSLog(@"%@", ((CityModel*)self.homeModel.homeCities[i]).cityID);
+//    }
     
     // 开启大标题
     self.navigationController.navigationBar.prefersLargeTitles = YES;
@@ -126,7 +131,6 @@
     // 创建按钮并设置菜单
     self.moreButton = [[UIBarButtonItem alloc] initWithImage:[UIImage systemImageNamed:@"ellipsis"] style:UIBarButtonItemStylePlain target:nil action:nil];
     self.moreButton.menu = menu;
-    
 
     self.editButton = [[UIBarButtonItem alloc] initWithImage: [UIImage systemImageNamed:@"square.and.pencil"] style: UIBarButtonItemStylePlain target: self action: @selector(pressEdit)];
     
@@ -234,9 +238,16 @@
             if (index != NSNotFound) {
                 self.homeModel.dicts[index] = json;
 
+                SaveCell* cell = [self.homeView.tableView cellForRowAtIndexPath: [NSIndexPath indexPathForRow: index inSection: 0]];
+
+                [cell configWithName: ((CityModel*)self.homeModel.homeCities[index]).cityName dict: json];
+                
+
                 [self.homeView.tableView reloadRowsAtIndexPaths: @[[NSIndexPath indexPathForRow:index inSection:0]] withRowAnimation: UITableViewRowAnimationNone];
                 
-                NSLog(@"发起网络请求");
+                NSLog(@"网络请求成功");
+            } else {
+                NSLog(@"未匹配到");
             }
 //            if (self.completedRequestCount == self.pendingRequestCount) {
 //                [self.homeView.tableView reloadData];
