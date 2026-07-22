@@ -23,15 +23,20 @@
 //    self.view.backgroundColor = [UIColor systemCyanColor];
     // Do any additional setup after loading the view.
     [self setUpData];
-    [self createURLForCities];
-
     [self setUpNavigation];
     [self setUpInterface];
+    
+    
+    [self createURLForCities];
+
+
 }
 
 - (void) setUpData {
     self.homeModel = [HomeModel shareInstance];
     self.homeView = [[HomeView alloc] init];
+//    [self.homeModel setUpDefaultCites];
+    [self.homeModel loadFormUserDefaults]; 
     
     self.homeView.tableView.delegate = self;
     self.homeView.tableView.dataSource = self;
@@ -203,7 +208,7 @@
 
 - (void) createURLForCity: (CityModel*) city {
     
-
+    [self.homeView.tableView reloadData];
     
     [[NetworkManager sharedManager] GET: @"https://api.open-meteo.com/v1/forecast" parameters: @{
         @"latitude": @(city.latitude),
@@ -224,18 +229,18 @@
             NSInteger index = [self.homeModel.homeCities indexOfObjectPassingTest:^BOOL(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
                 return [((CityModel*)(obj)).cityID isEqualToString: city.cityID];
             }];
-            
+            self.completedRequestCount++;
+
             if (index != NSNotFound) {
                 self.homeModel.dicts[index] = json;
-                self.completedRequestCount++;
 
                 [self.homeView.tableView reloadRowsAtIndexPaths: @[[NSIndexPath indexPathForRow:index inSection:0]] withRowAnimation: UITableViewRowAnimationNone];
                 
-                NSLog(@"发起网络请求"); 
+                NSLog(@"发起网络请求");
             }
-            if (self.completedRequestCount == self.pendingRequestCount) {
-                [self.homeView.tableView reloadData];
-            }
+//            if (self.completedRequestCount == self.pendingRequestCount) {
+//                [self.homeView.tableView reloadData];
+//            }
             
         } else {
             UIAlertController* alertController = [UIAlertController alertControllerWithTitle: nil message: @"加载失败, 请检查网络" preferredStyle: UIAlertControllerStyleAlert];
@@ -244,6 +249,12 @@
             }];
             [alertController addAction: okAction];
             [self presentViewController: alertController animated: YES completion: nil];
+        }
+        
+        if (self.completedRequestCount == self.pendingRequestCount) {
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [self.homeView.tableView reloadData];
+            });
         }
     }];
 }

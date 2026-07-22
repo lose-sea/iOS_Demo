@@ -18,7 +18,9 @@ NS_ASSUME_NONNULL_BEGIN
 
 + (instancetype) shareInstance;
 
-- (void) saveToUserDefaults; 
+- (void) saveToUserDefaults;
+- (void) loadFormUserDefaults; 
+- (void) setUpDefaultCites; 
 
 @end
 

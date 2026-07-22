@@ -13,7 +13,8 @@ static HomeModel* instance = nil;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
         instance = [[super allocWithZone: nil] init];
-        [instance loadFormUserDefaults];
+        
+//        [instance loadFormUserDefaults];
     });
     return instance;
 }
@@ -34,6 +35,7 @@ static HomeModel* instance = nil;
 - (instancetype) mutableCopyWithZone: (NSZone*) zone {
     return self;
 }
+
 
 
 
