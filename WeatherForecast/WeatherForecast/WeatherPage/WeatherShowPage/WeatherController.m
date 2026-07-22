@@ -26,11 +26,21 @@
     [self setUpInterface];
 }
 
-- (void) configWithDict:(NSDictionary *)dict {
-    [self setUpData];
-    self.weatherModel.HourlyWeatherModel = dict[@"hourly"];
-    self.weatherModel.CurrentWeatherModel = dict[@"current"];
-    self.weatherModel.DailyWeatherModel = dict[@"daily"];
+- (void)configWithDict:(NSDictionary *)dict {
+    if (dict[@"current"] && dict[@"daily"] && dict[@"hourly"]) {
+        // 直接使用传入的数据，不发起网络请求
+        self.weatherModel = [[WeatherModel alloc] init];
+        self.weatherModel.CurrentWeatherModel = dict[@"current"];
+        self.weatherModel.DailyWeatherModel = dict[@"daily"];
+        self.weatherModel.HourlyWeatherModel = dict[@"hourly"];
+        // 立即设置界面
+        [self setUpInterface];
+        [self.weatherView configWithCurrentWeather: self.weatherModel.CurrentWeatherModel];
+        [self.weatherView.tableView reloadData];
+    } else {
+        // 没有数据，需要网络请求
+        [self setUpData];  
+    }
 }
 
 - (void) setUpData {

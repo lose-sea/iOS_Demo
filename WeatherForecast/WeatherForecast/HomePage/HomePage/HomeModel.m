@@ -72,13 +72,14 @@ static HomeModel* instance = nil;
     NSData* data = [[NSUserDefaults standardUserDefaults] objectForKey: @"SavedCities"];
     if (data) {
         NSError* error = nil;
-        NSArray* cities = [NSKeyedUnarchiver unarchivedObjectOfClass: [NSArray class] fromData: data error: &error];
+        NSSet* classes = [NSSet setWithObjects: [NSArray class], [CityModel class], nil];
+        NSArray* cities = [NSKeyedUnarchiver unarchivedObjectOfClasses: classes fromData: data error: &error];
         if (cities && [cities isKindOfClass: [NSArray class]]) {
             self.homeCities = [cities mutableCopy];
             
             [self createDicts];
             
-            NSLog(@"加载到数据"); 
+            NSLog(@"加载到数据");
             return;
         } else {
             NSLog(@"数据加载失败: %@", error);
@@ -87,4 +88,5 @@ static HomeModel* instance = nil;
     NSLog(@"未加载到数据");
     [self setUpDefaultCites];
 }
+
 @end

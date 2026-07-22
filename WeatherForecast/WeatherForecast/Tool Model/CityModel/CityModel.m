@@ -60,14 +60,19 @@
     [coder encodeObject: @(self.longitude) forKey: @"longitude"];
 }
 
-- (instancetype) initWithCoder:(NSCoder *)coder {
+- (instancetype)initWithCoder:(NSCoder *)coder {
     self = [super init];
     if (self) {
-        self.cityName = [coder decodeObjectForKey: @"cityName"];
-        self.latitude = [[coder decodeObjectForKey: @"latitude"] doubleValue];
-        self.longitude = [[coder decodeObjectForKey: @"longitude"] doubleValue];
+        self.cityName = [coder decodeObjectOfClass:[NSString class] forKey:@"cityName"];
+        self.latitude = [[coder decodeObjectOfClass:[NSNumber class] forKey:@"latitude"] doubleValue];
+        self.longitude = [[coder decodeObjectOfClass:[NSNumber class] forKey:@"longitude"] doubleValue];
         [self setUpCityID];
     }
-    return self; 
+    return self;
+}
+
+
++ (BOOL) supportsSecureCoding {
+    return YES;
 }
 @end

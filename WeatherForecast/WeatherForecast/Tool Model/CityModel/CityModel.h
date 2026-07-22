@@ -9,7 +9,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface CityModel : NSObject <NSCoding>
+@interface CityModel : NSObject <NSCoding, NSSecureCoding>
 @property (nonatomic, strong) NSString* cityName;
 @property (nonatomic, assign) CGFloat latitude;
 @property (nonatomic, assign) CGFloat longitude;

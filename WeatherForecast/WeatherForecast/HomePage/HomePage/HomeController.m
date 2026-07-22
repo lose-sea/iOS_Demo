@@ -204,6 +204,7 @@
 - (void) createURLForCity: (CityModel*) city {
     
 
+    
     [[NetworkManager sharedManager] GET: @"https://api.open-meteo.com/v1/forecast" parameters: @{
         @"latitude": @(city.latitude),
         @"longitude": @(city.longitude),
@@ -228,7 +229,9 @@
                 self.homeModel.dicts[index] = json;
                 self.completedRequestCount++;
 
-//                [self.homeView.tableView reloadRowsAtIndexPaths: @[[NSIndexPath indexPathForRow:index inSection:0]] withRowAnimation: UITableViewRowAnimationNone];
+                [self.homeView.tableView reloadRowsAtIndexPaths: @[[NSIndexPath indexPathForRow:index inSection:0]] withRowAnimation: UITableViewRowAnimationNone];
+                
+                NSLog(@"发起网络请求"); 
             }
             if (self.completedRequestCount == self.pendingRequestCount) {
                 [self.homeView.tableView reloadData];
