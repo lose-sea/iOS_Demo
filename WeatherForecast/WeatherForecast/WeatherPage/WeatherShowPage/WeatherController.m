@@ -261,7 +261,10 @@
     [collectionView deselectItemAtIndexPath: indexPath animated: YES];
 }
 
-
+// 移除观察者
+- (void)dealloc {
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+}
 
 /*
 #pragma mark - Navigation
