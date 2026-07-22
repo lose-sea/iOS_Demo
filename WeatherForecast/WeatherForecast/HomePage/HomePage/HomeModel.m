@@ -44,7 +44,6 @@ static HomeModel* instance = nil;
 }
 
 - (void) setUpDefaultCites {
-    
     self.dicts = [[NSMutableArray alloc] init];
     self.homeCities = [[NSMutableArray alloc] init];
     
@@ -53,10 +52,36 @@ static HomeModel* instance = nil;
     CityModel* a3 = [[CityModel alloc] initWithName: @"兰州 -- 甘肃" Latitude: @36.057010 Longitude: @103.839870];
     
     self.homeCities = [NSMutableArray arrayWithArray: @[a1, a2, a3]];
+    [self createDicts];
+}
 
-    
+- (void) createDicts {
     for (NSInteger i = 0; i < self.homeCities.count; i++) {
         [self.dicts addObject: @{}];
+    }
+}
+
+- (void) saveToUserDefaults {
+    NSError* error = nil;
+    NSData* data = [NSKeyedArchiver archivedDataWithRootObject: self requiringSecureCoding: NO error: &error];
+    if (!data) {
+        [[NSUserDefaults standardUserDefaults] setObject: data forKey: @"SavedCities"];
+        [[NSUserDefaults standardUserDefaults] synchronize];
+    } else {
+        NSLog(@"保存城市数据失败: %@", error);
+    }
+}
+
+- (void) loadFormUserDefaults {
+    NSData* data = [[NSUserDefaults standardUserDefaults] objectForKey: @"SavedCities"];
+    if (data) {
+        NSError* error = nil;
+        NSArray* cities = [NSKeyedUnarchiver unarchivedObjectOfClass: [NSArray class] fromData: data error: &error];
+        if (cities && [cities isKindOfClass: [NSArray class]]) {
+            self.homeCities = [cities mutableCopy];
+            
+            [self createDicts]; 
+        }
     }
 }
 @end
