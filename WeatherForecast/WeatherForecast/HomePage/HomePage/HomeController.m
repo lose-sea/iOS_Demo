@@ -11,6 +11,9 @@
 @property (nonatomic, strong) UIBarButtonItem* finishButton;
 @property (nonatomic, strong) UIBarButtonItem* editButton;
 @property (nonatomic, strong) UIBarButtonItem* moreButton;
+
+@property (nonatomic, assign) NSInteger pendingRequestCount;
+@property (nonatomic, assign) NSInteger completedRequestCount;
 @end
 
 @implementation HomeController
@@ -31,16 +34,7 @@
     self.homeView = [[HomeView alloc] init];
     
      
-    CityModel* a1 = [[CityModel alloc] initWithName: @"西安 -- 陕西" Latitude: @34.258330 Longitude: @108.928610];
-    CityModel* a2 = [[CityModel alloc] initWithName: @"北京 -- 北京市" Latitude: @39.907500 Longitude: @116.397230];
-    CityModel* a3 = [[CityModel alloc] initWithName: @"兰州 -- 甘肃" Latitude: @36.057010 Longitude: @103.839870];
     
-    self.homeModel.homeCities = [NSMutableArray arrayWithArray: @[a1, a2, a3]];
-
-    
-    for (NSInteger i = 0; i < self.homeModel.homeCities.count; i++) {
-        [self.homeModel.dicts addObject: @{}];
-    }
     
     self.homeView.tableView.delegate = self;
     self.homeView.tableView.dataSource = self;
@@ -57,6 +51,10 @@
 - (void) createURLForCities {
     [[NetworkManager sharedManager] cancelAllRequests];
     self.homeModel = [HomeModel shareInstance];
+    
+    self.pendingRequestCount = self.homeModel.homeCities.count;
+    self.completedRequestCount = 0;
+    
     for (NSInteger i = 0; i < self.homeModel.homeCities.count; i++) {
         CityModel* city = self.homeModel.homeCities[i];
         
@@ -205,6 +203,7 @@
 
 
 - (void) createURLForCity: (CityModel*) city {
+    
 
     [[NetworkManager sharedManager] GET: @"https://api.open-meteo.com/v1/forecast" parameters: @{
         @"latitude": @(city.latitude),
@@ -228,8 +227,14 @@
             
             if (index != NSNotFound) {
                 self.homeModel.dicts[index] = json;
-                [self.homeView.tableView reloadRowsAtIndexPaths: @[[NSIndexPath indexPathForRow:index inSection:0]] withRowAnimation: UITableViewRowAnimationNone];
+                self.completedRequestCount++;
+
+//                [self.homeView.tableView reloadRowsAtIndexPaths: @[[NSIndexPath indexPathForRow:index inSection:0]] withRowAnimation: UITableViewRowAnimationNone];
             }
+            if (self.completedRequestCount == self.pendingRequestCount) {
+                [self.homeView.tableView reloadData];
+            }
+            
         } else {
             UIAlertController* alertController = [UIAlertController alertControllerWithTitle: nil message: @"加载失败, 请检查网络" preferredStyle: UIAlertControllerStyleAlert];
             UIAlertAction* okAction = [UIAlertAction actionWithTitle: @"确定" style: UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {

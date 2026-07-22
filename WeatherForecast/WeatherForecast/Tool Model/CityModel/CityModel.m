@@ -52,4 +52,22 @@
 - (NSUInteger) hash {
     return self.cityName.hash ^ @(self.latitude).hash ^ @(self.longitude).hash;
 }
+
+#pragma mark - NSCoding
+- (void) encodeWithCoder:(NSCoder *)coder {
+    [coder encodeObject: self.cityName forKey: @"cityName"];
+    [coder encodeObject: @(self.latitude) forKey: @"latitude"];
+    [coder encodeObject: @(self.longitude) forKey: @"longitude"];
+}
+
+- (instancetype) initWithCoder:(NSCoder *)coder {
+    self = [super init];
+    if (self) {
+        self.cityName = [coder decodeObjectForKey: @"cityName"];
+        self.latitude = [[coder decodeObjectForKey: @"latitude"] doubleValue];
+        self.longitude = [[coder decodeObjectForKey: @"longitude"] doubleValue];
+        [self setUpCityID];
+    }
+    return self; 
+}
 @end

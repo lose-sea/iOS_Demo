@@ -11,7 +11,6 @@
 #import "HomeView.h"
 #import "CityPageViewController.h"
 #import "NetworkManager.h"
-#import "CityModel.h"
 #import "NotificationName.h"
 NS_ASSUME_NONNULL_BEGIN
 
