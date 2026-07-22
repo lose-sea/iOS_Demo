@@ -192,6 +192,7 @@
                                     /*页面的滑动方向*/
                                       UIPageViewControllerNavigationOrientationHorizontal
                                       options: nil];
+    
     pageVC.cityList = self.homeModel.homeCities;
     pageVC.initialIndex = indexPath.row;
     

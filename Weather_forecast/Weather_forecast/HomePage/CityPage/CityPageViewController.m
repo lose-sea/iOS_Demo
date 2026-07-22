@@ -19,6 +19,7 @@
     
     self.dataSource = self;
     self.delegate = self;
+    
     [self setUpNavigation];
     [self setUpInitialPage];
 }

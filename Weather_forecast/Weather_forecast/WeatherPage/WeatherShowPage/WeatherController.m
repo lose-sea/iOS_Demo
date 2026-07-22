@@ -8,44 +8,47 @@
 #import "WeatherController.h"
 
 @interface WeatherController ()
-@property (nonatomic, strong) UIButton* addButton;
-@property (nonatomic, strong) UIButton* backButton; 
+//@property (nonatomic, strong) UIButton* addButton;
+//@property (nonatomic, strong) UIButton* backButton;
 @end
 
 @implementation WeatherController
 
 
-- (void) viewWillAppear:(BOOL)animated {
-    
-}
-
 - (void)viewDidLoad {
     [super viewDidLoad];
-
+    
+    if (!self.weatherModel) {
+        [self setUpData];
+    }
+    
     [self setUpNavigation];
     [self setUpInterface];
 }
 
 - (void) configWithDict:(NSDictionary *)dict {
-    [self setUpData];
-
+  
+    if (!self.weatherModel) {
+        [self setUpData];
+    }
+    
     self.weatherModel.HourlyWeatherModel = dict[@"hourly"];
     self.weatherModel.CurrentWeatherModel = dict[@"current"];
     self.weatherModel.DailyWeatherModel = dict[@"daily"];
 }
 
 - (void) setUpData {
+    NSLog(@"调用setUpData");
+
     self.weatherModel = [[WeatherModel alloc] init];
     self.weatherView = [[WeatherView alloc] init];
-    [self createURL];
+//    [self createURL];
 }
 
 - (void) setUpNavigation {
-
+    NSLog(@"调用setUpNavigation");
     UIBarButtonItem* backButton = [[UIBarButtonItem alloc] initWithImage: [UIImage systemImageNamed: @"chevron.left"] style: UIBarButtonItemStylePlain target: self action: @selector(pressBack)];
     
-    self.backButton.layer.cornerRadius = 20;
-    self.backButton.clipsToBounds = YES;
     
     UIBarButtonItem* addButton = [[UIBarButtonItem alloc] initWithImage: [UIImage systemImageNamed: @"plus"] style: UIBarButtonItemStylePlain target: self action: @selector(pressAdd)];
     
@@ -53,16 +56,20 @@
     
     
     HomeModel* homeModel = [HomeModel shareInstance];
+    
     if ([homeModel.homeCities indexOfObject: self.city] == NSNotFound) {
         self.navigationItem.rightBarButtonItem = addButton;
     }
 }
 
 - (void) setUpInterface {
+    NSLog(@"调用setUpInterface");
+
     self.weatherView = [[WeatherView alloc] init];
 
+    [[self.view subviews] makeObjectsPerformSelector:@selector(removeFromSuperview)];
+
     if (self.weatherModel.CurrentWeatherModel.count > 0 && self.weatherModel.HourlyWeatherModel.count > 0 && self.weatherModel.DailyWeatherModel.count > 0) {
-        
         
         [self.view addSubview: self.weatherView];
         [self.weatherView mas_makeConstraints:^(MASConstraintMaker *make) {
