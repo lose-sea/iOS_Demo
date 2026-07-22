@@ -36,12 +36,7 @@ static HomeModel* instance = nil;
 }
 
 
-- (void) setUpData {
-    [self setUpDefaultCites];
-    if (self) {
-        
-    }
-}
+
 
 - (void) setUpDefaultCites {
     self.dicts = [[NSMutableArray alloc] init];
@@ -63,10 +58,11 @@ static HomeModel* instance = nil;
 
 - (void) saveToUserDefaults {
     NSError* error = nil;
-    NSData* data = [NSKeyedArchiver archivedDataWithRootObject: self requiringSecureCoding: NO error: &error];
-    if (!data) {
+    NSData* data = [NSKeyedArchiver archivedDataWithRootObject: self.homeCities requiringSecureCoding: NO error: &error];
+    if (data) {
         [[NSUserDefaults standardUserDefaults] setObject: data forKey: @"SavedCities"];
         [[NSUserDefaults standardUserDefaults] synchronize];
+        NSLog(@"保存成功"); 
     } else {
         NSLog(@"保存城市数据失败: %@", error);
     }
@@ -81,11 +77,14 @@ static HomeModel* instance = nil;
             self.homeCities = [cities mutableCopy];
             
             [self createDicts];
+            
+            NSLog(@"加载到数据"); 
             return;
         } else {
             NSLog(@"数据加载失败: %@", error);
         }
     }
-    [self setUpDefaultCites]; 
+    NSLog(@"未加载到数据");
+    [self setUpDefaultCites];
 }
 @end

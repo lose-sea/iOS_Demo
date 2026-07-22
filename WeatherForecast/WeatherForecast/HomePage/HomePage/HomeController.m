@@ -108,6 +108,7 @@
     UIAction *clearAction = [UIAction actionWithTitle:@"清空收藏" image:[UIImage systemImageNamed:@"trash"] identifier:nil handler:^(UIAction *action) {
         // 清空收藏夹
         [self.homeModel.homeCities removeAllObjects];
+        [self.homeModel saveToUserDefaults];
         [self.homeModel.dicts removeAllObjects];
         [self.homeView.tableView reloadData];
     }];
@@ -144,7 +145,8 @@
     
     [self.homeModel.homeCities removeObjectAtIndex: indexPath.row];
     [self.homeModel.dicts removeObjectAtIndex: indexPath.row];
-    
+    [self.homeModel saveToUserDefaults];
+
     [self.homeView.tableView reloadData];
 }
 

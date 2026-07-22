@@ -99,6 +99,7 @@
     if ([homeModel.homeCities indexOfObject: self.city] == NSNotFound) {
         
         [self addCityToSave: self.city]; 
+        [homeModel saveToUserDefaults]; 
         
         [[NSNotificationCenter defaultCenter] postNotificationName: ReleadNotification object: self userInfo: nil];
         
