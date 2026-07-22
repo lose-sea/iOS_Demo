@@ -1,6 +1,0 @@
-platform:ios, '17.0'
- 
-target 'Weather_forecast' do
-  pod 'Masonry', '~> 1.1.0'
-  pod 'LookinServer', :configurations => ['Debug']
-end
