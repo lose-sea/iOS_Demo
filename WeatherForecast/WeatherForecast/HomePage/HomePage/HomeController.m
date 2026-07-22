@@ -33,9 +33,6 @@
     self.homeModel = [HomeModel shareInstance];
     self.homeView = [[HomeView alloc] init];
     
-     
-    
-    
     self.homeView.tableView.delegate = self;
     self.homeView.tableView.dataSource = self;
     
