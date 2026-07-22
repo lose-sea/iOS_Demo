@@ -13,7 +13,8 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, strong) NSMutableArray* saveCities;
 @property (nonatomic, strong) NSMutableArray* dicts;
 
-+ (instancetype) shareInstance; 
+@property (nonatomic, strong) NSMutableArray* homeCities; 
++ (instancetype) shareInstance;
 @end
 
 NS_ASSUME_NONNULL_END

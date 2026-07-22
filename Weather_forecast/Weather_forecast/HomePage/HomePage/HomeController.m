@@ -33,6 +33,11 @@
     NSDictionary* c1 = @{@"name": @"西安 -- 陕西", @"latitude": @34.258330, @"longitude": @108.928610};
     NSDictionary* c2 = @{@"name": @"北京 -- 北京市", @"latitude": @39.907500, @"longitude": @116.397230};
     NSDictionary* c3 = @{@"name": @"兰州 -- 甘肃", @"latitude": @36.057010, @"longitude": @103.839870};
+     
+    CityModel* a1 = [[CityModel alloc] initWithName: @"西安 -- 陕西" Latitude: @34.258330 Longitude: @108.928610];
+    CityModel* a2 = [[CityModel alloc] initWithName: @"北京 -- 北京市" Latitude: @39.907500 Longitude: @116.397230];
+    CityModel* a3 = [[CityModel alloc] initWithName: @"兰州 -- 甘肃" Latitude: @36.057010 Longitude: @103.839870];
+    
     self.homeModel.saveCities = [NSMutableArray arrayWithArray:@[c1, c2, c3]];
     
     for (NSInteger i = 0; i < self.homeModel.saveCities.count; i++) {
@@ -114,7 +119,6 @@
     // 创建按钮并设置菜单
     self.moreButton = [[UIBarButtonItem alloc] initWithImage:[UIImage systemImageNamed:@"ellipsis"] style:UIBarButtonItemStylePlain target:nil action:nil];
     self.moreButton.menu = menu;
-    
     
 
     self.editButton = [[UIBarButtonItem alloc] initWithImage: [UIImage systemImageNamed:@"square.and.pencil"] style: UIBarButtonItemStylePlain target: self action: @selector(pressEdit)];

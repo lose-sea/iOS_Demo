@@ -15,7 +15,6 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, assign) CGFloat longitude;
 
 - (instancetype) initWithName:(NSString*) name Latitude:(NSNumber*) latitude Longitude:(NSNumber*) longitude;
-
 @end
 
 NS_ASSUME_NONNULL_END

@@ -11,6 +11,7 @@
 #import "TemperatureCell.h"
 #import "LoadView.h"
 #import "HomeController.h"
+#import "CityModel.h"
 
 
 NS_ASSUME_NONNULL_BEGIN
