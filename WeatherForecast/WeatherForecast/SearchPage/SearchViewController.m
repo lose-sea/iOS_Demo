@@ -54,7 +54,7 @@
         [self.searchView.tableView reloadData];
     }
 //    // 取消之前尚未执行的延迟调用
-//       [NSObject cancelPreviousPerformRequestsWithTarget:self selector:@selector(performSearch) object:nil];
+       [NSObject cancelPreviousPerformRequestsWithTarget:self selector:@selector(performSearch) object:nil];
        // 延迟 0.5 秒后执行实际搜索
        [self performSelector:@selector(performSearch) withObject:nil afterDelay:0.5];
     

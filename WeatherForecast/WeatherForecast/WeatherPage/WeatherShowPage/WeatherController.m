@@ -38,7 +38,8 @@
     NSLog(@"调用 setData");
     
     self.weatherModel = [[WeatherModel alloc] init];
-    
+    self.weatherView = [[WeatherView alloc] init];
+
     [self createURL];
 }
 
@@ -63,8 +64,8 @@
 }
 
 - (void) setUpInterface {
-    self.weatherView = [[WeatherView alloc] init];
 
+    
     if (self.weatherModel.CurrentWeatherModel.count > 0 && self.weatherModel.HourlyWeatherModel.count > 0 && self.weatherModel.DailyWeatherModel.count > 0) {
         [self.view addSubview: self.weatherView];
         [self.weatherView mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -95,8 +96,7 @@
     }
     if ([homeModel.homeCities indexOfObject: self.city] == NSNotFound) {
         
-        [homeModel.homeCities addObject: self.city];
-        [homeModel.dicts addObject: @{}];
+        [self addCityToSave: self.city]; 
         
         [[NSNotificationCenter defaultCenter] postNotificationName: ReleadNotification object: self userInfo: nil];
         
@@ -116,7 +116,13 @@
         [alertController addAction: okAction];
         [self presentViewController: alertController animated: YES completion: nil];
     }
+}
+
+- (void) addCityToSave: (CityModel*) city {
+    HomeModel* homeModel = [HomeModel shareInstance];
     
+    [homeModel.homeCities addObject: city];
+    [homeModel.dicts addObject: @{}];
 }
 
 
