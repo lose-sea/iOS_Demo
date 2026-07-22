@@ -45,6 +45,10 @@
 
 - (void) setUpNavigation {
     
+    // 删除所有的子视图
+    [[self.view subviews] makeObjectsPerformSelector:@selector(removeFromSuperview)];
+
+    
     NSLog(@"调用 setUpNavigation");
 
     UIBarButtonItem* backButton = [[UIBarButtonItem alloc] initWithImage: [UIImage systemImageNamed: @"chevron.left"] style: UIBarButtonItemStylePlain target: self action: @selector(pressBack)];
