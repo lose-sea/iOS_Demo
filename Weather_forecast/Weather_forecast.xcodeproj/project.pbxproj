@@ -18,10 +18,17 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+<<<<<<< Updated upstream
 		546BF14E30108DB8007B733C /* Exceptions for "Weather_forecast" folder in "Weather_forecast" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
 				Info.plist,
+=======
+		546BF2B93010E720007B733C /* Exceptions for "Weather_forecast" folder in "Weather_forecast" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				"配置/Info.plist",
+>>>>>>> Stashed changes
 			);
 			target = 54E974E13005E61C00EF22A5 /* Weather_forecast */;
 		};
@@ -31,7 +38,11 @@
 		54E974E43005E61C00EF22A5 /* Weather_forecast */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			exceptions = (
+<<<<<<< Updated upstream
 				546BF14E30108DB8007B733C /* Exceptions for "Weather_forecast" folder in "Weather_forecast" target */,
+=======
+				546BF2B93010E720007B733C /* Exceptions for "Weather_forecast" folder in "Weather_forecast" target */,
+>>>>>>> Stashed changes
 			);
 			path = Weather_forecast;
 			sourceTree = "<group>";
