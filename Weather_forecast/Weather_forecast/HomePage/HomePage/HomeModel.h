@@ -10,10 +10,11 @@
 NS_ASSUME_NONNULL_BEGIN
 
 @interface HomeModel : NSObject
-@property (nonatomic, strong) NSMutableArray* saveCities;
+//@property (nonatomic, strong) NSMutableArray* saveCities;
 @property (nonatomic, strong) NSMutableArray* dicts;
 
-@property (nonatomic, strong) NSMutableArray* homeCities; 
+@property (nonatomic, strong) NSMutableArray* homeCities;
+
 + (instancetype) shareInstance;
 @end
 

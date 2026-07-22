@@ -12,6 +12,7 @@
 #import "LoadView.h"
 #import "HomeController.h"
 #import "CityModel.h"
+#import "NotificationName.h"
 
 
 NS_ASSUME_NONNULL_BEGIN
@@ -19,10 +20,9 @@ NS_ASSUME_NONNULL_BEGIN
 @interface WeatherController : UIViewController <UITableViewDelegate, UITableViewDataSource, UICollectionViewDelegate, UICollectionViewDataSource>
 @property (nonatomic, strong) WeatherModel* weatherModel;
 @property (nonatomic, strong) WeatherView* weatherView;
-@property (nonatomic, strong) NSString* cityName;
+@property (nonatomic, strong) LoadView* loadView; 
 
-@property (nonatomic, assign) CGFloat latitude;
-@property (nonatomic, assign) CGFloat longitude;
+@property (nonatomic, strong) CityModel* city; 
 
 @property (nonatomic, assign) NSInteger index;
 

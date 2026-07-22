@@ -21,13 +21,14 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
+
     [self setUpNavigation];
     [self setUpInterface];
 }
 
 - (void) configWithDict:(NSDictionary *)dict {
     [self setUpData];
+
     self.weatherModel.HourlyWeatherModel = dict[@"hourly"];
     self.weatherModel.CurrentWeatherModel = dict[@"current"];
     self.weatherModel.DailyWeatherModel = dict[@"daily"];
@@ -35,7 +36,7 @@
 
 - (void) setUpData {
     self.weatherModel = [[WeatherModel alloc] init];
-    
+    self.weatherView = [[WeatherView alloc] init];
     [self createURL];
 }
 
@@ -49,13 +50,20 @@
     UIBarButtonItem* addButton = [[UIBarButtonItem alloc] initWithImage: [UIImage systemImageNamed: @"plus"] style: UIBarButtonItemStylePlain target: self action: @selector(pressAdd)];
     
     self.navigationItem.leftBarButtonItem = backButton;
-    self.navigationItem.rightBarButtonItem = addButton;
+    
+    
+    HomeModel* homeModel = [HomeModel shareInstance];
+    if ([homeModel.homeCities indexOfObject: self.city] == NSNotFound) {
+        self.navigationItem.rightBarButtonItem = addButton;
+    }
 }
 
 - (void) setUpInterface {
     self.weatherView = [[WeatherView alloc] init];
 
     if (self.weatherModel.CurrentWeatherModel.count > 0 && self.weatherModel.HourlyWeatherModel.count > 0 && self.weatherModel.DailyWeatherModel.count > 0) {
+        
+        
         [self.view addSubview: self.weatherView];
         [self.weatherView mas_makeConstraints:^(MASConstraintMaker *make) {
             make.edges.mas_equalTo(self.view);
@@ -63,9 +71,9 @@
         self.weatherView.tableView.delegate = self;
         self.weatherView.tableView.dataSource = self;
     } else {
-        LoadView* loadView = [[LoadView alloc] init];
-        [self.view addSubview: loadView];
-        [loadView mas_makeConstraints:^(MASConstraintMaker *make) {
+        self.loadView = [[LoadView alloc] init];
+        [self.view addSubview: self.loadView];
+        [self.loadView mas_makeConstraints:^(MASConstraintMaker *make) {
             make.edges.mas_equalTo(self.view);
         }];
     }
@@ -79,13 +87,18 @@
 
 - (void) pressAdd {
     HomeModel* homeModel = [HomeModel shareInstance];
-    NSDictionary* dict = @{@"name": self.cityName, @"latitude": @(self.latitude), @"longitude": @(self.longitude)};
-    if (!homeModel.saveCities) {
-        homeModel.saveCities = [[NSMutableArray alloc] init];
+//    NSDictionary* dict = @{@"name": self.cityName, @"latitude": @(self.latitude), @"longitude": @(self.longitude)};
+    if (!homeModel.homeCities) {
+        homeModel.homeCities = [[NSMutableArray alloc] init];
     }
-    if ([homeModel.saveCities indexOfObject: dict] == NSNotFound) {
-        [homeModel.saveCities addObject: dict];
-        [homeModel.dicts addObject: @{}]; 
+    if ([homeModel.homeCities indexOfObject: self.city] == NSNotFound) {
+        
+        [homeModel.homeCities addObject: self.city];
+        [homeModel.dicts addObject: @{}];
+        
+        [[NSNotificationCenter defaultCenter] postNotificationName: ReleadNotification object: self userInfo: nil];
+        
+        self.navigationItem.rightBarButtonItem = nil;
         
         UIAlertController* alertController = [UIAlertController alertControllerWithTitle: nil  message: @"添加成功" preferredStyle: UIAlertControllerStyleAlert];
         UIAlertAction* okAction = [UIAlertAction actionWithTitle: @"确定" style: UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
@@ -108,8 +121,8 @@
 
 - (void) createURL {
     [[NetworkManager sharedManager] GET: @"https://api.open-meteo.com/v1/forecast" parameters: @{
-            @"latitude": @(self.latitude),
-            @"longitude": @(self.longitude),
+            @"latitude": @(self.city.latitude),
+            @"longitude": @(self.city.longitude),
             @"daily" : @"temperature_2m_max,temperature_2m_min,sunrise,sunset,precipitation_sum,wind_speed_10m_max,wind_direction_10m_dominant,weather_code,uv_index_max",
 
                 @"hourly" : @"temperature_2m,precipitation,snowfall,weather_code,wind_speed_10m,wind_direction_10m",
@@ -125,9 +138,9 @@
             self.weatherModel.CurrentWeatherModel = json[@"current"];
             self.weatherModel.DailyWeatherModel = json[@"daily"];
             self.weatherModel.HourlyWeatherModel = json[@"hourly"];
-
-            [self setUpInterface];
+            
             [self.weatherView configWithCurrentWeather: self.weatherModel.CurrentWeatherModel];
+            [self setUpInterface];
             [self.weatherView.tableView reloadData];
         } else {
             UIAlertController* alertController = [UIAlertController alertControllerWithTitle: nil message: @"加载失败, 请检查网络" preferredStyle: UIAlertControllerStyleAlert];
@@ -185,7 +198,7 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     if (indexPath.section == 0) {
         TemperatureCell* cell = [tableView dequeueReusableCellWithIdentifier: @"TemperatureCellID" forIndexPath: indexPath];
-        cell.nameLabel.text = self.cityName;
+        cell.nameLabel.text = self.city.cityName;
         [cell configWithCurrentWeather: self.weatherModel.CurrentWeatherModel dailyWeather: self.weatherModel.DailyWeatherModel];
         
         return cell;
@@ -215,10 +228,6 @@
 
 - (__kindof UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
     HourlyCell* cell = [collectionView dequeueReusableCellWithReuseIdentifier: @"HourlyCellID" forIndexPath: indexPath];
-//    NSDictionary* hourDictionary = self.weatherModel.HourlyWeatherModel[@"hourly"];
-    
-//    NSLog(@"时间数组: %@", self.weatherModel.HourlyWeatherModel[@"time"]);
-//    NSArray* times = self.weatherModel.HourlyWeatherModel[@"time"];
     
     NSString* originTime = self.weatherModel.CurrentWeatherModel[@"time"];
     NSMutableString* currentTime = [NSMutableString stringWithString: originTime];
@@ -237,18 +246,7 @@
 - (void) collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
     [collectionView deselectItemAtIndexPath: indexPath animated: YES]; 
 }
-
-
-
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
-
 @end
     
+
+

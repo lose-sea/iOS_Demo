@@ -48,16 +48,25 @@
 
 - (void)updateSearchResultsForSearchController:(UISearchController *)searchController {
     self.searchText = searchController.searchBar.text;
+    
+    if (self.searchText.length == 0) {
+        [self.searchModel.cityArray removeAllObjects];
+        [self.searchView.tableView reloadData];
+    }
 //    // 取消之前尚未执行的延迟调用
 //       [NSObject cancelPreviousPerformRequestsWithTarget:self selector:@selector(performSearch) object:nil];
        // 延迟 0.5 秒后执行实际搜索
        [self performSelector:@selector(performSearch) withObject:nil afterDelay:0.5];
+    
+    
 }
 
+// 每次修改搜索框时候调用
 - (void) performSearch {
-    if (self.searchText.length > 0) {
+    if (self.searchText.length == 0) {
         [self.searchModel.cityArray removeAllObjects];
-        [self.searchView.tableView reloadData]; 
+        [self.searchView.tableView reloadData];
+    } else {
         [self createURL];
     }
     return;
@@ -110,6 +119,7 @@
 //    cell.textLabel.text = self.searchText;
     return cell;
 }
+ 
 
 - (void) tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     [tableView deselectRowAtIndexPath: indexPath animated: YES];
@@ -121,14 +131,15 @@
     UITableViewCell* cell = [tableView cellForRowAtIndexPath: indexPath];
     
     NSLog(@"%@", cell.textLabel.text);
+    
     NSLog(@"latitude: %lf", latitude);
     NSLog(@"longitude: %lf", longitude);
     
+    CityModel* city = [[CityModel alloc] initWithName: cell.textLabel.text Latitude: @(latitude) Longitude: @(longitude)];
+    
     WeatherController* vc = [[WeatherController alloc] init];
-    vc.cityName = [NSString stringWithFormat: @"%@ -- %@", cityInfo[@"name"], cityInfo[@"admin1"]];
-    vc.latitude = latitude;
-    vc.longitude = longitude;
-    [vc setUpData]; 
+    vc.city = city;
+    [vc setUpData];
     UINavigationController* Nav = [[UINavigationController alloc] initWithRootViewController: vc];
     
     self.navigationItem.searchController.searchBar.text = @"";
@@ -144,3 +155,5 @@
 }
 
 @end
+
+

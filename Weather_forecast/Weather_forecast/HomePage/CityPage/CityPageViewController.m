@@ -19,14 +19,8 @@
     
     self.dataSource = self;
     self.delegate = self;
-    [self setUpData];
     [self setUpNavigation];
     [self setUpInitialPage];
-    
-}
-
-- (void) setUpData {
-    
 }
 
 - (void) setUpNavigation {
@@ -40,15 +34,12 @@
 
 - (UIViewController*) viewControllerAtIndex: (NSInteger) index {
     
-    NSDictionary* cityInformation = self.cityList[index];
+    CityModel* city = self.cityList[index];
     WeatherController* vc = [[WeatherController alloc] init];
-    vc.cityName = cityInformation[@"name"];
-    vc.latitude = [cityInformation[@"latitude"] doubleValue];
-    vc.longitude = [cityInformation[@"longitude"] doubleValue];
+    vc.city = city; 
     vc.index = index;
-    HomeModel* homeModel = [[HomeModel alloc] init];
-    NSDictionary* dict = homeModel.dicts[index];
-    [vc configWithDict: dict];
+    HomeModel* homeModel = [HomeModel shareInstance];
+    [vc configWithDict: homeModel.dicts[index]];
     
     return vc;
 }
@@ -78,19 +69,5 @@
     return [self viewControllerAtIndex:idx + 1];
 }
 
-
-- (void) setUpInterface {
-    
-}
-
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
 
 @end

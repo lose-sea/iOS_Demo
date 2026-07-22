@@ -37,7 +37,8 @@ static HomeModel* instance = nil;
 
 
 - (void) setUpData {
-    self.saveCities = [[NSMutableArray alloc] init];
+//    self.saveCities = [[NSMutableArray alloc] init];
     self.dicts = [[NSMutableArray alloc] init];
+    self.homeCities = [[NSMutableArray alloc] init]; 
 }
 @end

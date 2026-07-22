@@ -17,9 +17,22 @@
 		C347C04AE1CDD5FA8B902A54 /* Pods-Weather_forecast.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Weather_forecast.release.xcconfig"; path = "Target Support Files/Pods-Weather_forecast/Pods-Weather_forecast.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
+/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		546BF14E30108DB8007B733C /* Exceptions for "Weather_forecast" folder in "Weather_forecast" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Info.plist,
+			);
+			target = 54E974E13005E61C00EF22A5 /* Weather_forecast */;
+		};
+/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
+
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		54E974E43005E61C00EF22A5 /* Weather_forecast */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				546BF14E30108DB8007B733C /* Exceptions for "Weather_forecast" folder in "Weather_forecast" target */,
+			);
 			path = Weather_forecast;
 			sourceTree = "<group>";
 		};

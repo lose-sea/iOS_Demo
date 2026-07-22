@@ -7,8 +7,6 @@
 
 #import <Foundation/Foundation.h>
 
-NS_ASSUME_NONNULL_BEGIN
-
 @interface WeatherModel : NSObject
 
 @property (nonatomic, strong) NSDictionary* CurrentWeatherModel;
@@ -17,4 +15,4 @@ NS_ASSUME_NONNULL_BEGIN
 
 @end
 
-NS_ASSUME_NONNULL_END
+

@@ -14,6 +14,9 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, assign) CGFloat latitude;
 @property (nonatomic, assign) CGFloat longitude;
 
+// 城市唯一标识
+@property (nonatomic, strong) NSString* cityID;
+
 - (instancetype) initWithName:(NSString*) name Latitude:(NSNumber*) latitude Longitude:(NSNumber*) longitude;
 @end
 

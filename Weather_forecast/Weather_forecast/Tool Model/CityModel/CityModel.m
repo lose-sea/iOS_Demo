@@ -11,7 +11,7 @@
 - (instancetype) init {
     self = [super init];
     if (self) {
-        
+        [self setUpData]; 
     }
     return self;
 }
@@ -22,8 +22,13 @@
         self.cityName = name;
         self.latitude = [latitude doubleValue];
         self.longitude = [longitude doubleValue];
+        [self setUpCityID];
     }
     return self;
+}
+
+- (void) setUpCityID {
+    self.cityID = [NSString stringWithFormat: @"%.6f_%.6f", self.latitude, self.longitude];
 }
 
 
@@ -32,4 +37,19 @@
 }
 
 
+- (BOOL) isEqual:(id)object {
+    if (self == object) {
+        return YES;
+    }
+    if (![object isKindOfClass: [CityModel class]]) {
+        return NO;
+    }
+    CityModel* other = (CityModel*) object;
+    return [self.cityName isEqualToString: other.cityName] && fabs(self.latitude - other.latitude) < 0.0001 && fabs(self.longitude - other.longitude) < 0.0001;
+}
+ 
+
+- (NSUInteger) hash {
+    return self.cityName.hash ^ @(self.latitude).hash ^ @(self.longitude).hash;
+}
 @end

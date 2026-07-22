@@ -30,31 +30,37 @@
     self.homeModel = [HomeModel shareInstance];
     self.homeView = [[HomeView alloc] init];
     
-    NSDictionary* c1 = @{@"name": @"西安 -- 陕西", @"latitude": @34.258330, @"longitude": @108.928610};
-    NSDictionary* c2 = @{@"name": @"北京 -- 北京市", @"latitude": @39.907500, @"longitude": @116.397230};
-    NSDictionary* c3 = @{@"name": @"兰州 -- 甘肃", @"latitude": @36.057010, @"longitude": @103.839870};
      
     CityModel* a1 = [[CityModel alloc] initWithName: @"西安 -- 陕西" Latitude: @34.258330 Longitude: @108.928610];
     CityModel* a2 = [[CityModel alloc] initWithName: @"北京 -- 北京市" Latitude: @39.907500 Longitude: @116.397230];
     CityModel* a3 = [[CityModel alloc] initWithName: @"兰州 -- 甘肃" Latitude: @36.057010 Longitude: @103.839870];
     
-    self.homeModel.saveCities = [NSMutableArray arrayWithArray:@[c1, c2, c3]];
+    self.homeModel.homeCities = [NSMutableArray arrayWithArray: @[a1, a2, a3]];
+
     
-    for (NSInteger i = 0; i < self.homeModel.saveCities.count; i++) {
+    for (NSInteger i = 0; i < self.homeModel.homeCities.count; i++) {
         [self.homeModel.dicts addObject: @{}]; 
     }
     
     self.homeView.tableView.delegate = self;
     self.homeView.tableView.dataSource = self;
+    
+    // 注册通知监听
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reloadView) name:ReleadNotification object:nil];
+}
+
+- (void) reloadView {
+    [self createURLForCities];
+    [self.homeView.tableView reloadData];
 }
 
 - (void) createURLForCities {
-    for (NSInteger i = 0; i < self.homeModel.saveCities.count; i++) {
-        NSDictionary* dict = self.homeModel.saveCities[i];
-        CGFloat latitude = [dict[@"latitude"] doubleValue];
-        CGFloat longitude = [dict[@"longitude"] doubleValue];
+    [[NetworkManager sharedManager] cancelAllRequests];
+    self.homeModel = [HomeModel shareInstance]; 
+    for (NSInteger i = 0; i < self.homeModel.homeCities.count; i++) {
+        CityModel* city = self.homeModel.homeCities[i];
         
-        [self createURLWithlatitude: latitude longitude: longitude index: i];
+        [self createURLForCity: city];
     }
 }
 
@@ -106,7 +112,7 @@
     
     UIAction *clearAction = [UIAction actionWithTitle:@"清空收藏" image:[UIImage systemImageNamed:@"trash"] identifier:nil handler:^(UIAction *action) {
         // 清空收藏夹
-        [self.homeModel.saveCities removeAllObjects];
+        [self.homeModel.homeCities removeAllObjects];
         [self.homeModel.dicts removeAllObjects];
         [self.homeView.tableView reloadData];
     }];
@@ -140,7 +146,8 @@
 }
 
 - (void) tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
-    [self.homeModel.saveCities removeObjectAtIndex: indexPath.row];
+    
+    [self.homeModel.homeCities removeObjectAtIndex: indexPath.row];
     [self.homeModel.dicts removeObjectAtIndex: indexPath.row];
     
     [self.homeView.tableView reloadData];
@@ -158,7 +165,7 @@
 
 #pragma mark - UITableView
 - (NSInteger) tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return self.homeModel.saveCities.count;
+    return self.homeModel.homeCities.count;
 }
 
 - (CGFloat) tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -166,9 +173,11 @@
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+    
     SaveCell* cell = [tableView dequeueReusableCellWithIdentifier: @"SaveCellID" forIndexPath: indexPath];
-//    [self createURLWithlatitude: [self.homeModel.saveCities[indexPath.row][@"latitude"] doubleValue] longitude: [self.homeModel.saveCities[indexPath.row][@"longitude"] doubleValue] index: indexPath.row];
-    [cell configWithName: self.homeModel.saveCities[indexPath.row][@"name"] dict: self.homeModel.dicts[indexPath.row]];
+    
+    CityModel* city = self.homeModel.homeCities[indexPath.row];
+    [cell configWithName: city.cityName dict: self.homeModel.dicts[indexPath.row]];
     
     return cell;
 }
@@ -183,7 +192,7 @@
                                     /*页面的滑动方向*/
                                       UIPageViewControllerNavigationOrientationHorizontal
                                       options: nil];
-    pageVC.cityList = self.homeModel.saveCities;
+    pageVC.cityList = self.homeModel.homeCities;
     pageVC.initialIndex = indexPath.row;
     
     // 使弹出的视图填充整个屏幕
@@ -195,11 +204,13 @@
 
 
 
-- (void) createURLWithlatitude: (CGFloat) latitude longitude: (CGFloat) longitude index: (NSInteger) index {
+
+#pragma mark - URL
+- (void) createURLForCity: (CityModel*) city {
 
     [[NetworkManager sharedManager] GET: @"https://api.open-meteo.com/v1/forecast" parameters: @{
-        @"latitude": @(latitude),
-        @"longitude": @(longitude),
+        @"latitude": @(city.latitude),
+        @"longitude": @(city.longitude),
         @"daily" : @"temperature_2m_max,temperature_2m_min,sunrise,sunset,precipitation_sum,wind_speed_10m_max,wind_direction_10m_dominant,weather_code,uv_index_max",
 
             @"hourly" : @"temperature_2m,precipitation,snowfall,weather_code,wind_speed_10m,wind_direction_10m",
@@ -209,9 +220,18 @@
             @"timezone" : @"Europe/Moscow"
     }
                              completion:^(NSDictionary * _Nullable json, NSError * _Nullable error) {
+        
+        
         if (json[@"current"] && json[@"daily"] && json[@"hourly"]) {
-            self.homeModel.dicts[index] = json;
-            [self.homeView.tableView reloadRowsAtIndexPaths: @[[NSIndexPath indexPathForRow:index inSection:0]] withRowAnimation: UITableViewRowAnimationNone];
+            // 查找索引
+            NSInteger index = [self.homeModel.homeCities indexOfObjectPassingTest:^BOOL(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+                return [((CityModel*)(obj)).cityID isEqualToString: city.cityID];
+            }];
+            
+            if (index != NSNotFound) {
+                self.homeModel.dicts[index] = json;
+                [self.homeView.tableView reloadRowsAtIndexPaths: @[[NSIndexPath indexPathForRow:index inSection:0]] withRowAnimation: UITableViewRowAnimationNone];
+            }
         }
     }];
 }
