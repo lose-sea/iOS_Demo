@@ -40,7 +40,7 @@
     [self.cityLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.mas_equalTo(self.backView).offset(10);
         make.left.mas_equalTo(self.backView).offset(15);
-        make.width.mas_equalTo(270);
+        make.width.mas_equalTo(260);
         make.height.mas_equalTo(40);
     }];
     self.cityLabel.text = @"西安 - 陕西省";
@@ -51,7 +51,7 @@
     [self.backView  addSubview: self.temperatureLabel];
     [self.temperatureLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.mas_equalTo(self.cityLabel);
-        make.left.mas_equalTo(self.cityLabel.mas_right).offset(10);
+        make.left.mas_equalTo(self.cityLabel.mas_right);
         make.width.mas_equalTo(80);
         make.height.mas_equalTo(60);
     }];
@@ -77,7 +77,7 @@
     [self.contentView addSubview: maxLabel];
     [maxLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.mas_equalTo(self.weatherLabel);
-        make.left.mas_equalTo(self.weatherLabel.mas_right).offset(40);
+        make.left.mas_equalTo(self.weatherLabel.mas_right).offset(20);
         make.width.mas_equalTo(20);
     }];
     maxLabel.textAlignment = NSTextAlignmentCenter;

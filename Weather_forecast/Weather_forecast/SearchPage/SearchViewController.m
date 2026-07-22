@@ -56,6 +56,8 @@
 
 - (void) performSearch {
     if (self.searchText.length > 0) {
+        [self.searchModel.cityArray removeAllObjects];
+        [self.searchView.tableView reloadData]; 
         [self createURL];
     }
     return;

@@ -8,7 +8,9 @@
 #import "HomeController.h"
 
 @interface HomeController ()
-
+@property (nonatomic, strong) UIBarButtonItem* finishButton;
+@property (nonatomic, strong) UIBarButtonItem* editButton;
+@property (nonatomic, strong) UIBarButtonItem* moreButton;
 @end
 
 @implementation HomeController
@@ -67,6 +69,25 @@
     self.navigationItem.largeTitleDisplayMode = UINavigationItemLargeTitleDisplayModeAutomatic;
     self.navigationItem.title = @"天气";
     
+    
+    SearchViewController* vc = [[SearchViewController alloc] init];
+    self.searchController = [[UISearchController alloc] initWithSearchResultsController: vc];
+    self.searchController.searchResultsUpdater = vc;
+    // 模糊背景
+    self.searchController.obscuresBackgroundDuringPresentation = YES;
+    // 隐藏导航栏
+    self.searchController.hidesNavigationBarDuringPresentation = YES;
+    // 占位文字
+    self.searchController.searchBar.placeholder = @"输入城市名进行搜索";
+    self.searchController.searchBar.delegate = self;
+    // 将searchBar 添加到导航栏
+    self.navigationItem.searchController = self.searchController;
+    // 搜索成一个按钮,点击展开搜索栏
+//    self.navigationItem.preferredSearchBarPlacement = UINavigationItemSearchBarPlacementIntegratedButton;
+    self.searchController.delegate = self;
+    
+
+    
     // 创建菜单动作
     UIAction *addAction = [UIAction actionWithTitle:@"添加城市" image:[UIImage systemImageNamed:@"plus"] identifier:nil handler:^(UIAction *action) {
         // 激活搜索控制器
@@ -85,31 +106,40 @@
         [self.homeView.tableView reloadData];
     }];
     
-    UIMenu *menu = [UIMenu menuWithTitle:@"操作" children:@[addAction, refreshAction, clearAction]];
+    UIAction *editAction = [UIAction actionWithTitle:@"编辑城市" image:[UIImage systemImageNamed:@"square.and.pencil"] identifier:nil handler:^(UIAction *action) {
+        [self pressEdit];
+    }];
+    UIMenu *menu = [UIMenu menuWithTitle:@"操作" children:@[addAction, refreshAction, clearAction, editAction]];
     
     // 创建按钮并设置菜单
-    UIBarButtonItem *editButton = [[UIBarButtonItem alloc] initWithImage:[UIImage systemImageNamed:@"ellipsis"] style:UIBarButtonItemStylePlain target:nil action:nil];
-    editButton.menu = menu;
-    self.navigationItem.rightBarButtonItem = editButton;
+    self.moreButton = [[UIBarButtonItem alloc] initWithImage:[UIImage systemImageNamed:@"ellipsis"] style:UIBarButtonItemStylePlain target:nil action:nil];
+    self.moreButton.menu = menu;
     
     
+
+    self.editButton = [[UIBarButtonItem alloc] initWithImage: [UIImage systemImageNamed:@"square.and.pencil"] style: UIBarButtonItemStylePlain target: self action: @selector(pressEdit)];
     
-    SearchViewController* vc = [[SearchViewController alloc] init];
-    self.searchController = [[UISearchController alloc] initWithSearchResultsController: vc];
-    self.searchController.searchResultsUpdater = vc;
-    // 模糊背景
-    self.searchController.obscuresBackgroundDuringPresentation = YES;
-    // 隐藏导航栏
-    self.searchController.hidesNavigationBarDuringPresentation = YES;
-    // 占位文字
-    self.searchController.searchBar.placeholder = @"输入城市名进行搜索";
-    self.searchController.searchBar.delegate = self;
-    // 将searchBar 添加到导航栏
-    self.navigationItem.searchController = self.searchController;
-    // 搜索成一个按钮,点击展开搜索栏
-//    self.navigationItem.preferredSearchBarPlacement = UINavigationItemSearchBarPlacementIntegratedButton;
-    self.searchController.delegate = self;
+    self.navigationItem.rightBarButtonItems = @[self.moreButton, self.editButton];
+     
+    self.finishButton = [[UIBarButtonItem alloc] initWithTitle: @"完成" style: UIBarButtonItemStylePlain target: self action: @selector(pressFinish)];
+}
+
+- (void) pressEdit {
+    self.navigationItem.rightBarButtonItems = @[self.finishButton];
+
+    [self.homeView.tableView setEditing: YES animated: YES];
+}
+
+- (void) pressFinish {
+    self.navigationItem.rightBarButtonItems = @[self.moreButton, self.editButton];
+    [self.homeView.tableView setEditing: NO animated: YES];
+}
+
+- (void) tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
+    [self.homeModel.saveCities removeObjectAtIndex: indexPath.row];
+    [self.homeModel.dicts removeObjectAtIndex: indexPath.row];
     
+    [self.homeView.tableView reloadData];
 }
 
 
@@ -175,7 +205,7 @@
             @"timezone" : @"Europe/Moscow"
     }
                              completion:^(NSDictionary * _Nullable json, NSError * _Nullable error) {
-        if (!error && json) {
+        if (json[@"current"] && json[@"daily"] && json[@"hourly"]) {
             self.homeModel.dicts[index] = json;
             [self.homeView.tableView reloadRowsAtIndexPaths: @[[NSIndexPath indexPathForRow:index inSection:0]] withRowAnimation: UITableViewRowAnimationNone];
         }
