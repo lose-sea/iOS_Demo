@@ -55,6 +55,7 @@ static HomeModel* instance = nil;
 }
 
 - (void) createDicts {
+    [self.dicts removeAllObjects];
     for (NSInteger i = 0; i < self.homeCities.count; i++) {
         [self.dicts addObject: @{}];
     }
@@ -94,6 +95,20 @@ static HomeModel* instance = nil;
     }
     NSLog(@"未加载到数据");
     [self setUpDefaultCites];
+}
+
+
+- (void) addCityToSave: (CityModel*) city {
+    [self.homeCities addObject: city];
+    [self.dicts addObject: @{}];
+    [self saveToUserDefaults];
+
+}
+
+
+- (void) removeCityFormSave: (CityModel*) city {
+    [self.homeCities removeObject: city];
+    [self saveToUserDefaults];
 }
 
 @end

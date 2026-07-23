@@ -19,9 +19,9 @@ NS_ASSUME_NONNULL_BEGIN
 + (instancetype) shareInstance;
 
 - (void) saveToUserDefaults;
-- (void) loadFormUserDefaults; 
-- (void) setUpDefaultCites; 
-
+- (void) loadFormUserDefaults;
+- (void) addCityToSave: (CityModel*) city; 
+- (void) removeCityFormSave: (CityModel*) city;
 @end
 
 NS_ASSUME_NONNULL_END

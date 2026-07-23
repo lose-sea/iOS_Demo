@@ -63,9 +63,6 @@
     
     self.navigationItem.leftBarButtonItem = self.backButton;
     
-//    self.navigationItem.rightBarButtonItem = self.addButton;
-
-    
     HomeModel* homeModel = [HomeModel shareInstance];
     if ([homeModel.homeCities indexOfObject: self.city] == NSNotFound) {
         self.navigationItem.rightBarButtonItem = self.addButton;
@@ -87,7 +84,7 @@
     }
     if ([homeModel.homeCities indexOfObject: self.city] == NSNotFound) {
         
-        [self addCityToSave: self.city];
+        [homeModel addCityToSave: self.city];
                 
         self.navigationItem.rightBarButtonItem = self.deleteButton;
 
@@ -118,7 +115,7 @@
     
     if ([homeModel.homeCities indexOfObject: self.city] != NSNotFound) {
         
-        [self removeCityFormSave: self.city];
+        [homeModel removeCityFormSave: self.city];
                 
         self.navigationItem.rightBarButtonItem = self.addButton;
         
@@ -156,7 +153,7 @@
             make.edges.mas_equalTo(self.view);
         }];
         
-        self.weatherView.tableView.allowsSelection = NO; 
+        self.weatherView.tableView.allowsSelection = NO;
         
         self.weatherView.tableView.delegate = self;
         self.weatherView.tableView.dataSource = self;
@@ -174,23 +171,23 @@
 
 
 
-- (void) addCityToSave: (CityModel*) city {
-    HomeModel* homeModel = [HomeModel shareInstance];
-    
-    [homeModel.homeCities addObject: city];
-    [homeModel.dicts addObject: @{}];
-    [homeModel saveToUserDefaults];
-
-}
-
-
-- (void) removeCityFormSave: (CityModel*) city {
-    HomeModel* homeModel = [HomeModel shareInstance];
-    
-    [homeModel.homeCities removeObject: city];
-    [homeModel saveToUserDefaults];
-
-}
+//- (void) addCityToSave: (CityModel*) city {
+//    HomeModel* homeModel = [HomeModel shareInstance];
+//    
+//    [homeModel.homeCities addObject: city];
+//    [homeModel.dicts addObject: @{}];
+//    [homeModel saveToUserDefaults];
+//
+//}
+//
+//
+//- (void) removeCityFormSave: (CityModel*) city {
+//    HomeModel* homeModel = [HomeModel shareInstance];
+//    
+//    [homeModel.homeCities removeObject: city];
+//    [homeModel saveToUserDefaults];
+//
+//}
 
 
 

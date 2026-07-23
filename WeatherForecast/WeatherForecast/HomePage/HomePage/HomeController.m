@@ -203,7 +203,6 @@
                                     /*页面的滑动方向*/
                                       UIPageViewControllerNavigationOrientationHorizontal
                                       options: nil];
-    pageVC.cityList = self.homeModel.homeCities;
     pageVC.initialIndex = indexPath.row;
     
     NSLog(@"dicts.count = %ld", self.homeModel.dicts.count);
@@ -214,6 +213,7 @@
     
     UINavigationController* Nav = [[UINavigationController alloc] initWithRootViewController: pageVC];
     [self presentViewController: Nav animated: YES completion: nil];
+//    [self.navigationController pushViewController: pageVC animated: YES];
     
 }
 

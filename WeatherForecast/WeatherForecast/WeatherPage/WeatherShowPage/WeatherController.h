@@ -23,7 +23,6 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (nonatomic, strong) CityModel* city;
 
-@property (nonatomic, assign) NSInteger index;
 
 - (void) setUpData;
 
