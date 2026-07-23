@@ -36,7 +36,17 @@
     self.homeModel = [HomeModel shareInstance];
     self.homeView = [[HomeView alloc] init];
 //    [self.homeModel setUpDefaultCites];
-//    [self.homeModel loadFormUserDefaults]; 
+//    [self.homeModel loadFormUserDefaults];
+    
+//    NSLog(@"%@", self.homeModel.homeCities);
+//    for (int i = 0; i < self.homeModel.homeCities.count; i++) {
+//        NSLog(@"%@", ((CityModel*)self.homeModel.homeCities[i]).cityID);
+//    }
+//    
+//    NSLog(@"%@", self.homeModel.dicts);
+//    for (int i = 0; i < self.homeModel.dicts.count; i++) {
+//        NSLog(@"%@", self.homeModel.dicts[i]);
+//    }
     
     self.homeView.tableView.delegate = self;
     self.homeView.tableView.dataSource = self;
@@ -73,11 +83,6 @@
 
 
 - (void)setUpNavigation {
-    
-//    NSLog(@"%@", self.homeModel.homeCities);
-//    for (int i = 0; i < self.homeModel.homeCities.count; i++) {
-//        NSLog(@"%@", ((CityModel*)self.homeModel.homeCities[i]).cityID);
-//    }
     
     // 开启大标题
     self.navigationController.navigationBar.prefersLargeTitles = YES;
@@ -161,11 +166,11 @@
 
 
 // 搜索界面被关闭时调用
-- (void)didDismissSearchController:(UISearchController *)searchController {
-    NSLog(@"搜索界面关闭");
-    [self createURLForCities];
-    [self.homeView.tableView reloadData];
-}
+//- (void)didDismissSearchController:(UISearchController *)searchController {
+//    NSLog(@"搜索界面关闭");
+//    [self createURLForCities];
+//    [self.homeView.tableView reloadData];
+//}
 
 
 
@@ -201,6 +206,8 @@
     pageVC.cityList = self.homeModel.homeCities;
     pageVC.initialIndex = indexPath.row;
     
+    NSLog(@"dicts.count = %ld", self.homeModel.dicts.count); 
+    
     // 使弹出的视图填充整个屏幕
     pageVC.modalPresentationStyle = UIModalPresentationFullScreen;
     
@@ -210,6 +217,8 @@
 
 
 
+
+#pragma mark - URL
 - (void) createURLForCity: (CityModel*) city {
     
     [self.homeView.tableView reloadData];

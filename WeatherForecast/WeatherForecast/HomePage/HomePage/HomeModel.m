@@ -24,6 +24,8 @@ static HomeModel* instance = nil;
 }
 
 - (instancetype) init {
+    self.homeCities = [[NSMutableArray alloc] init];
+    self.dicts = [[NSMutableArray alloc] init];
     return self;
 }
 
@@ -56,6 +58,8 @@ static HomeModel* instance = nil;
     for (NSInteger i = 0; i < self.homeCities.count; i++) {
         [self.dicts addObject: @{}];
     }
+    NSLog(@"homecities.count: %ld", self.homeCities.count);
+    NSLog(@"dicts.count: %ld", self.dicts.count);
 }
 
 - (void) saveToUserDefaults {
@@ -71,6 +75,7 @@ static HomeModel* instance = nil;
 }
 
 - (void) loadFormUserDefaults {
+    
     NSData* data = [[NSUserDefaults standardUserDefaults] objectForKey: @"SavedCities"];
     if (data) {
         NSError* error = nil;

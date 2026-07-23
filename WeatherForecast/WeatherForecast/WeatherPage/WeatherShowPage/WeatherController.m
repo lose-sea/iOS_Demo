@@ -21,25 +21,23 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
+    NSLog(@"%ld", self.weatherModel.CurrentWeatherModel.count);
+    if (!self.weatherModel.CurrentWeatherModel.count  || !self.weatherModel.DailyWeatherModel.count || !self.weatherModel.HourlyWeatherModel.count) {
+        [self setUpData];
+    }
+    [self.weatherView.tableView reloadData]; 
     [self setUpNavigation];
     [self setUpInterface];
 }
 
 - (void)configWithDict:(NSDictionary *)dict {
+    NSLog(@"%@", dict);
+    
     if (dict[@"current"] && dict[@"daily"] && dict[@"hourly"]) {
-        // 直接使用传入的数据，不发起网络请求
         self.weatherModel = [[WeatherModel alloc] init];
         self.weatherModel.CurrentWeatherModel = dict[@"current"];
         self.weatherModel.DailyWeatherModel = dict[@"daily"];
         self.weatherModel.HourlyWeatherModel = dict[@"hourly"];
-        // 立即设置界面
-        [self setUpInterface];
-        [self.weatherView configWithCurrentWeather: self.weatherModel.CurrentWeatherModel];
-        [self.weatherView.tableView reloadData];
-    } else {
-        // 没有数据，需要网络请求
-        [self setUpData];  
     }
 }
 
@@ -75,6 +73,8 @@
 
 - (void) setUpInterface {
 
+    NSLog(@"调用setUpInterface");
+    
     // 删除所有的子视图
     [[self.view subviews] makeObjectsPerformSelector:@selector(removeFromSuperview)];
     
