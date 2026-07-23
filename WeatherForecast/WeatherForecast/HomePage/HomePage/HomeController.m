@@ -209,10 +209,12 @@
     NSLog(@"dicts.count = %ld", self.homeModel.dicts.count);
     
     // 使弹出的视图填充整个屏幕
-    pageVC.modalPresentationStyle = UIModalPresentationFullScreen;
+//    pageVC.modalPresentationStyle = UIModalPresentationFullScreen;
+//    [self presentViewController: pageVC animated: YES completion: nil];
     
     UINavigationController* Nav = [[UINavigationController alloc] initWithRootViewController: pageVC];
     [self presentViewController: Nav animated: YES completion: nil];
+    
 }
 
 

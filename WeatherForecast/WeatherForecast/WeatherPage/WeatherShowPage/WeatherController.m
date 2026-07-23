@@ -8,8 +8,9 @@
 #import "WeatherController.h"
 
 @interface WeatherController ()
-@property (nonatomic, strong) UIButton* addButton;
-@property (nonatomic, strong) UIButton* backButton;
+@property (nonatomic, strong) UIBarButtonItem* addButton;
+@property (nonatomic, strong) UIBarButtonItem* backButton;
+@property (nonatomic, strong) UIBarButtonItem* deleteButton;
 @end
 
 @implementation WeatherController
@@ -53,48 +54,25 @@
     
     NSLog(@"调用 setUpNavigation");
 
-    UIBarButtonItem* backButton = [[UIBarButtonItem alloc] initWithImage: [UIImage systemImageNamed: @"chevron.left"] style: UIBarButtonItemStylePlain target: self action: @selector(pressBack)];
+    self.backButton = [[UIBarButtonItem alloc] initWithImage: [UIImage systemImageNamed: @"chevron.left"] style: UIBarButtonItemStylePlain target: self action: @selector(pressBack)];
     
-    self.backButton.layer.cornerRadius = 20;
-    self.backButton.clipsToBounds = YES;
+    self.addButton = [[UIBarButtonItem alloc] initWithImage: [UIImage systemImageNamed: @"plus"] style: UIBarButtonItemStylePlain target: self action: @selector(pressAdd)];
     
-    UIBarButtonItem* addButton = [[UIBarButtonItem alloc] initWithImage: [UIImage systemImageNamed: @"plus"] style: UIBarButtonItemStylePlain target: self action: @selector(pressAdd)];
+    self.deleteButton = [[UIBarButtonItem alloc] initWithTitle: @"删除" style: UIBarButtonItemStylePlain target: self action: @selector(pressDelete)];
     
-    self.navigationItem.leftBarButtonItem = backButton;
     
+    self.navigationItem.leftBarButtonItem = self.backButton;
+    
+//    self.navigationItem.rightBarButtonItem = self.addButton;
+
     
     HomeModel* homeModel = [HomeModel shareInstance];
     if ([homeModel.homeCities indexOfObject: self.city] == NSNotFound) {
-        self.navigationItem.rightBarButtonItem = addButton;
-    }
-}
-
-- (void) setUpInterface {
-
-    NSLog(@"调用setUpInterface");
-    self.weatherView = [[WeatherView alloc] init];
-
-    // 删除所有的子视图
-    [[self.view subviews] makeObjectsPerformSelector:@selector(removeFromSuperview)];
-    
-    if (self.weatherModel.CurrentWeatherModel.count > 0 && self.weatherModel.HourlyWeatherModel.count > 0 && self.weatherModel.DailyWeatherModel.count > 0) {
-        [self.view addSubview: self.weatherView];
-        [self.weatherView mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.edges.mas_equalTo(self.view);
-        }];
-        self.weatherView.tableView.delegate = self;
-        self.weatherView.tableView.dataSource = self;
-        [self.weatherView configWithCurrentWeather: self.weatherModel.CurrentWeatherModel];
-
+        self.navigationItem.rightBarButtonItem = self.addButton;
     } else {
-        LoadView* loadView = [[LoadView alloc] init];
-        [self.view addSubview: loadView];
-        [loadView mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.edges.mas_equalTo(self.view);
-        }];
+        self.navigationItem.rightBarButtonItem = self.deleteButton;
     }
 }
-
 
 - (void) pressBack {
     NSLog(@"back");
@@ -103,21 +81,19 @@
 
 - (void) pressAdd {
     HomeModel* homeModel = [HomeModel shareInstance];
-//    NSDictionary* dict = @{@"name": self.cityName, @"latitude": @(self.latitude), @"longitude": @(self.longitude)};
+
     if (!homeModel.homeCities) {
         homeModel.homeCities = [[NSMutableArray alloc] init];
     }
     if ([homeModel.homeCities indexOfObject: self.city] == NSNotFound) {
         
-        [self addCityToSave: self.city]; 
-        [homeModel saveToUserDefaults]; 
+        [self addCityToSave: self.city];
                 
-        self.navigationItem.rightBarButtonItem = nil;
-        
+        self.navigationItem.rightBarButtonItem = self.deleteButton;
+
         UIAlertController* alertController = [UIAlertController alertControllerWithTitle: nil  message: @"添加成功" preferredStyle: UIAlertControllerStyleAlert];
         UIAlertAction* okAction = [UIAlertAction actionWithTitle: @"确定" style: UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
             [[NSNotificationCenter defaultCenter] postNotificationName: ReleadNotification object: self userInfo: nil];
-
             NSLog(@"OK");
         }];
         [alertController addAction: okAction];
@@ -132,11 +108,88 @@
     }
 }
 
+- (void) pressDelete {
+    HomeModel* homeModel = [HomeModel shareInstance];
+    
+    if (!homeModel.homeCities) {
+        homeModel.homeCities = [[NSMutableArray alloc] init];
+    }
+
+    
+    if ([homeModel.homeCities indexOfObject: self.city] != NSNotFound) {
+        
+        [self removeCityFormSave: self.city];
+                
+        self.navigationItem.rightBarButtonItem = self.addButton;
+        
+        UIAlertController* alertController = [UIAlertController alertControllerWithTitle: nil  message: @"删除成功" preferredStyle: UIAlertControllerStyleAlert];
+        UIAlertAction* okAction = [UIAlertAction actionWithTitle: @"确定" style: UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+            [[NSNotificationCenter defaultCenter] postNotificationName: ReleadNotification object: self userInfo: nil];
+            NSLog(@"OK");
+        }];
+        [alertController addAction: okAction];
+        [self presentViewController: alertController animated: YES completion: nil];
+    } else {
+        UIAlertController* alertController = [UIAlertController alertControllerWithTitle: nil  message: @"删除失败, 未添加该城市" preferredStyle: UIAlertControllerStyleAlert];
+        UIAlertAction* okAction = [UIAlertAction actionWithTitle: @"确定" style: UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+            NSLog(@"OK");
+        }];
+        [alertController addAction: okAction];
+        [self presentViewController: alertController animated: YES completion: nil];
+    }
+}
+
+
+
+
+- (void) setUpInterface {
+
+    NSLog(@"调用setUpInterface");
+    self.weatherView = [[WeatherView alloc] init];
+
+    // 删除所有的子视图
+    [[self.view subviews] makeObjectsPerformSelector:@selector(removeFromSuperview)];
+    
+    if (self.weatherModel.CurrentWeatherModel.count > 0 && self.weatherModel.HourlyWeatherModel.count > 0 && self.weatherModel.DailyWeatherModel.count > 0) {
+        [self.view addSubview: self.weatherView];
+        [self.weatherView mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.edges.mas_equalTo(self.view);
+        }];
+        
+        self.weatherView.tableView.allowsSelection = NO; 
+        
+        self.weatherView.tableView.delegate = self;
+        self.weatherView.tableView.dataSource = self;
+        [self.weatherView configWithCurrentWeather: self.weatherModel.CurrentWeatherModel];
+
+    } else {
+        LoadView* loadView = [[LoadView alloc] init];
+        [self.view addSubview: loadView];
+        [loadView mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.edges.mas_equalTo(self.view);
+        }];
+    }
+}
+
+
+
+
 - (void) addCityToSave: (CityModel*) city {
     HomeModel* homeModel = [HomeModel shareInstance];
     
     [homeModel.homeCities addObject: city];
     [homeModel.dicts addObject: @{}];
+    [homeModel saveToUserDefaults];
+
+}
+
+
+- (void) removeCityFormSave: (CityModel*) city {
+    HomeModel* homeModel = [HomeModel shareInstance];
+    
+    [homeModel.homeCities removeObject: city];
+    [homeModel saveToUserDefaults];
+
 }
 
 

@@ -56,7 +56,7 @@
        viewControllerBeforeViewController:(UIViewController *)viewController {
     NSInteger idx = [(WeatherController *)viewController index];
     if (idx <= 0) {
-        return nil;
+        return [self viewControllerAtIndex: self.cityList.count -  1];
     }
     return [self viewControllerAtIndex: idx - 1];
 }
@@ -65,7 +65,7 @@
         viewControllerAfterViewController:(UIViewController *)viewController {
     NSInteger idx = [(WeatherController *)viewController index];
     if (idx == self.cityList.count - 1) {
-        return nil;
+        return [self viewControllerAtIndex: 0];
     }
     return [self viewControllerAtIndex:idx + 1];
 }
