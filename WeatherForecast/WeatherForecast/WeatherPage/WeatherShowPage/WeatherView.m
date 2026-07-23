@@ -38,13 +38,15 @@
     [self.tableView registerClass: [TemperatureCell class] forCellReuseIdentifier: @"TemperatureCellID"];
     [self.tableView registerClass: [ScrollHourCell class] forCellReuseIdentifier: @"ScrollHourCellID"]; 
     [self.tableView registerClass: [DailyCell class] forCellReuseIdentifier: @"DailyCellID"];
-    
+    [self.tableView registerClass: [PrecipitationWindCell class] forCellReuseIdentifier: @"PrecipitationCellID"];
+    [self.tableView registerClass: [NoticeCell class] forCellReuseIdentifier: @"NoticeCellID"];
     
 }
 
 - (void) configWithCurrentWeather:(NSDictionary *)currentWeather {
     NSInteger weather_code = [currentWeather[@"weather_code"] intValue];
-    self.tableView.backgroundView = [[UIImageView alloc] initWithImage: [WeatherTool backImageForWeatherCode: weather_code]]; 
+    self.tableView.backgroundView = [[UIImageView alloc] initWithImage: [WeatherTool backImageForWeatherCode: weather_code]];
+    NSLog(@"配置weatherback");
 }
 
 @end

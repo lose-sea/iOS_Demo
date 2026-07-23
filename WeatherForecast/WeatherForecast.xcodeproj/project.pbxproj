@@ -74,7 +74,6 @@
 				EBB561E71732CBE9083A1E17 /* Pods-WeatherForecast.debug.xcconfig */,
 				F6976B0C9E653E96ED400618 /* Pods-WeatherForecast.release.xcconfig */,
 			);
-			name = Pods;
 			path = Pods;
 			sourceTree = "<group>";
 		};

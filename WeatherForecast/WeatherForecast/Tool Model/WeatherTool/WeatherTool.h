@@ -13,6 +13,7 @@ NS_ASSUME_NONNULL_BEGIN
 + (NSString *)descriptionForWeatherCode:(NSInteger)code;
 + (UIImage*) backImageForWeatherCode: (NSInteger) weather_code;
 + (UIImage*) imageForWeatherCode: (NSInteger) weather_code;
++ (NSString*) windDirection: (NSNumber*) windDirection; 
 @end
 
 NS_ASSUME_NONNULL_END

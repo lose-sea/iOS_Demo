@@ -118,4 +118,20 @@
     }
 }
 
++ (NSString*) windDirection:(NSNumber*)windDirection {
+    NSInteger wind_direction = [windDirection intValue];
+    switch (wind_direction) {
+        case 0:
+            return @"北风";
+        case 90:
+            return @"东风";
+        case 180:
+            return @"南风";
+        case 270:
+            return @"西风";
+        default:
+            return @"北风"; 
+    }
+}
+
 @end

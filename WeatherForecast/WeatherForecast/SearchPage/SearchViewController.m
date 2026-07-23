@@ -137,7 +137,6 @@
     
     WeatherController* vc = [[WeatherController alloc] init];
     vc.city = city;
-    [vc setUpData];
     UINavigationController* Nav = [[UINavigationController alloc] initWithRootViewController: vc];
     
     self.navigationItem.searchController.searchBar.text = @"";

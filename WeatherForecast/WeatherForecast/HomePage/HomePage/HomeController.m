@@ -206,7 +206,7 @@
     pageVC.cityList = self.homeModel.homeCities;
     pageVC.initialIndex = indexPath.row;
     
-    NSLog(@"dicts.count = %ld", self.homeModel.dicts.count); 
+    NSLog(@"dicts.count = %ld", self.homeModel.dicts.count);
     
     // 使弹出的视图填充整个屏幕
     pageVC.modalPresentationStyle = UIModalPresentationFullScreen;
@@ -254,16 +254,16 @@
 
                 [self.homeView.tableView reloadRowsAtIndexPaths: @[[NSIndexPath indexPathForRow:index inSection:0]] withRowAnimation: UITableViewRowAnimationNone];
                 
-                NSLog(@"网络请求成功");
+                NSLog(@"首页网络请求成功");
             } else {
-                NSLog(@"未匹配到");
+                NSLog(@"首页未匹配到");
             }
 //            if (self.completedRequestCount == self.pendingRequestCount) {
 //                [self.homeView.tableView reloadData];
 //            }
             
         } else {
-            UIAlertController* alertController = [UIAlertController alertControllerWithTitle: nil message: @"加载失败, 请检查网络" preferredStyle: UIAlertControllerStyleAlert];
+            UIAlertController* alertController = [UIAlertController alertControllerWithTitle: nil message: @"首页加载失败, 请检查网络" preferredStyle: UIAlertControllerStyleAlert];
             UIAlertAction* okAction = [UIAlertAction actionWithTitle: @"确定" style: UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
                 
             }];

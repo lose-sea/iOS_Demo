@@ -15,17 +15,16 @@
 @implementation WeatherController
 
 
-- (void) viewWillAppear:(BOOL)animated {
-    
-}
-
 - (void)viewDidLoad {
     [super viewDidLoad];
-    NSLog(@"%ld", self.weatherModel.CurrentWeatherModel.count);
+    NSLog(@"weather 界面: %ld", self.weatherModel.CurrentWeatherModel.count);
+    NSLog(@"%ld", self.weatherModel.DailyWeatherModel.count);
+    NSLog(@"%ld", self.weatherModel.HourlyWeatherModel.count);
     if (!self.weatherModel.CurrentWeatherModel.count  || !self.weatherModel.DailyWeatherModel.count || !self.weatherModel.HourlyWeatherModel.count) {
         [self setUpData];
     }
-    [self.weatherView.tableView reloadData]; 
+    [self.weatherView.tableView reloadData];
+    NSLog(@"降水  %@", self.weatherModel.CurrentWeatherModel[@"precipitation"]);
     [self setUpNavigation];
     [self setUpInterface];
 }
@@ -46,7 +45,6 @@
     NSLog(@"调用 setData");
     
     self.weatherModel = [[WeatherModel alloc] init];
-    self.weatherView = [[WeatherView alloc] init];
 
     [self createURL];
 }
@@ -74,7 +72,8 @@
 - (void) setUpInterface {
 
     NSLog(@"调用setUpInterface");
-    
+    self.weatherView = [[WeatherView alloc] init];
+
     // 删除所有的子视图
     [[self.view subviews] makeObjectsPerformSelector:@selector(removeFromSuperview)];
     
@@ -85,6 +84,8 @@
         }];
         self.weatherView.tableView.delegate = self;
         self.weatherView.tableView.dataSource = self;
+        [self.weatherView configWithCurrentWeather: self.weatherModel.CurrentWeatherModel];
+
     } else {
         LoadView* loadView = [[LoadView alloc] init];
         [self.view addSubview: loadView];
@@ -110,13 +111,13 @@
         
         [self addCityToSave: self.city]; 
         [homeModel saveToUserDefaults]; 
-        
-        [[NSNotificationCenter defaultCenter] postNotificationName: ReleadNotification object: self userInfo: nil];
-        
+                
         self.navigationItem.rightBarButtonItem = nil;
         
         UIAlertController* alertController = [UIAlertController alertControllerWithTitle: nil  message: @"添加成功" preferredStyle: UIAlertControllerStyleAlert];
         UIAlertAction* okAction = [UIAlertAction actionWithTitle: @"确定" style: UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+            [[NSNotificationCenter defaultCenter] postNotificationName: ReleadNotification object: self userInfo: nil];
+
             NSLog(@"OK");
         }];
         [alertController addAction: okAction];
@@ -141,6 +142,7 @@
 
 
 - (void) createURL {
+    NSLog(@"weather 发出了网络请求");
     [[NetworkManager sharedManager] GET: @"https://api.open-meteo.com/v1/forecast" parameters: @{
             @"latitude": @(self.city.latitude),
             @"longitude": @(self.city.longitude),
@@ -156,6 +158,8 @@
             
        
         if (json[@"current"] && json[@"daily"] && json[@"hourly"]) {
+            NSLog(@"请求到了数据");
+
             self.weatherModel.CurrentWeatherModel = json[@"current"];
             self.weatherModel.DailyWeatherModel = json[@"daily"];
             self.weatherModel.HourlyWeatherModel = json[@"hourly"];
@@ -163,7 +167,10 @@
             [self setUpInterface];
             [self.weatherView configWithCurrentWeather: self.weatherModel.CurrentWeatherModel];
             [self.weatherView.tableView reloadData];
+            
         } else {
+            NSLog(@"加载失败"); 
+            NSLog(@"%@", error);
             UIAlertController* alertController = [UIAlertController alertControllerWithTitle: nil message: @"加载失败, 请检查网络" preferredStyle: UIAlertControllerStyleAlert];
             UIAlertAction* okAction = [UIAlertAction actionWithTitle: @"确定" style: UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
                 [self pressBack];
@@ -179,11 +186,11 @@
 
 #pragma mark - UITableView
 - (NSInteger) numberOfSectionsInTableView:(UITableView *)tableView {
-    return 3;
+    return 5;
 }
 
 - (NSInteger) tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    if (section == 0 || section == 1) {
+    if (section == 0 || section == 1 || section == 3 || section == 4) {
         return 1;
     } else {
         return 7;
@@ -202,8 +209,12 @@
         return 300;
     } else if (indexPath.section == 1) {
         return 180;
-    } else {
+    } else if (indexPath.section == 3) {
+        return 200;
+    } else if (indexPath.section == 2) {
         return 90;
+    } else {
+        return 100;
     }
 }
 
@@ -213,7 +224,10 @@
 }
 
 - (NSString*) tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
-    return @"";
+    if (section == 0 || section == 1) {
+        return @"";
+    }
+    return nil;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -230,9 +244,16 @@
         [cell.collectionView reloadData];
 
         return cell;
-    } else {
+    } else if (indexPath.section == 2) {
         DailyCell* cell = [tableView dequeueReusableCellWithIdentifier: @"DailyCellID" forIndexPath: indexPath];
         [cell configWithDailyWeather: self.weatherModel.DailyWeatherModel atIndex: indexPath.row];
+        return cell;
+    } else if (indexPath.section == 3) {
+        PrecipitationWindCell* cell = [tableView dequeueReusableCellWithIdentifier: @"PrecipitationCellID" forIndexPath: indexPath];
+        [cell configWithCurrentWeather: self.weatherModel.CurrentWeatherModel];
+        return cell;
+    } else {
+        NoticeCell* cell = [tableView dequeueReusableCellWithIdentifier: @"NoticeCellID" forIndexPath: indexPath];
         return cell;
     }
 }
