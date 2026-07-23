@@ -13,7 +13,6 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface CityPageViewController : UIPageViewController <UIPageViewControllerDataSource, UIPageViewControllerDelegate>
 @property (nonatomic, assign) NSInteger initialIndex;
-@property (nonatomic, assign) NSInteger currentIndex;
 
 @end
 

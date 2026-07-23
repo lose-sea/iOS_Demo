@@ -8,7 +8,6 @@
 #import "CityPageViewController.h"
 
 @interface CityPageViewController ()
-@property (nonatomic, strong) CityModel* city;
 
 @property (nonatomic, strong) UIBarButtonItem* addButton;
 @property (nonatomic, strong) UIBarButtonItem* backButton;
@@ -21,12 +20,11 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     [self setUpData];
+//    [self updateNavigationRightItem];
+    
 }
 
 - (void) setUpData {
-    WeatherController* firstVC = (WeatherController*)self.viewControllers.firstObject;
-    self.city = firstVC.city;
-    self.currentIndex = self.initialIndex;
     self.dataSource = self;
     self.delegate = self;
     [self setUpNavigation];
@@ -34,9 +32,6 @@
 }
 
 - (void) setUpNavigation {
-//    UIBarButtonItem* backButton = [[UIBarButtonItem alloc] initWithImage: [UIImage systemImageNamed: @"chevron.left"] style: UIBarButtonItemStylePlain target: self action: @selector(pressBack)];
-//    self.navigationItem.leftBarButtonItem = backButton;
-    
     
     self.backButton = [[UIBarButtonItem alloc] initWithImage: [UIImage systemImageNamed: @"chevron.left"] style: UIBarButtonItemStylePlain target: self action: @selector(pressBack)];
     self.navigationItem.leftBarButtonItem = self.backButton;
@@ -62,14 +57,17 @@
 //}
 
 - (void) pressAdd {
+    
+    WeatherController *currentVC = (WeatherController *)self.viewControllers.firstObject;
+    CityModel* city = currentVC.city;
     HomeModel* homeModel = [HomeModel shareInstance];
 
     if (!homeModel.homeCities) {
         homeModel.homeCities = [[NSMutableArray alloc] init];
     }
-    if ([homeModel.homeCities indexOfObject: self.city] == NSNotFound) {
+    if ([homeModel.homeCities indexOfObject: city] == NSNotFound) {
         
-        [homeModel addCityToSave: self.city];
+        [homeModel addCityToSave: city];
                 
         self.navigationItem.rightBarButtonItem = self.deleteButton;
 
@@ -91,16 +89,19 @@
 }
 
 - (void) pressDelete {
-    HomeModel* homeModel = [HomeModel shareInstance];
     
+    WeatherController *currentVC = (WeatherController *)self.viewControllers.firstObject;
+    CityModel* city = currentVC.city;
+    HomeModel* homeModel = [HomeModel shareInstance];
+
     if (!homeModel.homeCities) {
         homeModel.homeCities = [[NSMutableArray alloc] init];
     }
 
     
-    if ([homeModel.homeCities indexOfObject: self.city] != NSNotFound) {
+    if ([homeModel.homeCities indexOfObject: city] != NSNotFound) {
         
-        [homeModel removeCityFormSave: self.city];
+        [homeModel removeCityFormSave: city];
                 
         self.navigationItem.rightBarButtonItem = self.addButton;
         
@@ -127,22 +128,36 @@
 
 
 
-- (void) updateNavigationRightItem {
-    HomeModel* homeModel = [HomeModel shareInstance];
-    if ([homeModel.homeCities indexOfObject: self.city] == NSNotFound) {
-        self.navigationItem.rightBarButtonItem = self.addButton;
-    } else {
+//- (void) updateNavigationRightItem {
+//    HomeModel* homeModel = [HomeModel shareInstance];
+//    if ([homeModel.homeCities indexOfObject: self.city] == NSNotFound) {
+//        self.navigationItem.rightBarButtonItem = self.addButton;
+//    } else {
+//        self.navigationItem.rightBarButtonItem = self.deleteButton;
+//    }
+//}
+
+- (void)updateNavigationRightItem {
+    WeatherController *currentVC = (WeatherController *)self.viewControllers.firstObject;
+    if (![currentVC isKindOfClass:[WeatherController class]]) {
+        self.navigationItem.rightBarButtonItem = nil;
+        return;
+    }
+    CityModel *city = currentVC.city;
+    HomeModel *homeModel = [HomeModel shareInstance];
+    if ([homeModel.homeCities containsObject:city]) {
         self.navigationItem.rightBarButtonItem = self.deleteButton;
+    } else {
+        self.navigationItem.rightBarButtonItem = self.addButton;
     }
 }
+
 
 
 // 滑动完成后调用
 - (void) pageViewController:(UIPageViewController *)pageViewController didFinishAnimating:(BOOL)finished previousViewControllers:(NSArray<UIViewController *> *)previousViewControllers transitionCompleted:(BOOL)completed {
     
     if (completed) {
-        WeatherController* vc = self.viewControllers.firstObject;
-        self.city = vc.city;
         [self updateNavigationRightItem];
     }
 }
@@ -155,14 +170,15 @@
 
 #pragma mark - UIPageViewController
 
-- (UIViewController*) viewControllerAtIndex: (NSInteger) index {
-    NSLog(@"更新pageViewController");
-    HomeModel* homeModel = [HomeModel shareInstance];
-    WeatherController* vc = [[WeatherController alloc] init];
+
+- (UIViewController *)viewControllerAtIndex:(NSInteger)index {
+    HomeModel *homeModel = [HomeModel shareInstance];
+    if (index < 0 || index >= homeModel.homeCities.count) {
+        return nil;
+    }
+    WeatherController *vc = [[WeatherController alloc] init];
     vc.city = homeModel.homeCities[index];
-    NSDictionary* dict = homeModel.dicts[index];
-    [vc configWithDict: dict];
-    
+    [vc configWithDict:homeModel.dicts[index]];
     return vc;
 }
 
@@ -170,33 +186,42 @@
     UIViewController* initialVC = [self viewControllerAtIndex: self.initialIndex];
     if (initialVC) {
         [self setViewControllers: @[initialVC] direction: UIPageViewControllerNavigationDirectionForward  animated: NO completion: nil];
+        [self updateNavigationRightItem]; 
     }
 }
+
 
 - (UIViewController *)pageViewController:(UIPageViewController *)pageViewController
        viewControllerBeforeViewController:(UIViewController *)viewController {
-    HomeModel* homeModel = [HomeModel shareInstance];
-    NSInteger index = [homeModel.homeCities indexOfObject: self.city];
-    if (index <= 0) {
-        return [self viewControllerAtIndex: [HomeModel shareInstance].homeCities.count -  1];
+    CityModel *city = [(WeatherController *)viewController city];
+    HomeModel *homeModel = [HomeModel shareInstance];
+    NSInteger index = [homeModel.homeCities indexOfObject:city];
+    if (index == NSNotFound) {
+        return nil;
     }
-    return [self viewControllerAtIndex: index - 1];
+    NSInteger count = homeModel.homeCities.count;
+    if (count == 0) return nil;
+    if (index <= 0) return [self viewControllerAtIndex:count - 1];
+    return [self viewControllerAtIndex:index - 1];
 }
+
 
 - (UIViewController *)pageViewController:(UIPageViewController *)pageViewController
         viewControllerAfterViewController:(UIViewController *)viewController {
-//    NSInteger idx = [(WeatherController *)viewController index];
-//    if (idx == [HomeModel shareInstance].homeCities.count - 1) {
-//        return [self viewControllerAtIndex: 0];
-//    }
-//    return [self viewControllerAtIndex:idx + 1];
-    HomeModel* homeModel = [HomeModel shareInstance];
-    NSInteger index = [homeModel.homeCities indexOfObject: self.city];
-    if (index == homeModel.homeCities.count) {
-        return [self viewControllerAtIndex: 0];
+    CityModel *city = [(WeatherController *)viewController city];
+    HomeModel *homeModel = [HomeModel shareInstance];
+    NSInteger index = [homeModel.homeCities indexOfObject:city];
+    if (index == NSNotFound) {
+        return nil;
     }
-    return [self viewControllerAtIndex: index + 1];
-    
+    NSInteger count = homeModel.homeCities.count;
+    if (count == 0) {
+        return nil;
+    }
+    if (index == count - 1) {
+        return [self viewControllerAtIndex:0];
+    }
+    return [self viewControllerAtIndex:index + 1];
 }
 
 
