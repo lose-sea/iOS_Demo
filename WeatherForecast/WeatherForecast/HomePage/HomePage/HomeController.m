@@ -22,13 +22,14 @@
     [super viewDidLoad];
 //    self.view.backgroundColor = [UIColor systemCyanColor];
     // Do any additional setup after loading the view.
+    
     [self setUpData];
     [self setUpNavigation];
     [self setUpInterface];
     
-    
     [self createURLForCities];
 
+//    self.view.backgroundColor = [UIColor colorWithWhite: 0.4 alpha: 0.5];
 
 }
 

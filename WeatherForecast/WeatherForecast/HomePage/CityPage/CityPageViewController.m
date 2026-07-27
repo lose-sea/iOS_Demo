@@ -186,7 +186,7 @@
     UIViewController* initialVC = [self viewControllerAtIndex: self.initialIndex];
     if (initialVC) {
         [self setViewControllers: @[initialVC] direction: UIPageViewControllerNavigationDirectionForward  animated: NO completion: nil];
-        [self updateNavigationRightItem]; 
+        [self updateNavigationRightItem];
     }
 }
 
