@@ -8,7 +8,8 @@
 #import "CalculatorViewController.h"
 
 @interface CalculatorViewController ()
-
+@property (nonatomic, assign) int pointNum;
+@property (nonatomic, assign) BOOL isValid;
 @end
 
 @implementation CalculatorViewController
@@ -36,10 +37,390 @@
     
     for (UIStackView* rowStackView in self.calculatorView.keyboard.arrangedSubviews) {
         for (UIButton* button in rowStackView.arrangedSubviews) {
-            [button addTarget: self action: @selector(pressBtn01:) forControlEvents: UIControlEventTouchUpInside];
+            [button addTarget: self action: @selector(pressBtn02:) forControlEvents: UIControlEventTouchUpInside];
         }
     }
 }
+
+
+#pragma mark - 使用双栈
+- (void) pressBtn02: (UIButton*) button {
+
+    NSString* title = button.currentTitle;
+    if ([title isEqualToString: @"AC"]) {
+        // 全部清空
+        [self removeAll];
+    } else if ([title isEqualToString: @"="]) {
+        
+        [self pressEqual02];
+
+    } else if ([title isEqualToString: @"⌫"]) {
+        [self pressDelete02];
+        
+    } else if ([title isEqualToString: @"."] || [self isNumber: title]) {
+        // 输入数字或者小数点
+        [self pressNumber: title];
+    } else if ([self isOperator: title]) {
+        // 输入运算符或括号
+        [self pressOperator: title];
+    }
+    
+    [self reloadLabels];
+}
+
+
+
+// 点击 =
+- (void) pressEqual02 {
+    if (self.calculatorModel.upString.length == 0) {
+
+        [self.calculatorModel pushNumber: self.calculatorModel.temporaryString];
+        
+        [self calculate];
+        self.calculatorModel.downString = [NSMutableString stringWithFormat: @"%@", [self.calculatorModel.numberStack lastObject]];
+        if (self.calculatorModel.resultString.length > 0) {
+            self.calculatorView.downLabel.text = self.calculatorModel.resultString;
+            return;
+        }
+    }
+}
+
+
+
+//     点击退格
+- (void) pressDelete02 {
+    if (self.calculatorModel.upString.length > 0) {
+
+//        // 下方的数字转换为字符串,退格
+//        // 数字栈弹出前一个计算的答案, 放到临时字符串中继续编辑, 退格
+//        NSDecimalNumber* number = [self.calculatorModel popNumber];
+//        self.calculatorModel.temporaryString = [NSMutableString stringWithFormat: @"%@", number];
+//        [self.calculatorModel.temporaryString deleteCharactersInRange: NSMakeRange(self.calculatorModel.temporaryString.length - 1, 1)];
+//
+//        // 将上面的字符转移下来, 上方清空
+//        self.calculatorModel.downString = self.calculatorModel.upString;
+//        [self.calculatorModel.upString setString: @""];
+        
+        [self removeAll];
+        return;
+    } else if (self.calculatorModel.downString.length > 0) {
+        
+        // 获取当前最后一个字符
+        NSString* lastStr = [self.calculatorModel.downString substringFromIndex: self.calculatorModel.downString.length - 1];
+        
+        // 如果是数字或小数点, 直接删除临时字符串的最后一个字符
+        if ([lastStr isEqualToString: @"."] || [self isNumber: lastStr]) {
+            if ([lastStr isEqualToString: @"."]) {
+                // 记录数字中的小数点个数
+                self.pointNum--;
+            }
+            [self.calculatorModel.temporaryString deleteCharactersInRange: NSMakeRange(self.calculatorModel.temporaryString.length - 1, 1)];
+            // 删除计算式的最后一个字符
+            [self.calculatorModel.downString deleteCharactersInRange: NSMakeRange(self.calculatorModel.downString.length - 1, 1)];
+            return;
+        }
+        
+        // 如果是 - ,根据前面判断是 负号 还是 减号
+        if ([lastStr isEqualToString: @"-"]) {
+            
+            // 如果 - 位于计算式的开头,为负号
+            if (self.calculatorModel.downString.length == 1) {
+                [self.calculatorModel.temporaryString deleteCharactersInRange: NSMakeRange(self.calculatorModel.temporaryString.length - 1, 1)];
+                // 删除计算式的最后一个字符
+                [self.calculatorModel.downString deleteCharactersInRange: NSMakeRange(self.calculatorModel.downString.length - 1, 1)];
+                return;
+            } else {
+                // 如果 - 前面是(,为负号
+                NSString* frontStr = [self.calculatorModel.downString substringWithRange: NSMakeRange(self.calculatorModel.downString.length - 2, 1)];
+                if ([frontStr isEqualToString: @"("]) {
+                    
+                    [self.calculatorModel.temporaryString deleteCharactersInRange: NSMakeRange(self.calculatorModel.temporaryString.length - 1, 1)];
+                    // 删除计算式的最后一个字符
+                    [self.calculatorModel.downString deleteCharactersInRange: NSMakeRange(self.calculatorModel.downString.length - 1, 1)];
+                    return;
+                }
+            }
+        }
+        
+        // 最后一个字符是运算符或者右括号
+        if ([self isOperator: lastStr] || [lastStr isEqualToString: @")"]) {
+            // 弹出栈顶的运算符
+            [self.calculatorModel popOperator];
+            [self.calculatorModel.downString deleteCharactersInRange: NSMakeRange(self.calculatorModel.downString.length - 1, 1)];
+            // 弹出运算符之后判断前面的是数字还是括号
+            NSString* frontStr = [self.calculatorModel.downString substringWithRange: NSMakeRange(self.calculatorModel.downString.length - 1, 1)];
+            // 是数字, 将数字栈中最后一个数字取出来进行编辑
+            if ([self isNumber: frontStr]) {
+                NSDecimalNumber* number = [self.calculatorModel.numberStack lastObject];
+                self.calculatorModel.temporaryString = [NSMutableString stringWithFormat: @"%@", number];
+            }
+        }
+        
+        // 最后一个字符是左括号
+        if ([lastStr isEqualToString: @"("]) {
+            [self.calculatorModel.downString deleteCharactersInRange: NSMakeRange(self.calculatorModel.downString.length - 1, 1)];
+            [self.calculatorModel popOperator];
+        }
+    }
+    return;
+}
+ 
+
+
+// 输入数字或者小数点
+- (void) pressNumber: (NSString*) title {
+    // 清空上一次计算数据
+    if (self.calculatorModel.upString.length > 0) {
+        [self removeAll];
+    }
+    
+    if (self.calculatorModel.downString.length > 0) {
+        NSString* lastStr = [self.calculatorModel.downString substringFromIndex: self.calculatorModel.downString.length - 1];
+        // ) 后面直接接数字,输入无效
+        if ([lastStr isEqualToString: @")"]) {
+            return;
+        }
+    }
+     
+    // 如果已经存在小数点,输入无效
+    if ([title isEqualToString: @"."]) {
+        if (self.pointNum > 0) {
+            return;
+        } else {
+            self.pointNum++;
+        }
+    }
+    
+    [self.calculatorModel.temporaryString appendString: title];
+    [self.calculatorModel.downString appendString: title];
+    return;
+}
+
+
+// 输入运算符或者括号
+- (void) pressOperator: (NSString*) title {
+    if (self.calculatorModel.downString.length == 0) {
+        if ([title isEqualToString: @"-"] || [title isEqualToString: @"("]) {
+            [self.calculatorModel.downString appendString: title];
+            return;
+        } else {
+            return;
+        }
+    }
+    
+    
+    NSString* lastStr = [self.calculatorModel.downString substringFromIndex: self.calculatorModel.downString.length - 1];
+
+    // 输入运算符
+    if ([self isOperator: title]) {
+        
+        // 小数点后直接跟运算符, 不合法, 输入无效
+        // 左括号后直接跟运算符, 不合法
+        if ([lastStr isEqualToString: @"."] || [lastStr isEqualToString: @"("]) {
+            return;
+        }
+        
+        // 最后一个是运算符, 替换
+        if ([self isOperator: lastStr]) {
+            [self.calculatorModel popOperator];
+            [self.calculatorModel.downString deleteCharactersInRange: NSMakeRange(self.calculatorModel.downString.length - 1, 1)];
+            [self.calculatorModel pushOperator: title];
+            [self.calculatorModel.downString appendString: title];
+            return;
+        } else {
+        
+            // 输入 - ,判断负号还是减号
+            if ([title isEqualToString: @"-"]) {
+                // 如果 - 位于算式的开头,为负号
+                if (self.calculatorModel.downString.length == 0) {
+                    [self.calculatorModel.temporaryString appendString: title];
+                    [self.calculatorModel.downString appendString: title];
+                    return;
+                } else {
+                    // 如果 - 前面是(,为负号
+                    if ([lastStr isEqualToString: @"("]) {
+                        [self.calculatorModel.temporaryString appendString: title];
+                        [self.calculatorModel.downString appendString: title];
+                        return;
+                    }
+                }
+            }
+            
+            // 将当前的数字压入栈
+            [self.calculatorModel pushNumber: self.calculatorModel.temporaryString];
+            [self.calculatorModel pushOperator: title];
+            
+        }
+    } else if ([title isEqualToString: @"("]) {
+        
+        // ( 前为 . 或 ), 不合法
+        if ([lastStr isEqualToString: @"."] || [lastStr isEqualToString: @")"]) {
+            return;
+        }
+            
+    } else if ([title isEqualToString: @")"]) {
+        
+        // ) 前为 . 或 ( 或 运算符, 不合法, 输入无效
+        if ([lastStr isEqualToString: @"."] || [lastStr isEqualToString: @"("] || [self isOperator: lastStr]) {
+            return;
+        }
+        
+    }
+    [self.calculatorModel.downString appendString: title];
+    return;
+}
+
+
+
+
+
+#pragma mark - 辅助方法
+//清除
+- (void) removeAll {
+    [self.calculatorModel.numberStack removeAllObjects];
+    [self.calculatorModel.operatorsStack removeAllObjects];
+    [self.calculatorModel.upString setString: @""];
+    [self.calculatorModel.downString setString: @""];
+    [self.calculatorModel.temporaryString setString: @""];
+    [self.calculatorModel.resultString setString: @""];
+    
+    self.calculatorView.upLabel.text = @"";
+    self.calculatorView.downLabel.text = @"";
+    
+    self.pointNum = 0;
+}
+
+
+// 刷新显示
+- (void) reloadLabels {
+    self.calculatorView.upLabel.text = self.calculatorModel.upString;
+    self.calculatorView.downLabel.text = self.calculatorModel.downString;
+}
+
+// 判断是否数字
+- (BOOL) isNumber: (NSString*)title {
+    unichar ch = [title characterAtIndex: 0];
+    return (ch >= '0' && ch <= '9');
+}
+
+// 判断是否运算符
+- (BOOL) isOperator:(NSString *)op {
+    return ([op isEqualToString:@"+"] || [op isEqualToString:@"-"] || [op isEqualToString:@"x"] || [op isEqualToString:@"÷"]);
+}
+
+ 
+// 获取运算符优先级
+- (int)priority:(NSString *)op {
+    if ([op isEqualToString:@"x"] || [op isEqualToString:@"÷"]) {
+        return 2;
+    }
+    if ([op isEqualToString:@"+"] || [op isEqualToString:@"-"]) {
+        return 1;
+    }
+    if ([op isEqualToString:@"("]) {
+        return 3;
+    }
+    return -1;
+}
+
+
+
+
+
+// 执行计算
+- (void)calculate {
+    if (self.calculatorModel.numberStack.count < 2) {
+        return;
+    }
+    if (self.calculatorModel.operatorsStack.count == 0) {
+        return;
+    }
+    
+    // 弹出右操作数
+    NSDecimalNumber *right = [self.calculatorModel popNumber];
+    // 弹出左操作数
+    NSDecimalNumber *left = [self.calculatorModel popNumber];
+    
+    // 弹出运算符
+    NSString *op = [self.calculatorModel popOperator];
+    
+    NSDecimalNumber *result = nil;
+    
+    if ([op isEqualToString:@"+"]) {
+        result = [left decimalNumberByAdding:right];
+        
+    } else if ([op isEqualToString:@"-"]) {
+        result = [left decimalNumberBySubtracting:right];
+        
+    } else if ([op isEqualToString:@"x"]) {
+        result = [left decimalNumberByMultiplyingBy:right];
+        
+    } else if ([op isEqualToString:@"÷"]) {
+        
+        if ([right isEqualToNumber:[NSDecimalNumber zero]]) {
+            // 除零错误
+            self.calculatorModel.downString = [NSMutableString stringWithString:@"Error"];
+            [self reloadLabels];
+            return;
+        }
+        result = [left decimalNumberByDividingBy:right];
+    }
+    
+    if (result) {
+        [self.calculatorModel.numberStack addObject:result];
+        // 更新临时字符串
+        self.calculatorModel.temporaryString = [NSMutableString stringWithFormat:@"%@", result];
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -71,18 +452,6 @@
 
 
 #pragma mark - 输入运算
-// 点击AC
-- (void) removeAll {
-    [self.calculatorModel.numberStack removeAllObjects];
-    [self.calculatorModel.operatorsStack removeAllObjects];
-    [self.calculatorModel.upString setString: @""];
-    [self.calculatorModel.downString setString: @""];
-    [self.calculatorModel.temporaryString setString: @""];
-    [self.calculatorModel.resultString setString: @""];
-    
-    self.calculatorView.upLabel.text = @"";
-    self.calculatorView.downLabel.text = @"";
-}
 
 // 点击 =
 - (void) pressEqual01 {
@@ -128,6 +497,8 @@
     expr = [expr stringByReplacingOccurrencesOfString:@"÷" withString:@"/"];
     
     // 给末尾如果是整数就加上.0,可以计算浮点数
+     
+    expr = [self convertIntegersToFloats: expr];
     
     // 调用 NSExpression 计算
     // 转换为可以计算的 NSExpression对象
@@ -153,12 +524,64 @@
         // 不用千位分隔符
         formatter.usesGroupingSeparator = NO;
         
-        return [formatter stringFromNumber:num];
+        NSString* result = [formatter stringFromNumber:num];
+        if ([result isEqualToString: @"-0"]) {
+            result = @"0";
+        }
+        return result;
     }
     return nil;
 }
 
+// 将表达式中的整数转为浮点数格式
+- (NSString *)convertIntegersToFloats:(NSString *)expression {
+    NSMutableString *result = [NSMutableString string];
+    NSMutableString *currentNumber = [NSMutableString string];
+    // 是否包含小数点
+    BOOL hasDecimal = NO;
+    
+    BOOL isNumber = NO;
+    
+    for (NSInteger i = 0; i < expression.length; i++) {
+        unichar ch = [expression characterAtIndex:i];
+        
+        // 如果是数字或小数点
+        if ((ch >= '0' && ch <= '9') || ch == '.') {
+            if (ch == '.') {
+                hasDecimal = YES;
+            }
+            [currentNumber appendFormat:@"%C", ch];
+            isNumber = YES;
+        } else {
+            // 遇到运算符或括号，处理之前的数字
+            if (isNumber) {
+                if (!hasDecimal) {
+                    // 整数 → 转为浮点数格式
+                    [result appendFormat:@"%@.0", currentNumber];
+                } else {
 
+                    [result appendString:currentNumber];
+                }
+                [currentNumber setString:@""];
+                hasDecimal = NO;
+                isNumber = NO;
+            }
+            // 添加运算符
+            [result appendFormat:@"%C", ch];
+        }
+    }
+    
+    // 处理最后一个数字
+    if (isNumber) {
+        if (!hasDecimal) {
+            [result appendFormat:@"%@.0", currentNumber];
+        } else {
+            [result appendString:currentNumber];
+        }
+    }
+    
+    return result;
+}
 
 
 
@@ -213,6 +636,11 @@
         
         // 小数点后接操作符
         if([current isEqualToString: @"."] && ([self isOperator:next])) {
+            return NO;
+        }
+        
+        // 除以 0
+        if ([current isEqualToString: @"÷"] && [next isEqualToString: @"0"]) {
             return NO;
         }
     }
@@ -271,151 +699,4 @@
     
     return YES;
 }
-
-
-#pragma mark - 辅助方法
-
-// 刷新显示
-- (void) reloadLabels {
-    self.calculatorView.upLabel.text = self.calculatorModel.upString;
-    self.calculatorView.downLabel.text = self.calculatorModel.downString;
-}
-
-// 进行计算
-- (void) calculate {
-    NSLog(@"calculator");
-}
-
-// 判断是否数字
-- (BOOL) isNumber: (NSString*)title {
-    unichar ch = [title characterAtIndex: 0];
-    return (ch >= '0' && ch <= '9');
-}
-
-// 判断是否运算符
-- (BOOL) isOperator:(NSString *)op {
-    return ([op isEqualToString:@"+"] || [op isEqualToString:@"-"] || [op isEqualToString:@"x"] || [op isEqualToString:@"÷"]);
-}
-
-
-// 判断是否更优先
-- (BOOL) isprior: (NSString*) title {
-    NSString* lastStr = self.calculatorModel.operatorsStack.lastObject;
-    if ([title isEqualToString: @"x"] || [title isEqualToString: @"÷"]) {
-        if (([lastStr isEqualToString: @"+"] )|| [lastStr isEqualToString: @"-"]) {
-            return YES;
-        } else {
-            return NO;
-        }
-    } else if ([title isEqualToString: @"("]) {
-        return YES;
-    } else if ([title isEqualToString: @")"]) {
-        return NO;
-    }
-    return NO; 
-}
-
-
-
-
-
-
-
-
-
-
-#pragma mark - 使用双栈
-- (void) pressBtn02: (UIButton*) button {
-
-    NSString* title = button.currentTitle;
-    if ([title isEqualToString: @"AC"]) {
-        // 全部清空
-        [self removeAll];
-    } else if ([title isEqualToString: @"="]) {
-        [self pressEqual02];
-
-    } else if ([title isEqualToString: @"⌫"]) {
-        [self pressDelete02];
-    } else {
-        if ([title isEqualToString: @"."] || [self isNumber: title]) {
-            [self pressNumber: title];
-        } else {
-            NSString* lastStr = [self.calculatorModel.downString substringFromIndex: self.calculatorModel.downString.length - 1];
-            if ([self isOperator: lastStr]) {
-                // 最后一个是运算符, 替换
-                [self.calculatorModel popOperator];
-                [self.calculatorModel.downString deleteCharactersInRange: NSMakeRange(self.calculatorModel.downString.length - 1, 1)];
-                [self.calculatorModel pushOperator: title];
-            } else {
-                if ([self isprior: title]) {
-                    [self.calculatorModel pushOperator: title];
-                } else {
-                    [self calculate];
-                }
-            }
-        }
-    }
-    [self reloadLabels];
-}
-
-
-
-// 点击 =
-- (void) pressEqual02 {
-    if (self.calculatorModel.upString.length == 0) {
-
-        [self.calculatorModel pushNumber: self.calculatorModel.temporaryString];
-        
-        [self calculate];
-        self.calculatorModel.downString = [NSMutableString stringWithFormat: @"%@", [self.calculatorModel.numberStack lastObject]];
-        if (self.calculatorModel.resultString.length > 0) {
-            self.calculatorView.downLabel.text = self.calculatorModel.resultString;
-            return;
-        }
-    }
-}
-
-
-
-//     点击退格
-- (void) pressDelete02 {
-    if (self.calculatorModel.upString.length > 0) {
-
-        // 下方的数字转换为字符串,退格
-        NSDecimalNumber* number = [self.calculatorModel popNumber];
-        self.calculatorModel.temporaryString = [NSMutableString stringWithFormat: @"%@", number];
-        [self.calculatorModel.temporaryString deleteCharactersInRange: NSMakeRange(self.calculatorModel.temporaryString.length - 1, 1)];
-
-        // 将上面的字符转移下来, 上方清空
-        self.calculatorModel.downString = self.calculatorModel.upString;
-        [self.calculatorModel.upString setString: @""];
-
-    } else if (self.calculatorModel.downString.length > 0) {
-
-        NSString* lastStr = [self.calculatorModel.downString substringFromIndex: self.calculatorModel.downString.length - 1];
-        if ([self isOperator: lastStr]) {
-            [self.calculatorModel popOperator];
-
-            NSDecimalNumber* number = [self.calculatorModel.numberStack lastObject];
-            self.calculatorModel.temporaryString = [NSMutableString stringWithFormat: @"%@", number];
-
-        } else {
-
-            [self.calculatorModel.temporaryString deleteCharactersInRange: NSMakeRange(self.calculatorModel.temporaryString.length - 1, 1)];
-        }
-    }
-    [self.calculatorModel.downString deleteCharactersInRange: NSMakeRange(self.calculatorModel.downString.length - 1, 1)];
-}
-
-// 输入数字
-- (void) pressNumber: (NSString*) title {
-    if (self.calculatorModel.upString.length > 0) {
-        [self removeAll];
-    }
-    [self.calculatorModel.downString appendString: title];
-    [self.calculatorModel.temporaryString appendString: title];
-    return;
-}
-
-
 @end
