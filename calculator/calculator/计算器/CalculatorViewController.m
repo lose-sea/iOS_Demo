@@ -257,14 +257,14 @@
         if ([lastStr isEqualToString: @"."] || [lastStr isEqualToString: @")"]) {
             return;
         }
-            
+        [self.calculatorModel.downString appendString: title];
+
     } else if ([title isEqualToString: @")"]) {
         
         // ) 前为 . 或 ( 或 运算符, 不合法, 输入无效
         if ([lastStr isEqualToString: @"."] || [lastStr isEqualToString: @"("] || [self isOperator: lastStr]) {
             return;
         }
-        
     }
     [self.calculatorModel.downString appendString: title];
     return;
