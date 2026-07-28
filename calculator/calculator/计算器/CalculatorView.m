@@ -18,8 +18,6 @@
 }
 
 - (void) setUpinterface {
-    self.upLabel = [[UILabel alloc] init];
-    self.downLabel = [[UILabel alloc] init];
     
     self.keyboard = [self createKeyboard];
     [self addSubview: self.keyboard];
@@ -40,7 +38,12 @@
     }];
     self.downLabel.adjustsFontSizeToFitWidth = YES;
     self.downLabel.textColor = [UIColor labelColor];
-    self.downLabel.backgroundColor = [UIColor systemRedColor];
+    self.downLabel.font = [UIFont systemFontOfSize: 50];
+    // 设置最小字体大小为当前字体大小一半
+//    self.downLabel.minimumScaleFactor = 0.5;
+    self.downLabel.textAlignment = NSTextAlignmentRight;  // 右对齐
+    
+//    self.downLabel.backgroundColor = [UIColor systemRedColor];
     
     self.upLabel = [[UILabel alloc] init];
     [self addSubview: self.upLabel];
@@ -51,45 +54,12 @@
     }];
     self.upLabel.adjustsFontSizeToFitWidth = YES;
     self.upLabel.textColor = [UIColor labelColor];
+    self.upLabel.textAlignment = NSTextAlignmentRight;
+    self.upLabel.font = [UIFont systemFontOfSize: 40];
+//    self.upLabel.minimumScaleFactor = 0.5;
 
-    self.upLabel.backgroundColor = [UIColor systemCyanColor];
-}
-
-
-- (UIStackView *)createRowWithTitles:(NSArray<NSString *> *)titles {
-    NSMutableArray *buttons = [NSMutableArray array];
-    for (NSString *title in titles) {
-        UIButton *btn = [UIButton buttonWithType:UIButtonTypeSystem];
-        [btn setTitle:title forState:UIControlStateNormal];
-        btn.titleLabel.font = [UIFont systemFontOfSize: 30];
-        btn.backgroundColor = [UIColor lightGrayColor];
-        
-        btn.backgroundColor = [UIColor colorWithWhite: 0.4 alpha: 0.7];
-        [btn setTitleColor: [UIColor labelColor] forState: UIControlStateNormal]; 
-        
-        
-        if (title == [titles lastObject]) {
-            btn.backgroundColor = [UIColor systemOrangeColor];
-        }
-        [btn setBackgroundImage: [UIImage imageNamed: @"1.png"] forState: UIControlStateHighlighted];
-        
-        btn.clipsToBounds = YES;
-        btn.layer.cornerRadius = 40;
-        [buttons addObject:btn];
-    }
-    
-    // 创建横向的UIStackView
-    UIStackView *rowStack = [[UIStackView alloc] initWithArrangedSubviews:buttons];
-    // 水平排列
-    rowStack.axis = UILayoutConstraintAxisHorizontal;
-    // 平分宽度
-    rowStack.distribution = UIStackViewDistributionFillEqually;
-    // 填充高度
-    rowStack.alignment = UIStackViewAlignmentFill;
-    // 按钮间距
-    rowStack.spacing = 10;
-    
-    return rowStack;
+    self.upLabel.textColor = [UIColor colorWithWhite: 1 alpha: 0.8];
+//    self.upLabel.backgroundColor = [UIColor systemCyanColor];
 }
 
 
@@ -97,7 +67,7 @@
     // 模拟计算器的 4 行数据
     NSArray *rowData = @[
         @[@"AC", @"(", @")", @"÷"],
-        @[@"7", @"8", @"9", @"×"],
+        @[@"7", @"8", @"9", @"x"],
         @[@"4", @"5", @"6", @"-"],
         @[@"1", @"2", @"3", @"+"],
         @[@"⌫", @"0", @".", @"="]
@@ -123,6 +93,43 @@
     keyboardStack.spacing = 10;
     
     return keyboardStack;
+}
+
+
+- (UIStackView *)createRowWithTitles:(NSArray<NSString *> *)titles {
+    NSMutableArray *buttons = [NSMutableArray array];
+    for (NSString *title in titles) {
+        UIButton *btn = [UIButton buttonWithType:UIButtonTypeSystem];
+        [btn setTitle:title forState:UIControlStateNormal];
+        btn.titleLabel.font = [UIFont systemFontOfSize: 30];
+        btn.backgroundColor = [UIColor lightGrayColor];
+        
+        btn.backgroundColor = [UIColor colorWithWhite: 0.4 alpha: 0.7];
+        [btn setTitleColor: [UIColor labelColor] forState: UIControlStateNormal];
+        
+        
+        if (title == [titles lastObject]) {
+            btn.backgroundColor = [UIColor systemOrangeColor];
+        }
+        [btn setBackgroundImage: [UIImage imageNamed: @"1.png"] forState: UIControlStateHighlighted];
+        
+        btn.clipsToBounds = YES;
+        btn.layer.cornerRadius = 40;
+        [buttons addObject:btn];
+    }
+    
+    // 创建横向的UIStackView
+    UIStackView *rowStack = [[UIStackView alloc] initWithArrangedSubviews:buttons];
+    // 水平排列
+    rowStack.axis = UILayoutConstraintAxisHorizontal;
+    // 平分宽度
+    rowStack.distribution = UIStackViewDistributionFillEqually;
+    // 填充高度
+    rowStack.alignment = UIStackViewAlignmentFill;
+    // 按钮间距
+    rowStack.spacing = 10;
+    
+    return rowStack;
 }
 
 /*
