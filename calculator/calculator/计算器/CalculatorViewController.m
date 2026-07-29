@@ -49,6 +49,9 @@
 
     NSString* title = button.currentTitle;
     if ([title isEqualToString: @"AC"]) {
+        if ([self checkLength]) {
+            return;
+        }
         // 全部清空
         [self removeAll];
     } else if ([title isEqualToString: @"="]) {
@@ -59,9 +62,15 @@
         [self pressDelete02];
         
     } else if ([title isEqualToString: @"."] || [self isNumber: title]) {
+        if ([self checkLength]) {
+            return;
+        }
         // 输入数字或者小数点
         [self pressNumber: title];
     } else if ([self isOperator: title] || [title isEqualToString: @"("] || [title isEqualToString: @")"]) {
+        if ([self checkLength]) {
+            return;
+        }
         // 输入运算符或括号
         [self pressOperator: title];
     }
@@ -76,7 +85,10 @@
 
 // 点击 =
 - (void) pressEqual02 {
-    
+    if (self.calculatorModel.operatorsStack.count == 0) {
+        self.calculatorModel.upString = [self.calculatorModel.downString mutableCopy];
+        return;  
+    }
     // 计算式为空
     if (self.calculatorModel.downString.length == 0) {
         return;
@@ -100,15 +112,18 @@
         [self.calculatorModel.downString deleteCharactersInRange: NSMakeRange(self.calculatorModel.downString.length - 1,  1)];
     }
     
-    // 如果数字后直接跟括号,在中间加上 x
-    for (NSInteger i = 0; i < self.calculatorModel.downString.length - 1; i++) {
-        NSString* currch = [self.calculatorModel.downString substringWithRange:NSMakeRange(i, 1)];
-        NSString* nextch = [self.calculatorModel.downString substringWithRange:NSMakeRange(i + 1, 1)];
-        if ([self isNumber: currch] && [nextch isEqualToString: @"("]) {
-            [self.calculatorModel.downString insertString: @"x" atIndex: i + 1];
+    if (self.calculatorModel.downString.length > 2) {
+        // 如果数字后直接跟括号,在中间加上 x
+        for (NSInteger i = 0; i < self.calculatorModel.downString.length - 1; i++) {
+            NSString* currch = [self.calculatorModel.downString substringWithRange:NSMakeRange(i, 1)];
+            NSString* nextch = [self.calculatorModel.downString substringWithRange:NSMakeRange(i + 1, 1)];
+            if ([self isNumber: currch] && [nextch isEqualToString: @"("]) {
+                [self.calculatorModel.downString insertString: @"x" atIndex: i + 1];
+            }
+            
         }
-        
     }
+    
     
     
     // 检验左右括号是否匹配
@@ -228,7 +243,7 @@
         // 十进制风格
         formatter.numberStyle = NSNumberFormatterDecimalStyle;
         // 最多保留10位小数
-        formatter.maximumFractionDigits = 10;
+        formatter.maximumFractionDigits = 8;
         // 最少保留0位小数
         formatter.minimumFractionDigits = 0;
         // 四舍五入
@@ -375,23 +390,32 @@
         [self removeAll];
     }
     
-    if (self.calculatorModel.downString.length > 0) {
-        NSString* lastStr = [self.calculatorModel.downString substringFromIndex: self.calculatorModel.downString.length - 1];
-        // ) 后面直接接数字,输入无效
-        if ([lastStr isEqualToString: @")"]) {
-            return;
-        }
+    if (self.calculatorModel.downString.length == 0) {
+        [self.calculatorModel.temporaryString appendString: title];
+        [self.calculatorModel.downString appendString: title];
+        return;
     }
+    
+    NSString* lastStr = [self.calculatorModel.downString substringFromIndex: self.calculatorModel.downString.length - 1];
+
+        
+    // ) 后面直接接数字,输入无效
+    if ([lastStr isEqualToString: @")"]) {
+        return;
+    }
+    
      
     // 如果已经存在小数点,输入无效
     if ([title isEqualToString: @"."]) {
         if (self.pointNum > 0) {
             return;
+        } else if ([self isOperator: lastStr]) {
+            // 运算符后直接跟小数字点, 无效
+            return;
         } else {
             self.pointNum++;
         }
     }
-    
     [self.calculatorModel.temporaryString appendString: title];
     [self.calculatorModel.downString appendString: title];
     return;
@@ -401,8 +425,9 @@
 // 输入运算符或者括号
 - (void) pressOperator: (NSString*) title {
     if (self.calculatorModel.upString.length > 0) {
-        [self.calculatorModel.upString setString: @""]; 
+        [self.calculatorModel.upString setString: @""];
     }
+    
 //    NSLog(@"点击了operator");
     if (self.calculatorModel.downString.length == 0) {
         if ([title isEqualToString: @"-"]) {
@@ -423,7 +448,6 @@
 
     // 输入运算符
     if ([self isOperator: title]) {
-        
         // 小数点后直接跟运算符, 不合法, 输入无效
         // 左括号后直接跟运算符, 不合法
         if ([lastStr isEqualToString: @"."] || [lastStr isEqualToString: @"("]) {
@@ -432,6 +456,16 @@
         
         // 最后一个是运算符, 替换
         if ([self isOperator: lastStr]) {
+            if (self.calculatorModel.downString.length == 1) {
+                return;
+            } else if ([lastStr isEqualToString: @"-"]) {
+                NSString* frontStr = [self.calculatorModel.downString substringWithRange:NSMakeRange(self.calculatorModel.downString.length - 2, 1)];
+                if ([frontStr isEqualToString: @"("]) {
+                    return;
+                }
+            }
+                
+                
             [self.calculatorModel popOperator];
             [self.calculatorModel.downString deleteCharactersInRange: NSMakeRange(self.calculatorModel.downString.length - 1, 1)];
             [self.calculatorModel pushOperator: title];
@@ -508,6 +542,13 @@
     self.calculatorView.downLabel.text = @"";
     
     self.pointNum = 0;
+}
+
+- (BOOL) checkLength {
+    if (self.calculatorModel.downString.length > 20) {
+        return YES;
+    }
+    return NO;
 }
 
 
