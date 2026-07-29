@@ -87,7 +87,7 @@
 - (void) pressEqual02 {
     if (self.calculatorModel.operatorsStack.count == 0) {
         self.calculatorModel.upString = [self.calculatorModel.downString mutableCopy];
-        return;  
+        return;
     }
     // 计算式为空
     if (self.calculatorModel.downString.length == 0) {
@@ -391,6 +391,9 @@
     }
     
     if (self.calculatorModel.downString.length == 0) {
+        if ([title isEqualToString: @"."]) {
+            self.pointNum++; 
+        }
         [self.calculatorModel.temporaryString appendString: title];
         [self.calculatorModel.downString appendString: title];
         return;
