@@ -13,7 +13,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface CalculatorViewController : UIViewController
 @property (nonatomic, strong) CalculatorModel* calculatorModel;
-@property (nonatomic, strong) CalculatorView* calculatorView; 
+@property (nonatomic, strong) CalculatorView* calculatorView;
 @end
 
 NS_ASSUME_NONNULL_END

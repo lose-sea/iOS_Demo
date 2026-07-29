@@ -9,18 +9,20 @@
 
 @interface CalculatorViewController ()
 @property (nonatomic, assign) int pointNum;
-@property (nonatomic, assign) BOOL isValid;
+
 @end
 
 @implementation CalculatorViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    NSLog(@"hello");
+//    NSLog(@"hello");
     //    NSLog(@"%lf", 8/0);
     // Do any additional setup after loading the view.
     [self setUpData];
     [self setUpInterface];
+    
+//    NSLog(@"按钮数量:%lu", (unsigned long)self.calculatorView.keyboard.arrangedSubviews.count);
     
 }
 
@@ -37,7 +39,7 @@
     
     for (UIStackView* rowStackView in self.calculatorView.keyboard.arrangedSubviews) {
         for (UIButton* button in rowStackView.arrangedSubviews) {
-            [button addTarget: self action: @selector(pressBtn02:) forControlEvents: UIControlEventTouchUpInside];
+            [button addTarget:self action: @selector(pressBtn02: ) forControlEvents: UIControlEventTouchUpInside];
         }
     }
 }
@@ -60,11 +62,15 @@
     } else if ([title isEqualToString: @"."] || [self isNumber: title]) {
         // 输入数字或者小数点
         [self pressNumber: title];
-    } else if ([self isOperator: title]) {
+    } else if ([self isOperator: title] || [title isEqualToString: @"("] || [title isEqualToString: @")"]) {
         // 输入运算符或括号
         [self pressOperator: title];
     }
+    NSLog(@"当前tempString: %@", self.calculatorModel.temporaryString);
+    NSLog(@"当前downString: %@", self.calculatorModel.downString);
     
+//    NSLog(@"numberStack: %@", self.calculatorModel.numberStack);
+//    NSLog(@"operaStack: %@", self.calculatorModel.operatorsStack);
     [self reloadLabels];
 }
 
@@ -72,23 +78,160 @@
 
 // 点击 =
 - (void) pressEqual02 {
-    if (self.calculatorModel.upString.length == 0) {
-
+    
+    NSString* lastStr = [self.calculatorModel.downString substringFromIndex: self.calculatorModel.downString.length - 1];
+    if ([self isNumber: lastStr]) {
         [self.calculatorModel pushNumber: self.calculatorModel.temporaryString];
-        
-        [self calculate];
-        self.calculatorModel.downString = [NSMutableString stringWithFormat: @"%@", [self.calculatorModel.numberStack lastObject]];
-        if (self.calculatorModel.resultString.length > 0) {
-            self.calculatorView.downLabel.text = self.calculatorModel.resultString;
+        [self.calculatorModel.temporaryString setString: @""];
+    }
+    
+    if ([lastStr isEqualToString: @"x"] || [lastStr isEqualToString: @"÷"]) {
+        self.calculatorModel.upString = [self.calculatorModel.downString mutableCopy];
+        [self.calculatorModel.downString setString: @"error"];
+        return;
+    }
+    if ([lastStr isEqualToString: @"+"] || [lastStr isEqualToString: @"-"] || [lastStr isEqualToString: @"."] || [lastStr isEqualToString: @"("] || [lastStr isEqualToString: @")"]) {
+        [self.calculatorModel.downString deleteCharactersInRange: NSMakeRange(self.calculatorModel.downString.length - 1,  1)];
+    }
+    if (self.calculatorModel.downString.length == 0) {
+        return;
+    }
+    
+    // 检验左右括号是否匹配
+    NSInteger balance = 0;
+    for (NSInteger i = 0; i < self.calculatorModel.downString.length; i++) {
+        NSString* ch = [self.calculatorModel.downString substringWithRange: NSMakeRange(i, 1)];
+        if ([ch isEqualToString: @"("]) {
+            balance++;
+        } else if ([ch isEqualToString: @")"]) {
+            balance--;
+        }
+        if (balance < 0) {
+            self.calculatorModel.upString = [self.calculatorModel.downString mutableCopy];
+            [self.calculatorModel.downString setString: @"error"];
             return;
         }
     }
+    
+    if (balance > 0) {
+        for (NSInteger i = 0; i < balance; i++) {
+            [self.calculatorModel.downString appendString: @")"];
+        }
+    }
+    
+    
+    // 当前完整的中缀表达式
+//    NSString* infix = self.calculatorModel.downString;
+    [self.calculatorModel.temporaryString  setString: @""];
+//    [self.calculatorModel.numberStack removeAllObjects];
+//    [self.calculatorModel.operatorsStack removeAllObjects];
+    
+    // 创建两个临时栈存储数字和运算符
+    NSMutableArray* numStack = self.calculatorModel.numberStack;
+    NSMutableArray* opStack = self.calculatorModel.operatorsStack;
+    
+    for (NSInteger i = 0; i < self.calculatorModel.downString.length; i++) {
+        NSString* ch = [self.calculatorModel.downString substringWithRange: NSMakeRange(i,  1)];
+        
+        
+        if ([self isNumber: ch] || [ch isEqualToString: @"."]) {
+            NSMutableString* numStr = [NSMutableString string];
+            while (((i < self.calculatorModel.downString.length) && ([self.calculatorModel.downString characterAtIndex: i] >= '0') && ([self.calculatorModel.downString characterAtIndex: i] <= '9')) || [self.calculatorModel.downString characterAtIndex: i] == '.') {
+                [numStr appendFormat: @"%C", [self.calculatorModel.downString characterAtIndex: i]];
+                i++;
+            }
+            i--;
+            
+            [self.calculatorModel pushNumber: numStr];
+        } else if ([self isOperator: ch]) {
+            NSString *currentOp = ch;
+            int currentPriority = [self priority:currentOp];
+            
+            while (opStack.count > 0) {
+                // 获取栈顶的运算符
+                NSString *topOp = [opStack lastObject];
+                
+                // 如果是 ( ,直接压栈
+                if ([topOp isEqualToString:@"("]) {
+                    break;
+                }
+                
+                int topPriority = [self priority:topOp];
+                
+                // 栈顶运算符优先级大于当前运算符优先级
+                if (topPriority >= currentPriority) {
+                    [self evaluateTop:numStack opStack:opStack];
+                } else {
+                    break;
+                }
+            }
+            [opStack addObject:currentOp];
+        } else if ([ch isEqualToString: @"("]) {
+            [self.calculatorModel pushOperator: ch];
+        } else if ([ch isEqualToString: @")"]) {
+            // 如果是 ) ,一直计算直到遇到 (
+            while (opStack.count > 0 && ![opStack.lastObject isEqualToString:@"("]) {
+                [self evaluateTop:numStack opStack:opStack];
+            
+                if ([self.calculatorModel.downString isEqualToString:@"Error"]) {
+                    return; 
+                }
+            }
+            // 弹出左括号
+            if (opStack.count > 0 && [opStack.lastObject isEqualToString:@"("]) {
+                [opStack removeLastObject];
+            }
+        }
+        
+        while (self.calculatorModel.operatorsStack.count > 0) {
+            [self evaluateTop: self.calculatorModel.numberStack opStack: self.calculatorModel.operatorsStack];
+            if ([self.calculatorModel.downString isEqualToString:@"Error"]) {
+                return;
+            }
+        }
+        
+        
+        if (self.calculatorModel.numberStack.count == 0) {
+            return;
+        }
+        
+        NSDecimalNumber* result = [self.calculatorModel popNumber];
+        
+        self.calculatorModel.upString = [self.calculatorModel.downString mutableCopy];
+        self.calculatorModel.downString = [NSMutableString stringWithFormat: @"%@", result];
+    }
+}
+
+
+- (void)evaluateTop:(NSMutableArray *)numStack opStack:(NSMutableArray *)opStack {
+    if (numStack.count < 2 || opStack.count == 0) {
+        return;
+    }
+    NSDecimalNumber *right = [numStack lastObject]; [numStack removeLastObject];
+    NSDecimalNumber *left = [numStack lastObject]; [numStack removeLastObject];
+    NSString *op = [opStack lastObject]; [opStack removeLastObject];
+    
+    NSDecimalNumber *result = nil;
+    if ([op isEqualToString:@"+"]) result = [left decimalNumberByAdding:right];
+    else if ([op isEqualToString:@"-"]) result = [left decimalNumberBySubtracting:right];
+    else if ([op isEqualToString:@"x"]) result = [left decimalNumberByMultiplyingBy:right];
+    else if ([op isEqualToString:@"÷"]) {
+        if ([right isEqualToNumber:[NSDecimalNumber zero]]) {
+            // 除零错误
+            self.calculatorModel.downString = [NSMutableString stringWithString:@"Error"];
+            [self reloadLabels];
+            return;
+        }
+        result = [left decimalNumberByDividingBy:right];
+    }
+    if (result) [numStack addObject:result];
 }
 
 
 
 //     点击退格
 - (void) pressDelete02 {
+//    NSLog(@"点击 delete");
     if (self.calculatorModel.upString.length > 0) {
 
 //        // 下方的数字转换为字符串,退格
@@ -169,6 +312,7 @@
 
 // 输入数字或者小数点
 - (void) pressNumber: (NSString*) title {
+//    NSLog(@"点击number");
     // 清空上一次计算数据
     if (self.calculatorModel.upString.length > 0) {
         [self removeAll];
@@ -199,9 +343,15 @@
 
 // 输入运算符或者括号
 - (void) pressOperator: (NSString*) title {
+//    NSLog(@"点击了operator");
     if (self.calculatorModel.downString.length == 0) {
-        if ([title isEqualToString: @"-"] || [title isEqualToString: @"("]) {
+        if ([title isEqualToString: @"-"]) {
+            [self.calculatorModel.temporaryString appendString: title];
             [self.calculatorModel.downString appendString: title];
+            return;
+        } else if ([title isEqualToString: @"("]) {
+            [self.calculatorModel.downString appendString: title];
+            [self.calculatorModel pushOperator: title];
             return;
         } else {
             return;
@@ -248,6 +398,7 @@
             
             // 将当前的数字压入栈
             [self.calculatorModel pushNumber: self.calculatorModel.temporaryString];
+            [self.calculatorModel.temporaryString setString: @""];
             [self.calculatorModel pushOperator: title];
             
         }
@@ -256,14 +407,21 @@
         // ( 前为 . 或 ), 不合法
         if ([lastStr isEqualToString: @"."] || [lastStr isEqualToString: @")"]) {
             return;
+        } else {
+            [self.calculatorModel pushOperator: title];
         }
-        [self.calculatorModel.downString appendString: title];
 
     } else if ([title isEqualToString: @")"]) {
         
         // ) 前为 . 或 ( 或 运算符, 不合法, 输入无效
         if ([lastStr isEqualToString: @"."] || [lastStr isEqualToString: @"("] || [self isOperator: lastStr]) {
             return;
+        } else if ([self isNumber: lastStr]) {
+            [self.calculatorModel pushNumber: self.calculatorModel.temporaryString];
+            [self.calculatorModel.temporaryString setString: @""];
+            [self.calculatorModel pushOperator: title];
+        } else {
+            [self.calculatorModel pushOperator: title];
         }
     }
     [self.calculatorModel.downString appendString: title];
@@ -318,7 +476,7 @@
         return 1;
     }
     if ([op isEqualToString:@"("]) {
-        return 3;
+        return 0;
     }
     return -1;
 }
@@ -327,52 +485,52 @@
 
 
 
-// 执行计算
-- (void)calculate {
-    if (self.calculatorModel.numberStack.count < 2) {
-        return;
-    }
-    if (self.calculatorModel.operatorsStack.count == 0) {
-        return;
-    }
-    
-    // 弹出右操作数
-    NSDecimalNumber *right = [self.calculatorModel popNumber];
-    // 弹出左操作数
-    NSDecimalNumber *left = [self.calculatorModel popNumber];
-    
-    // 弹出运算符
-    NSString *op = [self.calculatorModel popOperator];
-    
-    NSDecimalNumber *result = nil;
-    
-    if ([op isEqualToString:@"+"]) {
-        result = [left decimalNumberByAdding:right];
-        
-    } else if ([op isEqualToString:@"-"]) {
-        result = [left decimalNumberBySubtracting:right];
-        
-    } else if ([op isEqualToString:@"x"]) {
-        result = [left decimalNumberByMultiplyingBy:right];
-        
-    } else if ([op isEqualToString:@"÷"]) {
-        
-        if ([right isEqualToNumber:[NSDecimalNumber zero]]) {
-            // 除零错误
-            self.calculatorModel.downString = [NSMutableString stringWithString:@"Error"];
-            [self reloadLabels];
-            return;
-        }
-        result = [left decimalNumberByDividingBy:right];
-    }
-    
-    if (result) {
-        [self.calculatorModel.numberStack addObject:result];
-        // 更新临时字符串
-        self.calculatorModel.temporaryString = [NSMutableString stringWithFormat:@"%@", result];
-    }
-}
-
+//// 执行计算
+//- (void)calculate {
+//    if (self.calculatorModel.numberStack.count < 2) {
+//        return;
+//    }
+//    if (self.calculatorModel.operatorsStack.count == 0) {
+//        return;
+//    }
+//    
+//    // 弹出右操作数
+//    NSDecimalNumber *right = [self.calculatorModel popNumber];
+//    // 弹出左操作数
+//    NSDecimalNumber *left = [self.calculatorModel popNumber];
+//    
+//    // 弹出运算符
+//    NSString *op = [self.calculatorModel popOperator];
+//    
+//    NSDecimalNumber *result = nil;
+//    
+//    if ([op isEqualToString:@"+"]) {
+//        result = [left decimalNumberByAdding:right];
+//        
+//    } else if ([op isEqualToString:@"-"]) {
+//        result = [left decimalNumberBySubtracting:right];
+//        
+//    } else if ([op isEqualToString:@"x"]) {
+//        result = [left decimalNumberByMultiplyingBy:right];
+//        
+//    } else if ([op isEqualToString:@"÷"]) {
+//        
+//        if ([right isEqualToNumber:[NSDecimalNumber zero]]) {
+//            // 除零错误
+//            self.calculatorModel.downString = [NSMutableString stringWithString:@"Error"];
+//            [self reloadLabels];
+//            return;
+//        }
+//        result = [left decimalNumberByDividingBy:right];
+//    }
+//    
+//    if (result) {
+//        [self.calculatorModel.numberStack addObject:result];
+//        // 更新临时字符串
+//        self.calculatorModel.temporaryString = [NSMutableString stringWithFormat:@"%@", result];
+//    }
+//}
+//
 
 
 
