@@ -49,9 +49,7 @@
 
     NSString* title = button.currentTitle;
     if ([title isEqualToString: @"AC"]) {
-        if ([self checkLength]) {
-            return;
-        }
+
         // 全部清空
         [self removeAll];
     } else if ([title isEqualToString: @"="]) {
@@ -94,7 +92,7 @@
 
     if ([firstStr isEqualToString: @"-"]) {
         self.calculatorModel.upString = [self.calculatorModel.downString mutableCopy];
-        [self.calculatorModel.downString insertString: @"0" atIndex: 0]; 
+        [self.calculatorModel.downString insertString: @"0" atIndex: 0];
     }
     // 计算式为空
     if (self.calculatorModel.downString.length == 0) {
@@ -191,10 +189,26 @@
             [self.calculatorModel pushNumber: numStr];
             
         } else if ([self isOperator: ch]) {
+            
+            // 判断是否为负号
+            if ([ch isEqualToString:@"-"]) {
+                // 如果当前是第一个字符，或者前一个字符是 '('，则为负号
+                if (i == 0 || [[expression substringWithRange:NSMakeRange(i-1, 1)] isEqualToString:@"("]) {
+                    // 将负号作为数字的一部分，直接拼接
+                    
+                    // 在数字栈中压入 0，然后正常处理减号
+                    [self.calculatorModel pushNumber:@"0"];
+                    [self.calculatorModel pushOperator:@"-"];
+                    continue;
+                }
+            }
+            
             NSString *currentOp = ch;
             int currentPriority = [self priority: currentOp];
             
             while (self.calculatorModel.operatorsStack.count > 0) {
+        
+                
                 // 获取栈顶的运算符
                 NSString *topOp = [self.calculatorModel.operatorsStack lastObject];
                 
@@ -255,6 +269,8 @@
         formatter.minimumFractionDigits = 0;
         // 四舍五入
         formatter.roundingMode = NSNumberFormatterRoundHalfUp;
+        // 不用千位分隔符
+        formatter.usesGroupingSeparator = NO;
         
         // 格式化结果
         NSString *formattedResult = [formatter stringFromNumber:result];
@@ -446,7 +462,7 @@
         [self.calculatorModel.upString setString: @""];
     }
     
-//    NSLog(@"点击了operator");
+    NSLog(@"点击了operator");
     if (self.calculatorModel.downString.length == 0) {
         if ([title isEqualToString: @"-"]) {
             [self.calculatorModel.temporaryString appendString: title];
@@ -466,6 +482,25 @@
 
     // 输入运算符
     if ([self isOperator: title]) {
+        
+        
+        // 输入 - ,判断负号还是减号
+        if ([title isEqualToString: @"-"]) {
+            // 如果 - 位于算式的开头,为负号
+            if (self.calculatorModel.downString.length == 0) {
+                [self.calculatorModel.temporaryString appendString: title];
+                [self.calculatorModel.downString appendString: title];
+                return;
+            } else {
+                // 如果 - 前面是(,为负号
+                if ([lastStr isEqualToString: @"("]) {
+                    [self.calculatorModel.temporaryString appendString: title];
+                    [self.calculatorModel.downString appendString: title];
+                    return;
+                }
+            }
+        }
+        
         // 小数点后直接跟运算符, 不合法, 输入无效
         // 左括号后直接跟运算符, 不合法
         if ([lastStr isEqualToString: @"."] || [lastStr isEqualToString: @"("]) {
@@ -483,7 +518,6 @@
                 }
             }
                 
-                
             [self.calculatorModel popOperator];
             [self.calculatorModel.downString deleteCharactersInRange: NSMakeRange(self.calculatorModel.downString.length - 1, 1)];
             [self.calculatorModel pushOperator: title];
@@ -491,22 +525,7 @@
             return;
         } else {
         
-            // 输入 - ,判断负号还是减号
-            if ([title isEqualToString: @"-"]) {
-                // 如果 - 位于算式的开头,为负号
-                if (self.calculatorModel.downString.length == 0) {
-                    [self.calculatorModel.temporaryString appendString: title];
-                    [self.calculatorModel.downString appendString: title];
-                    return;
-                } else {
-                    // 如果 - 前面是(,为负号
-                    if ([lastStr isEqualToString: @"("]) {
-                        [self.calculatorModel.temporaryString appendString: title];
-                        [self.calculatorModel.downString appendString: title];
-                        return;
-                    }
-                }
-            }
+            
             
             // 将当前的数字压入栈
             [self.calculatorModel pushNumber: self.calculatorModel.temporaryString];
@@ -516,7 +535,7 @@
             
         }
     } else if ([title isEqualToString: @"("]) {
-        
+//        NSLog(@"点击了(");
         // ( 前为 . 或 ), 不合法
         if ([lastStr isEqualToString: @"."] || [lastStr isEqualToString: @")"]) {
             return;
