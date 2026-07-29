@@ -85,9 +85,16 @@
 
 // 点击 =
 - (void) pressEqual02 {
-    if (self.calculatorModel.operatorsStack.count == 0) {
+//    if (self.calculatorModel.operatorsStack.count == 0) {
+//        self.calculatorModel.upString = [self.calculatorModel.downString mutableCopy];
+//        return;
+//    }
+    
+    NSString* firstStr = [self.calculatorModel.downString substringWithRange:NSMakeRange(0, 1)];
+
+    if ([firstStr isEqualToString: @"-"]) {
         self.calculatorModel.upString = [self.calculatorModel.downString mutableCopy];
-        return;
+        [self.calculatorModel.downString insertString: @"0" atIndex: 0]; 
     }
     // 计算式为空
     if (self.calculatorModel.downString.length == 0) {
@@ -252,13 +259,21 @@
         // 格式化结果
         NSString *formattedResult = [formatter stringFromNumber:result];
         
+//        NSString* firstStr = [formattedResult substringWithRange:NSMakeRange(0, 1)];
+//        
+//        if ([firstStr isEqualToString: @"."]) {
+//            self.calculatorModel.upString = [self.calculatorModel.downString mutableCopy];
+//
+//            self.calculatorModel.downString = [NSMutableString stringWithFormat: @"0%@", formattedResult];
+//            return;
+//        }
+        
         self.calculatorModel.upString = [self.calculatorModel.downString mutableCopy];
         self.calculatorModel.downString = [NSMutableString stringWithFormat: @"%@", formattedResult];
         
 //        self.calculatorModel.upString = [self.calculatorModel.downString mutableCopy];
 //        self.calculatorModel.downString = [NSMutableString stringWithFormat: @"%@", result];
     }
-    
 }
 
 
@@ -392,7 +407,7 @@
     
     if (self.calculatorModel.downString.length == 0) {
         if ([title isEqualToString: @"."]) {
-            self.pointNum++; 
+            self.pointNum++;
         }
         [self.calculatorModel.temporaryString appendString: title];
         [self.calculatorModel.downString appendString: title];
