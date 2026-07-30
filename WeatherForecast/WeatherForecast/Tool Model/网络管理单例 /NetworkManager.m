@@ -44,7 +44,7 @@
     self = [super init];
     if (self) {
         
-        // 保证代码只执行一次
+        // 保证初始化只执行一次
         static dispatch_once_t onceToken;
         dispatch_once(&onceToken, ^{
             NSURLSessionConfiguration *config = [NSURLSessionConfiguration defaultSessionConfiguration];
