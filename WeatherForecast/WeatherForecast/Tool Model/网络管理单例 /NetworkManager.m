@@ -40,22 +40,25 @@
     return [self sharedManager];
 }
 
-- (instancetype)init
-{
+- (instancetype)init {
     self = [super init];
     if (self) {
-
         
-        NSURLSessionConfiguration *config = [NSURLSessionConfiguration defaultSessionConfiguration];
-        config.timeoutIntervalForRequest = 15.0;
-        self.session = [NSURLSession sessionWithConfiguration:config];
+        // 保证代码只执行一次
+        static dispatch_once_t onceToken;
+        dispatch_once(&onceToken, ^{
+            NSURLSessionConfiguration *config = [NSURLSessionConfiguration defaultSessionConfiguration];
+            config.timeoutIntervalForRequest = 15.0;
+            self.session = [NSURLSession sessionWithConfiguration:config];
 
-        self.runningTasks = [NSMutableDictionary dictionary];
+            self.runningTasks = [NSMutableDictionary dictionary];
 
-        // 创建串行任务队列
-        // 参数1: 队列的名字
-        // 参数2: 串行属性
-        self.syncQueue =dispatch_queue_create("com.weather.sync",DISPATCH_QUEUE_SERIAL);
+            // 创建串行任务队列
+            // 参数1: 队列的名字
+            // 参数2: 串行属性
+            self.syncQueue =dispatch_queue_create("com.weather.sync",DISPATCH_QUEUE_SERIAL);
+        });
+        
     }
     return self;
 }

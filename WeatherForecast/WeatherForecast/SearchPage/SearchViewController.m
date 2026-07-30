@@ -8,8 +8,11 @@
 #import "SearchViewController.h"
 
 @interface SearchViewController ()
+
+
 // 搜索框中的内容
 @property (nonatomic, strong) NSString* searchText;
+
 
 // 当前最新请求ID
 @property (nonatomic, assign) NSInteger currentRequestID;
@@ -28,6 +31,8 @@
     [self setUpData];
     [self setUpInterface];
 }
+
+
 
 - (void) setUpData {
     self.searchModel = [[SearchModel alloc] init];
@@ -55,8 +60,6 @@
        [NSObject cancelPreviousPerformRequestsWithTarget:self selector:@selector(performSearch) object:nil];
        // 延迟 0.5 秒后执行实际搜索
        [self performSelector:@selector(performSearch) withObject:nil afterDelay:0.5];
-    
-    
 }
 
 // 每次修改搜索框时候调用
