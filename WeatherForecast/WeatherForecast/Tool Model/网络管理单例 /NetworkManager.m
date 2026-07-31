@@ -107,6 +107,7 @@
     request.timeoutInterval = 15;
     
     
+
     // 创建DataTask
     // __weak 弱引用
     // typeof(self) 在编译时自动推导self的具体类名
@@ -134,7 +135,7 @@
         
         // 检查 HTTP 状态码
         if (![response isKindOfClass:[NSHTTPURLResponse class]]) {
-            // 极少发生，兜底处理：当做成功但无数据返回
+            // 成功但无数据返回
             dispatch_async(dispatch_get_main_queue(), ^{
                 if (completion) completion(nil, nil);
             });
