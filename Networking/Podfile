@@ -1,0 +1,9 @@
+
+
+platform:ios, '17.0'
+ 
+target 'Networking' do
+  pod 'Masonry', '~> 1.1.0'
+  pod 'LookinServer', :configurations => ['Debug']
+  pod 'AFNetworking', '~> 4.0'
+end
