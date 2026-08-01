@@ -26,16 +26,17 @@
     // 1. 创建会话管理器[reference:6]
     AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
     
-    // 2. 设置请求参数 (可选)[reference:7]
+    // 2. 设置请求参数
     NSDictionary *params = @{
         @"key": @"3557d02150d248e6b0735224252907",
         @"q": @"西安",
         @"days": @"1"
     };
     
-    // 3. 发起 GET 请求[reference:8][reference:9]
+    // 发起 GET 请求
     [manager GET:@"https://api.weatherapi.com/v1/forecast.json"
       parameters:params
+         headers:nil  // headers 参数，不需要则传 nil
         progress:nil
          success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
         // 请求成功
@@ -59,6 +60,7 @@
     // 发起 POST 请求[reference:10]
     [manager POST:@"https://your-api.com/login"
       parameters:params
+           headers: nil
         progress:nil
          success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
         NSLog(@"POST 请求成功: %@", responseObject);
@@ -68,32 +70,7 @@
 }
 
 #pragma mark - 3. 文件上传 (例如上传图片)
-//- (void)uploadImage {
-//    // 假设从相册或 Bundle 中获取了一张图片
-//    UIImage *image = [UIImage imageNamed:@"example_image"];
-//    NSData *imageData = UIImageJPEGRepresentation(image, 0.8);
-//    
-//    AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
-//    // 设置响应类型为 JSON
-//    manager.responseSerializer = [AFJSONResponseSerializer serializer];
-//    
-//    [manager POST:@"https://your-api.com/upload"
-//      parameters:@{@"userId": @"12345"} // 其他参数
-//constructingBodyWithBlock:^(id<AFMultipartFormData>  _Nonnull formData) {
-//        // 将图片数据附加到请求体中[reference:11]
-//        [formData appendPartWithFileData:imageData
-//                                    name:@"file"
-//                                fileName:@"photo.jpg"
-//                                mimeType:@"image/jpeg"];
-//    } progress:^(NSProgress * _Nonnull uploadProgress) {
-//        // 上传进度
-//        NSLog(@"上传进度: %.2f%%", uploadProgress.fractionCompleted * 100);
-//    } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
-//        NSLog(@"上传成功: %@", responseObject);
-//    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
-//        NSLog(@"上传失败: %@", error);
-//    }];
-//}
+
 
 - (void)uploadImage {
     // 1. 安全加载图片
@@ -117,6 +94,7 @@
 
     [manager POST:urlString
       parameters:@{@"userId": @"12345"}
+          headers: nil
 constructingBodyWithBlock:^(id<AFMultipartFormData>  _Nonnull formData) {
         // 现在 imageData 一定非空
         [formData appendPartWithFileData:imageData
