@@ -10,6 +10,7 @@
 
 
 @interface ViewController ()
+@property (nonatomic, strong) NSDictionary* location;
 
 @end
 
@@ -21,7 +22,9 @@
     // Do any additional setup after loading the view.
 //    [self createURL];
 
-    [self createAFNetworking];
+    [self createAFNetworkingGET];
+        
+//    [self createAFNetworkingPOST];
 }
 
 
@@ -73,7 +76,7 @@
 
 
 // 使用AFNetworking创建网路请求
-- (void) createAFNetworking {
+- (void) createAFNetworkingGET {
     // 创建管理器
     AFHTTPSessionManager* manager = [AFHTTPSessionManager manager];
     
@@ -92,9 +95,43 @@
          headers: nil
         progress:nil
          success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+        
+        
         NSLog(@"%@", responseObject);
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+        
+        
         NSLog(@"请求失败");
     }];
+}
+
+
+- (void) createAFNetworkingPOST {
+    AFHTTPSessionManager* manager = [AFHTTPSessionManager manager];
+    manager.requestSerializer.timeoutInterval = 15;
+    
+    NSDictionary* parameters = @{@"title": @"exersice",
+                                 @"body": @"hello xinyan",
+                                 @"userId": @"1"};
+    
+    [manager POST: @"https://jsonplaceholder.typicode.com/posts"
+       parameters: parameters
+          headers: nil
+         progress: nil
+          success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+    
+            NSLog(@"POST 请求成功, 返回数据: %@", responseObject);
+
+            NSLog(@"任务是 %@", task);
+        
+            // 你可以在这里尝试取出服务器返回的 id
+            if ([responseObject isKindOfClass:[NSDictionary class]]) {
+                NSNumber *newId = responseObject[@"id"];
+                NSLog(@"创建资源的 ID 是: %@", newId);
+            }
+            
+        } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+            NSLog(@"请求失败");
+        }];
 }
 @end

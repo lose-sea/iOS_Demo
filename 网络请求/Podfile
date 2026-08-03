@@ -7,4 +7,5 @@ target '网络请求' do
   pod 'Masonry', '~> 1.1.0'
   pod 'LookinServer', :configurations => ['Debug']
   pod 'AFNetworking', '~> 4.0'
+  pod 'YYModel'
 end
