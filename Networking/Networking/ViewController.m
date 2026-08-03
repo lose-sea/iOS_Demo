@@ -23,7 +23,7 @@
 
 #pragma mark - 1. 发送 GET 请求
 - (void)sendGETRequest {
-    // 1. 创建会话管理器[reference:6]
+    // 1. 创建会话管理器
     AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
     
     // 2. 设置请求参数
@@ -36,7 +36,8 @@
     // 发起 GET 请求
     [manager GET:@"https://api.weatherapi.com/v1/forecast.json"
       parameters:params
-         headers:nil  // headers 参数，不需要则传 nil
+     // headers 参数，自定义的HTTP请求头, 不需要则传 nil，表示不添加额外的请求头
+         headers:nil
         progress:nil
          success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
         // 请求成功
@@ -68,6 +69,33 @@
         NSLog(@"POST 请求失败: %@", error);
     }];
 }
+
+- (void) createURL {
+    
+    // 创建请求地址
+    NSString* str = @"https://your-api.com/login?username=testuser&password=123456";
+    NSURL* url = [NSURL URLWithString: str];
+    
+    // 创建请求类
+    NSMutableURLRequest* request = [NSMutableURLRequest requestWithURL: url];
+    // HTTP 方法
+    request.HTTPMethod = @"GET";
+    // 时间阈值
+    request.timeoutInterval = 15;
+    
+    // 配置会话
+        // 使用默认配置
+    NSURLSessionConfiguration* config = [NSURLSessionConfiguration defaultSessionConfiguration];
+    // 创建会话
+    NSURLSession* session = [NSURLSession sessionWithConfiguration: config];
+
+    
+    // 创建任务
+    NSURLSessionDataTask*
+    
+}
+
+
 
 #pragma mark - 3. 文件上传 (例如上传图片)
 
