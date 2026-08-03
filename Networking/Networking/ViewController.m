@@ -70,31 +70,6 @@
     }];
 }
 
-- (void) createURL {
-    
-    // 创建请求地址
-    NSString* str = @"https://your-api.com/login?username=testuser&password=123456";
-    NSURL* url = [NSURL URLWithString: str];
-    
-    // 创建请求类
-    NSMutableURLRequest* request = [NSMutableURLRequest requestWithURL: url];
-    // HTTP 方法
-    request.HTTPMethod = @"GET";
-    // 时间阈值
-    request.timeoutInterval = 15;
-    
-    // 配置会话
-        // 使用默认配置
-    NSURLSessionConfiguration* config = [NSURLSessionConfiguration defaultSessionConfiguration];
-    // 创建会话
-    NSURLSession* session = [NSURLSession sessionWithConfiguration: config];
-
-    
-    // 创建任务
-    NSURLSessionDataTask*
-    
-}
-
 
 
 #pragma mark - 3. 文件上传 (例如上传图片)
