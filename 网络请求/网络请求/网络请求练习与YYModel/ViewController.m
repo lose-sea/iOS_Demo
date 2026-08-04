@@ -7,10 +7,11 @@
 
 #import "ViewController.h"
 #import <AFNetworking/AFNetworking.h>
-
+#import <YYModel/YYModel.h>
+#import "Model.h"
 
 @interface ViewController ()
-@property (nonatomic, strong) NSDictionary* location;
+
 
 @end
 
@@ -28,6 +29,90 @@
 }
 
 
+
+// 使用AFNetworking创建网路请求
+- (void) createAFNetworkingGET {
+    // 创建管理器
+    AFHTTPSessionManager* manager = [AFHTTPSessionManager manager];
+    
+    // 设置超时时间 对应原生的 request.timeoutInterval
+    manager.requestSerializer.timeoutInterval = 15;
+    
+    // 设置响应格式 默认为JSON
+    manager.responseSerializer = [AFJSONResponseSerializer serializer];
+
+    // 拆解 URL 参数
+    NSDictionary* parameters = @{@"key": @"3557d02150d248e6b0735224252907", @"q": @"西安", @"days": @"1"};
+    
+    //发起GET请求
+    [manager GET: @"https://api.weatherapi.com/v1/forecast.json"
+      parameters: parameters
+         headers: nil
+        progress:nil
+         success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+//                NSLog(@"%@", responseObject);
+        Model* model = [Model yy_modelWithJSON: responseObject];
+        NSLog(@"打印的数据");
+        NSLog(@"%f", model.current.temp_c);
+        NSLog(@"%@", model.location); 
+    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+        
+        
+        NSLog(@"请求失败");
+    }];
+}
+
+
+
+
+- (void) createAFNetworkingPOST {
+    AFHTTPSessionManager* manager = [AFHTTPSessionManager manager];
+    manager.requestSerializer.timeoutInterval = 15;
+    
+    NSDictionary* parameters = @{@"title": @"exersice",
+                                 @"body": @"hello xinyan",
+                                 @"userId": @"1"};
+    
+    [manager POST: @"https://jsonplaceholder.typicode.com/posts"
+       parameters: parameters
+          headers: nil
+         progress: nil
+          success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+    
+            NSLog(@"POST 请求成功, 返回数据: %@", responseObject);
+
+            NSLog(@"任务是 %@", task);
+        
+            // 你可以在这里尝试取出服务器返回的 id
+            if ([responseObject isKindOfClass:[NSDictionary class]]) {
+                NSNumber *newId = responseObject[@"id"];
+                NSLog(@"创建资源的 ID 是: %@", newId);
+            }
+            
+        } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+            NSLog(@"请求失败");
+        }];
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// 原生 NSURLSession
 - (void) createURL {
     // 创建请求地址
     NSString* str = @"https://api.weatherapi.com/v1/forecast.json?key=3557d02150d248e6b0735224252907&q=西安&days=1";
@@ -74,64 +159,4 @@
     [task resume];
 }
 
-
-// 使用AFNetworking创建网路请求
-- (void) createAFNetworkingGET {
-    // 创建管理器
-    AFHTTPSessionManager* manager = [AFHTTPSessionManager manager];
-    
-    // 设置超时时间 对应原生的 request.timeoutInterval
-    manager.requestSerializer.timeoutInterval = 15;
-    
-    // 设置响应格式 默认为JSON
-    manager.responseSerializer = [AFJSONResponseSerializer serializer];
-
-    // 拆解 URL 参数
-    NSDictionary* parameters = @{@"key": @"3557d02150d248e6b0735224252907", @"q": @"西安", @"days": @"1"};
-    
-    //发起GET请求
-    [manager GET: @"https://api.weatherapi.com/v1/forecast.json"
-      parameters: parameters
-         headers: nil
-        progress:nil
-         success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
-        
-        
-        NSLog(@"%@", responseObject);
-    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
-        
-        
-        NSLog(@"请求失败");
-    }];
-}
-
-
-- (void) createAFNetworkingPOST {
-    AFHTTPSessionManager* manager = [AFHTTPSessionManager manager];
-    manager.requestSerializer.timeoutInterval = 15;
-    
-    NSDictionary* parameters = @{@"title": @"exersice",
-                                 @"body": @"hello xinyan",
-                                 @"userId": @"1"};
-    
-    [manager POST: @"https://jsonplaceholder.typicode.com/posts"
-       parameters: parameters
-          headers: nil
-         progress: nil
-          success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
-    
-            NSLog(@"POST 请求成功, 返回数据: %@", responseObject);
-
-            NSLog(@"任务是 %@", task);
-        
-            // 你可以在这里尝试取出服务器返回的 id
-            if ([responseObject isKindOfClass:[NSDictionary class]]) {
-                NSNumber *newId = responseObject[@"id"];
-                NSLog(@"创建资源的 ID 是: %@", newId);
-            }
-            
-        } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
-            NSLog(@"请求失败");
-        }];
-}
 @end
