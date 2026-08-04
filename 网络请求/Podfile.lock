@@ -18,16 +18,12 @@ PODS:
     - LookinServer/Core (= 1.2.8)
   - LookinServer/Core (1.2.8)
   - Masonry (1.1.0)
-  - SDWebImage (5.21.7):
-    - SDWebImage/Core (= 5.21.7)
-  - SDWebImage/Core (5.21.7)
   - YYModel (1.0.4)
 
 DEPENDENCIES:
   - AFNetworking (~> 4.0)
   - LookinServer
   - Masonry (~> 1.1.0)
-  - SDWebImage (~> 5.0)
   - YYModel
 
 SPEC REPOS:
@@ -35,16 +31,14 @@ SPEC REPOS:
     - AFNetworking
     - LookinServer
     - Masonry
-    - SDWebImage
     - YYModel
 
 SPEC CHECKSUMS:
   AFNetworking: 3bd23d814e976cd148d7d44c3ab78017b744cd58
   LookinServer: 1b2b61c6402ae29fa22182d48f5cd067b4e99e80
   Masonry: 678fab65091a9290e40e2832a55e7ab731aad201
-  SDWebImage: e9fc87c1aab89a8ab1bbd74eba378c6f53be8abf
   YYModel: 2a7fdd96aaa4b86a824e26d0c517de8928c04b30
 
-PODFILE CHECKSUM: 9423c9c03ee8c58cff3f89486939e68363817310
+PODFILE CHECKSUM: 1fbdcfdb0a61732a7bdb7e1a203f421c57a291d8
 
 COCOAPODS: 1.16.2
