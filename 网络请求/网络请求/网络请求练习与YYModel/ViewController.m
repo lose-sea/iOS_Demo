@@ -54,13 +54,15 @@
         Model* model = [Model yy_modelWithJSON: responseObject];
         NSLog(@"打印的数据");
         NSLog(@"%f", model.current.temp_c);
-        NSLog(@"%@", model.location); 
+        NSLog(@"%@", model.location);
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
         
         
         NSLog(@"请求失败");
     }];
 }
+
+
 
 
 

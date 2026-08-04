@@ -5,4 +5,5 @@ target 'name' do
   pod 'LookinServer', :configurations => ['Debug']
   pod 'AFNetworking', '~> 4.0'
   pod 'YYModel'
+  pod 'SDWebImage', '~> 5.0'
 end
