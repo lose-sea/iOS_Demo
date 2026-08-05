@@ -6,4 +6,5 @@ target 'name' do
   pod 'AFNetworking', '~> 4.0'
   pod 'YYModel'
   pod 'SDWebImage', '~> 5.0'
+  pod 'WCDB.objc'
 end

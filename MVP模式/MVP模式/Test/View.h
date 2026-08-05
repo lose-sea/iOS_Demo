@@ -9,9 +9,18 @@
 #import <Masonry/Masonry.h> 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface View : UIView
-@property (nonatomic, strong) UILabel* label;
-@property (nonatomic, strong) UIButton* button; 
+@protocol ViewProtocol <NSObject>
+
+- (void) displayText: (NSString*) text;
+- (void) showLoading;
+- (void) hideLoading;
+
+@end
+
+@interface View : UIView <ViewProtocol>
+
+
+- (void) setButtonTarget: (id)target action: (SEL) action; 
 @end
 
 NS_ASSUME_NONNULL_END

@@ -13,9 +13,6 @@
 
 @interface ViewController : UIViewController <ViewProtocol>
 
-
-//@property (nonatomic, strong) ViewModel* model;
-
 // 不再持有 Model, 改为持有 Presenter
 @property (nonatomic, strong) ViewPresenter* presenter;
 

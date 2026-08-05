@@ -1,6 +1,5 @@
 
 
-
 platform:ios, '17.0'
  
 target 'MVP模式' do
@@ -9,4 +8,5 @@ target 'MVP模式' do
   pod 'AFNetworking', '~> 4.0'
   pod 'YYModel'
   pod 'SDWebImage', '~> 5.0'
+  pod 'WCDB.objc'
 end
