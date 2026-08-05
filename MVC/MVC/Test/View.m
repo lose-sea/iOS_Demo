@@ -9,6 +9,9 @@
 
 @interface View ()
 
+@property (nonatomic, strong) UILabel* label;
+@property (nonatomic, strong) UIButton* button; 
+
 @end
 
 @implementation View
@@ -23,7 +26,6 @@
 }
 
 - (void) setUpInterface {
-    self.label.translatesAutoresizingMaskIntoConstraints = NO;
     self.label = [[UILabel alloc] init];
     [self addSubview: self.label];
     [self.label mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -39,6 +41,15 @@
         make.left.width.height.mas_equalTo(self.label);
     }];
     self.button.backgroundColor = [UIColor systemRedColor]; 
+}
+
+
+- (void)updateText:(NSString *)text {
+    self.label.text = text;
+}
+
+- (void)setButtonTarget:(id)target action:(SEL)action {
+    [self.button addTarget:target action:action forControlEvents: UIControlEventTouchUpInside];
 }
 /*
 // Only override drawRect: if you perform custom drawing.

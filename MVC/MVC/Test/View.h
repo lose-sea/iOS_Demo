@@ -10,8 +10,11 @@
 NS_ASSUME_NONNULL_BEGIN
 
 @interface View : UIView
-@property (nonatomic, strong) UILabel* label;
-@property (nonatomic, strong) UIButton* button; 
+
+
+- (void)updateText:(NSString *)text;
+- (void)setButtonTarget:(id)target action:(SEL)action;
+
 @end
 
 NS_ASSUME_NONNULL_END

@@ -18,17 +18,11 @@
     // Do any additional setup after loading the view.
     [self setUpData];
     [self setUpInterface];
-    [self setUpPresenter];
-//    [self loadView];
-//    [self userDidTapRefresh];
-//    [self controlView];
-    
-
 }
 
 - (void) setUpData {
-//    self.model = [[ViewModel alloc] init];
-//    self.model.text = @"hello xinyan";
+    self.model = [[Model alloc] init];
+    self.model.text = @"hello xinyan";
     
     self.testView = [[View alloc] init];
 }
@@ -39,32 +33,14 @@
         make.edges.mas_equalTo(self.view);
     }];
     
-    [self.testView.button addTarget: self action: @selector(userDidTapRefresh) forControlEvents: UIControlEventTouchUpInside];
+    [self.testView setButtonTarget: self action:@selector(pressButton)]; 
 }
 
 
-// 实现协议方法
-- (void) setUpPresenter {
-    // 创建Presenter时, 将 self 注入
-    self.presenter = [[ViewPresenter alloc] initWithView: self];
-    
-    // 告诉 Presenter 开始加载数据
-    [self.presenter loadData];
+- (void)pressButton {
+    [self.testView updateText:self.model.text];
 }
 
-
-- (void) displayText:(NSString *)text {
-    self.testView.label.text = text;
-}
-
-
-- (void) userDidTapRefresh {
-    [self.presenter updateDataWithNewText: @"Refreshed Data"]; 
-}
-
-//- (void) controlView {
-//    self.testView.label.text = self.model.text;
-//}
 
 
 @end
