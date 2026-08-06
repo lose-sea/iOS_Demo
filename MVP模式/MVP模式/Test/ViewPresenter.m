@@ -7,12 +7,14 @@
 
 #import "ViewPresenter.h"
 
+@interface ViewPresenter ()
+@property (nonatomic, strong) ViewModel* model; 
+@end
+
 
 @implementation ViewPresenter
 
-
-
-- (instancetype) initWithView:(id<ViewProtocol>)view {
+- (instancetype) initWithView:(id <ViewProtocol>)view {
     self = [super init];
     if (self) {
         self.view = view;
@@ -21,29 +23,23 @@
     return self;
 }
 
-// 模拟数据
+
 - (void) loadData {
-    // 模拟这里从网络或数据库获取数据
-    // 这里简单设置一个初始数据
-    self.model.text = @"hello from Internet";
+    [self.view showLoading];
     
-    if ([self.view respondsToSelector:@selector(displayText:)]) {
-        [self.view displayText:self.model.text];
-    }
+    self.model.text = @"开始加载数据";
+    
+    [self.view displayText: self.model.text];
+    [self.view hideLoading];
 }
 
 
-// 模拟更新数据
-- (void) updateDataWithNewText:(NSString *)newText {
-    self.model.text = [NSString stringWithFormat: @"Updated: %@", newText];
+- (void) refreshData {
+    [self.view showLoading];
     
-    // 通知 View 更新数据
-    if ([self.view respondsToSelector: @selector(displayText:)]) {
-        [self.view displayText: self.model.text];
-    }
+    self.model.text = @"更新的数据";
+    [self.view displayText: self.model.text];
+//    [self.view hideLoading];
 }
-
-
-
 
 @end

@@ -37,9 +37,20 @@
     [self addSubview: self.button];
     [self.button mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.mas_equalTo(self.label.mas_bottom).offset(100);
-        make.left.width.height.mas_equalTo(self.label);
+        make.left.width.mas_equalTo(self.label);
+        make.height.mas_equalTo(40); 
     }];
-    self.button.backgroundColor = [UIColor systemRedColor]; 
+    self.button.backgroundColor = [UIColor systemRedColor];
+    
+    self.loadingIndicator = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle: UIActivityIndicatorViewStyleLarge];
+    self.loadingIndicator.hidesWhenStopped = YES;
+    [self addSubview: self.loadingIndicator];
+    
+    [self.loadingIndicator mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.center.mas_equalTo(self);
+    }];
+    
+    
 }
 
 
@@ -47,8 +58,10 @@
     [self.button addTarget: target action: action forControlEvents: UIControlEventTouchUpInside];
 }
 
+
+
 - (void) displayText:(NSString *)text {
-    self.label.text = @"text";
+    self.label.text = text;
 }
 
 - (void) showLoading {

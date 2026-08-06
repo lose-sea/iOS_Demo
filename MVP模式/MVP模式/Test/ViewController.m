@@ -9,6 +9,11 @@
 
 @interface ViewController ()
 
+// 不再持有 Model, 改为持有 Presenter
+@property (nonatomic, strong) ViewPresenter* presenter;
+
+@property (nonatomic, strong) View* testView;
+
 @end
 
 @implementation ViewController
@@ -19,18 +24,13 @@
     [self setUpData];
     [self setUpInterface];
     [self setUpPresenter];
-//    [self loadView];
-//    [self userDidTapRefresh];
-//    [self controlView];
     
 
 }
 
 - (void) setUpData {
-//    self.model = [[ViewModel alloc] init];
-//    self.model.text = @"hello xinyan";
-    
     self.testView = [[View alloc] init];
+    
 }
 
 - (void) setUpInterface {
@@ -39,32 +39,24 @@
         make.edges.mas_equalTo(self.view);
     }];
     
-    [self.testView.button addTarget: self action: @selector(userDidTapRefresh) forControlEvents: UIControlEventTouchUpInside];
+    [self.testView setButtonTarget: self action: @selector(pressButton)];
 }
 
 
 // 实现协议方法
 - (void) setUpPresenter {
-    // 创建Presenter时, 将 self 注入
-    self.presenter = [[ViewPresenter alloc] initWithView: self];
+    // 创建Presenter时, 将 view 注入
+    self.presenter = [[ViewPresenter alloc] initWithView: self.testView];
     
     // 告诉 Presenter 开始加载数据
     [self.presenter loadData];
 }
 
 
-- (void) displayText:(NSString *)text {
-    self.testView.label.text = text;
+
+- (void) pressButton {
+    [self.presenter refreshData];
 }
-
-
-- (void) userDidTapRefresh {
-    [self.presenter updateDataWithNewText: @"Refreshed Data"]; 
-}
-
-//- (void) controlView {
-//    self.testView.label.text = self.model.text;
-//}
 
 
 @end

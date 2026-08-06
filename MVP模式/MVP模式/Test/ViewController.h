@@ -11,12 +11,9 @@
 #import "ViewPresenter.h"
 
 
-@interface ViewController : UIViewController <ViewProtocol>
+@interface ViewController : UIViewController
 
-// 不再持有 Model, 改为持有 Presenter
-@property (nonatomic, strong) ViewPresenter* presenter;
 
-@property (nonatomic, strong) View* testView;
 
 @end
 
