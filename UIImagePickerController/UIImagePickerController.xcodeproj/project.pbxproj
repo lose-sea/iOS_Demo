@@ -6,8 +6,15 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		3A3E397C9C4640E192D5F063 /* libPods-UIImagePickerController.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 0B344DE6F383A98446F24B47 /* libPods-UIImagePickerController.a */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXFileReference section */
+		0B344DE6F383A98446F24B47 /* libPods-UIImagePickerController.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-UIImagePickerController.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		5441B086302473AD00C70BA3 /* UIImagePickerController.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = UIImagePickerController.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		5B09643E358416622BE82AD5 /* Pods-UIImagePickerController.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-UIImagePickerController.debug.xcconfig"; path = "Target Support Files/Pods-UIImagePickerController/Pods-UIImagePickerController.debug.xcconfig"; sourceTree = "<group>"; };
+		770D80178AACBA6859028A6C /* Pods-UIImagePickerController.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-UIImagePickerController.release.xcconfig"; path = "Target Support Files/Pods-UIImagePickerController/Pods-UIImagePickerController.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
@@ -36,17 +43,30 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3A3E397C9C4640E192D5F063 /* libPods-UIImagePickerController.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		44DC82510C114D87DC1512E5 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				5B09643E358416622BE82AD5 /* Pods-UIImagePickerController.debug.xcconfig */,
+				770D80178AACBA6859028A6C /* Pods-UIImagePickerController.release.xcconfig */,
+			);
+			name = Pods;
+			path = Pods;
+			sourceTree = "<group>";
+		};
 		5441B07D302473AD00C70BA3 = {
 			isa = PBXGroup;
 			children = (
 				5441B088302473AD00C70BA3 /* UIImagePickerController */,
 				5441B087302473AD00C70BA3 /* Products */,
+				44DC82510C114D87DC1512E5 /* Pods */,
+				C0F65205D52659C381D0F2FC /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -58,6 +78,14 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
+		C0F65205D52659C381D0F2FC /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				0B344DE6F383A98446F24B47 /* libPods-UIImagePickerController.a */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -65,9 +93,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 5441B09E302473AE00C70BA3 /* Build configuration list for PBXNativeTarget "UIImagePickerController" */;
 			buildPhases = (
+				E8519747C10F38FD5BC3B7F9 /* [CP] Check Pods Manifest.lock */,
 				5441B082302473AD00C70BA3 /* Sources */,
 				5441B083302473AD00C70BA3 /* Frameworks */,
 				5441B084302473AD00C70BA3 /* Resources */,
+				03E40439D587255715F51FC0 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -77,8 +107,6 @@
 				5441B088302473AD00C70BA3 /* UIImagePickerController */,
 			);
 			name = UIImagePickerController;
-			packageProductDependencies = (
-			);
 			productName = UIImagePickerController;
 			productReference = 5441B086302473AD00C70BA3 /* UIImagePickerController.app */;
 			productType = "com.apple.product-type.application";
@@ -126,6 +154,48 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		03E40439D587255715F51FC0 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-UIImagePickerController/Pods-UIImagePickerController-resources-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Copy Pods Resources";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-UIImagePickerController/Pods-UIImagePickerController-resources-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-UIImagePickerController/Pods-UIImagePickerController-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		E8519747C10F38FD5BC3B7F9 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-UIImagePickerController-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		5441B082302473AD00C70BA3 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
@@ -139,6 +209,7 @@
 /* Begin XCBuildConfiguration section */
 		5441B09F302473AE00C70BA3 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 5B09643E358416622BE82AD5 /* Pods-UIImagePickerController.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -166,6 +237,7 @@
 		};
 		5441B0A0302473AE00C70BA3 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 770D80178AACBA6859028A6C /* Pods-UIImagePickerController.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
