@@ -10,7 +10,7 @@
 @interface View ()
 @property (nonatomic, strong) UILabel* label;
 @property (nonatomic, strong) UIButton* button;
-@property (nonatomic, strong) UIActivityIndicatorView* loading
+@property (nonatomic, strong) UIActivityIndicatorView* loadingIndicator;
 @end
 
 @implementation View
@@ -52,7 +52,13 @@
 }
 
 - (void) showLoading {
-    self.
+    [self.loadingIndicator startAnimating];
+    self.button.enabled = NO;
+}
+
+- (void) hideLoading {
+    [self.loadingIndicator stopAnimating];
+    self.button.enabled = YES;
 }
 /*
 // Only override drawRect: if you perform custom drawing.
