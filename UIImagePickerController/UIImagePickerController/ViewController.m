@@ -41,7 +41,7 @@
 - (void) pressButton {
     UIImagePickerController* imagePickerController = [[UIImagePickerController alloc] init];
     imagePickerController.delegate = self;
-    imagePickerController.allowsEditing = YES;
+//    imagePickerController.allowsEditing = YES;
     //  选择图片来源: 相册
     imagePickerController.sourceType = UIImagePickerControllerSourceTypeSavedPhotosAlbum;
     
@@ -55,11 +55,29 @@
 //    UIImage* image = info[UIImagePickerControllerOriginalImage];
     
     // 获取编辑后的图片（如果 allowsEditing = YES）
-    UIImage *editedImage = info[UIImagePickerControllerEditedImage];
+    UIImage *editedImage = info[UIImagePickerControllerOriginalImage];
     
     self.imageView.image = editedImage;
     
+    [picker dismissViewControllerAnimated: YES completion: nil];
     
+    // 获取图片的原始元数据
+    NSDictionary *metadata = info[UIImagePickerControllerMediaMetadata];
+    NSLog(@"%@", metadata);
+    
+    // 获取图片URL（如果是视频）
+    NSURL *mediaURL = info[UIImagePickerControllerMediaURL];
+    NSLog(@"%@", mediaURL);
+    
+    // 获取媒体类型
+    NSString *mediaType = info[UIImagePickerControllerMediaType];
+    NSLog(@"%@", mediaType); 
+    
+    NSLog(@"choose");
+}
+
+- (void) imagePickerControllerDidCancel:(UIImagePickerController *)picker {
+    NSLog(@"cancel");
     [picker dismissViewControllerAnimated: YES completion: nil];
 }
 

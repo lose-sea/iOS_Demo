@@ -7,80 +7,80 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		3A3E397C9C4640E192D5F063 /* libPods-UIImagePickerController.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 0B344DE6F383A98446F24B47 /* libPods-UIImagePickerController.a */; };
+		9B46AE4B0AFEDA50A85E34C8 /* libPods-PHPPicker相册多选.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 920C2BCD02A5CD86A33E85F2 /* libPods-PHPPicker相册多选.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		0B344DE6F383A98446F24B47 /* libPods-UIImagePickerController.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-UIImagePickerController.a"; sourceTree = BUILT_PRODUCTS_DIR; };
-		5441B086302473AD00C70BA3 /* UIImagePickerController.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = UIImagePickerController.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		5B09643E358416622BE82AD5 /* Pods-UIImagePickerController.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-UIImagePickerController.debug.xcconfig"; path = "Target Support Files/Pods-UIImagePickerController/Pods-UIImagePickerController.debug.xcconfig"; sourceTree = "<group>"; };
-		770D80178AACBA6859028A6C /* Pods-UIImagePickerController.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-UIImagePickerController.release.xcconfig"; path = "Target Support Files/Pods-UIImagePickerController/Pods-UIImagePickerController.release.xcconfig"; sourceTree = "<group>"; };
+		5393FAE4BD86871A02AEAE76 /* Pods-PHPPicker相册多选.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PHPPicker相册多选.release.xcconfig"; path = "Target Support Files/Pods-PHPPicker相册多选/Pods-PHPPicker相册多选.release.xcconfig"; sourceTree = "<group>"; };
+		545CD27030247E5D003A0EF0 /* PHPPicker相册多选.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "PHPPicker相册多选.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		920C2BCD02A5CD86A33E85F2 /* libPods-PHPPicker相册多选.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-PHPPicker相册多选.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		EDAA3A50A54904C6B0943460 /* Pods-PHPPicker相册多选.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PHPPicker相册多选.debug.xcconfig"; path = "Target Support Files/Pods-PHPPicker相册多选/Pods-PHPPicker相册多选.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
-		5441B09D302473AE00C70BA3 /* Exceptions for "UIImagePickerController" folder in "UIImagePickerController" target */ = {
+		545CD28730247E5D003A0EF0 /* Exceptions for "PHPPicker相册多选" folder in "PHPPicker相册多选" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
 				Info.plist,
 			);
-			target = 5441B085302473AD00C70BA3 /* UIImagePickerController */;
+			target = 545CD26F30247E5D003A0EF0 /* PHPPicker相册多选 */;
 		};
 /* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
-		5441B088302473AD00C70BA3 /* UIImagePickerController */ = {
+		545CD27230247E5D003A0EF0 /* PHPPicker相册多选 */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			exceptions = (
-				5441B09D302473AE00C70BA3 /* Exceptions for "UIImagePickerController" folder in "UIImagePickerController" target */,
+				545CD28730247E5D003A0EF0 /* Exceptions for "PHPPicker相册多选" folder in "PHPPicker相册多选" target */,
 			);
-			path = UIImagePickerController;
+			path = "PHPPicker相册多选";
 			sourceTree = "<group>";
 		};
 /* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
-		5441B083302473AD00C70BA3 /* Frameworks */ = {
+		545CD26D30247E5D003A0EF0 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				3A3E397C9C4640E192D5F063 /* libPods-UIImagePickerController.a in Frameworks */,
+				9B46AE4B0AFEDA50A85E34C8 /* libPods-PHPPicker相册多选.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		44DC82510C114D87DC1512E5 /* Pods */ = {
+		545CD26730247E5D003A0EF0 = {
 			isa = PBXGroup;
 			children = (
-				5B09643E358416622BE82AD5 /* Pods-UIImagePickerController.debug.xcconfig */,
-				770D80178AACBA6859028A6C /* Pods-UIImagePickerController.release.xcconfig */,
-			);
-			path = Pods;
-			sourceTree = "<group>";
-		};
-		5441B07D302473AD00C70BA3 = {
-			isa = PBXGroup;
-			children = (
-				5441B088302473AD00C70BA3 /* UIImagePickerController */,
-				5441B087302473AD00C70BA3 /* Products */,
-				44DC82510C114D87DC1512E5 /* Pods */,
-				C0F65205D52659C381D0F2FC /* Frameworks */,
+				545CD27230247E5D003A0EF0 /* PHPPicker相册多选 */,
+				545CD27130247E5D003A0EF0 /* Products */,
+				C07D6E991BD8A0D9237FF2F2 /* Pods */,
+				EED5BC5C79145BC99A420DB6 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
-		5441B087302473AD00C70BA3 /* Products */ = {
+		545CD27130247E5D003A0EF0 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				5441B086302473AD00C70BA3 /* UIImagePickerController.app */,
+				545CD27030247E5D003A0EF0 /* PHPPicker相册多选.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
 		};
-		C0F65205D52659C381D0F2FC /* Frameworks */ = {
+		C07D6E991BD8A0D9237FF2F2 /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				0B344DE6F383A98446F24B47 /* libPods-UIImagePickerController.a */,
+				EDAA3A50A54904C6B0943460 /* Pods-PHPPicker相册多选.debug.xcconfig */,
+				5393FAE4BD86871A02AEAE76 /* Pods-PHPPicker相册多选.release.xcconfig */,
+			);
+			path = Pods;
+			sourceTree = "<group>";
+		};
+		EED5BC5C79145BC99A420DB6 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				920C2BCD02A5CD86A33E85F2 /* libPods-PHPPicker相册多选.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -88,63 +88,63 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		5441B085302473AD00C70BA3 /* UIImagePickerController */ = {
+		545CD26F30247E5D003A0EF0 /* PHPPicker相册多选 */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 5441B09E302473AE00C70BA3 /* Build configuration list for PBXNativeTarget "UIImagePickerController" */;
+			buildConfigurationList = 545CD28830247E5D003A0EF0 /* Build configuration list for PBXNativeTarget "PHPPicker相册多选" */;
 			buildPhases = (
-				E8519747C10F38FD5BC3B7F9 /* [CP] Check Pods Manifest.lock */,
-				5441B082302473AD00C70BA3 /* Sources */,
-				5441B083302473AD00C70BA3 /* Frameworks */,
-				5441B084302473AD00C70BA3 /* Resources */,
-				03E40439D587255715F51FC0 /* [CP] Copy Pods Resources */,
+				C82467A7A66F46CCAA0F4869 /* [CP] Check Pods Manifest.lock */,
+				545CD26C30247E5D003A0EF0 /* Sources */,
+				545CD26D30247E5D003A0EF0 /* Frameworks */,
+				545CD26E30247E5D003A0EF0 /* Resources */,
+				0DD14409A2DEB445EE85C6FA /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
 			dependencies = (
 			);
 			fileSystemSynchronizedGroups = (
-				5441B088302473AD00C70BA3 /* UIImagePickerController */,
+				545CD27230247E5D003A0EF0 /* PHPPicker相册多选 */,
 			);
-			name = UIImagePickerController;
-			productName = UIImagePickerController;
-			productReference = 5441B086302473AD00C70BA3 /* UIImagePickerController.app */;
+			name = "PHPPicker相册多选";
+			productName = "PHPPicker相册多选";
+			productReference = 545CD27030247E5D003A0EF0 /* PHPPicker相册多选.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
-		5441B07E302473AD00C70BA3 /* Project object */ = {
+		545CD26830247E5D003A0EF0 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
 				LastUpgradeCheck = 2630;
 				TargetAttributes = {
-					5441B085302473AD00C70BA3 = {
+					545CD26F30247E5D003A0EF0 = {
 						CreatedOnToolsVersion = 26.3;
 					};
 				};
 			};
-			buildConfigurationList = 5441B081302473AD00C70BA3 /* Build configuration list for PBXProject "UIImagePickerController" */;
+			buildConfigurationList = 545CD26B30247E5D003A0EF0 /* Build configuration list for PBXProject "PHPPicker相册多选" */;
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = (
 				en,
 				Base,
 			);
-			mainGroup = 5441B07D302473AD00C70BA3;
+			mainGroup = 545CD26730247E5D003A0EF0;
 			minimizedProjectReferenceProxies = 1;
 			preferredProjectObjectVersion = 77;
-			productRefGroup = 5441B087302473AD00C70BA3 /* Products */;
+			productRefGroup = 545CD27130247E5D003A0EF0 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				5441B085302473AD00C70BA3 /* UIImagePickerController */,
+				545CD26F30247E5D003A0EF0 /* PHPPicker相册多选 */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
-		5441B084302473AD00C70BA3 /* Resources */ = {
+		545CD26E30247E5D003A0EF0 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -154,28 +154,28 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		03E40439D587255715F51FC0 /* [CP] Copy Pods Resources */ = {
+		0DD14409A2DEB445EE85C6FA /* [CP] Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-UIImagePickerController/Pods-UIImagePickerController-resources-${CONFIGURATION}-input-files.xcfilelist",
+				"${PODS_ROOT}/Target Support Files/Pods-PHPPicker相册多选/Pods-PHPPicker相册多选-resources-${CONFIGURATION}-input-files.xcfilelist",
 			);
 			inputPaths = (
 			);
 			name = "[CP] Copy Pods Resources";
 			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-UIImagePickerController/Pods-UIImagePickerController-resources-${CONFIGURATION}-output-files.xcfilelist",
+				"${PODS_ROOT}/Target Support Files/Pods-PHPPicker相册多选/Pods-PHPPicker相册多选-resources-${CONFIGURATION}-output-files.xcfilelist",
 			);
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-UIImagePickerController/Pods-UIImagePickerController-resources.sh\"\n";
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-PHPPicker相册多选/Pods-PHPPicker相册多选-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		E8519747C10F38FD5BC3B7F9 /* [CP] Check Pods Manifest.lock */ = {
+		C82467A7A66F46CCAA0F4869 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -190,7 +190,7 @@
 			outputFileListPaths = (
 			);
 			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-UIImagePickerController-checkManifestLockResult.txt",
+				"$(DERIVED_FILE_DIR)/Pods-PHPPicker相册多选-checkManifestLockResult.txt",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -200,7 +200,7 @@
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
-		5441B082302473AD00C70BA3 /* Sources */ = {
+		545CD26C30247E5D003A0EF0 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -210,9 +210,9 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin XCBuildConfiguration section */
-		5441B09F302473AE00C70BA3 /* Debug */ = {
+		545CD28930247E5D003A0EF0 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 5B09643E358416622BE82AD5 /* Pods-UIImagePickerController.debug.xcconfig */;
+			baseConfigurationReference = EDAA3A50A54904C6B0943460 /* Pods-PHPPicker相册多选.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -220,7 +220,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = UIImagePickerController/Info.plist;
+				INFOPLIST_FILE = "PHPPicker相册多选/Info.plist";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
@@ -231,7 +231,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = ggg.UIImagePickerController;
+				PRODUCT_BUNDLE_IDENTIFIER = "ggg.PHPPicker----";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				STRING_CATALOG_GENERATE_SYMBOLS = YES;
 				SWIFT_EMIT_LOC_STRINGS = YES;
@@ -239,9 +239,9 @@
 			};
 			name = Debug;
 		};
-		5441B0A0302473AE00C70BA3 /* Release */ = {
+		545CD28A30247E5D003A0EF0 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 770D80178AACBA6859028A6C /* Pods-UIImagePickerController.release.xcconfig */;
+			baseConfigurationReference = 5393FAE4BD86871A02AEAE76 /* Pods-PHPPicker相册多选.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -249,7 +249,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = UIImagePickerController/Info.plist;
+				INFOPLIST_FILE = "PHPPicker相册多选/Info.plist";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
@@ -260,7 +260,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = ggg.UIImagePickerController;
+				PRODUCT_BUNDLE_IDENTIFIER = "ggg.PHPPicker----";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				STRING_CATALOG_GENERATE_SYMBOLS = YES;
 				SWIFT_EMIT_LOC_STRINGS = YES;
@@ -268,7 +268,7 @@
 			};
 			name = Release;
 		};
-		5441B0A1302473AE00C70BA3 /* Debug */ = {
+		545CD28B30247E5D003A0EF0 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -326,11 +326,10 @@
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
-				STRING_CATALOG_GENERATE_SYMBOLS = YES;
 			};
 			name = Debug;
 		};
-		5441B0A2302473AE00C70BA3 /* Release */ = {
+		545CD28C30247E5D003A0EF0 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -381,7 +380,6 @@
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;
-				STRING_CATALOG_GENERATE_SYMBOLS = YES;
 				VALIDATE_PRODUCT = YES;
 			};
 			name = Release;
@@ -389,25 +387,25 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		5441B081302473AD00C70BA3 /* Build configuration list for PBXProject "UIImagePickerController" */ = {
+		545CD26B30247E5D003A0EF0 /* Build configuration list for PBXProject "PHPPicker相册多选" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				5441B0A1302473AE00C70BA3 /* Debug */,
-				5441B0A2302473AE00C70BA3 /* Release */,
+				545CD28B30247E5D003A0EF0 /* Debug */,
+				545CD28C30247E5D003A0EF0 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		5441B09E302473AE00C70BA3 /* Build configuration list for PBXNativeTarget "UIImagePickerController" */ = {
+		545CD28830247E5D003A0EF0 /* Build configuration list for PBXNativeTarget "PHPPicker相册多选" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				5441B09F302473AE00C70BA3 /* Debug */,
-				5441B0A0302473AE00C70BA3 /* Release */,
+				545CD28930247E5D003A0EF0 /* Debug */,
+				545CD28A30247E5D003A0EF0 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
-	rootObject = 5441B07E302473AD00C70BA3 /* Project object */;
+	rootObject = 545CD26830247E5D003A0EF0 /* Project object */;
 }
