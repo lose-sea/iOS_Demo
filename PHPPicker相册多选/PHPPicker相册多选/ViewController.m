@@ -9,7 +9,7 @@
 #import <Masonry/Masonry.h>
 #import <PhotosUI/PhotosUI.h>
 #import <MobileCoreServices/MobileCoreServices.h>
-@interface ViewController () <PHPickerViewControllerDelegate, UINavigationControllerDelegate, UIImagePickerControllerDelegate>
+@interface ViewController () <PHPickerViewControllerDelegate>
 @property (nonatomic, strong) UIImageView* imageView;
 @property (nonatomic, strong) NSMutableArray* images;
 @end
@@ -46,20 +46,32 @@
 
 
 - (void)selectMultipleImages {
+//    // 创建配置
+//    PHPickerConfiguration *configuration = [[PHPickerConfiguration alloc] init];
+//    
+//    // 设置选择类型：图片
+//    configuration.filter = [PHPickerFilter imagesFilter];
+//    
+//    // 设置最大选择数量（0 表示无限制）
+//    configuration.selectionLimit = 10;
+//    
+//    // 是否允许选择 Live Photos
+//    configuration.preferredAssetRepresentationMode = PHPickerConfigurationAssetRepresentationModeCurrent;
+//    
+//    // 创建选择器
+//    PHPickerViewController *picker = [[PHPickerViewController alloc] initWithConfiguration:configuration];
+//    picker.delegate = self;
+//    [self presentViewController:picker animated:YES completion:nil];
+    
+    
     // 创建配置
-    PHPickerConfiguration *configuration = [[PHPickerConfiguration alloc] init];
-    
-    // 设置选择类型：图片
-    configuration.filter = [PHPickerFilter imagesFilter];
-    
-    // 设置最大选择数量（0 表示无限制）
-    configuration.selectionLimit = 10; 
-    
-    // 是否允许选择 Live Photos
-    configuration.preferredAssetRepresentationMode = PHPickerConfigurationAssetRepresentationModeCurrent;
-    
-    // 创建选择器
-    PHPickerViewController *picker = [[PHPickerViewController alloc] initWithConfiguration:configuration];
+    PHPickerConfiguration* config = [[PHPickerConfiguration alloc] init];
+    // 设置筛选类型: 图片
+    config.filter = [PHPickerFilter imagesFilter];
+        // 设置最大选择数量 (0 表示不限制)
+    config.selectionLimit = 3;
+        // 创建并展示选择器
+    PHPickerViewController* picker = [[PHPickerViewController alloc] initWithConfiguration: config];
     picker.delegate = self;
     [self presentViewController:picker animated:YES completion:nil];
 }
@@ -70,12 +82,13 @@
     [picker dismissViewControllerAnimated:YES completion:nil];
     
     if (results.count == 0) {
+        NSLog(@"cancel"); 
         return;
     }
     
     // 处理选中的图片
     for (PHPickerResult *result in results) {
-        // 方法1：获取 UIImage（推荐）
+        // 获取 UIImage
         if ([result.itemProvider canLoadObjectOfClass:[UIImage class]]) {
             [result.itemProvider loadObjectOfClass:[UIImage class]
                                  completionHandler:^(__kindof id<NSItemProviderReading>  _Nullable object,
@@ -96,6 +109,8 @@
         
     }
 }
+
+
 
 
 - (void)displayImage {
