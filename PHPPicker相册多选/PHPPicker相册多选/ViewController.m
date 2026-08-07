@@ -39,6 +39,9 @@
     }];
     imageView.backgroundColor = [UIColor systemCyanColor];
     self.imageView = imageView;
+    
+    
+    self.images = [[NSMutableArray alloc] init];
 }
 
 
@@ -50,7 +53,7 @@
     configuration.filter = [PHPickerFilter imagesFilter];
     
     // 设置最大选择数量（0 表示无限制）
-    configuration.selectionLimit = 10; // 最多选10张
+    configuration.selectionLimit = 10; 
     
     // 是否允许选择 Live Photos
     configuration.preferredAssetRepresentationMode = PHPickerConfigurationAssetRepresentationModeCurrent;
@@ -69,6 +72,7 @@
     if (results.count == 0) {
         return;
     }
+    
     // 处理选中的图片
     for (PHPickerResult *result in results) {
         // 方法1：获取 UIImage（推荐）
@@ -82,9 +86,10 @@
                 }
                 
                 UIImage *image = (UIImage *)object;
+                [self.images addObject: image];
                 // 在主线程更新 UI
                 dispatch_async(dispatch_get_main_queue(), ^{
-                    self.images = result;
+                    [self displayImage];
                 });
             }];
         }
@@ -93,9 +98,18 @@
 }
 
 
-- (void)displayImage:(UIImage *)image {
+- (void)displayImage {
     // 显示图片
     self.imageView.contentMode = UIViewContentModeScaleAspectFit;
+    for (NSInteger i = 0; i < self.images.count; i++) {
+        UIImageView* imageView = [[UIImageView alloc] initWithImage: [self.images objectAtIndex: i]];
+        [self.view addSubview: imageView];
+        [imageView mas_makeConstraints:^(MASConstraintMaker *make) {
+                make.top.mas_equalTo(self.view).offset(200 * i + 199);
+                make.left.mas_equalTo(self.view).offset(200);
+                make.width.height.mas_equalTo(100);
+        }];
+    }
 }
 
 
