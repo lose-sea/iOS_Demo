@@ -1,6 +1,10 @@
+
+
+
 platform:ios, '17.0'
  
-target 'name' do
+target 'WCDB 练习' do
+  use_frameworks! :linkage => :static
   pod 'Masonry', '~> 1.1.0'
   pod 'LookinServer', :configurations => ['Debug']
   pod 'AFNetworking', '~> 4.0'
