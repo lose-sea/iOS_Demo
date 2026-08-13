@@ -1,5 +1,19 @@
 
 Pods/
 *.xcworkspace
-
 .DS_Store
+
+
+xcuserdata/
+*.xcuserstate
+build/
+DerivedData/
+*.log
+*.dSYM
+*.ipa
+*.xcarchive
+
+
+._*
+.AppleDouble
+.LSOverride
