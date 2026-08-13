@@ -1,19 +1,22 @@
-
 Pods/
+# 忽略外层独立工作区，保留xcodeproj内部文件
 *.xcworkspace
+!*.xcodeproj/
+
+# Mac系统文件
 .DS_Store
+._*
+.AppleDouble
+.LSOverride
 
-
+# Xcode 用户缓存
 xcuserdata/
 *.xcuserstate
+
+# 编译产物
 build/
 DerivedData/
 *.log
 *.dSYM
 *.ipa
 *.xcarchive
-
-
-._*
-.AppleDouble
-.LSOverride
