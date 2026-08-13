@@ -1,8 +1,9 @@
 
+
 platform :ios, '17.0'
 use_modular_headers!
 
-target 'name' do
+target 'WCDB test' do
   use_frameworks! :linkage => :static
 
   pod 'Masonry', '~> 1.1.0'
@@ -11,5 +12,4 @@ target 'name' do
   pod 'YYModel'
   pod 'SDWebImage', '~> 5.0'
   pod 'WCDB', :modular_headers => true
-end
 end
