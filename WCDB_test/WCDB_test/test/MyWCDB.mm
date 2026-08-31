@@ -41,8 +41,8 @@ WCDB_PRIMARY_AUTO_INCREMENT(userId)
 WCDB_INDEX("_index_name", name)
 
 // 可选：设置非空约束
-// WCDB_NOT_NULL(userName)
-// WCDB_NOT_NULL(email)
+WCDB_NOT_NULL(name)
+WCDB_NOT_NULL(email)
 
 
 

@@ -20,3 +20,17 @@ DerivedData/
 *.dSYM
 *.ipa
 *.xcarchive
+
+# Xcode 杂项
+*.xccheckout
+*.moved-aside
+*.xcscmblueprint
+*.pbxuser
+*.xcbkptlist
+
+# 临时文件
+*.tmp
+*.temp
+
+# 个人demo才打开下面这行；多人协作务必注释掉
+# Podfile.lock
