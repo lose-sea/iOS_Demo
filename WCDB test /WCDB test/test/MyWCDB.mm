@@ -27,13 +27,4 @@ WCDB_PRIMARY_AUTO_INCREMENT(myId)
 //WCDB_INDEX(<#_index_subfix#>, <#property#>)
 
 
-- (instancetype) init {
-    self = [super init];
-    if (self) {
-        self.text = @"";
-        self.array = @[];
-    }
-    return self; 
-}
-
 @end

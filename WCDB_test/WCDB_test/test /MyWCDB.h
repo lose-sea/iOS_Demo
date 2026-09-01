@@ -1,22 +1,13 @@
 //
 //  MyWCDB.h
-//  WCDB 练习
+//  WCDB_test
 //
-//  Created by lose_sea on 2026/8/8.
+//  Created by lose_sea on 2026/9/1.
 //
 
 #import <Foundation/Foundation.h>
-#import <WCDB/WCDB.h>
 
-@interface MyWCDB : NSObject 
-
-
-@property (nonatomic, strong) NSString* text;
-@property (nonatomic, strong) NSArray* array;
-@property (nonatomic, assign) NSInteger myId;  //添加主键
-
-
-
+@interface MyWCDB : NSObject
 
 /*
  // An ORM type can be any C types or any ObjC classes which conforms to NSCoding or WCTColumnCoding protocol.
@@ -27,5 +18,9 @@
 @property (nonatomic, strong) NSArray *<#property4#>;
 @property (nonatomic, readonly) NSDate *<#..........#>;
  */
+
+@property (nonatomic, assign) NSInteger userID;
+@property (nonatomic, strong) NSString* name;
+@property (nonatomic, strong) NSArray* array; 
 
 @end

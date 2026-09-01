@@ -2,12 +2,12 @@
 //  MyWCDB.mm
 //  WCDB_test
 //
-//  Created by lose_sea on 2026/8/31.
+//  Created by lose_sea on 2026/9/1.
 //
 
 #import "MyWCDB+WCTTableCoding.h"
 #import "MyWCDB.h"
-#import <WCDB/WCDB.h>
+#import <WCDBObjc/WCDBObjc.h>
 
 @implementation MyWCDB
 
@@ -24,26 +24,23 @@ WCDB_PRIMARY_AUTO_INCREMENT(<#property#>)
 WCDB_INDEX(<#_index_subfix#>, <#property#>)
  */
 
-// 必须的宏，用于绑定类名
 WCDB_IMPLEMENTATION(MyWCDB)
 
-
-// 将属性绑定到数据库表的字段
-WCDB_SYNTHESIZE(userId)
+WCDB_SYNTHESIZE(userID)
 WCDB_SYNTHESIZE(name)
-WCDB_SYNTHESIZE(age)
-WCDB_SYNTHESIZE(email)
+WCDB_SYNTHESIZE(array)
 
-// 将 userId 设置为自增主键
-WCDB_PRIMARY_AUTO_INCREMENT(userId)
+//// 自定义列名
+//WCDB_SYNTHESIZE_COLUMN(<#property5#>, "<#column name#>")   // Custom column name
 
-// 可选：添加索引以提升查询性能
-WCDB_INDEX("_index_name", name)
+// 主键, 每次插入新纪录是自动加一
+WCDB_PRIMARY_AUTO_INCREMENT(userID)
 
-// 可选：设置非空约束
-WCDB_NOT_NULL(name)
-WCDB_NOT_NULL(email)
+// 数据库索引
+// 为指定创建索引, 用于加速查询速度
+//WCDB_INDEX(<#_index_subfix#>, <#property#>)
 
+//WCDB_INDEX("id", userID)
 
 
 

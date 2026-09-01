@@ -6,7 +6,7 @@
 //
 
 #import "ViewController.h"
-#import <WCDB/WCDB.h>
+
 @interface ViewController () 
 
 @property (nonatomic, strong) WCTDatabase* dataBase;

@@ -7,31 +7,31 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		1C79C6791A4959AAD7686442 /* Pods_WCDB_test.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D7CADCBC70DEAAD44D90246B /* Pods_WCDB_test.framework */; };
+		B0C059A5CE8CDF760F1F1246 /* Pods_WCDB_test.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A43018AA824CE5A9B1ED8587 /* Pods_WCDB_test.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		548B2497304582940082164F /* WCDB_test.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = WCDB_test.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		72A0DBC497C9E594240AE9E0 /* Pods-WCDB_test.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-WCDB_test.release.xcconfig"; path = "Target Support Files/Pods-WCDB_test/Pods-WCDB_test.release.xcconfig"; sourceTree = "<group>"; };
-		8BA5A1F4F90FDE8DECE3E640 /* Pods-WCDB_test.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-WCDB_test.debug.xcconfig"; path = "Target Support Files/Pods-WCDB_test/Pods-WCDB_test.debug.xcconfig"; sourceTree = "<group>"; };
-		D7CADCBC70DEAAD44D90246B /* Pods_WCDB_test.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_WCDB_test.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		548D059D3046F7A9001272FC /* WCDB_test.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = WCDB_test.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		A43018AA824CE5A9B1ED8587 /* Pods_WCDB_test.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_WCDB_test.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		CA651066B90CA38D1441BB6B /* Pods-WCDB_test.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-WCDB_test.debug.xcconfig"; path = "Target Support Files/Pods-WCDB_test/Pods-WCDB_test.debug.xcconfig"; sourceTree = "<group>"; };
+		FA62433ACF3BCF6201A2C345 /* Pods-WCDB_test.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-WCDB_test.release.xcconfig"; path = "Target Support Files/Pods-WCDB_test/Pods-WCDB_test.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
-		548B24AE304582950082164F /* Exceptions for "WCDB_test" folder in "WCDB_test" target */ = {
+		548D05B43046F7AA001272FC /* Exceptions for "WCDB_test" folder in "WCDB_test" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
 				Info.plist,
 			);
-			target = 548B2496304582940082164F /* WCDB_test */;
+			target = 548D059C3046F7A9001272FC /* WCDB_test */;
 		};
 /* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
-		548B2499304582940082164F /* WCDB_test */ = {
+		548D059F3046F7A9001272FC /* WCDB_test */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			exceptions = (
-				548B24AE304582950082164F /* Exceptions for "WCDB_test" folder in "WCDB_test" target */,
+				548D05B43046F7AA001272FC /* Exceptions for "WCDB_test" folder in "WCDB_test" target */,
 			);
 			path = WCDB_test;
 			sourceTree = "<group>";
@@ -39,112 +39,112 @@
 /* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
-		548B2494304582940082164F /* Frameworks */ = {
+		548D059A3046F7A9001272FC /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				1C79C6791A4959AAD7686442 /* Pods_WCDB_test.framework in Frameworks */,
+				B0C059A5CE8CDF760F1F1246 /* Pods_WCDB_test.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		0B99E159E59CC3E944227395 /* Frameworks */ = {
+		548D05943046F7A9001272FC = {
 			isa = PBXGroup;
 			children = (
-				D7CADCBC70DEAAD44D90246B /* Pods_WCDB_test.framework */,
-			);
-			name = Frameworks;
-			sourceTree = "<group>";
-		};
-		548B248E304582940082164F = {
-			isa = PBXGroup;
-			children = (
-				548B2499304582940082164F /* WCDB_test */,
-				548B2498304582940082164F /* Products */,
-				B980C97A39D5DAEB50749866 /* Pods */,
-				0B99E159E59CC3E944227395 /* Frameworks */,
+				548D059F3046F7A9001272FC /* WCDB_test */,
+				548D059E3046F7A9001272FC /* Products */,
+				65649E1BF9E98CC06DB88231 /* Pods */,
+				8D2B5D35CA3B41C198EAFDCE /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
-		548B2498304582940082164F /* Products */ = {
+		548D059E3046F7A9001272FC /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				548B2497304582940082164F /* WCDB_test.app */,
+				548D059D3046F7A9001272FC /* WCDB_test.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
 		};
-		B980C97A39D5DAEB50749866 /* Pods */ = {
+		65649E1BF9E98CC06DB88231 /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				8BA5A1F4F90FDE8DECE3E640 /* Pods-WCDB_test.debug.xcconfig */,
-				72A0DBC497C9E594240AE9E0 /* Pods-WCDB_test.release.xcconfig */,
+				CA651066B90CA38D1441BB6B /* Pods-WCDB_test.debug.xcconfig */,
+				FA62433ACF3BCF6201A2C345 /* Pods-WCDB_test.release.xcconfig */,
 			);
 			path = Pods;
+			sourceTree = "<group>";
+		};
+		8D2B5D35CA3B41C198EAFDCE /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				A43018AA824CE5A9B1ED8587 /* Pods_WCDB_test.framework */,
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		548B2496304582940082164F /* WCDB_test */ = {
+		548D059C3046F7A9001272FC /* WCDB_test */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 548B24AF304582950082164F /* Build configuration list for PBXNativeTarget "WCDB_test" */;
+			buildConfigurationList = 548D05B53046F7AA001272FC /* Build configuration list for PBXNativeTarget "WCDB_test" */;
 			buildPhases = (
-				F70BAFC809664354706046F3 /* [CP] Check Pods Manifest.lock */,
-				548B2493304582940082164F /* Sources */,
-				548B2494304582940082164F /* Frameworks */,
-				548B2495304582940082164F /* Resources */,
-				423F87FDD2EA1176FE59082E /* [CP] Copy Pods Resources */,
+				E8A82FC44E754F5AFE850454 /* [CP] Check Pods Manifest.lock */,
+				548D05993046F7A9001272FC /* Sources */,
+				548D059A3046F7A9001272FC /* Frameworks */,
+				548D059B3046F7A9001272FC /* Resources */,
+				D91479445FC7F1DA32BCA7C2 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
 			dependencies = (
 			);
 			fileSystemSynchronizedGroups = (
-				548B2499304582940082164F /* WCDB_test */,
+				548D059F3046F7A9001272FC /* WCDB_test */,
 			);
 			name = WCDB_test;
 			productName = WCDB_test;
-			productReference = 548B2497304582940082164F /* WCDB_test.app */;
+			productReference = 548D059D3046F7A9001272FC /* WCDB_test.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
-		548B248F304582940082164F /* Project object */ = {
+		548D05953046F7A9001272FC /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
 				LastUpgradeCheck = 2630;
 				TargetAttributes = {
-					548B2496304582940082164F = {
+					548D059C3046F7A9001272FC = {
 						CreatedOnToolsVersion = 26.3;
 					};
 				};
 			};
-			buildConfigurationList = 548B2492304582940082164F /* Build configuration list for PBXProject "WCDB_test" */;
+			buildConfigurationList = 548D05983046F7A9001272FC /* Build configuration list for PBXProject "WCDB_test" */;
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = (
 				en,
 				Base,
 			);
-			mainGroup = 548B248E304582940082164F;
+			mainGroup = 548D05943046F7A9001272FC;
 			minimizedProjectReferenceProxies = 1;
 			preferredProjectObjectVersion = 77;
-			productRefGroup = 548B2498304582940082164F /* Products */;
+			productRefGroup = 548D059E3046F7A9001272FC /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				548B2496304582940082164F /* WCDB_test */,
+				548D059C3046F7A9001272FC /* WCDB_test */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
-		548B2495304582940082164F /* Resources */ = {
+		548D059B3046F7A9001272FC /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -154,7 +154,7 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		423F87FDD2EA1176FE59082E /* [CP] Copy Pods Resources */ = {
+		D91479445FC7F1DA32BCA7C2 /* [CP] Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -175,7 +175,7 @@
 			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-WCDB_test/Pods-WCDB_test-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		F70BAFC809664354706046F3 /* [CP] Check Pods Manifest.lock */ = {
+		E8A82FC44E754F5AFE850454 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -200,7 +200,7 @@
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
-		548B2493304582940082164F /* Sources */ = {
+		548D05993046F7A9001272FC /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -210,9 +210,9 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin XCBuildConfiguration section */
-		548B24B0304582950082164F /* Debug */ = {
+		548D05B63046F7AA001272FC /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 8BA5A1F4F90FDE8DECE3E640 /* Pods-WCDB_test.debug.xcconfig */;
+			baseConfigurationReference = CA651066B90CA38D1441BB6B /* Pods-WCDB_test.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -239,9 +239,9 @@
 			};
 			name = Debug;
 		};
-		548B24B1304582950082164F /* Release */ = {
+		548D05B73046F7AA001272FC /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 72A0DBC497C9E594240AE9E0 /* Pods-WCDB_test.release.xcconfig */;
+			baseConfigurationReference = FA62433ACF3BCF6201A2C345 /* Pods-WCDB_test.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -268,7 +268,7 @@
 			};
 			name = Release;
 		};
-		548B24B2304582950082164F /* Debug */ = {
+		548D05B83046F7AA001272FC /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -329,7 +329,7 @@
 			};
 			name = Debug;
 		};
-		548B24B3304582950082164F /* Release */ = {
+		548D05B93046F7AA001272FC /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -387,25 +387,25 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		548B2492304582940082164F /* Build configuration list for PBXProject "WCDB_test" */ = {
+		548D05983046F7A9001272FC /* Build configuration list for PBXProject "WCDB_test" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				548B24B2304582950082164F /* Debug */,
-				548B24B3304582950082164F /* Release */,
+				548D05B83046F7AA001272FC /* Debug */,
+				548D05B93046F7AA001272FC /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		548B24AF304582950082164F /* Build configuration list for PBXNativeTarget "WCDB_test" */ = {
+		548D05B53046F7AA001272FC /* Build configuration list for PBXNativeTarget "WCDB_test" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				548B24B0304582950082164F /* Debug */,
-				548B24B1304582950082164F /* Release */,
+				548D05B63046F7AA001272FC /* Debug */,
+				548D05B73046F7AA001272FC /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
-	rootObject = 548B248F304582940082164F /* Project object */;
+	rootObject = 548D05953046F7A9001272FC /* Project object */;
 }

@@ -1,4 +1,4 @@
-platform :ios, '17.0'
+platform :ios, '13.0'
 use_modular_headers!
 
 target 'name' do
@@ -9,5 +9,5 @@ target 'name' do
   pod 'AFNetworking', '~> 4.0'
   pod 'YYModel'
   pod 'SDWebImage', '~> 5.0'
-  pod 'WCDB'
+  pod 'WCDB.objc'
 end

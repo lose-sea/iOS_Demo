@@ -8,8 +8,9 @@
 #import <UIKit/UIKit.h>
 #import "View.h"
 #import "MyWCDB.h"
+#import "MyWCDB+WCTTableCoding.h"
 
-@interface ViewController : UIViewController
+@interface ViewController : UIViewController 
 @property (nonatomic, strong) MyWCDB* myWCDB; 
 @property (nonatomic, strong) View* testview;
 
