@@ -21,7 +21,7 @@ PODS:
   - SDWebImage (5.21.7):
     - SDWebImage/Core (= 5.21.7)
   - SDWebImage/Core (5.21.7)
-  - WCDB (2.1.16):
+  - WCDB.objc (2.1.16):
     - WCDBOptimizedSQLCipher (= 1.4.8)
   - WCDBOptimizedSQLCipher (1.4.8)
   - YYModel (1.0.4)
@@ -31,7 +31,7 @@ DEPENDENCIES:
   - LookinServer
   - Masonry (~> 1.1.0)
   - SDWebImage (~> 5.0)
-  - WCDB
+  - WCDB.objc
   - YYModel
 
 SPEC REPOS:
@@ -40,7 +40,7 @@ SPEC REPOS:
     - LookinServer
     - Masonry
     - SDWebImage
-    - WCDB
+    - WCDB.objc
     - WCDBOptimizedSQLCipher
     - YYModel
 
@@ -49,10 +49,10 @@ SPEC CHECKSUMS:
   LookinServer: 1b2b61c6402ae29fa22182d48f5cd067b4e99e80
   Masonry: 678fab65091a9290e40e2832a55e7ab731aad201
   SDWebImage: e9fc87c1aab89a8ab1bbd74eba378c6f53be8abf
-  WCDB: d42e5e10cfe39e1e45759eaf660425ec635abfe7
+  WCDB.objc: d88dd9184fc7797b10890efadd593b8ce1d062dc
   WCDBOptimizedSQLCipher: 871994f7f620302fdf87a2729c099a1efa2223da
   YYModel: 2a7fdd96aaa4b86a824e26d0c517de8928c04b30
 
-PODFILE CHECKSUM: 5d42a0c7a5b301d61879f436a2eef9d1e6ebc5c3
+PODFILE CHECKSUM: b474f2f461c19fb418b4bbf905895ce42ca4973f
 
 COCOAPODS: 1.16.2

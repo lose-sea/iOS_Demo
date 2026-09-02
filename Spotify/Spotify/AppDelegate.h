@@ -1,8 +1,8 @@
 //
 //  AppDelegate.h
-//  WCDB test
+//  Spotify
 //
-//  Created by lose_sea on 2026/8/8.
+//  Created by lose_sea on 2026/9/2.
 //
 
 #import <UIKit/UIKit.h>

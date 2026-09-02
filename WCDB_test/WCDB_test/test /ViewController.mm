@@ -19,12 +19,15 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     [self setUpDatabase];
+    
+    [self.database dropTable:@"MyWCDB"];
     [self createTable];
+//    [self createTable];
     
     [self insertData];
 //    [self queryData];
 //    [self deleteData];
-    [self updateData];
+//    [self updateData];
 }
 
 
@@ -62,12 +65,16 @@
 // insert Data
 - (void) insertData {
     
-    [self deleteData];
+//    [self deleteData];
 //    [self queryData];
     
     NSLog(@"插入数据");
     // 创建一个用户
     MyWCDB* user1 = [[MyWCDB alloc] init];
+    
+    // 设置主键自增
+//    user1.isAutoIncrement = YES;          // 必须设置
+    
     user1.name = @"张三";
     user1.array = @[@"iOS", @"Python"];
     
@@ -77,7 +84,9 @@
     }
     
     MyWCDB* user2 = [[MyWCDB alloc] init];
-    user2.userID = 1;
+//    user2.isAutoIncrement = YES;           // 必须设置
+
+//    user2.userID = 1;
     user2.name = @"张三";
     user2.array = @[@"iOS", @"Python"];
     
@@ -134,7 +143,7 @@
 // 更新数据
 - (void) updateData {
     // 将 userID 为 1 的用户改为 "王五"
-    BOOL success = [self.database updateTable: @"MyWCDB" setProperty: MyWCDB.name toValue:  @"王五" where: MyWCDB.userID == 1];
+    BOOL success = [self.database updateTable: @"MyWCDB" setProperty: MyWCDB.name toValue:  @"王五"];
     if (success) {
         printf("success");
     } else {

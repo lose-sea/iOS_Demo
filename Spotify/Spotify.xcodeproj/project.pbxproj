@@ -7,144 +7,144 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		AEAD33DA9CAA29BED5BDABD1 /* Pods_WCDB_test.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3F9F78CC1329FC2219195B38 /* Pods_WCDB_test.framework */; };
+		4F0EAD5135F50DEB90F32308 /* Pods_Spotify.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8F299EB6B9B318F6E4BBF9E8 /* Pods_Spotify.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		3F9F78CC1329FC2219195B38 /* Pods_WCDB_test.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_WCDB_test.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		5461A474302715F000395291 /* WCDB test.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "WCDB test.app"; sourceTree = BUILT_PRODUCTS_DIR; };
-		94AA90710AEC84072B39EC9D /* Pods-WCDB test.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-WCDB test.release.xcconfig"; path = "Target Support Files/Pods-WCDB test/Pods-WCDB test.release.xcconfig"; sourceTree = "<group>"; };
-		E328AF2F11DD9E4427A4EE75 /* Pods-WCDB test.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-WCDB test.debug.xcconfig"; path = "Target Support Files/Pods-WCDB test/Pods-WCDB test.debug.xcconfig"; sourceTree = "<group>"; };
+		2ABBBB23D583CB0277ACB5A3 /* Pods-Spotify.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Spotify.debug.xcconfig"; path = "Target Support Files/Pods-Spotify/Pods-Spotify.debug.xcconfig"; sourceTree = "<group>"; };
+		54C3582E304847F500475F8A /* Spotify.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Spotify.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		8F299EB6B9B318F6E4BBF9E8 /* Pods_Spotify.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Spotify.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		ACF9F973FA7952A1E7A2B525 /* Pods-Spotify.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Spotify.release.xcconfig"; path = "Target Support Files/Pods-Spotify/Pods-Spotify.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
-		5461A48B302715F100395291 /* Exceptions for "WCDB test" folder in "WCDB test" target */ = {
+		54C35845304847F700475F8A /* Exceptions for "Spotify" folder in "Spotify" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
 				Info.plist,
 			);
-			target = 5461A473302715F000395291 /* WCDB test */;
+			target = 54C3582D304847F500475F8A /* Spotify */;
 		};
 /* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
-		5461A476302715F000395291 /* WCDB test */ = {
+		54C35830304847F500475F8A /* Spotify */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			exceptions = (
-				5461A48B302715F100395291 /* Exceptions for "WCDB test" folder in "WCDB test" target */,
+				54C35845304847F700475F8A /* Exceptions for "Spotify" folder in "Spotify" target */,
 			);
-			path = "WCDB test";
+			path = Spotify;
 			sourceTree = "<group>";
 		};
 /* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
-		5461A471302715F000395291 /* Frameworks */ = {
+		54C3582B304847F500475F8A /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				AEAD33DA9CAA29BED5BDABD1 /* Pods_WCDB_test.framework in Frameworks */,
+				4F0EAD5135F50DEB90F32308 /* Pods_Spotify.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		5461A46B302715F000395291 = {
+		128C295255B21F7A42DD86EC /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				5461A476302715F000395291 /* WCDB test */,
-				5461A475302715F000395291 /* Products */,
-				B914376965E75277A8204254 /* Pods */,
-				EF5D61468F4BDD4BC44BDB25 /* Frameworks */,
+				8F299EB6B9B318F6E4BBF9E8 /* Pods_Spotify.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		54C35825304847F500475F8A = {
+			isa = PBXGroup;
+			children = (
+				54C35830304847F500475F8A /* Spotify */,
+				54C3582F304847F500475F8A /* Products */,
+				C9E1158E55CB2C903FDB5DE0 /* Pods */,
+				128C295255B21F7A42DD86EC /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
-		5461A475302715F000395291 /* Products */ = {
+		54C3582F304847F500475F8A /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				5461A474302715F000395291 /* WCDB test.app */,
+				54C3582E304847F500475F8A /* Spotify.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
 		};
-		B914376965E75277A8204254 /* Pods */ = {
+		C9E1158E55CB2C903FDB5DE0 /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				E328AF2F11DD9E4427A4EE75 /* Pods-WCDB test.debug.xcconfig */,
-				94AA90710AEC84072B39EC9D /* Pods-WCDB test.release.xcconfig */,
+				2ABBBB23D583CB0277ACB5A3 /* Pods-Spotify.debug.xcconfig */,
+				ACF9F973FA7952A1E7A2B525 /* Pods-Spotify.release.xcconfig */,
 			);
 			path = Pods;
-			sourceTree = "<group>";
-		};
-		EF5D61468F4BDD4BC44BDB25 /* Frameworks */ = {
-			isa = PBXGroup;
-			children = (
-				3F9F78CC1329FC2219195B38 /* Pods_WCDB_test.framework */,
-			);
-			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		5461A473302715F000395291 /* WCDB test */ = {
+		54C3582D304847F500475F8A /* Spotify */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 5461A48C302715F100395291 /* Build configuration list for PBXNativeTarget "WCDB test" */;
+			buildConfigurationList = 54C35846304847F700475F8A /* Build configuration list for PBXNativeTarget "Spotify" */;
 			buildPhases = (
-				311B17DE4EA9BF4E0BF6C743 /* [CP] Check Pods Manifest.lock */,
-				5461A470302715F000395291 /* Sources */,
-				5461A471302715F000395291 /* Frameworks */,
-				5461A472302715F000395291 /* Resources */,
-				C738BBE91A701B130E064CB0 /* [CP] Copy Pods Resources */,
+				9ED2B635A4029795ACEB1F0C /* [CP] Check Pods Manifest.lock */,
+				54C3582A304847F500475F8A /* Sources */,
+				54C3582B304847F500475F8A /* Frameworks */,
+				54C3582C304847F500475F8A /* Resources */,
+				352B4495256F91FF9511D306 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
 			dependencies = (
 			);
 			fileSystemSynchronizedGroups = (
-				5461A476302715F000395291 /* WCDB test */,
+				54C35830304847F500475F8A /* Spotify */,
 			);
-			name = "WCDB test";
-			productName = "WCDB test";
-			productReference = 5461A474302715F000395291 /* WCDB test.app */;
+			name = Spotify;
+			productName = Spotify;
+			productReference = 54C3582E304847F500475F8A /* Spotify.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
-		5461A46C302715F000395291 /* Project object */ = {
+		54C35826304847F500475F8A /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
 				LastUpgradeCheck = 2630;
 				TargetAttributes = {
-					5461A473302715F000395291 = {
+					54C3582D304847F500475F8A = {
 						CreatedOnToolsVersion = 26.3;
 					};
 				};
 			};
-			buildConfigurationList = 5461A46F302715F000395291 /* Build configuration list for PBXProject "WCDB test" */;
+			buildConfigurationList = 54C35829304847F500475F8A /* Build configuration list for PBXProject "Spotify" */;
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = (
 				en,
 				Base,
 			);
-			mainGroup = 5461A46B302715F000395291;
+			mainGroup = 54C35825304847F500475F8A;
 			minimizedProjectReferenceProxies = 1;
 			preferredProjectObjectVersion = 77;
-			productRefGroup = 5461A475302715F000395291 /* Products */;
+			productRefGroup = 54C3582F304847F500475F8A /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				5461A473302715F000395291 /* WCDB test */,
+				54C3582D304847F500475F8A /* Spotify */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
-		5461A472302715F000395291 /* Resources */ = {
+		54C3582C304847F500475F8A /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -154,7 +154,28 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		311B17DE4EA9BF4E0BF6C743 /* [CP] Check Pods Manifest.lock */ = {
+		352B4495256F91FF9511D306 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Spotify/Pods-Spotify-resources-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			inputPaths = (
+			);
+			name = "[CP] Copy Pods Resources";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Spotify/Pods-Spotify-resources-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Spotify/Pods-Spotify-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		9ED2B635A4029795ACEB1F0C /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -169,38 +190,17 @@
 			outputFileListPaths = (
 			);
 			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-WCDB test-checkManifestLockResult.txt",
+				"$(DERIVED_FILE_DIR)/Pods-Spotify-checkManifestLockResult.txt",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
-		C738BBE91A701B130E064CB0 /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-WCDB test/Pods-WCDB test-resources-${CONFIGURATION}-input-files.xcfilelist",
-			);
-			inputPaths = (
-			);
-			name = "[CP] Copy Pods Resources";
-			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-WCDB test/Pods-WCDB test-resources-${CONFIGURATION}-output-files.xcfilelist",
-			);
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-WCDB test/Pods-WCDB test-resources.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
-		5461A470302715F000395291 /* Sources */ = {
+		54C3582A304847F500475F8A /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -210,9 +210,9 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin XCBuildConfiguration section */
-		5461A48D302715F100395291 /* Debug */ = {
+		54C35847304847F700475F8A /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = E328AF2F11DD9E4427A4EE75 /* Pods-WCDB test.debug.xcconfig */;
+			baseConfigurationReference = 2ABBBB23D583CB0277ACB5A3 /* Pods-Spotify.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -220,7 +220,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = "WCDB test/Info.plist";
+				INFOPLIST_FILE = Spotify/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
@@ -231,7 +231,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = "ggg.WCDB-test";
+				PRODUCT_BUNDLE_IDENTIFIER = ggg.Spotify;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				STRING_CATALOG_GENERATE_SYMBOLS = YES;
 				SWIFT_EMIT_LOC_STRINGS = YES;
@@ -239,9 +239,9 @@
 			};
 			name = Debug;
 		};
-		5461A48E302715F100395291 /* Release */ = {
+		54C35848304847F700475F8A /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 94AA90710AEC84072B39EC9D /* Pods-WCDB test.release.xcconfig */;
+			baseConfigurationReference = ACF9F973FA7952A1E7A2B525 /* Pods-Spotify.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -249,7 +249,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = "WCDB test/Info.plist";
+				INFOPLIST_FILE = Spotify/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
@@ -260,7 +260,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = "ggg.WCDB-test";
+				PRODUCT_BUNDLE_IDENTIFIER = ggg.Spotify;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				STRING_CATALOG_GENERATE_SYMBOLS = YES;
 				SWIFT_EMIT_LOC_STRINGS = YES;
@@ -268,7 +268,7 @@
 			};
 			name = Release;
 		};
-		5461A48F302715F100395291 /* Debug */ = {
+		54C35849304847F700475F8A /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -329,7 +329,7 @@
 			};
 			name = Debug;
 		};
-		5461A490302715F100395291 /* Release */ = {
+		54C3584A304847F700475F8A /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -387,25 +387,25 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		5461A46F302715F000395291 /* Build configuration list for PBXProject "WCDB test" */ = {
+		54C35829304847F500475F8A /* Build configuration list for PBXProject "Spotify" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				5461A48F302715F100395291 /* Debug */,
-				5461A490302715F100395291 /* Release */,
+				54C35849304847F700475F8A /* Debug */,
+				54C3584A304847F700475F8A /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		5461A48C302715F100395291 /* Build configuration list for PBXNativeTarget "WCDB test" */ = {
+		54C35846304847F700475F8A /* Build configuration list for PBXNativeTarget "Spotify" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				5461A48D302715F100395291 /* Debug */,
-				5461A48E302715F100395291 /* Release */,
+				54C35847304847F700475F8A /* Debug */,
+				54C35848304847F700475F8A /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
-	rootObject = 5461A46C302715F000395291 /* Project object */;
+	rootObject = 54C35826304847F500475F8A /* Project object */;
 }
