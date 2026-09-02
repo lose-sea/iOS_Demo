@@ -34,7 +34,7 @@ WCDB_SYNTHESIZE(array)
 //WCDB_SYNTHESIZE_COLUMN(<#property5#>, "<#column name#>")   // Custom column name
 
 // 主键, 每次插入新纪录是自动加一
-WCDB_PRIMARY_AUTO_INCREMENT(userID)
+//WCDB_PRIMARY_AUTO_INCREMENT(userID)
 
 // 数据库索引
 // 为指定创建索引, 用于加速查询速度

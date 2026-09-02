@@ -24,6 +24,7 @@
     [self insertData];
 //    [self queryData];
 //    [self deleteData];
+    [self updateData];
 }
 
 
@@ -61,8 +62,8 @@
 // insert Data
 - (void) insertData {
     
-    [self.database deleteFromTable: @"MyWCDB"];
-    [self queryData];
+    [self deleteData];
+//    [self queryData];
     
     NSLog(@"插入数据");
     // 创建一个用户
@@ -75,15 +76,15 @@
         NSLog(@"数据插入成功, user1: %lu, %@, %@", user1.userID, user1.name, user1.array);
     }
     
-//    MyWCDB* user2 = [[MyWCDB alloc] init];
-////    user2.userID = 2;
-//    user2.name = @"张三";
-//    user2.array = @[@"iOS", @"Python"];
-//    
-//    BOOL success2 = [self.database insertObject: user2 intoTable: @"MyWCDB"];
-//    if (success2) {
-//        NSLog(@"数据插入成功, user2: %lu, %@, %@", user2.userID, user2.name, user2.array);
-//    }
+    MyWCDB* user2 = [[MyWCDB alloc] init];
+    user2.userID = 1;
+    user2.name = @"张三";
+    user2.array = @[@"iOS", @"Python"];
+    
+    BOOL success2 = [self.database insertObject: user2 intoTable: @"MyWCDB"];
+    if (success2) {
+        NSLog(@"数据插入成功, user2: %lu, %@, %@", user2.userID, user2.name, user2.array);
+    }
     
     
 //    MyWCDB* user2 = [[MyWCDB alloc] init];
@@ -95,17 +96,7 @@
 //    if (success2) {
 //        NSLog(@"数据插入成功, user2: %lu, %@, %@", user2.userID, user2.name, user2.array);
 //    }
-    
-    
-    MyWCDB* user2 = [[MyWCDB alloc] init];
-//    user2.userID = 2;
-    user2.name = @"李四";
-    user2.array = @[@"hello", @"xinyan"];
-    
-    BOOL success2 = [self.database insertObject: user2 intoTable: @"MyWCDB"];
-    if (success2) {
-        NSLog(@"数据插入成功, user2: %lu, %@, %@", user2.userID, user2.name, user2.array);
-    }
+
     
     
     [self queryData];
@@ -128,12 +119,26 @@
 
 
 - (void) deleteData {
-    // 删除 userID 为2 的用户
+    // 删除所有的数据
     BOOL success = [self.database deleteFromTable: @"MyWCDB"];
     if (success) {
         NSLog(@"delete success");
     } else {
         NSLog(@"delete failure");
+    }
+    
+    [self queryData];
+}
+
+
+// 更新数据
+- (void) updateData {
+    // 将 userID 为 1 的用户改为 "王五"
+    BOOL success = [self.database updateTable: @"MyWCDB" setProperty: MyWCDB.name toValue:  @"王五" where: MyWCDB.userID == 1];
+    if (success) {
+        printf("success");
+    } else {
+        NSLog(@"fail");
     }
     
     [self queryData];

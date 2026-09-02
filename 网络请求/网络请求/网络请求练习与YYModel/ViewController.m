@@ -50,11 +50,13 @@
          headers: nil
         progress:nil
          success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
-//                NSLog(@"%@", responseObject);
+        NSLog(@"%@", responseObject);
         Model* model = [Model yy_modelWithJSON: responseObject];
+    
         NSLog(@"打印的数据");
         NSLog(@"%f", model.current.temp_c);
         NSLog(@"%@", model.location);
+        NSLog(@"%@", model.location.name);
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
         
         
