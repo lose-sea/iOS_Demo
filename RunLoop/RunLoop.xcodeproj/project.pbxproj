@@ -6,32 +6,33 @@
 	objectVersion = 77;
 	objects = {
 
-/* Begin PBXCopyFilesBuildPhase section */
-		540428AB30484EA6001BBB68 /* CopyFiles */ = {
-			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
-			dstPath = /usr/share/man/man1/;
-			dstSubfolderSpec = 0;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 1;
-		};
-/* End PBXCopyFilesBuildPhase section */
-
 /* Begin PBXFileReference section */
-		540428AD30484EA6001BBB68 /* GCD */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = GCD; sourceTree = BUILT_PRODUCTS_DIR; };
+		549FF6FD3049B668005E6E4D /* RunLoop.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = RunLoop.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
+/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		549FF7143049B668005E6E4D /* Exceptions for "RunLoop" folder in "RunLoop" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Info.plist,
+			);
+			target = 549FF6FC3049B668005E6E4D /* RunLoop */;
+		};
+/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
+
 /* Begin PBXFileSystemSynchronizedRootGroup section */
-		540428AF30484EA6001BBB68 /* GCD */ = {
+		549FF6FF3049B668005E6E4D /* RunLoop */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
-			path = GCD;
+			exceptions = (
+				549FF7143049B668005E6E4D /* Exceptions for "RunLoop" folder in "RunLoop" target */,
+			);
+			path = RunLoop;
 			sourceTree = "<group>";
 		};
 /* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
-		540428AA30484EA6001BBB68 /* Frameworks */ = {
+		549FF6FA3049B668005E6E4D /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -41,18 +42,18 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		540428A430484EA6001BBB68 = {
+		549FF6F43049B668005E6E4D = {
 			isa = PBXGroup;
 			children = (
-				540428AF30484EA6001BBB68 /* GCD */,
-				540428AE30484EA6001BBB68 /* Products */,
+				549FF6FF3049B668005E6E4D /* RunLoop */,
+				549FF6FE3049B668005E6E4D /* Products */,
 			);
 			sourceTree = "<group>";
 		};
-		540428AE30484EA6001BBB68 /* Products */ = {
+		549FF6FE3049B668005E6E4D /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				540428AD30484EA6001BBB68 /* GCD */,
+				549FF6FD3049B668005E6E4D /* RunLoop.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -60,63 +61,73 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		540428AC30484EA6001BBB68 /* GCD */ = {
+		549FF6FC3049B668005E6E4D /* RunLoop */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 540428B430484EA6001BBB68 /* Build configuration list for PBXNativeTarget "GCD" */;
+			buildConfigurationList = 549FF7153049B668005E6E4D /* Build configuration list for PBXNativeTarget "RunLoop" */;
 			buildPhases = (
-				540428A930484EA6001BBB68 /* Sources */,
-				540428AA30484EA6001BBB68 /* Frameworks */,
-				540428AB30484EA6001BBB68 /* CopyFiles */,
+				549FF6F93049B668005E6E4D /* Sources */,
+				549FF6FA3049B668005E6E4D /* Frameworks */,
+				549FF6FB3049B668005E6E4D /* Resources */,
 			);
 			buildRules = (
 			);
 			dependencies = (
 			);
 			fileSystemSynchronizedGroups = (
-				540428AF30484EA6001BBB68 /* GCD */,
+				549FF6FF3049B668005E6E4D /* RunLoop */,
 			);
-			name = GCD;
+			name = RunLoop;
 			packageProductDependencies = (
 			);
-			productName = GCD;
-			productReference = 540428AD30484EA6001BBB68 /* GCD */;
-			productType = "com.apple.product-type.tool";
+			productName = RunLoop;
+			productReference = 549FF6FD3049B668005E6E4D /* RunLoop.app */;
+			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
-		540428A530484EA6001BBB68 /* Project object */ = {
+		549FF6F53049B668005E6E4D /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
 				LastUpgradeCheck = 2630;
 				TargetAttributes = {
-					540428AC30484EA6001BBB68 = {
+					549FF6FC3049B668005E6E4D = {
 						CreatedOnToolsVersion = 26.3;
 					};
 				};
 			};
-			buildConfigurationList = 540428A830484EA6001BBB68 /* Build configuration list for PBXProject "GCD" */;
+			buildConfigurationList = 549FF6F83049B668005E6E4D /* Build configuration list for PBXProject "RunLoop" */;
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = (
 				en,
 				Base,
 			);
-			mainGroup = 540428A430484EA6001BBB68;
+			mainGroup = 549FF6F43049B668005E6E4D;
 			minimizedProjectReferenceProxies = 1;
 			preferredProjectObjectVersion = 77;
-			productRefGroup = 540428AE30484EA6001BBB68 /* Products */;
+			productRefGroup = 549FF6FE3049B668005E6E4D /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				540428AC30484EA6001BBB68 /* GCD */,
+				549FF6FC3049B668005E6E4D /* RunLoop */,
 			);
 		};
 /* End PBXProject section */
 
+/* Begin PBXResourcesBuildPhase section */
+		549FF6FB3049B668005E6E4D /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
-		540428A930484EA6001BBB68 /* Sources */ = {
+		549FF6F93049B668005E6E4D /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -126,7 +137,61 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin XCBuildConfiguration section */
-		540428B230484EA6001BBB68 /* Debug */ = {
+		549FF7163049B668005E6E4D /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = RunLoop/Info.plist;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
+				INFOPLIST_KEY_UIMainStoryboardFile = Main;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = ggg.RunLoop;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		549FF7173049B668005E6E4D /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = RunLoop/Info.plist;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
+				INFOPLIST_KEY_UIMainStoryboardFile = Main;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = ggg.RunLoop;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		549FF7183049B668005E6E4D /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -178,16 +243,16 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 26.2;
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
-				MACOSX_DEPLOYMENT_TARGET = 15.7;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
-				SDKROOT = macosx;
+				SDKROOT = iphoneos;
 			};
 			name = Debug;
 		};
-		540428B330484EA6001BBB68 /* Release */ = {
+		549FF7193049B668005E6E4D /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -233,52 +298,37 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 26.2;
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
-				MACOSX_DEPLOYMENT_TARGET = 15.7;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
-				SDKROOT = macosx;
-			};
-			name = Release;
-		};
-		540428B530484EA6001BBB68 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				CODE_SIGN_STYLE = Automatic;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-			};
-			name = Debug;
-		};
-		540428B630484EA6001BBB68 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				CODE_SIGN_STYLE = Automatic;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				VALIDATE_PRODUCT = YES;
 			};
 			name = Release;
 		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		540428A830484EA6001BBB68 /* Build configuration list for PBXProject "GCD" */ = {
+		549FF6F83049B668005E6E4D /* Build configuration list for PBXProject "RunLoop" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				540428B230484EA6001BBB68 /* Debug */,
-				540428B330484EA6001BBB68 /* Release */,
+				549FF7183049B668005E6E4D /* Debug */,
+				549FF7193049B668005E6E4D /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		540428B430484EA6001BBB68 /* Build configuration list for PBXNativeTarget "GCD" */ = {
+		549FF7153049B668005E6E4D /* Build configuration list for PBXNativeTarget "RunLoop" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				540428B530484EA6001BBB68 /* Debug */,
-				540428B630484EA6001BBB68 /* Release */,
+				549FF7163049B668005E6E4D /* Debug */,
+				549FF7173049B668005E6E4D /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
-	rootObject = 540428A530484EA6001BBB68 /* Project object */;
+	rootObject = 549FF6F53049B668005E6E4D /* Project object */;
 }
