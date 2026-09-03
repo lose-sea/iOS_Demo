@@ -17,6 +17,8 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     
+    NSRunLoop* runLoop = [NSRunLoop mainRunLoop]; 
+    
 }
 
 
