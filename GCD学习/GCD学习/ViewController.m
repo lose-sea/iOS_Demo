@@ -165,29 +165,50 @@
 //    });
     
     
-    dispatch_queue_t queue = dispatch_queue_create("com.demo.database", DISPATCH_QUEUE_CONCURRENT);
-    dispatch_async(queue, ^{
-        NSLog(@"read A");
-    });
+//    dispatch_queue_t queue = dispatch_queue_create("com.demo.database", DISPATCH_QUEUE_CONCURRENT);
+//    dispatch_async(queue, ^{
+//        NSLog(@"read A");
+//    });
+//    
+//    dispatch_async(queue, ^{
+//        NSLog(@"read B");
+//    });
+//    
+//    
+//    dispatch_barrier_async(queue, ^{
+//        NSLog(@"写入");
+//    });
+//    
+//    dispatch_async(queue, ^{
+//        NSLog(@"read C");
+//    });
+//    
+//    dispatch_async(queue, ^{
+//        NSLog(@"read D");
+//    });
     
-    dispatch_async(queue, ^{
-        NSLog(@"read B");
-    });
+    dispatch_queue_attr_t attr = dispatch_queue_attr_make_with_qos_class(DISPATCH_QUEUE_SERIAL, QOS_CLASS_USER_INITIATED, 0);
     
+    dispatch_queue_t queue = dispatch_queue_create("concurrent_queue", attr);
+    dispatch_semaphore_t semaphore = dispatch_semaphore_create(3);
     
-    dispatch_barrier_async(queue, ^{
-        NSLog(@"写入");
-    });
-    
-    dispatch_async(queue, ^{
-        NSLog(@"read C");
-    });
-    
-    dispatch_async(queue, ^{
-        NSLog(@"read D");
-    });
+    for (int i = 0; i < 100; i++) {
+        dispatch_async(queue, ^{
+
+            dispatch_semaphore_wait(semaphore, DISPATCH_TIME_FOREVER);
+            NSLog(@"task %d start", i);
+            
+            NSLog(@"task %d end", i);
+            
+            dispatch_semaphore_signal(semaphore);
+
+        });
+    }
     
 }
+
+
+
 
 - (void) test {
     static dispatch_once_t onceToken;

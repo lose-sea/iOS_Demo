@@ -37,19 +37,28 @@
 //    scanf("%ld", &num);
 //    printf("num = %ld", num);
     
-    NSLog(@"viewDidLoad 开始执行");
-    
-    self.timeCount = 0;
-    NSTimer* timer = [NSTimer scheduledTimerWithTimeInterval: 1
-                                                      target: self
-                                                    selector: @selector(sayHello)
-                                                    userInfo: nil
-                                                     repeats: YES];
+//    NSLog(@"viewDidLoad 开始执行");
+//    
+//    self.timeCount = 0;
+//    NSTimer* timer = [NSTimer scheduledTimerWithTimeInterval: 1
+//                                                      target: self
+//                                                    selector: @selector(sayHello)
+//                                                    userInfo: nil
+//                                                     repeats: YES];
     
 //    NSRunLoop* runLoop = [NSRunLoop currentRunLoop];
 //    NSLog(@"%@", runLoop);
     
     
+    
+    NSThread* thread = [[NSThread alloc] initWithBlock:^{
+        
+        [[NSRunLoop currentRunLoop] addPort:
+               [NSPort port]
+               forMode:NSDefaultRunLoopMode];
+
+           [[NSRunLoop currentRunLoop] run];
+    }];
     
 }
 
