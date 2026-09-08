@@ -76,54 +76,125 @@
     //    });
     
     
-//    dispatch_queue_t queue = dispatch_queue_create("com.demo.current", DISPATCH_QUEUE_CONCURRENT);
-//    dispatch_async(queue, ^{
-//        sleep(2);
-//        NSLog(@"任务 A");
-//    });
-//    dispatch_async(queue, ^{
-//        NSLog(@"任务 B");
-//    });
-//    dispatch_async(queue, ^{
-//        NSLog(@"任务 C");
-//    });
+    //    dispatch_queue_t queue = dispatch_queue_create("com.demo.current", DISPATCH_QUEUE_CONCURRENT);
+    //    dispatch_async(queue, ^{
+    //        sleep(2);
+    //        NSLog(@"任务 A");
+    //    });
+    //    dispatch_async(queue, ^{
+    //        NSLog(@"任务 B");
+    //    });
+    //    dispatch_async(queue, ^{
+    //        NSLog(@"任务 C");
+    //    });
     
     
     
     
-//    dispatch_async(queue, ^{
-//        NSLog(@"task");
-//    });
+    //    dispatch_async(queue, ^{
+    //        NSLog(@"task");
+    //    });
     
-//    dispatch_queue_t queue = dispatch_queue_create("com.demo.current", DISPATCH_QUEUE_CONCURRENT);
-//    NSLog(@"1");
+    //    dispatch_queue_t queue = dispatch_queue_create("com.demo.current", DISPATCH_QUEUE_CONCURRENT);
+    //    NSLog(@"1");
+    //    dispatch_async(queue, ^{
+    //        NSLog(@"2");
+    //    });
+    //    NSLog(@"3");
+    //
+    //    dispatch_queue_t queue = dispatch_queue_create("com.demo.current", DISPATCH_QUEUE_CONCURRENT);
+    //
+    //    NSLog(@"1");
+    //
+    //    dispatch_sync(queue, ^{
+    //        NSLog(@"2");
+    //    });
+    //
+    //    NSLog(@"3");
+    
+    
+    //    dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
+    
+    //    dispatch_queue_t queue = dispatch_queue_create("com.demo.downLoad", DISPATCH_QUEUE_SERIAL);
+    
+    
+    
+    //    dispatch_queue_attr_t attr = dispatch_queue_attr_make_with_qos_class(DISPATCH_QUEUE_SERIAL, QOS_CLASS_USER_INITIATED, 0);
+    //    dispatch_queue_t queue = dispatch_queue_create("download", attr);
+    
+    
+    //    for (int i = 0; i < 4; i++) {
+    //        [self test];
+    //        NSLog(@"执行完成");
+    //    }
+    
+    //    NSLog(@"start");
+    //
+    //    dispatch_after(
+    //       dispatch_time(DISPATCH_TIME_NOW, 2 * NSEC_PER_SEC),
+    //       dispatch_get_main_queue(), ^{
+    //           NSLog(@"2秒后");
+    //       }
+    //    );
+        
+//    dispatch_queue_t queue =  dispatch_queue_create("concurrent_queue", DISPATCH_QUEUE_CONCURRENT);
+//    dispatch_group_t group = dispatch_group_create();
+//    dispatch_group_enter(group);
 //    dispatch_async(queue, ^{
-//        NSLog(@"2");
+//        NSLog(@"A完成");
+//        
+//        dispatch_group_leave(group);
+//        
 //    });
-//    NSLog(@"3");
 //    
-//    dispatch_queue_t queue = dispatch_queue_create("com.demo.current", DISPATCH_QUEUE_CONCURRENT);
-//
-//    NSLog(@"1");
-//
-//    dispatch_sync(queue, ^{
-//        NSLog(@"2");
+//    dispatch_group_enter(group);
+//    dispatch_async(queue, ^{
+//        NSLog(@"B完成");
+//        dispatch_group_leave(group);
 //    });
+//    
+//    dispatch_group_enter(group);
+//    dispatch_async(queue, ^{
+//        NSLog(@"C完成");
+//        dispatch_group_leave(group);
 //
-//    NSLog(@"3");
+//    });
+//    
+//    dispatch_group_notify(group, dispatch_get_main_queue(), ^{
+//        NSLog(@"A, B, C 全部完成");
+//    });
     
     
-//    dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
-
-    dispatch_queue_t queue = dispatch_queue_create("com.demo.downLoad", DISPATCH_QUEUE_SERIAL);
+    dispatch_queue_t queue = dispatch_queue_create("com.demo.database", DISPATCH_QUEUE_CONCURRENT);
+    dispatch_async(queue, ^{
+        NSLog(@"read A");
+    });
+    
+    dispatch_async(queue, ^{
+        NSLog(@"read B");
+    });
     
     
+    dispatch_barrier_async(queue, ^{
+        NSLog(@"写入");
+    });
+    
+    dispatch_async(queue, ^{
+        NSLog(@"read C");
+    });
+    
+    dispatch_async(queue, ^{
+        NSLog(@"read D");
+    });
     
 }
 
-
-
-
+- (void) test {
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        NSLog(@"只执行一次");
+    });
+}
 
 
 - (void) loadBigImage {
@@ -131,6 +202,15 @@
     sleep(3);
     NSLog(@"加载成功");
 }
+
+
+
+
+
+
+
+
+
 
 
 @end
