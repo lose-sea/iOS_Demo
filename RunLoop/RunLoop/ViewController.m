@@ -58,6 +58,8 @@
                forMode:NSDefaultRunLoopMode];
 
            [[NSRunLoop currentRunLoop] run];
+        
+        
     }];
     
 }
