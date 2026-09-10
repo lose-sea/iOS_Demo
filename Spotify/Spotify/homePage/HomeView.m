@@ -17,4 +17,16 @@
 }
 */
 
+- (instancetype) init {
+    self = [super init];
+    if (self) {
+        [self setUpInterface];
+    }
+    return self;
+}
+
+
+- (void) setUpInterface {
+    
+}
 @end

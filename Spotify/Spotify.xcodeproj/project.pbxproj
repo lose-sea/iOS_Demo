@@ -28,6 +28,11 @@
 /* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
+		549A46FC3052EABD00A7A6F5 /* picture素材 */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = "picture素材";
+			sourceTree = "<group>";
+		};
 		54C35830304847F500475F8A /* Spotify */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			exceptions = (
@@ -61,6 +66,7 @@
 		54C35825304847F500475F8A = {
 			isa = PBXGroup;
 			children = (
+				549A46FC3052EABD00A7A6F5 /* picture素材 */,
 				54C35830304847F500475F8A /* Spotify */,
 				54C3582F304847F500475F8A /* Products */,
 				C9E1158E55CB2C903FDB5DE0 /* Pods */,
@@ -103,6 +109,7 @@
 			dependencies = (
 			);
 			fileSystemSynchronizedGroups = (
+				549A46FC3052EABD00A7A6F5 /* picture素材 */,
 				54C35830304847F500475F8A /* Spotify */,
 			);
 			name = Spotify;

@@ -6,6 +6,8 @@
 //
 
 #import "SceneDelegate.h"
+#import "HomeViewController.h"
+#import "SearchViewController.h"
 
 @interface SceneDelegate ()
 
@@ -18,6 +20,35 @@
     // Use this method to optionally configure and attach the UIWindow `window` to the provided UIWindowScene `scene`.
     // If using a storyboard, the `window` property will automatically be initialized and attached to the scene.
     // This delegate does not imply the connecting scene or session are new (see `application:configurationForConnectingSceneSession` instead).
+    UIWindowScene* myScene = (UIWindowScene*) scene;
+    self.window = [[UIWindow alloc] initWithWindowScene: myScene];
+    
+    
+    HomeViewController* homeController = [[HomeViewController alloc] init];
+    UINavigationController* homeNav = [[UINavigationController alloc] initWithRootViewController: homeController];
+    homeController.tabBarItem = [[UITabBarItem alloc] initWithTitle: @"首页"
+                                                              image: [UIImage systemImageNamed: @"house"]
+                                                      selectedImage: [UIImage systemImageNamed: @"house.fill"]];
+    
+    
+    
+    SearchViewController* searchViewController = [[SearchViewController alloc] init];
+    UINavigationController* searchNav = [[UINavigationController alloc] initWithRootViewController: searchViewController];
+    searchViewController.tabBarItem =  [[UITabBarItem alloc] initWithTitle: @"搜索"
+                                                                     image: [UIImage systemImageNamed: @"magnifyingglass"]
+                                                             selectedImage: [UIImage systemImageNamed: @"magnifyingglass"]];
+    
+    UITabBarController* tabBarController = [[UITabBarController alloc] init];
+    tabBarController.viewControllers = @[homeNav, searchNav];
+    
+    
+    
+//    self.window.rootViewController = Nav;
+    
+    self.window.rootViewController = tabBarController;
+ 
+    
+    [self.window makeKeyAndVisible]; 
 }
 
 
