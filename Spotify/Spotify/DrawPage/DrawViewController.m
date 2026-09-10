@@ -8,7 +8,7 @@
 #import "DrawViewController.h"
 
 @interface DrawViewController ()
-@property (nonatomic, strong) 
+
 @end
 
 @implementation DrawViewController
