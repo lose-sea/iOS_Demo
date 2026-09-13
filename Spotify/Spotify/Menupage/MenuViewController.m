@@ -5,16 +5,18 @@
 //  Created by lose_sea on 2026/9/10.
 //
 
-#import "MenuViewControler.h"
+#import "MenuViewController.h"
 
-@interface MenuViewControler ()
+@interface MenuViewController ()
 
 @end
 
-@implementation MenuViewControler
+@implementation MenuViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
+    self.view.backgroundColor = [UIColor systemCyanColor]; 
     // Do any additional setup after loading the view.
 }
 

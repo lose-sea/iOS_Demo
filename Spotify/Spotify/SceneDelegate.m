@@ -8,6 +8,9 @@
 #import "SceneDelegate.h"
 #import "HomeViewController.h"
 #import "SearchViewController.h"
+#import "MenuViewController.h"
+
+#import "DrawViewController.h"
 
 @interface SceneDelegate ()
 
@@ -43,10 +46,18 @@
     
     
     
+    MenuViewController* menuViewController = [[MenuViewController alloc] init];
+    
+    
+    
+    DrawViewController* drawViewController = [[DrawViewController alloc] initWithMainViewController: tabBarController menuViewController: menuViewController];
+    
 //    self.window.rootViewController = Nav;
     
-    self.window.rootViewController = tabBarController;
- 
+//    self.window.rootViewController = tabBarController;
+
+    
+    self.window.rootViewController = drawViewController;
     
     [self.window makeKeyAndVisible]; 
 }
