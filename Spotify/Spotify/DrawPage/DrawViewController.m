@@ -23,8 +23,9 @@
     self = [super init];
     if (self) {
         self.mainViewController = mainViewController;
-        self.menuViewContorller = menuViewController;
+        self.menuViewController = menuViewController;
         self.drawerOpen = NO;
+        NSLog(@"init 中的 width: %f", self.view.bounds.size.width);
     }
     
     return self;
@@ -34,10 +35,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
-    self.menuWidth = self.view.bounds.size.width * 0.7;    
-    NSLog(@"viewDidLoad 开始时候 %f", self.menuWidth);
-    
+        
     // 添加主视图
     [self addChildViewController: self.mainViewController];
     [self.view addSubview: self.mainViewController.view];
@@ -54,21 +52,21 @@
     
     
     
-    
+    self.menuWidth = self.view.bounds.size.width * 0.7;
+    NSLog(@"viewDidLoad 开始时候 %f", self.menuWidth);
     // 添加菜单视图
-    [self addChildViewController: self.menuViewContorller];
-    [self.view addSubview: self.menuViewContorller.view];
-    [self.menuViewContorller didMoveToParentViewController: self];
-    [self.menuViewContorller.view mas_makeConstraints:^(MASConstraintMaker *make) {
+    [self addChildViewController: self.menuViewController];
+    [self.view addSubview: self.menuViewController.view];
+    [self.menuViewController didMoveToParentViewController: self];
+    [self.menuViewController.view mas_makeConstraints:^(MASConstraintMaker *make) {
             make.left.mas_equalTo(self.view).offset(-self.menuWidth);
             make.top.bottom.mas_equalTo(self.view);
             make.width.mas_equalTo(self.menuWidth);
     }];
+//    NSLog(@"viewDidLoad 中添加菜单视图, width: %f", self.menuViewContorller.view.bounds.size.width);
     
     // 添加手势
     [self setUpGesture];
-    
-    NSLog(@"viewDidLoad 中2  %f", self.menuWidth);
 }
 
 - (void) setUpGesture {
@@ -79,9 +77,7 @@
     [self.maskView addGestureRecognizer: tap];
 }
 
-- (void) closeMenu {
-    
-}
+
 
 
 - (void) setUpMaskView {
@@ -91,25 +87,41 @@
     
     self.maskView.userInteractionEnabled = YES;
     
-    [self.view insertSubview: self.maskView belowSubview: self.menuViewContorller.view];
+    [self.view insertSubview: self.maskView belowSubview: self.menuViewController.view];
     [self.maskView mas_makeConstraints:^(MASConstraintMaker *make) {
             make.edges.equalTo(self.view);
     }];
 }
 
-//
-//- (void) viewDidLayoutSubviews {
-//    [super viewDidLayoutSubviews];
-//    
+
+- (void) viewDidLayoutSubviews {
+    [super viewDidLayoutSubviews];
+    
 //    self.menuWidth = self.view.bounds.size.width * 0.7;
 //    NSLog(@"viewDidLayoutSubviews 中 %f", self.menuWidth);
-//}
+    
+    NSLog(@"viewDidLayoutSubView 中 menuViewController: %f", self.menuViewController.view.bounds.size.width);
+}
 
 
 
+#pragma mark - public method
+// 手势事件, 收起抽屉视图
+- (void) closeMenu {
+    [self.menuViewController.view mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.right.mas_equalTo(self.view.mas_left);
+    }];
+    
+    self.maskView.userInteractionEnabled = NO;
+}
 
 
-
+- (void) openMenu {
+    [self.menuViewController.view mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.left.mas_equalTo(self.view);
+    }];
+    self.maskView.userInteractionEnabled = YES; 
+}
 
 /*
 #pragma mark - Navigation
