@@ -24,8 +24,7 @@
     if (self) {
         self.mainViewController = mainViewController;
         self.menuViewController = menuViewController;
-        self.drawerOpen = NO;
-        NSLog(@"init 中的 width: %f", self.view.bounds.size.width);
+        self.isMenuOpen = NO;
     }
     
     return self;
@@ -46,7 +45,7 @@
     }];
     
     
-    
+
     // 添加遮罩层
     [self setUpMaskView];
     
@@ -65,6 +64,9 @@
     }];
 //    NSLog(@"viewDidLoad 中添加菜单视图, width: %f", self.menuViewContorller.view.bounds.size.width);
     
+    
+    
+    
     // 添加手势
     [self setUpGesture];
 }
@@ -72,6 +74,7 @@
 - (void) setUpGesture {
     NSLog(@"添加手势");
     
+    // 点击主视图上的遮罩层关闭菜单
     UITapGestureRecognizer* tap = [[UITapGestureRecognizer alloc] initWithTarget: self action: @selector(closeMenu)];
     tap.delegate = self;
     [self.maskView addGestureRecognizer: tap];
@@ -85,7 +88,7 @@
     self.maskView.backgroundColor = [UIColor blackColor];
     self.maskView.alpha = 0;
     
-    self.maskView.userInteractionEnabled = YES;
+    self.maskView.userInteractionEnabled = NO;
     
     [self.view insertSubview: self.maskView belowSubview: self.menuViewController.view];
     [self.maskView mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -108,19 +111,44 @@
 #pragma mark - public method
 // 手势事件, 收起抽屉视图
 - (void) closeMenu {
-    [self.menuViewController.view mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.right.mas_equalTo(self.view.mas_left);
+    [self.menuViewController.view mas_remakeConstraints:^(MASConstraintMaker *make) {
+        make.top.bottom.equalTo(self.view);
+        make.right.mas_equalTo(self.view.mas_left);
+        make.width.mas_equalTo(self.menuWidth);
+        
     }];
     
     self.maskView.userInteractionEnabled = NO;
+    
+    [UIView animateWithDuration:0.3 animations:^{
+            self.maskView.alpha = 0;
+
+            [self.view layoutIfNeeded];
+        } completion:^(BOOL finished) {
+            self.isMenuOpen = NO;
+        }];
+    
 }
 
 
+// 展开菜单视图
 - (void) openMenu {
-    [self.menuViewController.view mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.left.mas_equalTo(self.view);
+    [self.menuViewController.view mas_remakeConstraints:^(MASConstraintMaker *make) {
+        make.top.bottom.mas_equalTo(self.view);
+        make.left.mas_equalTo(self.view);
+        make.width.mas_equalTo(self.menuWidth);
     }];
-    self.maskView.userInteractionEnabled = YES; 
+    self.maskView.userInteractionEnabled = YES;
+    
+    self.maskView.alpha = 0.01; 
+    
+//    [UIView animateWithDuration:0.3 animations:^{
+//            self.maskView.alpha = 0.5;
+//
+//            [self.view layoutIfNeeded];
+//        } completion:^(BOOL finished) {
+//            self.isMenuOpen = YES;
+//        }];
 }
 
 /*

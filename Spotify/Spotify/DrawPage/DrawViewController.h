@@ -22,7 +22,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, strong) UIViewController* menuViewController;
 
 // 菜单是否打开
-@property (nonatomic, assign) BOOL drawerOpen;
+@property (nonatomic, assign) BOOL isMenuOpen;
 
 -(instancetype) initWithMainViewController: (UIViewController*) mainViewController menuViewController: (UIViewController*) menuViewController;
 

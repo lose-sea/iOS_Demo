@@ -68,7 +68,7 @@
 
 //    self.maskView.alpha = 0;//view透明度设置
     
-    self.maskView.userInteractionEnabled = YES;
+    self.maskView.userInteractionEnabled = NO;
 
     [self.view insertSubview:self.maskView belowSubview:self.menuViewController.view];
     [self.maskView mas_makeConstraints:^(MASConstraintMaker *make) {
