@@ -11,7 +11,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface DrawViewController : UIViewController
+@interface DrawerViewController : UIViewController
 
 @property (nonatomic, assign) CGFloat menuWidth;
 
@@ -29,11 +29,6 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (void) openMenu;
 - (void) closeMenu;
-- (void) toggleMenu;
 @end
 
 NS_ASSUME_NONNULL_END
-
-
-
-

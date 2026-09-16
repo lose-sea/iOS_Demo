@@ -6,6 +6,7 @@
 //
 
 #import "MenuViewController.h"
+#import "DrawerViewController.h"
 
 @interface MenuViewController ()
 
@@ -18,6 +19,28 @@
     
     self.view.backgroundColor = [UIColor systemCyanColor]; 
     // Do any additional setup after loading the view.
+    
+//    [self setUpNavigation];
+    
+
+}
+
+- (void) createTableaView {
+    
+}
+
+- (void) setUpNavigation {
+    UIBarButtonItem* backItem = [[UIBarButtonItem alloc] initWithTitle: @"back" style: UIBarButtonItemStylePlain target: self action: @selector(pressBack)];
+    self.navigationItem.leftBarButtonItem = backItem;
+}
+
+
+- (void) pressBack {
+    NSLog(@"点击了 back 按钮");
+    UIViewController* root = self.view.window.rootViewController;
+    if ([root isKindOfClass: [DrawerViewController class]]) {
+        [(DrawerViewController*)root closeMenu]; 
+    }
 }
 
 /*

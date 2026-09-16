@@ -10,7 +10,7 @@
 #import "SearchViewController.h"
 #import "MenuViewController.h"
 
-#import "DrawViewController.h"
+#import "DrawerViewController.h"
 
 @interface SceneDelegate ()
 
@@ -47,10 +47,11 @@
     
     
     MenuViewController* menuViewController = [[MenuViewController alloc] init];
+    UINavigationController* menuNav = [[UINavigationController alloc] initWithRootViewController: menuViewController];
     
     
     
-    DrawViewController* drawViewController = [[DrawViewController alloc] initWithMainViewController: tabBarController menuViewController: menuViewController];
+    DrawerViewController* drawViewController = [[DrawerViewController alloc] initWithMainViewController: tabBarController menuViewController: menuNav];
     
 //    self.window.rootViewController = Nav;
     
@@ -58,6 +59,7 @@
 
     
     self.window.rootViewController = drawViewController;
+    
     
     [self.window makeKeyAndVisible]; 
 }

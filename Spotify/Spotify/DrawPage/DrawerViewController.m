@@ -5,10 +5,10 @@
 //  Created by lose_sea on 2026/9/10.
 //
 
-#import "DrawViewController.h"
+#import "DrawerViewController.h"
 
 
-@interface DrawViewController () <UIGestureRecognizerDelegate>
+@interface DrawerViewController () <UIGestureRecognizerDelegate>
 
 @property (nonatomic, strong) UIView* maskView;
 
@@ -16,7 +16,7 @@
 
 @end
 
-@implementation DrawViewController
+@implementation DrawerViewController
 
 
 - (instancetype) initWithMainViewController:(UIViewController *)mainViewController menuViewController:(UIViewController *)menuViewController {
@@ -64,9 +64,6 @@
     }];
 //    NSLog(@"viewDidLoad 中添加菜单视图, width: %f", self.menuViewContorller.view.bounds.size.width);
     
-    
-    
-    
     // 添加手势
     [self setUpGesture];
 }
@@ -97,6 +94,7 @@
 }
 
 
+
 - (void) viewDidLayoutSubviews {
     [super viewDidLayoutSubviews];
     
@@ -105,6 +103,9 @@
     
     NSLog(@"viewDidLayoutSubView 中 menuViewController: %f", self.menuViewController.view.bounds.size.width);
 }
+
+
+
 
 
 
@@ -140,15 +141,13 @@
     }];
     self.maskView.userInteractionEnabled = YES;
     
-    self.maskView.alpha = 0.01; 
-    
-//    [UIView animateWithDuration:0.3 animations:^{
-//            self.maskView.alpha = 0.5;
-//
-//            [self.view layoutIfNeeded];
-//        } completion:^(BOOL finished) {
-//            self.isMenuOpen = YES;
-//        }];
+    [UIView animateWithDuration:0.3 animations:^{
+            self.maskView.alpha = 0.5;
+
+            [self.view layoutIfNeeded];
+        } completion:^(BOOL finished) {
+            self.isMenuOpen = YES;
+        }];
 }
 
 /*
