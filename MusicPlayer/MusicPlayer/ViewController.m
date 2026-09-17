@@ -1,8 +1,8 @@
 //
 //  ViewController.m
-//  Spotify
+//  MusicPlayer
 //
-//  Created by lose_sea on 2026/9/2.
+//  Created by lose_sea on 2026/9/17.
 //
 
 #import "ViewController.h"
@@ -16,7 +16,6 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    printf("hello world"); 
 }
 
 

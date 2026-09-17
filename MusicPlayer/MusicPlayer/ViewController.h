@@ -1,8 +1,8 @@
 //
 //  ViewController.h
-//  Spotify
+//  MusicPlayer
 //
-//  Created by lose_sea on 2026/9/2.
+//  Created by lose_sea on 2026/9/17.
 //
 
 #import <UIKit/UIKit.h>

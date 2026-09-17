@@ -22,7 +22,12 @@
     
 //    [self setUpNavigation];
     
+    [self setUpInterface];
+}
 
+
+- (void) setUpInterface {
+    
 }
 
 - (void) createTableaView {
@@ -54,3 +59,4 @@
 */
 
 @end
+
