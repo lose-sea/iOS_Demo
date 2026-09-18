@@ -7,12 +7,14 @@
 
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
+
+@class Singer;
 NS_ASSUME_NONNULL_BEGIN
 
 @interface Song : NSObject
-@property (nonatomic, strong) UIImage* songCover;
-@property (nonatomic, strong) NSString* songName;
-@property (nonatomic, strong) NSString* songer;
+@property (nonatomic, strong) UIImage *songCover;
+@property (nonatomic, strong) NSString *songName;
+@property (nonatomic, strong) Singer *singer;
 @property (nonatomic, assign) BOOL isFavourite;
 @end
 

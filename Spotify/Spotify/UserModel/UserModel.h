@@ -8,6 +8,7 @@
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
 #import "Song.h"
+#import "Singer.h"
 NS_ASSUME_NONNULL_BEGIN
 
 @interface UserModel : NSObject
@@ -15,6 +16,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, strong) UIImage* avatarImage;
 @property (nonatomic, strong) NSString* email;
 @property (nonatomic, strong) NSArray<Song*>* favoriteSongs;
+@property (nonatomic, strong) NSArray<Singer*>* favouriteSingers;
 @end
 
 NS_ASSUME_NONNULL_END
