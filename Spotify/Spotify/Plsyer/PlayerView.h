@@ -13,7 +13,9 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, strong) UIImageView* coverImageView;
 @property (nonatomic, strong) UILabel* songNameLabel;
 @property (nonatomic, strong) UILabel* songerLabel;
-@property (nonatomic, strong) 
+@property (nonatomic, strong) UISegmentedControl* playPauseControl;
+@property (nonatomic, strong) UIButton* favouriteButton;
+@property (nonatomic, strong) UIButton* playButton;
 @end
 
 NS_ASSUME_NONNULL_END
