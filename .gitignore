@@ -34,3 +34,4 @@ DerivedData/
 
 # 个人demo才打开下面这行；多人协作务必注释掉
 # Podfile.lock
+/spotify--clone
