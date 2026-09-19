@@ -66,5 +66,4 @@ UIKIT_EXTERN NSString *const HomeSongCellID;
 - (void)configureWithSong:(nullable Song *)song isPlaying:(BOOL)playing;
 
 @end
-
 NS_ASSUME_NONNULL_END

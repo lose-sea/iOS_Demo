@@ -26,7 +26,6 @@
         self.menuViewController = menuViewController;
         self.isMenuOpen = NO;
     }
-    
     return self;
 }
 
@@ -36,9 +35,14 @@
     [super viewDidLoad];
         
     // 添加主视图
-    [self addChildViewController: self.mainViewController];
-    [self.view addSubview: self.mainViewController.view];
-    [self.mainViewController didMoveToParentViewController: self];
+    // 1. 建立父子关系
+    [self addChildViewController:self.mainViewController];
+    // 2. 把 view 加进来
+    [self.view addSubview:self.mainViewController.view];
+    // 3. 通知添加完成
+    [self.mainViewController didMoveToParentViewController:self];
+    
+
     
     [self.mainViewController.view mas_makeConstraints:^(MASConstraintMaker *make) {
         make.edges.mas_equalTo(self.view);
@@ -83,6 +87,7 @@
 - (void) setUpMaskView {
     self.maskView = [[UIView alloc] init];
     self.maskView.backgroundColor = [UIColor blackColor];
+    // 透明度小于 < 0.01时,不接收触摸事件
     self.maskView.alpha = 0;
     
     self.maskView.userInteractionEnabled = NO;
@@ -98,10 +103,6 @@
 - (void) viewDidLayoutSubviews {
     [super viewDidLayoutSubviews];
     
-//    self.menuWidth = self.view.bounds.size.width * 0.7;
-//    NSLog(@"viewDidLayoutSubviews 中 %f", self.menuWidth);
-    
-    NSLog(@"viewDidLayoutSubView 中 menuViewController: %f", self.menuViewController.view.bounds.size.width);
 }
 
 
