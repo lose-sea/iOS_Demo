@@ -119,50 +119,57 @@
     
     
     
-    //    dispatch_queue_attr_t attr = dispatch_queue_attr_make_with_qos_class(DISPATCH_QUEUE_SERIAL, QOS_CLASS_USER_INITIATED, 0);
-    //    dispatch_queue_t queue = dispatch_queue_create("download", attr);
+//        dispatch_queue_attr_t attr = dispatch_queue_attr_make_with_qos_class(DISPATCH_QUEUE_SERIAL, QOS_CLASS_USER_INITIATED, 0);
+//        dispatch_queue_t queue = dispatch_queue_create("download", attr);
     
     
-    //    for (int i = 0; i < 4; i++) {
-    //        [self test];
-    //        NSLog(@"执行完成");
-    //    }
+    // dispatch_once
+//        for (int i = 0; i < 4; i++) {
+//            [self test];
+//            NSLog(@"执行完成");
+//        }
+//    
+
     
-    //    NSLog(@"start");
-    //
-    //    dispatch_after(
-    //       dispatch_time(DISPATCH_TIME_NOW, 2 * NSEC_PER_SEC),
-    //       dispatch_get_main_queue(), ^{
-    //           NSLog(@"2秒后");
-    //       }
-    //    );
+//     // dispatch_after
+//        dispatch_after(
+//           dispatch_time(DISPATCH_TIME_NOW, 2 * NSEC_PER_SEC),
+//           dispatch_get_main_queue(), ^{
+//               NSLog(@"2秒后");
+//           }
+//        );
         
-//    dispatch_queue_t queue =  dispatch_queue_create("concurrent_queue", DISPATCH_QUEUE_CONCURRENT);
-//    dispatch_group_t group = dispatch_group_create();
-//    dispatch_group_enter(group);
-//    dispatch_async(queue, ^{
-//        NSLog(@"A完成");
-//        
-//        dispatch_group_leave(group);
-//        
-//    });
-//    
-//    dispatch_group_enter(group);
-//    dispatch_async(queue, ^{
-//        NSLog(@"B完成");
-//        dispatch_group_leave(group);
-//    });
-//    
-//    dispatch_group_enter(group);
-//    dispatch_async(queue, ^{
-//        NSLog(@"C完成");
-//        dispatch_group_leave(group);
-//
-//    });
-//    
-//    dispatch_group_notify(group, dispatch_get_main_queue(), ^{
-//        NSLog(@"A, B, C 全部完成");
-//    });
+    
+    // dispatch_group
+    dispatch_queue_t queue =  dispatch_queue_create("concurrent_queue", DISPATCH_QUEUE_CONCURRENT);
+    dispatch_group_t group = dispatch_group_create();
+    dispatch_group_enter(group);
+    dispatch_async(queue, ^{
+        for (int i = 0; i < 10; i++) {
+            NSLog(@"A - %d", i);
+        }
+        NSLog(@"A完成");
+        
+        dispatch_group_leave(group);
+        
+    });
+    
+    dispatch_group_enter(group);
+    dispatch_async(queue, ^{
+        NSLog(@"B完成");
+        dispatch_group_leave(group);
+    });
+    
+    dispatch_group_enter(group);
+    dispatch_async(queue, ^{
+        NSLog(@"C完成");
+        dispatch_group_leave(group);
+
+    });
+    
+    dispatch_group_notify(group, dispatch_get_main_queue(), ^{
+        NSLog(@"A, B, C 全部完成");
+    });
     
     
 //    dispatch_queue_t queue = dispatch_queue_create("com.demo.database", DISPATCH_QUEUE_CONCURRENT);
@@ -187,24 +194,24 @@
 //        NSLog(@"read D");
 //    });
     
-    dispatch_queue_attr_t attr = dispatch_queue_attr_make_with_qos_class(DISPATCH_QUEUE_SERIAL, QOS_CLASS_USER_INITIATED, 0);
-    
-    dispatch_queue_t queue = dispatch_queue_create("concurrent_queue", attr);
-    dispatch_semaphore_t semaphore = dispatch_semaphore_create(3);
-    
-    for (int i = 0; i < 100; i++) {
-        dispatch_async(queue, ^{
-
-            dispatch_semaphore_wait(semaphore, DISPATCH_TIME_FOREVER);
-            NSLog(@"task %d start", i);
-            
-            NSLog(@"task %d end", i);
-            
-            dispatch_semaphore_signal(semaphore);
-
-        });
-    }
-    
+//    dispatch_queue_attr_t attr = dispatch_queue_attr_make_with_qos_class(DISPATCH_QUEUE_SERIAL, QOS_CLASS_USER_INITIATED, 0);
+//    
+//    dispatch_queue_t queue = dispatch_queue_create("concurrent_queue", attr);
+//    dispatch_semaphore_t semaphore = dispatch_semaphore_create(3);
+//    
+//    for (int i = 0; i < 100; i++) {
+//        dispatch_async(queue, ^{
+//
+//            dispatch_semaphore_wait(semaphore, DISPATCH_TIME_FOREVER);
+//            NSLog(@"task %d start", i);
+//            
+//            NSLog(@"task %d end", i);
+//            
+//            dispatch_semaphore_signal(semaphore);
+//
+//        });
+//    }
+//    
 }
 
 
