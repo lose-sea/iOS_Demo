@@ -13,6 +13,8 @@
 #import <Masonry/Masonry.h>
 #import "Singer.h"
 
+
+
 @interface HomeViewController () <UITableViewDelegate, UITableViewDataSource, HomePlaylistCardsCellDelegate>
 
 @property (nonatomic, strong) HomeView *homeView;
@@ -36,6 +38,7 @@
 
     self.view.window.overrideUserInterfaceStyle = UIUserInterfaceStyleDark;
 }
+
 
 #pragma mark - 数据
 

@@ -42,6 +42,7 @@
     return [songs copy];
 }
 
+
 + (NSArray<NSDictionary *> *)samplePlaylistCards {
     return @[
         @{@"image": @"1.jpg",  @"title": @"Daily Mix 1",    @"desc": @"根据你的口味生成"},
@@ -54,5 +55,9 @@
         @{@"image": @"8.jpg",  @"title": @"轻松午后",        @"desc": @"慵懒时光，慢慢享受"}
     ];
 }
+
+
+
+
 
 @end

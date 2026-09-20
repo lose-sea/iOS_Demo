@@ -131,7 +131,11 @@
 //    
 
     
+    
+    
 //     // dispatch_after
+    
+    
 //        dispatch_after(
 //           dispatch_time(DISPATCH_TIME_NOW, 2 * NSEC_PER_SEC),
 //           dispatch_get_main_queue(), ^{
@@ -140,61 +144,86 @@
 //        );
         
     
+    
+    
     // dispatch_group
-    dispatch_queue_t queue =  dispatch_queue_create("concurrent_queue", DISPATCH_QUEUE_CONCURRENT);
-    dispatch_group_t group = dispatch_group_create();
-    dispatch_group_enter(group);
+    
+    
+//    dispatch_queue_t queue =  dispatch_queue_create("concurrent_queue", DISPATCH_QUEUE_CONCURRENT);
+//    dispatch_group_t group = dispatch_group_create();
+//    dispatch_group_enter(group);
+//    dispatch_async(queue, ^{
+//        for (int i = 0; i < 10; i++) {
+//            NSLog(@"A - %d", i);
+//        }
+//        NSLog(@"A完成");
+//        
+//        dispatch_group_leave(group);
+//        
+//    });
+//    
+//    dispatch_group_enter(group);
+//    dispatch_async(queue, ^{
+//        NSLog(@"B完成");
+//        dispatch_group_leave(group);
+//    });
+//    
+//    dispatch_group_enter(group);
+//    dispatch_async(queue, ^{
+//        NSLog(@"C完成");
+//        dispatch_group_leave(group);
+//
+//    });
+    
+//    dispatch_group_notify(group, dispatch_get_main_queue(), ^{
+//        NSLog(@"A, B, C 全部完成");
+//    });
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    // dispatch_barrier
+    
+    
+    dispatch_queue_t queue = dispatch_queue_create("com.demo.database", DISPATCH_QUEUE_CONCURRENT);
     dispatch_async(queue, ^{
-        for (int i = 0; i < 10; i++) {
-            NSLog(@"A - %d", i);
+        NSLog(@"read A");
+    });
+    
+    dispatch_async(queue, ^{
+        NSLog(@"read B");
+        for (int i = 0; i < 5; i++) {
+            NSLog(@"read B - %d", i);
         }
-        NSLog(@"A完成");
-        
-        dispatch_group_leave(group);
-        
     });
     
-    dispatch_group_enter(group);
-    dispatch_async(queue, ^{
-        NSLog(@"B完成");
-        dispatch_group_leave(group);
+//    
+    dispatch_barrier_async(queue, ^{
+        NSLog(@"写入");
     });
     
-    dispatch_group_enter(group);
     dispatch_async(queue, ^{
-        NSLog(@"C完成");
-        dispatch_group_leave(group);
+        NSLog(@"read C");
+    });
+    
+    dispatch_async(queue, ^{
+        NSLog(@"read D");
+    });
 
-    });
-    
-    dispatch_group_notify(group, dispatch_get_main_queue(), ^{
-        NSLog(@"A, B, C 全部完成");
-    });
     
     
-//    dispatch_queue_t queue = dispatch_queue_create("com.demo.database", DISPATCH_QUEUE_CONCURRENT);
-//    dispatch_async(queue, ^{
-//        NSLog(@"read A");
-//    });
-//    
-//    dispatch_async(queue, ^{
-//        NSLog(@"read B");
-//    });
-//    
-//    
-//    dispatch_barrier_async(queue, ^{
-//        NSLog(@"写入");
-//    });
-//    
-//    dispatch_async(queue, ^{
-//        NSLog(@"read C");
-//    });
-//    
-//    dispatch_async(queue, ^{
-//        NSLog(@"read D");
-//    });
     
-//    dispatch_queue_attr_t attr = dispatch_queue_attr_make_with_qos_class(DISPATCH_QUEUE_SERIAL, QOS_CLASS_USER_INITIATED, 0);
+
+    // dispatch_semaphore
+    
+    
+//    dispatch_queue_attr_t attr = dispatch_queue_attr_make_with_qos_class(DISPATCH_QUEUE_CONCURRENT, QOS_CLASS_USER_INITIATED, 0);
 //    
 //    dispatch_queue_t queue = dispatch_queue_create("concurrent_queue", attr);
 //    dispatch_semaphore_t semaphore = dispatch_semaphore_create(3);
@@ -203,6 +232,11 @@
 //        dispatch_async(queue, ^{
 //
 //            dispatch_semaphore_wait(semaphore, DISPATCH_TIME_FOREVER);
+//            if (i == 50) {
+//                for (int j = 0; j < 5; j++) {
+//                    NSLog(@"task %d - %d", i, j);
+//                }
+//            }
 //            NSLog(@"task %d start", i);
 //            
 //            NSLog(@"task %d end", i);
@@ -211,7 +245,7 @@
 //
 //        });
 //    }
-//    
+    
 }
 
 

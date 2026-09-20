@@ -57,6 +57,7 @@ UIKIT_EXTERN NSString *const HomeSongCellID;
 
 /// 底部 miniPlayer 悬浮条（64pt 高）
 @property (nonatomic, strong) UIView *miniPlayerView;
+
 @property (nonatomic, strong) UIImageView *playerCoverView;
 @property (nonatomic, strong) UILabel *playerTitleLabel;
 @property (nonatomic, strong) UILabel *playerArtistLabel;

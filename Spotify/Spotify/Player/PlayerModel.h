@@ -20,6 +20,7 @@ UIKIT_EXTERN NSString *const PlayerModelDidChangeNotification;
 @property (nonatomic, strong, nullable) Song *song;
 @property (nonatomic, assign) BOOL isPlay;
 
+
 @end
 
 NS_ASSUME_NONNULL_END
