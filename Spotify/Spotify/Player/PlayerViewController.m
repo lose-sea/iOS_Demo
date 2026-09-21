@@ -39,6 +39,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
 
+    
 
     // 监听播放状态变化，刷新自己的 UI
     [[NSNotificationCenter defaultCenter] addObserver:self
@@ -98,6 +99,7 @@
 - (void)playerModelDidChange {
     [self refreshUI];
 }
+
 
 - (void)refreshUI {
     Song *song = self.playerModel.song;

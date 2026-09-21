@@ -19,7 +19,6 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, strong) UIButton *playButton;
 
 @property (nonatomic, strong) UIButton* nextButton;
-@property (nonatomic, strong) UIButton* previousButton; 
 @end
 
 NS_ASSUME_NONNULL_END

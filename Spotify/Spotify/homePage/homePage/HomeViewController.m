@@ -125,7 +125,8 @@
     [self.view addSubview: player.view];
     [player didMoveToParentViewController: self];
     [player.view mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.right.mas_equalTo(self.view);
+        make.left.mas_equalTo(self.view).offset(10);
+        make.right.mas_equalTo(self.view).offset(-10);
         make.height.mas_equalTo(60);
         make.bottom.mas_equalTo(self.view.mas_bottom).offset(-80);
     }];
