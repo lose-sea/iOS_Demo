@@ -12,7 +12,7 @@ NS_ASSUME_NONNULL_BEGIN
 @interface PlayerView : UIView
 @property (nonatomic, strong) UIImageView *coverImageView;
 @property (nonatomic, strong) UILabel *songNameLabel;
-@property (nonatomic, strong) UILabel *singer;
+@property (nonatomic, strong) UILabel *singerLabel;
 
 
 @property (nonatomic, strong) UIButton *favouriteButton;

@@ -15,6 +15,8 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, strong) NSString *singerName;
 @property (nonatomic, strong) UIImage *singerCover;
 @property (nonatomic, strong) NSArray<Song*> *songs;
+
+- (instancetype) initWithSingerName: (NSString*) name; 
 @end
 
 NS_ASSUME_NONNULL_END

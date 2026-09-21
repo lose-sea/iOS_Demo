@@ -23,7 +23,7 @@ NSString *const PlayerModelDidChangeNotification = @"PlayerModelDidChangeNotific
 
 
 - (void) setUpDefaultSong {    
-    Song* song = [[Song alloc] initWithCover: [UIImage imageNamed: @"53.jpg"] name: @"春娇与志明" singer: [[Singer alloc] init]];
+    Song* song = [[Song alloc] initWithCover: [UIImage imageNamed: @"53.jpg"] name: @"春娇与志明" singer: [[Singer alloc] initWithSingerName: @"朱玉仙"]];
     self.song = song;
 }
 

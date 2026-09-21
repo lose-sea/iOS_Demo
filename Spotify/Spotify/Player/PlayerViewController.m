@@ -117,7 +117,7 @@ static PlayerViewController *instance = nil;
 
     self.playerView.coverImageView.image = song.songCover;
     self.playerView.songNameLabel.text = song.songName;
-    self.playerView.singer.text = song.singer.singerName;
+    self.playerView.singerLabel.text = song.singer.singerName;
     
 
     // 播放/暂停按钮图标

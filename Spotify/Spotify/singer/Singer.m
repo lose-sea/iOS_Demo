@@ -15,4 +15,12 @@
     }
     return self;
 }
+
+- (instancetype) initWithSingerName: (NSString*) name {
+    self = [self init];
+    if (self) {
+        self.singerName = name;
+    }
+    return self; 
+}
 @end

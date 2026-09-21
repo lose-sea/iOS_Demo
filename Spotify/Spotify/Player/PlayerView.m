@@ -45,16 +45,16 @@
     
     // 歌名
     self.songNameLabel = [[UILabel alloc] init];
-    self.songNameLabel.font = [UIFont boldSystemFontOfSize:14];
+    self.songNameLabel.font = [UIFont boldSystemFontOfSize:16];
     self.songNameLabel.textColor = [UIColor labelColor];
     [self addSubview:self.songNameLabel];
 
 
     // 歌手
-    self.singer = [[UILabel alloc] init];
-    self.singer.font = [UIFont systemFontOfSize:16];
-    self.singer.textColor = [UIColor secondaryLabelColor];
-    [self addSubview:self.singer];
+    self.singerLabel = [[UILabel alloc] init];
+    self.singerLabel.font = [UIFont systemFontOfSize:12];
+    self.singerLabel.textColor = [UIColor secondaryLabelColor];
+    [self addSubview:self.singerLabel];
     
     // 播放/暂停
     self.playButton = [UIButton buttonWithType:UIButtonTypeSystem];
@@ -100,9 +100,9 @@
     
     
     // 歌手：歌名下方
-    [self.singer mas_makeConstraints:^(MASConstraintMaker *make) {
+    [self.singerLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.right.equalTo(self.songNameLabel);
-        make.top.equalTo(self.songNameLabel.mas_bottom).offset(2);
+        make.top.equalTo(self.songNameLabel.mas_bottom);
         make.height.mas_equalTo(20);
     }];
 
