@@ -1,5 +1,5 @@
 //
-//  SongListViewController.h
+//  SongListView.h
 //  Spotify
 //
 //  Created by lose_sea on 2026/9/21.
@@ -9,8 +9,8 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface SongListViewController : UIViewController
-
+@interface SongListShowView : UIView
+@property (nonatomic, strong) UITableView* tableView;
 @end
 
 NS_ASSUME_NONNULL_END

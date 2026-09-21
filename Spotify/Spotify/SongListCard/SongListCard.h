@@ -9,7 +9,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface PlayListView : UIView
+@interface SongListCard : UIView
 @property (nonatomic, strong) UIImageView* coverImageView;
 @property (nonatomic, strong) UILabel* playListNameLabel;
 

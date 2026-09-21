@@ -119,7 +119,18 @@
 
 
 - (void) setUpPlayerViewController {
+    PlayerViewController* player = [[PlayerViewController alloc] init];
     
+    [self addChildViewController: player];
+    [self.view addSubview: player.view];
+    [player didMoveToParentViewController: self];
+    [player.view mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.right.mas_equalTo(self.view);
+        make.height.mas_equalTo(60);
+        make.bottom.mas_equalTo(self.view.mas_bottom).offset(-80);
+    }];
+    player.view.clipsToBounds = YES;
+    player.view.layer.cornerRadius = 30; 
 }
 
 

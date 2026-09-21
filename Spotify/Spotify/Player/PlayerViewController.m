@@ -39,7 +39,6 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
 
-    self.view.backgroundColor = [UIColor systemBackgroundColor];
 
     // 监听播放状态变化，刷新自己的 UI
     [[NSNotificationCenter defaultCenter] addObserver:self
@@ -106,7 +105,7 @@
 
     self.playerView.coverImageView.image = song.songCover;
     self.playerView.songNameLabel.text = song.songName;
-    self.playerView.songerLabel.text = song.singer.singerName;
+    self.playerView.singer.text = song.singer.singerName;
 
     // 播放/暂停按钮图标
     NSString *iconName = self.playerModel.isPlay ? @"pause.fill" : @"play.fill";

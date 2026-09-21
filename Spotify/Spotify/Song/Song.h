@@ -16,6 +16,9 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, strong) NSString *songName;
 @property (nonatomic, strong) Singer *singer;
 @property (nonatomic, assign) BOOL isFavourite;
+
+- (instancetype) initWithCover: (UIImage*) cover name: (NSString*) songName singer: (NSString*) singer;
+
 @end
 
 NS_ASSUME_NONNULL_END

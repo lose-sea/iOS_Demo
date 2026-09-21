@@ -20,12 +20,19 @@ NSString *const PlayerModelDidChangeNotification = @"PlayerModelDidChangeNotific
     return instance;
 }
 
+- (void) setUpDefaultSong {
+    Song* song = [[Song alloc] init];
+    
+}
+
 - (void)setSong:(Song *)song {
     _song = song;
     [[NSNotificationCenter defaultCenter] postNotificationName:PlayerModelDidChangeNotification
                                                         object:self
                                                       userInfo:@{@"changed": @"song"}];
 }
+
+
 
 - (void)setIsPlay:(BOOL)isPlay {
     _isPlay = isPlay;

@@ -7,7 +7,7 @@
 
 #import <Foundation/Foundation.h>
 #import "Song.h"
-#import "PlayListModel.h"
+#import "SongListModel.h"
 
 
 NS_ASSUME_NONNULL_BEGIN
@@ -24,7 +24,7 @@ UIKIT_EXTERN NSString *const PlayerModelDidChangeNotification;
 @property (nonatomic, assign) BOOL isPlay;
 
 // 当前播放的歌单
-@property (nonatomic, strong, nullable) PlayListModel *currentPlayList;
+@property (nonatomic, strong, nullable) SongListModel *currentPlayList;
 
 
 @end

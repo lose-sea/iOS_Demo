@@ -5,9 +5,9 @@
 //  Created by lose_sea on 2026/9/20.
 //
 
-#import "PlayListView.h"
+#import "SongListCard.h"
 
-@implementation PlayListView
+@implementation SongListCard
 
 - (instancetype) init {
     self = [super init];
@@ -20,7 +20,6 @@
 - (void) setUpInterface {
     
 }
-
 
 
 

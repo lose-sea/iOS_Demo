@@ -5,9 +5,9 @@
 //  Created by lose_sea on 2026/9/21.
 //
 
-#import "SongListView.h"
+#import "SongListShowView.h"
 
-@implementation SongListView
+@implementation SongListShowView
 
 /*
 // Only override drawRect: if you perform custom drawing.

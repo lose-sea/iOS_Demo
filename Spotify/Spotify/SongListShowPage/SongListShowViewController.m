@@ -5,13 +5,13 @@
 //  Created by lose_sea on 2026/9/21.
 //
 
-#import "SongListViewController.h"
+#import "SongListShowViewController.h"
 
-@interface SongListViewController ()
+@interface SongListShowViewController ()
 
 @end
 
-@implementation SongListViewController
+@implementation SongListShowViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
