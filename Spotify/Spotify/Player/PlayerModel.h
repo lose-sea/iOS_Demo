@@ -8,6 +8,7 @@
 #import <Foundation/Foundation.h>
 #import "Song.h"
 #import "SongListModel.h"
+#import "Singer.h"
 
 
 NS_ASSUME_NONNULL_BEGIN

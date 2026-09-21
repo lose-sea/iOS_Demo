@@ -52,7 +52,7 @@
 
     // 歌手
     self.singer = [[UILabel alloc] init];
-    self.singer.font = [UIFont systemFontOfSize:12];
+    self.singer.font = [UIFont systemFontOfSize:16];
     self.singer.textColor = [UIColor secondaryLabelColor];
     [self addSubview:self.singer];
     

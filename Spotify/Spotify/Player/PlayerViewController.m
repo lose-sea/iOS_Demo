@@ -16,22 +16,18 @@
 
 @implementation PlayerViewController
 
+static PlayerViewController *instance = nil;
+
+
 + (instancetype)sharedInstance {
     static PlayerViewController *instance = nil;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
         instance = [[PlayerViewController alloc] init];
+        // 在这里做只需要执行一次的初始化
+        instance.playerModel = [PlayerModel sharedInstance];
     });
     return instance;
-}
-
-- (instancetype)init {
-    self = [super init];
-    if (self) {
-        // 持有共享模型
-        _playerModel = [PlayerModel sharedInstance];
-    }
-    return self;
 }
 
 
@@ -39,6 +35,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
 
+    [self setUpInterface];
     
 
     // 监听播放状态变化，刷新自己的 UI
@@ -47,20 +44,26 @@
                                                  name:PlayerModelDidChangeNotification
                                                object:nil];
 
+    
+
+    [self.playerView.playButton addTarget:self
+                                   action:@selector(pressPlayButton)
+                         forControlEvents:UIControlEventTouchUpInside];
+    [self.playerView.favouriteButton addTarget:self
+                                        action:@selector(toggleFavourite)
+                              forControlEvents:UIControlEventTouchUpInside];
+    
+    [self refreshUI]; 
+}
+
+- (void) setUpInterface {
     // 初始化 PlayerView 并加约束（Masonry）
     self.playerView = [[PlayerView alloc] init];
     [self.view addSubview:self.playerView];
     [self.playerView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.edges.equalTo(self.view);
     }];
-
-    [self.playerView.playButton addTarget:self
-                                   action:@selector(togglePlayPause)
-                         forControlEvents:UIControlEventTouchUpInside];
-    [self.playerView.favouriteButton addTarget:self
-                                        action:@selector(toggleFavourite)
-                              forControlEvents:UIControlEventTouchUpInside];
-
+    
     [self refreshUI];
 }
 
@@ -68,15 +71,18 @@
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
-#pragma mark - Public
 
+
+#pragma mark - Public
 - (void)playSong:(Song *)song {
     self.playerModel.song = song;
     self.playerModel.isPlay = YES;
 }
 
-- (void)togglePlayPause {
+- (void)pressPlayButton {
+    NSLog(@"点击了播放按钮");
     self.playerModel.isPlay = !self.playerModel.isPlay;
+    [self refreshUI];
 }
 
 - (Song *)currentSong {
@@ -103,11 +109,16 @@
 
 - (void)refreshUI {
     Song *song = self.playerModel.song;
-    if (!song) return;
+    if (!song) {
+        NSLog(@"song 为 nil");
+        return;
+    }
+    
 
     self.playerView.coverImageView.image = song.songCover;
     self.playerView.songNameLabel.text = song.songName;
     self.playerView.singer.text = song.singer.singerName;
+    
 
     // 播放/暂停按钮图标
     NSString *iconName = self.playerModel.isPlay ? @"pause.fill" : @"play.fill";

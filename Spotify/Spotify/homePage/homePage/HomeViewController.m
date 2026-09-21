@@ -119,7 +119,7 @@
 
 
 - (void) setUpPlayerViewController {
-    PlayerViewController* player = [[PlayerViewController alloc] init];
+    PlayerViewController* player = [PlayerViewController sharedInstance];
     
     [self addChildViewController: player];
     [self.view addSubview: player.view];

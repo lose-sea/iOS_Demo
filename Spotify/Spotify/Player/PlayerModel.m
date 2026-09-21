@@ -16,13 +16,15 @@ NSString *const PlayerModelDidChangeNotification = @"PlayerModelDidChangeNotific
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
         instance = [[PlayerModel alloc] init];
+        [instance setUpDefaultSong]; 
     });
     return instance;
 }
 
-- (void) setUpDefaultSong {
-    Song* song = [[Song alloc] init];
-    
+
+- (void) setUpDefaultSong {    
+    Song* song = [[Song alloc] initWithCover: [UIImage imageNamed: @"53.jpg"] name: @"春娇与志明" singer: [[Singer alloc] init]];
+    self.song = song;
 }
 
 - (void)setSong:(Song *)song {

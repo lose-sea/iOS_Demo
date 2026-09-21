@@ -19,8 +19,9 @@ NS_ASSUME_NONNULL_BEGIN
 
 /// 播放一首新歌曲：更新 PlayerModel 并开始播放
 - (void)playSong:(Song *)song;
+
 /// 暂停/继续（翻转 isPlay）
-- (void)togglePlayPause;
+- (void)pressPlayButton;
 
 - (Song *)currentSong;
 - (BOOL)isPlaying;
