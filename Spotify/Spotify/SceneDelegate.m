@@ -51,10 +51,6 @@
     
     
     DrawerViewController* drawViewController = [[DrawerViewController alloc] initWithMainViewController: tabBarController menuViewController: menuNav];
-    
-//    self.window.rootViewController = Nav;
-    
-//    self.window.rootViewController = tabBarController;
 
     
     self.window.rootViewController = drawViewController;

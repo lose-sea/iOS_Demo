@@ -12,8 +12,6 @@
 
 @property (nonatomic, strong) UIView* maskView;
 
-
-
 @end
 
 @implementation DrawerViewController
@@ -66,11 +64,11 @@
             make.top.bottom.mas_equalTo(self.view);
             make.width.mas_equalTo(self.menuWidth);
     }];
-//    NSLog(@"viewDidLoad 中添加菜单视图, width: %f", self.menuViewContorller.view.bounds.size.width);
     
     // 添加手势
     [self setUpGesture];
 }
+
 
 - (void) setUpGesture {
     NSLog(@"添加手势");
@@ -151,9 +149,8 @@
         }];
 }
 
-/*
-#pragma mark - Navigation
 
+/*
 // In a storyboard-based application, you will often want to do a little preparation before navigation
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
     // Get the new view controller using [segue destinationViewController].

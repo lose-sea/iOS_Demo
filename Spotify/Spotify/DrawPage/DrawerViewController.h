@@ -15,7 +15,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (nonatomic, assign) CGFloat menuWidth;
 
-// 主内容控制器
+// 主视图控制器
 @property (nonatomic, strong) UIViewController* mainViewController;
 
 // 菜单控制器
@@ -23,6 +23,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 // 菜单是否打开
 @property (nonatomic, assign) BOOL isMenuOpen;
+
 
 -(instancetype) initWithMainViewController: (UIViewController*) mainViewController menuViewController: (UIViewController*) menuViewController;
 
@@ -32,3 +33,4 @@ NS_ASSUME_NONNULL_BEGIN
 @end
 
 NS_ASSUME_NONNULL_END
+    
