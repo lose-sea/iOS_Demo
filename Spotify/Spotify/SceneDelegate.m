@@ -26,6 +26,10 @@
     self.window = [[UIWindow alloc] initWithWindowScene: myScene];
     
     
+    // Spotify 风格：全局深色
+    self.window.overrideUserInterfaceStyle = UIUserInterfaceStyleDark;
+    
+    
     HomeViewController* homeController = [[HomeViewController alloc] init];
     UINavigationController* homeNav = [[UINavigationController alloc] initWithRootViewController: homeController];
     homeController.tabBarItem = [[UITabBarItem alloc] initWithTitle: @"首页"

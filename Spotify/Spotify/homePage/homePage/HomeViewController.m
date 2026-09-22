@@ -8,18 +8,28 @@
 #import "HomeViewController.h"
 #import "HomeView.h"
 #import "HomeModel.h"
+#import "HomeSection.h"
+#import "HomeCard.h"
+#import "HomeSectionCell.h"
 #import "PlayerViewController.h"
 #import "DrawerViewController.h"
-#import <Masonry/Masonry.h>
-#import "Singer.h"
+#import "SongListShowViewController.h"
+#import "Song.h"
 
+typedef NS_ENUM(NSUInteger, HomeFilterIndex) {
+    HomeFilterIndexAll = 0,
+    HomeFilterIndexMusic,
+    HomeFilterIndexPodcast
+};
 
-
-@interface HomeViewController () <UITableViewDelegate, UITableViewDataSource>
+@interface HomeViewController () <UITableViewDelegate, UITableViewDataSource, HomeSectionCellDelegate>
 
 @property (nonatomic, strong) HomeView *homeView;
-@property (nonatomic, strong) NSArray<NSDictionary *> *playlistCards;
-@property (nonatomic, strong) NSArray<Song *> *songs;
+@property (nonatomic, strong) NSArray<HomeSection *> *sections;
+@property (nonatomic, assign) HomeFilterIndex filterIndex;
+
+/// 头像裁剪压缩，size 为 pt
+- (UIImage *)croppedToSquare:(UIImage *)image size:(CGSize)size;
 
 @end
 
@@ -27,122 +37,162 @@
 
 #pragma mark - 生命周期
 
-- (void)viewDidLoad {
-    [super viewDidLoad];
-    self.view.backgroundColor = [UIColor systemBackgroundColor];
-
-    // 加载数据
-    [self loadData];
-    [self setUpNavigation];
-
-    
-
-    
-//    [self setUpInterface];
-    
-
-    // 黑夜模式
-//    self.view.window.overrideUserInterfaceStyle = UIUserInterfaceStyleDark;
+- (void)loadView {
+    HomeView *homeView = [[HomeView alloc] init];
+    self.homeView = homeView;
+    self.view = homeView;
 }
 
+- (void)viewDidLoad {
+    [super viewDidLoad];
 
-
-
-
+    self.filterIndex = HomeFilterIndexAll;
+    [self loadData];
+    [self setUpNavigation];
+    [self setUpTableView];
+}
 
 #pragma mark - 数据准备
 
 - (void)loadData {
-    self.playlistCards = [HomeModel samplePlaylistCards];
-    self.songs = [HomeModel sampleSongs];
+    self.sections = [HomeModel sampleSections];
 }
 
+- (void)setUpTableView {
+    self.homeView.tableView.delegate = self;
+    self.homeView.tableView.dataSource = self;
+    [self.homeView.tableView reloadData];
+}
 
 #pragma mark - Navigation
 
-
 - (void)setUpNavigation {
-    // 1. 准备图片（建议先裁成正方形并缩放到合适尺寸）
     UIImage *original = [UIImage imageNamed:@"51.jpg"];
-    UIImage *avatar = [self croppedToSquare:original size:CGSizeMake(36, 36)]; // 推荐 32~40
-    
-    // 关键原图颜色，防止被系统 tint 成单色
-    avatar = [avatar imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
-    
-    // 2. 创建按钮
+    UIImage *avatar = [[self croppedToSquare:original size:CGSizeMake(36, 36)]
+                       imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
+
     UIButton *imageButton = [UIButton buttonWithType:UIButtonTypeCustom];
     [imageButton setImage:avatar forState:UIControlStateNormal];
-        
-    // 必须设置 frame（CustomView 依赖这个）
     imageButton.frame = CGRectMake(0, 0, 36, 36);
-    
-    // 圆形头像
     imageButton.clipsToBounds = YES;
-    imageButton.layer.cornerRadius = 18;   // 半径 = 宽高的一半
-    
+    imageButton.layer.cornerRadius = 18.0;
     [imageButton addTarget:self
                     action:@selector(pressMenuButton)
           forControlEvents:UIControlEventTouchUpInside];
-    
-    // 3. 包装成 BarButtonItem
-    UIBarButtonItem *avatarBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:imageButton];
-    
-//    UIBarButtonItem* avatarBarButtonItem = [[UIBarButtonItem alloc] initWithImage: avatar style: UIBarButtonItemStylePlain target: self action: @selector(pressMenuButton)];
-//
-    // 4. 使用 leadingItemGroups（iOS 16+ 推荐写法）
+    imageButton.accessibilityLabel = @"打开菜单";
+    imageButton.accessibilityTraits = UIAccessibilityTraitButton;
+
+    UIBarButtonItem *avatarItem = [[UIBarButtonItem alloc] initWithCustomView:imageButton];
     UIBarButtonItemGroup *menuGroup = [[UIBarButtonItemGroup alloc]
-        initWithBarButtonItems:@[avatarBarButtonItem]
+        initWithBarButtonItems:@[avatarItem]
             representativeItem:nil];
-    
-    // All / Music / Podcast
-    UIBarButtonItem *allItem = [[UIBarButtonItem alloc] initWithTitle:@"All"
-                                                                style:UIBarButtonItemStylePlain
-                                                               target:self
-                                                               action:@selector(pressAllPage)];
-    
-    UIBarButtonItem *musicItem = [[UIBarButtonItem alloc] initWithTitle:@"Music"
-                                                                  style:UIBarButtonItemStylePlain
-                                                                 target:self
-                                                                 action:@selector(pressMusicPage)];
-    
-    UIBarButtonItem *blogItem = [[UIBarButtonItem alloc] initWithTitle:@"Podcast"
-                                                                 style:UIBarButtonItemStylePlain
-                                                                target:self
-                                                                action:@selector(pressBlogPage)];
-    
-    UIBarButtonItemGroup *itemsGroup = [[UIBarButtonItemGroup alloc]
-        initWithBarButtonItems:@[allItem, musicItem, blogItem]
+
+    UIBarButtonItem *allItem = [self filterItemWithTitle:@"全部"
+                                                  action:@selector(pressAllPage)
+                                                selected:(self.filterIndex == HomeFilterIndexAll)];
+    UIBarButtonItem *musicItem = [self filterItemWithTitle:@"音乐"
+                                                    action:@selector(pressMusicPage)
+                                                  selected:(self.filterIndex == HomeFilterIndexMusic)];
+    UIBarButtonItem *podcastItem = [self filterItemWithTitle:@"播客"
+                                                      action:@selector(pressBlogPage)
+                                                    selected:(self.filterIndex == HomeFilterIndexPodcast)];
+
+    UIBarButtonItemGroup *filterGroup = [[UIBarButtonItemGroup alloc]
+        initWithBarButtonItems:@[allItem, musicItem, podcastItem]
             representativeItem:nil];
-    
-    self.navigationItem.leadingItemGroups = @[menuGroup, itemsGroup];
+
+    self.navigationItem.leadingItemGroups = @[menuGroup, filterGroup];
+}
+
+
+/// 胶囊样式的筛选按钮
+- (UIBarButtonItem *)filterItemWithTitle:(NSString *)title action:(SEL)action selected:(BOOL)selected {
+    UIFont *font = [UIFont systemFontOfSize:14.0 weight:UIFontWeightSemibold];
+    CGFloat width = [title sizeWithAttributes:@{NSFontAttributeName: font}].width + 28.0;
+
+    UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
+    button.frame = CGRectMake(0, 0, width, 28.0);
+    [button setTitle:title forState:UIControlStateNormal];
+    button.titleLabel.font = font;
+    [button setTitleColor:selected ? [UIColor labelColor] : [UIColor whiteColor]
+                 forState:UIControlStateNormal];
+    button.backgroundColor = selected
+        ? [UIColor systemGreenColor]
+        : [[UIColor whiteColor] colorWithAlphaComponent:0.12];
+    button.layer.cornerRadius = 14.0;
+    [button addTarget:self action:action forControlEvents:UIControlEventTouchUpInside];
+
+    return [[UIBarButtonItem alloc] initWithCustomView:button];
 }
 
 
 
 - (void)pressAllPage {
-    NSLog(@"点击全部");
+    [self switchFilter:HomeFilterIndexAll];
 }
+
 - (void)pressMusicPage {
-    NSLog(@"点击音乐");
+    [self switchFilter:HomeFilterIndexMusic];
 }
+
 - (void)pressBlogPage {
-    NSLog(@"点击播客");
+    [self switchFilter:HomeFilterIndexPodcast];
 }
 
+- (void)switchFilter:(HomeFilterIndex)index {
+    if (self.filterIndex == index) return;
+    self.filterIndex = index;
+    [self setUpNavigation];
+    NSLog(@"切换到筛选：%@", @[@"全部", @"音乐", @"播客"][index]);
+}
+
+/// 沿响应者链找能处理 openMenu 的容器（这里是 DrawerViewController），
+/// 不直接依赖 window.rootViewController，避免页面被换容器后失效
 - (void)pressMenuButton {
-    NSLog(@"点击了菜单按钮");
-    UIViewController *root = self.view.window.rootViewController;
-    if ([root isKindOfClass:[DrawerViewController class]]) {
-        [(DrawerViewController *)root openMenu];
-    }
+    [[UIApplication sharedApplication] sendAction:@selector(openMenu) to:nil from:self forEvent:nil];
 }
 
+#pragma mark - UITableViewDataSource
 
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
+    return self.sections.count;
+}
 
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+    return 1;
+}
 
-#pragma mark -public Method
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+    HomeSectionCell *cell = [tableView dequeueReusableCellWithIdentifier:HomeSectionCellID];
+    if (!cell) {
+        cell = [[HomeSectionCell alloc] initWithStyle:UITableViewCellStyleDefault
+                                      reuseIdentifier:HomeSectionCellID];
+    }
+    cell.delegate = self;
+    [cell configureWithSection:self.sections[indexPath.section]];
+    return cell;
+}
 
-// 缩小图片
+#pragma mark - UITableViewDelegate
+
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
+    return [HomeSectionCell heightForSection:self.sections[indexPath.section]];
+}
+
+#pragma mark - HomeSectionCellDelegate
+
+- (void)homeSectionCell:(HomeSectionCell *)cell didSelectCard:(HomeCard *)card atIndex:(NSInteger)index {
+    NSLog(@"点击卡片：%@", card.title);
+
+    SongListShowViewController *songListVC = [[SongListShowViewController alloc] init];
+    songListVC.title = card.title;
+    songListVC.hidesBottomBarWhenPushed = YES;
+    [self.navigationController pushViewController:songListVC animated:YES];
+}
+
+#pragma mark - Private
+
+// 裁剪成正方形并缩放到目标尺寸
 - (UIImage *)croppedToSquare:(UIImage *)image size:(CGSize)size {
     CGSize imgSize = image.size;
     CGFloat side = MIN(imgSize.width, imgSize.height);
@@ -151,12 +201,13 @@
                                  side, side);
 
     CGImageRef cgImage = CGImageCreateWithImageInRect(image.CGImage, cropRect);
+    if (!cgImage) return image;
+
     UIImage *cropped = [UIImage imageWithCGImage:cgImage
                                            scale:image.scale
                                      orientation:image.imageOrientation];
     CGImageRelease(cgImage);
 
-    // 缩放到目标尺寸
     UIGraphicsBeginImageContextWithOptions(size, NO, 0);
     [cropped drawInRect:CGRectMake(0, 0, size.width, size.height)];
     UIImage *result = UIGraphicsGetImageFromCurrentImageContext();

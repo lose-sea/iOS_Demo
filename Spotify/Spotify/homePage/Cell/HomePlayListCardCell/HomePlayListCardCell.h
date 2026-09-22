@@ -7,14 +7,17 @@
 
 #import <UIKit/UIKit.h>
 
+@class HomeCard;
+
 NS_ASSUME_NONNULL_BEGIN
 
-/// 方形封面 + 歌单名 + 描述，两行文字
+/// 方形封面 + 标题 + 描述，两行文字（今日推荐 / 专辑）
 @interface HomePlayListCardCell : UICollectionViewCell
 
+/// 卡片固定尺寸（宽 150）
 + (CGSize)cardSize;
-/// dict: image(图片名) / title(歌单名) / desc(描述)
-- (void)configureWithData:(NSDictionary *)data;
+
+- (void)configureWithCard:(HomeCard *)card;
 
 @end
 

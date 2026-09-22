@@ -7,6 +7,7 @@
 
 #import <Foundation/Foundation.h>
 #import "Song.h"
+#import "HomeSection.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -15,8 +16,8 @@ NS_ASSUME_NONNULL_BEGIN
 /// 占位数据，构造一批 Song 对象（内部 Singer* 也一并构造）
 + (NSArray<Song *> *)sampleSongs;
 
-/// Section 0 横向歌单卡片数据（暂时用 NSDictionary 占位，后续再补 Playlist 模型）
-+ (NSArray<NSDictionary *> *)samplePlaylistCards;
+/// 首页各横向分区数据
++ (NSArray<HomeSection *> *)sampleSections;
 
 @end
 
