@@ -7,7 +7,7 @@
 
 #import <UIKit/UIKit.h>
 #import <Masonry/Masonry.h>
-
+#import "PlayerViewController.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -20,6 +20,9 @@ NS_ASSUME_NONNULL_BEGIN
 
 // 菜单控制器
 @property (nonatomic, strong) UIViewController* menuViewController;
+
+// 全局音乐播放器
+@property (nonatomic, strong) PlayerViewController* miniPlayerVC;
 
 // 菜单是否打开
 @property (nonatomic, assign) BOOL isMenuOpen;

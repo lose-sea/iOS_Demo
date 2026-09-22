@@ -107,6 +107,8 @@ static PlayerViewController *instance = nil;
 }
 
 
+
+
 - (void)refreshUI {
     Song *song = self.playerModel.song;
     if (!song) {

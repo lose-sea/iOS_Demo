@@ -16,8 +16,18 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    self.view.backgroundColor = [UIColor systemCyanColor]; 
+    self.view.backgroundColor = [UIColor systemCyanColor];
+    
+//    [self setUpPlayerViewController];
 }
+
+- (void) setUpInterface {
+    
+}
+
+
+
+
 
 /*
 #pragma mark - Navigation
