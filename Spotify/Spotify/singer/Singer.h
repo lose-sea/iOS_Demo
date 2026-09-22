@@ -6,15 +6,15 @@
 //
 
 #import <Foundation/Foundation.h>
-#import <UIKit/UIKit.h>
 
 @class Song;
 NS_ASSUME_NONNULL_BEGIN
 
 @interface Singer : NSObject
-@property (nonatomic, strong) NSString *singerName;
-@property (nonatomic, strong) UIImage *singerCover;
-@property (nonatomic, strong) NSArray<Song*> *songs;
+@property (nonatomic, copy) NSString *singerName;
+/// 头像地址：网络 URL 或本地资源名
+@property (nonatomic, copy) NSString *avatarURL;
+@property (nonatomic, strong) NSArray<Song *> *songs;
 
 - (instancetype) initWithSingerName: (NSString*) name; 
 @end

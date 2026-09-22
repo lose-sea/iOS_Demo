@@ -7,6 +7,7 @@
 
 #import "HomeArtistCardCell.h"
 #import "HomeCard.h"
+#import "UIImageView+Spotify.h"
 #import <Masonry/Masonry.h>
 
 static const CGFloat kArtistCoverSide = 150.0;
@@ -88,7 +89,7 @@ static const CGFloat kArtistCardHeight = kArtistCoverSide + 6.0 + kArtistDescHei
 }
 
 - (void)configureWithCard:(HomeCard *)card {
-    self.coverImageView.image = [UIImage imageNamed:card.imageName];
+    [self.coverImageView sp_setImageWithSource:card.imageURL placeholder:nil];
     self.bannerLabel.text = card.title;
     self.descLabel.text = card.subtitle;
 }

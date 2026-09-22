@@ -8,6 +8,7 @@
 #import "HomeViewTableViewCell.h"
 #import "Song.h"
 #import "Singer.h"
+#import "UIImageView+Spotify.h"
 #import <Masonry/Masonry.h>
 
 static const CGFloat kSongCoverSide = 56.0;
@@ -85,7 +86,7 @@ static const CGFloat kSongRowHeight = 72.0;
 }
 
 - (void)configureWithSong:(Song *)song {
-    self.coverImageView.image = song.songCover;
+    [self.coverImageView sp_setImageWithSource:song.coverURL placeholder:nil];
     self.songNameLabel.text = song.songName;
     self.singerNameLabel.text = song.singer.singerName;
 }

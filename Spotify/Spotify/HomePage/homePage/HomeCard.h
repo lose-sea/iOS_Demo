@@ -12,8 +12,8 @@ NS_ASSUME_NONNULL_BEGIN
 /// 首页卡片数据（一张封面 + 主标题 + 副标题）
 @interface HomeCard : NSObject
 
-/// 图片名（Assets / bundle 内资源）
-@property (nonatomic, copy) NSString *imageName;
+/// 封面地址：网络 URL 或本地资源名（由 View 层用 sp_setImageWithSource: 决定怎么加载）
+@property (nonatomic, copy) NSString *imageURL;
 /// 主标题
 @property (nonatomic, copy) NSString *title;
 /// 副标题（歌手、描述等）

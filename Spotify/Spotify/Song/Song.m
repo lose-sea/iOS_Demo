@@ -8,30 +8,21 @@
 #import "Song.h"
 
 @implementation Song
-- (instancetype) initWithSognCover:(UIImage *) songCover name:(NSString *)songName singer:(Singer *)singer {
-    self = [self init];
+
+- (instancetype)init {
+    self = [super init];
     if (self) {
-        self.songCover = songCover;
-        self.songName = songName;
-        self.singer = singer;
-        
+
     }
     return self;
 }
 
-- (instancetype) init {
+- (instancetype)initWithCoverURL:(NSString *)coverURL name:(NSString *)songName singer:(Singer *)singer {
     self = [super init];
     if (self) {
-        
-    }
-    return self;
-}
-- (instancetype)initWithCover:(nonnull UIImage *)cover name:(nonnull NSString *)songName singer:(Singer *)singer {
-    self = [super init];
-    if (self) {
-        self.songCover = cover;
+        self.coverURL = coverURL;
         self.songName = songName;
-        self.singer = singer; 
+        self.singer = singer;
     }
     return self;
 }

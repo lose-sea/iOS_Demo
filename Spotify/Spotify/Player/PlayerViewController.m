@@ -6,6 +6,7 @@
 //
 
 #import "PlayerViewController.h"
+#import "UIImageView+Spotify.h"
 
 @interface PlayerViewController ()
 
@@ -117,7 +118,7 @@ static PlayerViewController *instance = nil;
     }
     
 
-    self.playerView.coverImageView.image = song.songCover;
+    [self.playerView.coverImageView sp_setImageWithSource:song.coverURL placeholder:nil];
     self.playerView.songNameLabel.text = song.songName;
     self.playerView.singerLabel.text = song.singer.singerName;
     

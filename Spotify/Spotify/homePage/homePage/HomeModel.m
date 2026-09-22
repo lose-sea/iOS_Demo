@@ -30,11 +30,11 @@
     for (NSDictionary *d in raw) {
         Singer *singer = [[Singer alloc] init];
         singer.singerName = d[@"singer"];
-        singer.singerCover = [UIImage imageNamed:d[@"singerImg"]];
+        singer.avatarURL = d[@"singerImg"];
 
         Song *song = [[Song alloc] init];
         song.songName = d[@"title"];
-        song.songCover = [UIImage imageNamed:d[@"image"]];
+        song.coverURL = d[@"image"];
         song.singer = singer;
         song.isFavourite = NO;
         [songs addObject:song];
@@ -150,12 +150,12 @@
 
 #pragma mark - Private
 
-+ (HomeCard *)cardWithImage:(NSString *)imageName
++ (HomeCard *)cardWithImage:(NSString *)imageURL
                       title:(NSString *)title
                    subtitle:(NSString *)subtitle
                       badge:(NSString * _Nullable)badge {
     HomeCard *card = [[HomeCard alloc] init];
-    card.imageName = imageName;
+    card.imageURL = imageURL;
     card.title = title;
     card.subtitle = subtitle;
     card.badge = badge;

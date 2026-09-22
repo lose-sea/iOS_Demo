@@ -23,7 +23,9 @@ NSString *const PlayerModelDidChangeNotification = @"PlayerModelDidChangeNotific
 
 // 设置默认播放音乐
 - (void) setUpDefaultSong {
-    Song* song = [[Song alloc] initWithCover: [UIImage imageNamed: @"53.jpg"] name: @"春娇与志明" singer: [[Singer alloc] initWithSingerName: @"朱玉仙"]];
+    Song *song = [[Song alloc] initWithCoverURL:@"53.jpg"
+                                            name:@"春娇与志明"
+                                          singer:[[Singer alloc] initWithSingerName:@"朱玉仙"]];
     self.song = song;
 }
 

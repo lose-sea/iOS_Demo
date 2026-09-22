@@ -6,6 +6,7 @@
 //
 
 #import <Foundation/Foundation.h>
+#import <UIKit/UIKit.h>
 #import "Song.h"
 #import "SongListModel.h"
 #import "Singer.h"

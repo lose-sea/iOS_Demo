@@ -7,6 +7,7 @@
 
 #import "HomePlayListCardCell.h"
 #import "HomeCard.h"
+#import "UIImageView+Spotify.h"
 #import <Masonry/Masonry.h>
 
 static const CGFloat kCardCoverSide = 150.0;
@@ -75,7 +76,7 @@ static const CGFloat kCardHeight = kCardCoverSide + 6.0 + kCardTitleHeight + 2.0
 }
 
 - (void)configureWithCard:(HomeCard *)card {
-    self.coverImageView.image = [UIImage imageNamed:card.imageName];
+    [self.coverImageView sp_setImageWithSource:card.imageURL placeholder:nil];
     self.nameLabel.text = card.title;
     self.descLabel.text = card.subtitle;
 }

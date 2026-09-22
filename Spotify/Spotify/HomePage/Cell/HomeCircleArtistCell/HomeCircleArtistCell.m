@@ -7,6 +7,7 @@
 
 #import "HomeCircleArtistCell.h"
 #import "HomeCard.h"
+#import "UIImageView+Spotify.h"
 #import <Masonry/Masonry.h>
 
 static const CGFloat kCircleSide = 110.0;
@@ -62,7 +63,7 @@ static const CGFloat kCircleCardHeight = kCircleSide + 6.0 + kCircleNameHeight;
 }
 
 - (void)configureWithCard:(HomeCard *)card {
-    self.avatarImageView.image = [UIImage imageNamed:card.imageName];
+    [self.avatarImageView sp_setImageWithSource:card.imageURL placeholder:nil];
     self.nameLabel.text = card.title;
 }
 
