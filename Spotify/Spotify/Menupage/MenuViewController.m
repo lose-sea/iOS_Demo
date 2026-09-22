@@ -17,7 +17,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    self.view.backgroundColor = [UIColor systemCyanColor]; 
+    self.view.backgroundColor = [UIColor systemBackgroundColor];
     // Do any additional setup after loading the view.
     
 //    [self setUpNavigation];
@@ -27,12 +27,14 @@
 
 
 - (void) setUpInterface {
-    
+    self.menuView = [[MenuView alloc] init];
+    [self.view addSubview: self.menuView];
+    [self.menuView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.edges.mas_equalTo(self.view);
+    }];
 }
 
-- (void) createTableaView {
-    
-}
+
 
 - (void) setUpNavigation {
     UIBarButtonItem* backItem = [[UIBarButtonItem alloc] initWithTitle: @"back" style: UIBarButtonItemStylePlain target: self action: @selector(pressBack)];

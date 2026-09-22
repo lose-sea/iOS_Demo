@@ -9,6 +9,18 @@
 
 @implementation MenuView
 
+- (instancetype) init {
+    self = [super init];
+    if (self) {
+        [self setUpInterface]; 
+    }
+    return self;
+}
+
+
+- (void) setUpInterface {
+    self.backgroundColor = [UIColor systemBackgroundColor]; 
+}
 /*
 // Only override drawRect: if you perform custom drawing.
 // An empty implementation adversely affects performance during animation.
@@ -16,5 +28,4 @@
     // Drawing code
 }
 */
-
 @end
