@@ -12,9 +12,9 @@
 #import "HomeCard.h"
 #import "HomeSectionCell.h"
 #import "PlayerViewController.h"
-#import "DrawerViewController.h"
 #import "SongListShowViewController.h"
 #import "Song.h"
+#import "UIResponder+AppActions.h"
 
 typedef NS_ENUM(NSUInteger, HomeFilterIndex) {
     HomeFilterIndexAll = 0,
@@ -151,6 +151,9 @@ typedef NS_ENUM(NSUInteger, HomeFilterIndex) {
 - (void)pressMenuButton {
     [[UIApplication sharedApplication] sendAction:@selector(openMenu) to:nil from:self forEvent:nil];
 }
+
+
+
 
 #pragma mark - UITableViewDataSource
 

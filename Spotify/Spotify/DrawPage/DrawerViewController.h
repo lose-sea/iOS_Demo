@@ -33,6 +33,9 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (void) openMenu;
 - (void) closeMenu;
+
+/// 弹出全屏播放页（响应者链：PlayerViewController 转发过来）
+- (void) openPlayerDetailPage;
 @end
 
 NS_ASSUME_NONNULL_END

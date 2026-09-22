@@ -28,6 +28,9 @@ UIKIT_EXTERN NSString *const PlayerModelDidChangeNotification;
 // 当前播放的歌单
 @property (nonatomic, strong, nullable) SongListModel *currentPlayList;
 
+/// 播放当前歌单中的下一首 / 上一首（无歌单或列表为空时忽略）
+- (void)playNextSong;
+- (void)playPreviousSong;
 
 @end
 

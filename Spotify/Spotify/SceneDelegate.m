@@ -42,7 +42,7 @@
     UINavigationController* searchNav = [[UINavigationController alloc] initWithRootViewController: searchViewController];
     searchViewController.tabBarItem =  [[UITabBarItem alloc] initWithTitle: @"搜索"
                                                                      image: [UIImage systemImageNamed: @"magnifyingglass"]
-                                                             selectedImage: [UIImage systemImageNamed: @"magnifyingglass"]];
+                                                             selectedImage: [UIImage systemImageNamed: @"magnifyingglass.fill"]];
     
     UITabBarController* tabBarController = [[UITabBarController alloc] init];
     tabBarController.viewControllers = @[homeNav, searchNav];

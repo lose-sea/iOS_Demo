@@ -7,8 +7,9 @@
 
 #import "PlayerViewController.h"
 #import "UIImageView+Spotify.h"
+#import "UIResponder+AppActions.h"
 
-@interface PlayerViewController ()
+@interface PlayerViewController () <PlayerViewDelegate>
 
 @property (nonatomic, strong, readwrite) PlayerModel *playerModel;
 @property (nonatomic, strong, readwrite) PlayerView *playerView;
@@ -16,8 +17,6 @@
 @end
 
 @implementation PlayerViewController
-
-static PlayerViewController *instance = nil;
 
 
 + (instancetype)sharedInstance {
@@ -60,6 +59,7 @@ static PlayerViewController *instance = nil;
 - (void) setUpInterface {
     // 初始化 PlayerView 并加约束（Masonry）
     self.playerView = [[PlayerView alloc] init];
+    self.playerView.delegate = self;
     [self.view addSubview:self.playerView];
     [self.playerView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.edges.equalTo(self.view);
@@ -92,6 +92,16 @@ static PlayerViewController *instance = nil;
 
 - (BOOL)isPlaying {
     return self.playerModel.isPlay;
+}
+
+#pragma mark - PlayerViewDelegate
+
+// mini player 的 view 只有 60pt 高，不能自己 present 全屏页，交给上层容器（DrawerViewController）处理
+- (void)playerViewDidTapPlayer:(PlayerView *)playerView {
+    [[UIApplication sharedApplication] sendAction:@selector(openPlayerDetailPage)
+                                               to:nil
+                                               from:self
+                                           forEvent:nil];
 }
 
 #pragma mark - Private

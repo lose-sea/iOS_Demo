@@ -29,10 +29,15 @@
 
 
 - (void)setUpInterface {
-    self.backgroundColor = [UIColor systemRedColor]; 
+    self.backgroundColor = [UIColor systemRedColor];
     self.backgroundColor = [UIColor secondarySystemBackgroundColor];
     self.layer.cornerRadius = 8;
     self.clipsToBounds = YES;
+
+    // 点击 mini player 整体（按钮区域会被 UIControl 拦截，无需排除）
+    UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self
+                                                                          action:@selector(didTapPlayer)];
+    [self addGestureRecognizer:tap];
 
     // 封面（左，48×48）
     self.coverImageView = [[UIImageView alloc] init];
@@ -134,5 +139,13 @@
 
 }
 
+
+#pragma mark - Private
+
+- (void)didTapPlayer {
+    if ([self.delegate respondsToSelector:@selector(playerViewDidTapPlayer:)]) {
+        [self.delegate playerViewDidTapPlayer:self];
+    }
+}
 
 @end

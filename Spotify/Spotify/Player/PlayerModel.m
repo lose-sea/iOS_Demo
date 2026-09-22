@@ -46,7 +46,30 @@ NSString *const PlayerModelDidChangeNotification = @"PlayerModelDidChangeNotific
                                                       userInfo:@{@"changed": @"isPlay"}];
 }
 
+#pragma mark - 切歌
 
+- (void)playNextSong {
+    [self switchToSongWithOffset:1];
+}
 
+- (void)playPreviousSong {
+    [self switchToSongWithOffset:-1];
+}
+
+// 在当前歌单里循环切换；setSong / setIsPlay 内部会发通知刷新 UI
+- (void)switchToSongWithOffset:(NSInteger)offset {
+    NSArray<Song *> *songs = self.currentPlayList.songs;
+    if (songs.count == 0) {
+        NSLog(@"当前没有播放列表，无法切歌");
+        return;
+    }
+
+    NSUInteger index = [songs indexOfObject:self.song];
+    if (index == NSNotFound) index = 0;
+    index = (index + offset + songs.count) % songs.count;
+
+    self.song = songs[index];
+    self.isPlay = YES;
+}
 
 @end

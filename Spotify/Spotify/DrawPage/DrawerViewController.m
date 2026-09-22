@@ -6,6 +6,7 @@
 //
 
 #import "DrawerViewController.h"
+#import "PlayerDetailViewController.h"
 
 
 @interface DrawerViewController () <UIGestureRecognizerDelegate>
@@ -47,6 +48,10 @@
     }];
     
     
+    
+    // 添加播放器
+    [self setUpPlayerViewController];
+
 
     // 添加遮罩层
     [self setUpMaskView];
@@ -68,7 +73,6 @@
     // 添加手势
     [self setUpGesture];
     
-    [self setUpPlayerViewController]; 
 }
 
 
@@ -92,7 +96,10 @@
     
     self.maskView.userInteractionEnabled = NO;
     
-    [self.view insertSubview: self.maskView belowSubview: self.menuViewController.view];
+//    [self.view insertSubview: self.maskView belowSubview: self.menuViewController.view];
+    
+    [self.view addSubview: self.maskView];
+    
     [self.maskView mas_makeConstraints:^(MASConstraintMaker *make) {
             make.edges.equalTo(self.view);
     }];
@@ -113,6 +120,19 @@
     }];
     player.view.clipsToBounds = YES;
     player.view.layer.cornerRadius = 30;
+    
+    
+    UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self
+                                                                          action:@selector(didTapPlayer)];
+    [player.view addGestureRecognizer:tap];
+}
+
+// 弹出全屏播放页（由 mini player 点击经响应者链转发到这里）
+- (void) openPlayerDetailPage {
+    PlayerDetailViewController *detailVC = [[PlayerDetailViewController alloc] init];
+    detailVC.modalPresentationStyle = UIModalPresentationFullScreen;
+    detailVC.modalPresentationCapturesStatusBarAppearance = YES;
+    [self presentViewController:detailVC animated:YES completion:nil];
 }
 
 - (void) viewDidLayoutSubviews {
@@ -121,7 +141,10 @@
 }
 
 
-
+// 点击歌曲跳转歌曲全屏播放页面
+- (void) didTapPlayer {
+    NSLog(@"跳转歌曲详情界面"); 
+}
 
 
 
@@ -144,7 +167,6 @@
         } completion:^(BOOL finished) {
             self.isMenuOpen = NO;
         }];
-    
 }
 
 
