@@ -39,7 +39,7 @@ static NSString * const kCoverRotationKey = @"coverRotation";
 }
 
 - (void)setUpInterface {
-    self.backgroundColor = [UIColor blackColor];
+    self.backgroundColor = [UIColor systemBackgroundColor];
 
     [self setUpCloseButton];
     [self setUpCover];
@@ -56,7 +56,7 @@ static NSString * const kCoverRotationKey = @"coverRotation";
     UIImage *closeIcon = [UIImage systemImageNamed:@"chevron.down"
                                   withConfiguration:[UIImageSymbolConfiguration configurationWithPointSize:20.0]];
     [self.closeButton setImage:closeIcon forState:UIControlStateNormal];
-    self.closeButton.tintColor = [UIColor whiteColor];
+    self.closeButton.tintColor = [UIColor labelColor];
     [self addSubview:self.closeButton];
 
     // TODO: Masonry 1.1.0 没有 safeArea API，这里用固定值，真机刘海屏如需精确可改用 safeAreaLayoutGuide
@@ -91,7 +91,7 @@ static NSString * const kCoverRotationKey = @"coverRotation";
     // 当前行（后续接网络歌词后由播放进度驱动）
     self.currentLyricsLabel = [[UILabel alloc] init];
     self.currentLyricsLabel.font = [UIFont systemFontOfSize:20.0 weight:UIFontWeightBold];
-    self.currentLyricsLabel.textColor = [UIColor whiteColor];
+    self.currentLyricsLabel.textColor = [UIColor labelColor];
     self.currentLyricsLabel.text = @"暂无歌词";
     [self addSubview:self.currentLyricsLabel];
 
@@ -117,7 +117,7 @@ static NSString * const kCoverRotationKey = @"coverRotation";
 - (void)setUpSongInfo {
     self.songNameLabel = [[UILabel alloc] init];
     self.songNameLabel.font = [UIFont systemFontOfSize:22.0 weight:UIFontWeightBold];
-    self.songNameLabel.textColor = [UIColor whiteColor];
+    self.songNameLabel.textColor = [UIColor labelColor];
     [self addSubview:self.songNameLabel];
 
     self.singerLabel = [[UILabel alloc] init];
@@ -188,11 +188,11 @@ static NSString * const kCoverRotationKey = @"coverRotation";
     self.previousButton = [self buttonWithImageName:@"backward.end.fill" configuration:normal];
     self.nextButton = [self buttonWithImageName:@"forward.end.fill" configuration:normal];
 
-    // 大播放按钮：白圆底 + 黑色图标
+    // 大播放按钮：底色和图标用「前景色/背景色」反过来，任何主题下都看得见
     self.playButton = [self buttonWithImageName:@"play.fill" configuration:big];
-    self.playButton.backgroundColor = [UIColor systemBackgroundColor];
+    self.playButton.backgroundColor = [UIColor labelColor];
     self.playButton.layer.cornerRadius = 32.0;
-    self.playButton.tintColor = [UIColor labelColor];
+    self.playButton.tintColor = [UIColor systemBackgroundColor];
 
     UIStackView *buttonRow = [[UIStackView alloc] initWithArrangedSubviews:@[
         self.favouriteButton, self.commentButton, self.previousButton, self.playButton, self.nextButton
@@ -224,7 +224,7 @@ static NSString * const kCoverRotationKey = @"coverRotation";
     UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
     UIImage *icon = [UIImage systemImageNamed:imageName withConfiguration:configuration];
     [button setImage:icon forState:UIControlStateNormal];
-    button.tintColor = [UIColor whiteColor];
+    button.tintColor = [UIColor labelColor];
     return button;
 }
 

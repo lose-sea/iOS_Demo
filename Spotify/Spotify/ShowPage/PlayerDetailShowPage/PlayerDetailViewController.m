@@ -22,14 +22,25 @@
 
 @implementation PlayerDetailViewController
 
+// 状态栏跟随当前外观：深色页面用白字，浅色页面用黑字
 - (UIStatusBarStyle)preferredStatusBarStyle {
-    return UIStatusBarStyleLightContent;
+    BOOL isDark = (self.traitCollection.userInterfaceStyle == UIUserInterfaceStyleDark);
+    return isDark ? UIStatusBarStyleLightContent : UIStatusBarStyleDarkContent;
+}
+
+// 切换深浅模式时刷新状态栏样式
+- (void)traitCollectionDidChange:(UITraitCollection *)previousTraitCollection {
+    [super traitCollectionDidChange:previousTraitCollection];
+    if (self.traitCollection.userInterfaceStyle != previousTraitCollection.userInterfaceStyle) {
+        [self setNeedsStatusBarAppearanceUpdate];
+    }
 }
 
 - (void)viewDidLoad {
     [super viewDidLoad];
 
     self.playerModel = [PlayerModel sharedInstance];
+
     [self setUpInterface];
     [self setUpNotification];
 
@@ -43,7 +54,7 @@
 #pragma mark - 初始化
 
 - (void)setUpInterface {
-    self.view.backgroundColor = [UIColor blackColor];
+    self.view.backgroundColor = [UIColor systemBackgroundColor];
 
     self.detailView = [[PlayerDetailView alloc] init];
     [self.view addSubview:self.detailView];
@@ -119,7 +130,7 @@
                                      forState:UIControlStateNormal];
     self.detailView.favouriteButton.tintColor = song.isFavourite
         ? [UIColor systemPinkColor]
-        : [UIColor whiteColor];
+        : [UIColor labelColor];
 
     // 封面旋转跟随播放状态
     [self.detailView setCoverRotating:self.playerModel.isPlay];

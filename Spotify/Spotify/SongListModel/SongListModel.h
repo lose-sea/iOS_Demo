@@ -14,6 +14,8 @@ NS_ASSUME_NONNULL_BEGIN
 /// 封面地址：网络 URL 或本地资源名
 @property (nonatomic, copy) NSString *coverURL;
 @property (nonatomic, strong) NSArray<Song *> *songs;
+/// 系统默认歌单（如“我的喜欢”）：默认存在，不可删除
+@property (nonatomic, assign) BOOL isSystemPlaylist;
 @end
 
 NS_ASSUME_NONNULL_END

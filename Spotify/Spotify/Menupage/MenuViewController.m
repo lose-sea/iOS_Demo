@@ -36,8 +36,8 @@
 }
 
 - (void)configureMenu {
-    // 占位用户数据，后续接登录后替换
-    UserModel *user = [[UserModel alloc] init];
+    // 全局用户单例：和“我的”页面、其他页面共享同一份数据
+    UserModel *user = [UserModel sharedInstance];
     user.user_name = @"lose_sea";
     user.avatarURL = @"51.jpg";
     user.email = @"lose_sea@spotify.com";
