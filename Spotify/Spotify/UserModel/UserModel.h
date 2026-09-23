@@ -8,7 +8,7 @@
 #import <Foundation/Foundation.h>
 #import "Song.h"
 #import "Singer.h"
-
+#import "SongListModel.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -19,8 +19,11 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, strong) NSString* email;
 @property (nonatomic, strong) NSArray<Song*>* favoriteSongs;
 @property (nonatomic, strong) NSArray<Singer*>* favouriteSingers;
+@property (nonatomic, strong) NSArray<SongListModel*>* songLists; 
 
 @property (nonatomic, strong) NSArray* userSongLists;
+
++ (instancetype) shareInstance; 
 @end
 
 NS_ASSUME_NONNULL_END
