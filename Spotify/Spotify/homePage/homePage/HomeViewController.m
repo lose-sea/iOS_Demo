@@ -13,6 +13,7 @@
 #import "HomeSectionCell.h"
 #import "PlayerViewController.h"
 #import "SongListShowViewController.h"
+#import "SongListModel.h"
 #import "Song.h"
 #import "UIResponder+AppActions.h"
 
@@ -190,8 +191,14 @@ typedef NS_ENUM(NSUInteger, HomeFilterIndex) {
 - (void)homeSectionCell:(HomeSectionCell *)cell didSelectCard:(HomeCard *)card atIndex:(NSInteger)index {
     NSLog(@"点击卡片：%@", card.title);
 
+    // 临时用示例歌曲填充歌单，接接口后由歌单详情接口返回
+    SongListModel *songList = [[SongListModel alloc] init];
+    songList.playlistName = card.title;
+    songList.coverURL = card.imageURL;
+    songList.songs = [HomeModel sampleSongs];
+
     SongListShowViewController *songListVC = [[SongListShowViewController alloc] init];
-    songListVC.title = card.title;
+    songListVC.songList = songList;
     songListVC.hidesBottomBarWhenPushed = YES;
     [self.navigationController pushViewController:songListVC animated:YES];
 }

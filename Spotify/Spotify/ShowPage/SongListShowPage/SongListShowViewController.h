@@ -7,11 +7,14 @@
 
 #import <UIKit/UIKit.h>
 #import "SongListModel.h"
+
 NS_ASSUME_NONNULL_BEGIN
 
 @interface SongListShowViewController : UIViewController
-@property (nonatomic, strong) SongListModel* SongList; 
+
+/// 要展示的歌单（push 前赋值）
+@property (nonatomic, strong, nullable) SongListModel *songList;
+
 @end
 
 NS_ASSUME_NONNULL_END
-

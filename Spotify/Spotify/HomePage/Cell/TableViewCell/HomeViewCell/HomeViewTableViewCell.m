@@ -13,13 +13,15 @@
 
 static const CGFloat kSongCoverSide = 56.0;
 static const CGFloat kSongRowHeight = 72.0;
+static const CGFloat kButtonSide = 44.0;
 
 @interface HomeViewTableViewCell ()
 
 @property (nonatomic, strong) UIImageView *coverImageView;
 @property (nonatomic, strong) UILabel *songNameLabel;
 @property (nonatomic, strong) UILabel *singerNameLabel;
-@property (nonatomic, strong) UIButton *moreButton;
+@property (nonatomic, strong, readwrite) UIButton *favouriteButton;
+@property (nonatomic, strong, readwrite) UIButton *playButton;
 
 @end
 
@@ -47,10 +49,25 @@ static const CGFloat kSongRowHeight = 72.0;
     self.coverImageView.layer.cornerRadius = 6.0;
     [self.contentView addSubview:self.coverImageView];
 
-    self.moreButton = [UIButton buttonWithType:UIButtonTypeSystem];
-    [self.moreButton setImage:[UIImage systemImageNamed:@"ellipsis"] forState:UIControlStateNormal];
-    self.moreButton.tintColor = [UIColor secondaryLabelColor];
-    [self.contentView addSubview:self.moreButton];
+    UIImageSymbolConfiguration *config = [UIImageSymbolConfiguration configurationWithPointSize:18.0];
+
+    self.favouriteButton = [UIButton buttonWithType:UIButtonTypeSystem];
+    [self.favouriteButton setImage:[UIImage systemImageNamed:@"heart" withConfiguration:config]
+                          forState:UIControlStateNormal];
+    self.favouriteButton.tintColor = [UIColor secondaryLabelColor];
+    [self.favouriteButton addTarget:self
+                             action:@selector(pressFavouriteButton)
+                   forControlEvents:UIControlEventTouchUpInside];
+    [self.contentView addSubview:self.favouriteButton];
+
+    self.playButton = [UIButton buttonWithType:UIButtonTypeSystem];
+    [self.playButton setImage:[UIImage systemImageNamed:@"play.fill" withConfiguration:config]
+                     forState:UIControlStateNormal];
+    self.playButton.tintColor = [UIColor labelColor];
+    [self.playButton addTarget:self
+                        action:@selector(pressPlayButton)
+              forControlEvents:UIControlEventTouchUpInside];
+    [self.contentView addSubview:self.playButton];
 
     self.songNameLabel = [[UILabel alloc] init];
     self.songNameLabel.font = [UIFont systemFontOfSize:16.0];
@@ -72,27 +89,63 @@ static const CGFloat kSongRowHeight = 72.0;
         make.size.mas_equalTo(CGSizeMake(kSongCoverSide, kSongCoverSide));
     }];
 
-    [self.moreButton mas_makeConstraints:^(MASConstraintMaker *make) {
+    [self.playButton mas_makeConstraints:^(MASConstraintMaker *make) {
         make.right.equalTo(self.contentView).offset(-8.0);
         make.centerY.equalTo(self.contentView);
-        make.size.mas_equalTo(CGSizeMake(44.0, 44.0));
+        make.size.mas_equalTo(CGSizeMake(kButtonSide, kButtonSide));
+    }];
+
+    [self.favouriteButton mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.right.equalTo(self.playButton.mas_left).offset(-4.0);
+        make.centerY.equalTo(self.contentView);
+        make.size.mas_equalTo(CGSizeMake(kButtonSide, kButtonSide));
     }];
 
     [textStack mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(self.coverImageView.mas_right).offset(12.0);
-        make.right.equalTo(self.moreButton.mas_left).offset(-4.0);
+        make.right.equalTo(self.favouriteButton.mas_left).offset(-4.0);
         make.centerY.equalTo(self.contentView);
     }];
 }
 
-- (void)configureWithSong:(Song *)song {
+- (void)configureWithSong:(Song *)song isPlaying:(BOOL)isPlaying {
     [self.coverImageView sp_setImageWithSource:song.coverURL placeholder:nil];
     self.songNameLabel.text = song.songName;
     self.singerNameLabel.text = song.singer.singerName;
+
+    // 正在播放 → 暂停图标 + 绿色；否则播放图标
+    NSString *playIcon = isPlaying ? @"pause.fill" : @"play.fill";
+    UIImageSymbolConfiguration *config = [UIImageSymbolConfiguration configurationWithPointSize:18.0];
+    [self.playButton setImage:[UIImage systemImageNamed:playIcon withConfiguration:config]
+                     forState:UIControlStateNormal];
+    self.playButton.tintColor = isPlaying ? [UIColor systemGreenColor] : [UIColor labelColor];
+
+    // 收藏状态：实心红心 + 粉色
+    NSString *favIcon = song.isFavourite ? @"heart.fill" : @"heart";
+    [self.favouriteButton setImage:[UIImage systemImageNamed:favIcon withConfiguration:config]
+                          forState:UIControlStateNormal];
+    self.favouriteButton.tintColor = song.isFavourite
+        ? [UIColor systemPinkColor]
+        : [UIColor secondaryLabelColor];
+}
+
+#pragma mark - 事件
+
+- (void)pressFavouriteButton {
+    if ([self.delegate respondsToSelector:@selector(songCellDidTapFavourite:)]) {
+        [self.delegate songCellDidTapFavourite:self];
+    }
+}
+
+- (void)pressPlayButton {
+    if ([self.delegate respondsToSelector:@selector(songCellDidTapPlay:)]) {
+        [self.delegate songCellDidTapPlay:self];
+    }
 }
 
 - (void)prepareForReuse {
     [super prepareForReuse];
+    self.delegate = nil;
     self.coverImageView.image = nil;
     self.songNameLabel.text = nil;
     self.singerNameLabel.text = nil;

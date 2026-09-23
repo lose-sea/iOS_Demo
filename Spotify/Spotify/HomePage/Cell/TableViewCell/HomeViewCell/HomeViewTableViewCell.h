@@ -7,17 +7,33 @@
 
 #import <UIKit/UIKit.h>
 
-@class Song;
-
 NS_ASSUME_NONNULL_BEGIN
 
-/// 首页歌曲行：封面 + 歌名 + 歌手 + 更多按钮
+@class Song;
+@class HomeViewTableViewCell;
+
+@protocol HomeViewTableViewCellDelegate <NSObject>
+
+/// 点击行内的收藏（爱心）按钮
+- (void)songCellDidTapFavourite:(HomeViewTableViewCell *)cell;
+/// 点击行内的播放按钮
+- (void)songCellDidTapPlay:(HomeViewTableViewCell *)cell;
+
+@end
+
+/// 歌曲行：封面 + 歌名 + 歌手 + 收藏 + 播放
 @interface HomeViewTableViewCell : UITableViewCell
+
+@property (nonatomic, weak, nullable) id<HomeViewTableViewCellDelegate> delegate;
 
 /// 行高
 + (CGFloat)rowHeight;
 
-- (void)configureWithSong:(Song *)song;
+@property (nonatomic, strong, readonly) UIButton *favouriteButton;
+@property (nonatomic, strong, readonly) UIButton *playButton;
+
+/// isPlaying：这首歌是否正在播放（是则显示暂停图标）
+- (void)configureWithSong:(Song *)song isPlaying:(BOOL)isPlaying;
 
 @end
 
