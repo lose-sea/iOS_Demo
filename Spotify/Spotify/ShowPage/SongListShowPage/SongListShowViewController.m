@@ -68,6 +68,7 @@
     self.navTitleLabel.textAlignment = NSTextAlignmentCenter;
     self.navTitleLabel.text = self.songList.playlistName ?: @"";
     self.navTitleLabel.alpha = 0;
+    self.navTitleLabel.alwaysScroll = YES; 
     self.navigationItem.titleView = self.navTitleLabel;
 }
 
@@ -159,12 +160,16 @@
 
 // header 里的歌单名被导航栏盖住后，把它显示到导航栏上
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView {
-    CGFloat navBottom = CGRectGetMaxY(self.navigationController.navigationBar.frame);
-    CGFloat offsetY = scrollView.contentOffset.y + scrollView.adjustedContentInset.top;
-    CGFloat nameBottom = offsetY + [self.songListView nameLabelBottomInHeader];
-    // nameBottom 相对 tableView 顶部；小于 navBottom 说明已经被导航栏遮住
-    CGFloat distance = navBottom - nameBottom;
+    // 导航栏底部换算到 tableView 坐标系，避免页面被下推（edgesForExtendedLayout 变化）时算错
+    CGRect navBarFrame = [self.navigationController.navigationBar convertRect:self.navigationController.navigationBar.bounds
+                                                                      toView:scrollView];
+    CGFloat navBottom = CGRectGetMaxY(navBarFrame);
 
+    // 内容坐标 → 屏幕坐标：往上滑 contentOffset.y 变大，歌单名位置变小（之前这里写成了 +，导致永远算不出渐变）
+    CGFloat nameBottom = [self.songListView nameLabelBottomInHeader] - scrollView.contentOffset.y;
+
+    // nameBottom 小于 navBottom 说明歌单名已经被导航栏盖住，此时把标题显示到导航栏上
+    CGFloat distance = navBottom - nameBottom;
     CGFloat alpha = (distance <= 0) ? 0 : MIN(1.0, distance / 24.0);
     self.navTitleLabel.alpha = alpha;
 }

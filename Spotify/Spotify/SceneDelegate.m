@@ -10,6 +10,7 @@
 #import "SearchViewController.h"
 #import "MenuViewController.h"
 #import "DrawerViewController.h"
+#import "MyViewController.h"
 
 @interface SceneDelegate ()
 
@@ -44,8 +45,12 @@
                                                                      image: [UIImage systemImageNamed: @"magnifyingglass"]
                                                              selectedImage: [UIImage systemImageNamed: @"magnifyingglass.fill"]];
     
+    MyViewController* myController = [[MyViewController alloc] init];
+    UINavigationController* myNav = [[UINavigationController alloc] initWithRootViewController: myController];
+    myController.tabBarItem = [[UITabBarItem alloc] initWithTitle: @"我的" image: [UIImage systemImageNamed: @"person"] selectedImage: [UIImage systemImageNamed: @"person.fill"]];
+    
     UITabBarController* tabBarController = [[UITabBarController alloc] init];
-    tabBarController.viewControllers = @[homeNav, searchNav];
+    tabBarController.viewControllers = @[homeNav, searchNav, myNav];
     
     
     
