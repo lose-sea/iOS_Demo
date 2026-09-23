@@ -36,6 +36,9 @@ NS_ASSUME_NONNULL_BEGIN
 
 /// 弹出全屏播放页（响应者链：PlayerViewController 转发过来）
 - (void) openPlayerDetailPage;
+
+/// 切换全局深色/浅色主题（响应者链：MenuViewController 转发过来）
+- (void) toggleNightMode;
 @end
 
 NS_ASSUME_NONNULL_END

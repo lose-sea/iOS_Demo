@@ -114,11 +114,14 @@ typedef NS_ENUM(NSUInteger, HomeFilterIndex) {
     button.frame = CGRectMake(0, 0, width, 28.0);
     [button setTitle:title forState:UIControlStateNormal];
     button.titleLabel.font = font;
-    [button setTitleColor:selected ? [UIColor labelColor] : [UIColor whiteColor]
+    [button setTitleColor:selected ? [UIColor blackColor] : [UIColor labelColor]
                  forState:UIControlStateNormal];
     button.backgroundColor = selected
         ? [UIColor systemGreenColor]
-        : [[UIColor whiteColor] colorWithAlphaComponent:0.12];
+    
+        // 未选中背景用 labelColor 的半透明，浅色模式下才看得见
+        : [[UIColor labelColor] colorWithAlphaComponent:0.10];
+    
     button.layer.cornerRadius = 14.0;
     [button addTarget:self action:action forControlEvents:UIControlEventTouchUpInside];
 

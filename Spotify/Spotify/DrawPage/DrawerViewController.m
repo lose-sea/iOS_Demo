@@ -135,6 +135,15 @@
     [self presentViewController:detailVC animated:YES completion:nil];
 }
 
+// 切换全局深色/浅色主题（由菜单的夜间模式按钮经响应者链转发到这里）
+- (void) toggleNightMode {
+    UIWindow *window = self.view.window;
+    if (!window) return;
+
+    BOOL currentlyDark = (window.overrideUserInterfaceStyle != UIUserInterfaceStyleLight);
+    window.overrideUserInterfaceStyle = currentlyDark ? UIUserInterfaceStyleLight : UIUserInterfaceStyleDark;
+}
+
 - (void) viewDidLayoutSubviews {
     [super viewDidLayoutSubviews];
     

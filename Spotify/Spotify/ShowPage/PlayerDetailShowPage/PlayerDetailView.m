@@ -65,6 +65,7 @@ static NSString * const kCoverRotationKey = @"coverRotation";
         make.left.equalTo(self).offset(16.0);
         make.size.mas_equalTo(CGSizeMake(36.0, 36.0));
     }];
+    
 }
 
 - (void)setUpCover {
@@ -82,6 +83,8 @@ static NSString * const kCoverRotationKey = @"coverRotation";
         // 正方形 = 宽度；空间不够时允许压缩（小屏优先保住下方控件）
         make.height.equalTo(self.mas_width).offset(-48.0).priorityHigh();
     }];
+    
+    NSLog(@"%f", self.coverImageView.bounds.size.width);
 }
 
 - (void)setUpLyrics {
@@ -178,7 +181,7 @@ static NSString * const kCoverRotationKey = @"coverRotation";
 
 - (void)setUpButtonRow {
     UIImageSymbolConfiguration *normal = [UIImageSymbolConfiguration configurationWithPointSize:24.0];
-    UIImageSymbolConfiguration *big = [UIImageSymbolConfiguration configurationWithPointSize:28.0];
+    UIImageSymbolConfiguration *big = [UIImageSymbolConfiguration configurationWithPointSize:40.0];
 
     self.favouriteButton = [self buttonWithImageName:@"heart" configuration:normal];
     self.commentButton = [self buttonWithImageName:@"ellipsis.bubble" configuration:normal];
@@ -206,6 +209,15 @@ static NSString * const kCoverRotationKey = @"coverRotation";
         make.height.mas_equalTo(80.0);
     }];
 }
+
+
+// 设置 cover 为圆形
+- (void)layoutSubviews {
+    [super layoutSubviews];
+    self.coverImageView.clipsToBounds = YES;
+    self.coverImageView.layer.cornerRadius = self.coverImageView.bounds.size.width / 2.0; 
+}
+
 
 - (UIButton *)buttonWithImageName:(NSString *)imageName
                     configuration:(UIImageSymbolConfiguration *)configuration {

@@ -15,11 +15,15 @@ NS_ASSUME_NONNULL_BEGIN
 /// 真正的实现分散在链上的容器里（见下），禁止直接调用（本分类无实现）。
 ///
 /// openMenu             → DrawerViewController 实现
+/// closeMenu            → DrawerViewController 实现
 /// openPlayerDetailPage → DrawerViewController 实现
+/// toggleNightMode      → DrawerViewController 实现
 @interface UIResponder (AppActions)
 
 - (void)openMenu;
+- (void)closeMenu;
 - (void)openPlayerDetailPage;
+- (void)toggleNightMode;
 
 @end
 
