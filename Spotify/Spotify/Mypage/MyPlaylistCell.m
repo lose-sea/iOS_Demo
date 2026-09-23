@@ -76,9 +76,9 @@ static const CGFloat kRowHeight = 68.0;
     self.nameLabel.text = playlist.playlistName;
 
     // 系统默认歌单（我的喜欢）标记为不可删除
-    NSString *prefix = playlist.isSystemPlaylist ? @"默认歌单 · 不可删除" : @"歌单";
-    self.infoLabel.text = [NSString stringWithFormat:@"%@ · %lu 首歌曲",
-                           prefix, (unsigned long)playlist.songs.count];
+//    NSString *prefix = playlist.isSystemPlaylist ? @"默认歌单 · 不可删除" : @"歌单";
+    self.infoLabel.text = [NSString stringWithFormat:@"%lu 首歌曲",
+                        (unsigned long)playlist.songs.count];
 }
 
 - (void)prepareForReuse {

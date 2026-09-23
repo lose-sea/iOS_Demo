@@ -28,12 +28,14 @@
     return isDark ? UIStatusBarStyleLightContent : UIStatusBarStyleDarkContent;
 }
 
-// 切换深浅模式时刷新状态栏样式
-- (void)traitCollectionDidChange:(UITraitCollection *)previousTraitCollection {
-    [super traitCollectionDidChange:previousTraitCollection];
-    if (self.traitCollection.userInterfaceStyle != previousTraitCollection.userInterfaceStyle) {
-        [self setNeedsStatusBarAppearanceUpdate];
-    }
+// 切换深浅模式时刷新状态栏样式（iOS 17+ trait 注册 API）
+- (void)registerTraitChanges {
+    __weak typeof(self) weakSelf = self;
+    [self registerForTraitChanges:@[UITraitUserInterfaceStyle.class]
+                      withHandler:^(id<UITraitChangeObservable> traitEnvironment,
+                                    UITraitCollection *previousCollection) {
+        [weakSelf setNeedsStatusBarAppearanceUpdate];
+    }];
 }
 
 - (void)viewDidLoad {
@@ -43,6 +45,7 @@
 
     [self setUpInterface];
     [self setUpNotification];
+    [self registerTraitChanges];
 
     [self refreshUI];
 }

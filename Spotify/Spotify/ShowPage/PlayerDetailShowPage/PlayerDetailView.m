@@ -188,11 +188,16 @@ static NSString * const kCoverRotationKey = @"coverRotation";
     self.previousButton = [self buttonWithImageName:@"backward.end.fill" configuration:normal];
     self.nextButton = [self buttonWithImageName:@"forward.end.fill" configuration:normal];
 
-    // 大播放按钮：底色和图标用「前景色/背景色」反过来，任何主题下都看得见
+    // 大播放按钮：底色用 labelColor、图标用 systemBackgroundColor，两套主题下都不会和页面同色
+    // 深色：白圆 + 黑图标；浅色：黑圆 + 白图标
     self.playButton = [self buttonWithImageName:@"play.fill" configuration:big];
-    self.playButton.backgroundColor = [UIColor labelColor];
+//    self.playButton.backgroundColor = [UIColor labelColor];
+    self.playButton.tintColor = [UIColor labelColor];
+    // 圆角半径写死 32，必须给固定 64 尺寸，否则 intrinsic size 会被裁成奇怪的形状
+    [self.playButton mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.size.mas_equalTo(CGSizeMake(64.0, 64.0));
+    }];
     self.playButton.layer.cornerRadius = 32.0;
-    self.playButton.tintColor = [UIColor systemBackgroundColor];
 
     UIStackView *buttonRow = [[UIStackView alloc] initWithArrangedSubviews:@[
         self.favouriteButton, self.commentButton, self.previousButton, self.playButton, self.nextButton
