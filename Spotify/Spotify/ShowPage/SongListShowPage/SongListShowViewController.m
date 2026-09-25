@@ -11,6 +11,7 @@
 #import "HomeViewTableViewCell.h"
 #import "PlayerViewController.h"
 #import "PlayerModel.h"
+#import "UserModel.h"
 #import "Song.h"
 
 @interface SongListShowViewController () <UITableViewDelegate, UITableViewDataSource,
@@ -126,7 +127,8 @@
     if (!indexPath) return;
 
     Song *song = self.songList.songs[indexPath.row];
-    song.isFavourite = !song.isFavourite;
+    // 统一入口：同步「我的喜欢」歌单
+    [[UserModel sharedInstance] toggleFavouriteForSong:song];
     [self.songListView.tableView reloadRowsAtIndexPaths:@[indexPath]
                                       withRowAnimation:UITableViewRowAnimationNone];
 

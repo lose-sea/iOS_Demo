@@ -11,6 +11,9 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface SearchView : UIView
 
+/// 搜索页内容列表（搜索记录 / 猜你喜欢 / 排行榜）
+@property (nonatomic, strong, readonly) UITableView *tableView;
+
 @end
 
 NS_ASSUME_NONNULL_END

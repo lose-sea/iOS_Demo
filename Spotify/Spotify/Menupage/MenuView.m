@@ -189,7 +189,8 @@
 
 #pragma mark - Public
 
-- (void)configureWithUser:(UserModel *)user {
+- (void)configureWithUser {
+    UserModel* user = [UserModel sharedInstance];
     [self.avatarImageView sp_setImageWithSource:user.avatarURL placeholder:nil];
     self.nicknameLabel.text = user.user_name;
     self.accountLabel.text = user.email;
@@ -198,16 +199,10 @@
 #pragma mark - 事件
 
 - (void)pressMenuRow:(UIButton *)sender {
-    NSLog(@"点击菜单项：%@", sender.currentTitle);
+    NSLog(@"点击菜单项：%@", sender.configuration.title);
 }
 
-//- (void)pressBottomButton:(UIButton *)sender {
-//    if (sender == self.nightModeButton) {
-//        [self toggleNightMode];
-//        return;
-//    }
-//    NSLog(@"点击了：%@", sender.currentTitle);
-//}
+
 
 
 - (void)pressBottomButton:(UIButton *)sender {
@@ -215,6 +210,12 @@
         [self toggleNightMode];
         return;
     }
+//        UIWindow *window = self.window;
+//        if (!window) return;
+//
+//        BOOL currentlyDark = (window.overrideUserInterfaceStyle != UIUserInterfaceStyleLight);
+//        window.overrideUserInterfaceStyle = currentlyDark ? UIUserInterfaceStyleLight : UIUserInterfaceStyleDark;
+
     // 正确的读取方式：从 configuration 中获取 title
     NSString *title = sender.configuration.title;
     NSLog(@"点击了：%@", title);

@@ -36,13 +36,8 @@
 }
 
 - (void)configureMenu {
-    // 全局用户单例：和“我的”页面、其他页面共享同一份数据
-    UserModel *user = [UserModel sharedInstance];
-    user.user_name = @"lose_sea";
-    user.avatarURL = @"51.jpg";
-    user.email = @"lose_sea@spotify.com";
 
-    [self.menuView configureWithUser:user];
+    [self.menuView configureWithUser];
 
     // 夜间模式：沿响应者链交给容器切换全局主题
     __weak typeof(self) weakSelf = self;

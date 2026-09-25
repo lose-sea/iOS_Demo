@@ -27,6 +27,7 @@
     ];
 
     NSMutableArray<Song *> *songs = [NSMutableArray array];
+    NSUInteger index = 0;
     for (NSDictionary *d in raw) {
         Singer *singer = [[Singer alloc] init];
         singer.singerName = d[@"singer"];
@@ -37,7 +38,10 @@
         song.coverURL = d[@"image"];
         song.singer = singer;
         song.isFavourite = NO;
+        // 真实发声用的音频地址：换成自己的 mp3 时改成文件名（如 @"晴天.mp3"）或 http(s) 直链
+        song.audioURL = d[@"audio"] ?: [Song demoAudioURLAtIndex:index];
         [songs addObject:song];
+        index++;
     }
     return [songs copy];
 }
@@ -84,6 +88,25 @@
         [self cardWithImage:@"15.jpg" title:@"七里香"           subtitle:@"周杰伦"               badge:nil],
         [self cardWithImage:@"16.jpg" title:@"Bad Guy"          subtitle:@"Billie Eilish"        badge:nil]
     ];
+    return section;
+}
+
+/// 用网络歌曲构造「今日推荐」分区，每张卡片带上 song
++ (HomeSection *)todaySectionWithSongs:(NSArray<Song *> *)songs {
+    HomeSection *section = [[HomeSection alloc] init];
+    section.title = @"今日推荐";
+    section.type = HomeSectionTypePlaylist;
+
+    NSMutableArray<HomeCard *> *cards = [NSMutableArray array];
+    for (Song *song in songs) {
+        HomeCard *card = [[HomeCard alloc] init];
+        card.imageURL = song.coverURL;
+        card.title = song.songName;
+        card.subtitle = song.singer.singerName;
+        card.song = song;
+        [cards addObject:card];
+    }
+    section.cards = [cards copy];
     return section;
 }
 

@@ -8,6 +8,8 @@
 #import "PlayerDetailViewController.h"
 #import "PlayerDetailView.h"
 #import "PlayerModel.h"
+#import "SPAudioPlayer.h"
+#import "UserModel.h"
 #import "Song.h"
 #import "Singer.h"
 #import "UIImageView+Spotify.h"
@@ -17,6 +19,8 @@
 
 @property (nonatomic, strong) PlayerDetailView *detailView;
 @property (nonatomic, strong) PlayerModel *playerModel;
+/// 正在拖动进度条时暂停自动回写，避免手指被系统回调顶回去
+@property (nonatomic, assign) BOOL isDraggingProgress;
 
 @end
 
@@ -89,10 +93,16 @@
                                       action:@selector(pressCommentButton)
                             forControlEvents:UIControlEventTouchUpInside];
 
-    // 进度条：接入 AVPlayer 后在这里做 seek
+    // 进度条：拖动时 seek 到对应位置
+    [self.detailView.progressSlider addTarget:self
+                                       action:@selector(progressSliderTouchDown:)
+                             forControlEvents:UIControlEventTouchDown];
     [self.detailView.progressSlider addTarget:self
                                        action:@selector(progressSliderValueChanged:)
                              forControlEvents:UIControlEventValueChanged];
+    [self.detailView.progressSlider addTarget:self
+                                       action:@selector(progressSliderTouchUp:)
+                             forControlEvents:UIControlEventTouchUpInside | UIControlEventTouchUpOutside | UIControlEventTouchCancel];
 
     // 下滑关闭
     UISwipeGestureRecognizer *swipeDown = [[UISwipeGestureRecognizer alloc] initWithTarget:self
@@ -106,6 +116,16 @@
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(playerModelDidChange)
                                                  name:PlayerModelDidChangeNotification
+                                               object:nil];
+    // 播放进度（约 0.5s 一次）
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(audioPlayerProgressDidChange:)
+                                                 name:SPAudioPlayerProgressNotification
+                                               object:nil];
+    // 切歌后进度条回到 0
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(audioPlayerSongDidChange:)
+                                                 name:SPAudioPlayerDidChangeSongNotification
                                                object:nil];
 }
 
@@ -137,6 +157,34 @@
 
     // 封面旋转跟随播放状态
     [self.detailView setCoverRotating:self.playerModel.isPlay];
+
+    [self refreshProgressUI];
+}
+
+#pragma mark - 进度
+
+/// 进度条 + 时间标签跟随真实播放进度
+- (void)refreshProgressUI {
+    SPAudioPlayer *player = [SPAudioPlayer sharedPlayer];
+    NSTimeInterval duration = player.duration;
+    NSTimeInterval current = player.currentTime;
+
+    self.detailView.durationLabel.text = duration > 0 ? [SPAudioPlayer timeStringFromSeconds:duration] : @"--:--";
+    self.detailView.currentTimeLabel.text = [SPAudioPlayer timeStringFromSeconds:current];
+    if (!self.isDraggingProgress) {
+        self.detailView.progressSlider.value = duration > 0 ? (float)(current / duration) : 0;
+    }
+}
+
+- (void)audioPlayerProgressDidChange:(NSNotification *)notification {
+    if (self.isDraggingProgress) return;
+    [self refreshProgressUI];
+}
+
+- (void)audioPlayerSongDidChange:(NSNotification *)notification {
+    self.detailView.progressSlider.value = 0;
+    self.detailView.currentTimeLabel.text = @"00:00";
+    self.detailView.durationLabel.text = @"--:--";
 }
 
 - (void)playerModelDidChange {
@@ -164,7 +212,8 @@
 - (void)pressFavouriteButton {
     Song *song = self.playerModel.song;
     if (!song) return;
-    song.isFavourite = !song.isFavourite;
+    // 统一入口：同步「我的喜欢」歌单
+    [[UserModel sharedInstance] toggleFavouriteForSong:song];
     [self refreshUI];
 }
 
@@ -172,12 +221,21 @@
     NSLog(@"打开评论（待实现）");
 }
 
+- (void)progressSliderTouchDown:(UISlider *)slider {
+    self.isDraggingProgress = YES;
+}
+
+- (void)progressSliderTouchUp:(UISlider *)slider {
+    self.isDraggingProgress = NO;
+    [[SPAudioPlayer sharedPlayer] seekToProgress:slider.value];
+}
+
 - (void)progressSliderValueChanged:(UISlider *)slider {
-    // TODO: 接入 AVPlayer 后在此 seek：
-    // 1. 用 AVPlayer.currentItem.duration 换算目标时间
-    // 2. [player seekToTime:];
-    // 3. currentTimeLabel / durationLabel 由 addPeriodicTimeObserver 回调刷新
-    NSLog(@"拖动进度条：%.2f", slider.value);
+    // 拖动过程中只更新时间显示，松手才真正 seek
+    NSTimeInterval duration = [SPAudioPlayer sharedPlayer].duration;
+    if (duration > 0) {
+        self.detailView.currentTimeLabel.text = [SPAudioPlayer timeStringFromSeconds:duration * slider.value];
+    }
 }
 
 - (void)handleSwipeDown:(UISwipeGestureRecognizer *)gesture {

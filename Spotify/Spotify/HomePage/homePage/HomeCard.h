@@ -7,6 +7,8 @@
 
 #import <Foundation/Foundation.h>
 
+@class Song;
+
 NS_ASSUME_NONNULL_BEGIN
 
 /// 首页卡片数据（一张封面 + 主标题 + 副标题）
@@ -20,6 +22,10 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, copy) NSString *subtitle;
 /// 卡片角标，如「电台」，可为空
 @property (nonatomic, copy, nullable) NSString *badge;
+
+/// 卡片对应的歌曲：网络数据才有，本地占位卡片为 nil。
+/// 有值时点卡片会用它所在的分区歌曲当播放列表，并直接播放这首歌
+@property (nonatomic, strong, nullable) Song *song;
 
 @end
 

@@ -6,6 +6,7 @@
 //
 
 #import "Singer.h"
+#import "Song.h"
 
 @implementation Singer
 - (instancetype) init {
@@ -23,4 +24,18 @@
     }
     return self; 
 }
+
+#pragma mark - YYModel
+
+// 歌手字段映射，网易云接口确认后补齐
++ (NSDictionary *)modelCustomPropertyMapper {
+    return @{@"singerId"   : @"id",
+             @"singerName" : @"name"};
+}
+
+// 数组里元素的类型
++ (NSDictionary *)modelContainerPropertyGenericClass {
+    return @{@"songs" : Song.class};
+}
+
 @end

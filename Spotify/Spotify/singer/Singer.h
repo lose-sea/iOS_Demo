@@ -6,11 +6,15 @@
 //
 
 #import <Foundation/Foundation.h>
+#import <YYModel/YYModel.h>
 
 @class Song;
 NS_ASSUME_NONNULL_BEGIN
 
-@interface Singer : NSObject
+@interface Singer : NSObject <YYModel>
+
+/// 歌手 id
+@property (nonatomic, copy) NSString *singerId;
 @property (nonatomic, copy) NSString *singerName;
 /// 头像地址：网络 URL 或本地资源名
 @property (nonatomic, copy) NSString *avatarURL;

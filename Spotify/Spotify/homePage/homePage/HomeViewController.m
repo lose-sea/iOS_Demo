@@ -14,6 +14,7 @@
 #import "PlayerViewController.h"
 #import "SongListShowViewController.h"
 #import "SongListModel.h"
+#import "PlayerModel.h"
 #import "Song.h"
 #import "UIResponder+AppActions.h"
 
@@ -56,6 +57,7 @@ typedef NS_ENUM(NSUInteger, HomeFilterIndex) {
 #pragma mark - 数据准备
 
 - (void)loadData {
+    // TODO: 网易云接口接好后，在这里拉推荐歌曲并替换「今日推荐」
     self.sections = [HomeModel sampleSections];
 }
 
@@ -191,19 +193,40 @@ typedef NS_ENUM(NSUInteger, HomeFilterIndex) {
 - (void)homeSectionCell:(HomeSectionCell *)cell didSelectCard:(HomeCard *)card atIndex:(NSInteger)index {
     NSLog(@"点击卡片：%@", card.title);
 
-    // 临时用示例歌曲填充歌单，接接口后由歌单详情接口返回
+    NSIndexPath *indexPath = [self.homeView.tableView indexPathForCell:cell];
+    HomeSection *section = (indexPath && indexPath.section < self.sections.count)
+        ? self.sections[indexPath.section]
+        : nil;
+
+    // 分区里带 song 的说明是网络数据，用它们当播放列表；否则退回本地占位歌曲
+    NSArray<Song *> *songs = [self songsInSection:section];
     SongListModel *songList = [[SongListModel alloc] init];
     songList.playlistName = card.title;
     songList.coverURL = card.imageURL;
-    songList.songs = [HomeModel sampleSongs];
+    songList.songs = songs.count > 0 ? songs : [HomeModel sampleSongs];
 
     SongListShowViewController *songListVC = [[SongListShowViewController alloc] init];
     songListVC.songList = songList;
     songListVC.hidesBottomBarWhenPushed = YES;
     [self.navigationController pushViewController:songListVC animated:YES];
+
+    // 点哪首播哪首（走 Song.audioURL）
+    if (card.song) {
+        [PlayerModel sharedInstance].currentPlayList = songList;
+        [[PlayerViewController sharedInstance] playSong:card.song];
+    }
 }
 
 #pragma mark - Private
+
+/// 收集分区里所有带 song 的卡片（网络数据）
+- (NSArray<Song *> *)songsInSection:(HomeSection *)section {
+    NSMutableArray<Song *> *songs = [NSMutableArray array];
+    for (HomeCard *card in section.cards) {
+        if (card.song) [songs addObject:card.song];
+    }
+    return [songs copy];
+}
 
 // 裁剪成正方形并缩放到目标尺寸
 - (UIImage *)croppedToSquare:(UIImage *)image size:(CGSize)size {

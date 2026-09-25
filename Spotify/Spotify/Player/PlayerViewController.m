@@ -6,6 +6,7 @@
 //
 
 #import "PlayerViewController.h"
+#import "UserModel.h"
 #import "UIImageView+Spotify.h"
 #import "UIResponder+AppActions.h"
 
@@ -109,7 +110,8 @@
 - (void)toggleFavourite {
     Song *song = self.playerModel.song;
     if (!song) return;
-    song.isFavourite = !song.isFavourite;
+    // 统一入口：同步「我的喜欢」歌单
+    [[UserModel sharedInstance] toggleFavouriteForSong:song];
     [self refreshUI];
 }
 

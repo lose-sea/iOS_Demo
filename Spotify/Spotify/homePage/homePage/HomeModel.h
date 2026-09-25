@@ -19,6 +19,9 @@ NS_ASSUME_NONNULL_BEGIN
 /// 首页各横向分区数据
 + (NSArray<HomeSection *> *)sampleSections;
 
+/// 用网络歌曲构造「今日推荐」分区（每张卡片带上 song，点击即可播放）
++ (HomeSection *)todaySectionWithSongs:(NSArray<Song *> *)songs;
+
 @end
 
 NS_ASSUME_NONNULL_END

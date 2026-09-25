@@ -77,7 +77,7 @@
 
 
 - (void) setUpGesture {
-    NSLog(@"添加手势");
+//    NSLog(@"添加手势");
     
     // 点击主视图上的遮罩层关闭菜单
     UITapGestureRecognizer* tap = [[UITapGestureRecognizer alloc] initWithTarget: self action: @selector(closeMenu)];
@@ -95,8 +95,6 @@
     self.maskView.alpha = 0;
     
     self.maskView.userInteractionEnabled = NO;
-    
-//    [self.view insertSubview: self.maskView belowSubview: self.menuViewController.view];
     
     [self.view addSubview: self.maskView];
     
@@ -127,6 +125,7 @@
     [player.view addGestureRecognizer:tap];
 }
 
+
 // 弹出全屏播放页（由 mini player 点击经响应者链转发到这里）
 - (void) openPlayerDetailPage {
     PlayerDetailViewController *detailVC = [[PlayerDetailViewController alloc] init];
@@ -143,6 +142,7 @@
     BOOL currentlyDark = (window.overrideUserInterfaceStyle != UIUserInterfaceStyleLight);
     window.overrideUserInterfaceStyle = currentlyDark ? UIUserInterfaceStyleLight : UIUserInterfaceStyleDark;
 }
+
 
 - (void) viewDidLayoutSubviews {
     [super viewDidLayoutSubviews];

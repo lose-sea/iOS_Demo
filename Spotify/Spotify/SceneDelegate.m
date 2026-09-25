@@ -53,6 +53,15 @@
     tabBarController.viewControllers = @[homeNav, searchNav, myNav];
     
     
+//    UITabBarController* viewtabBar = [[UITabBarController alloc] init];
+//    
+//    UITabBarController* searchTabBar = [[UITabBarController alloc] init];
+//    viewtabBar.viewControllers = @[homeNav, myNav];
+//    searchTabBar.viewControllers = @[searchNav];
+//    
+//    UITabBarController* tabBarController = [[UITabBarController alloc] init];
+//    tabBarController.viewControllers = @[viewtabBar, searchTabBar];
+    
     
     MenuViewController* menuViewController = [[MenuViewController alloc] init];
     UINavigationController* menuNav = [[UINavigationController alloc] initWithRootViewController: menuViewController];

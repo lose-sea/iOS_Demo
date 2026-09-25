@@ -9,7 +9,10 @@
 #import "Song.h"
 NS_ASSUME_NONNULL_BEGIN
 
-@interface SongListModel : NSObject
+@interface SongListModel : NSObject <YYModel>
+
+/// 歌单 / 专辑 id
+@property (nonatomic, copy) NSString *playlistId;
 @property (nonatomic, copy) NSString *playlistName;
 /// 封面地址：网络 URL 或本地资源名
 @property (nonatomic, copy) NSString *coverURL;
