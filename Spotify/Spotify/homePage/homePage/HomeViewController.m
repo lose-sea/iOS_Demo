@@ -113,19 +113,23 @@ typedef NS_ENUM(NSUInteger, HomeFilterIndex) {
 /// 胶囊样式的筛选按钮
 - (UIBarButtonItem *)filterItemWithTitle:(NSString *)title action:(SEL)action selected:(BOOL)selected {
     UIFont *font = [UIFont systemFontOfSize:14.0 weight:UIFontWeightSemibold];
+    /// sizeWithAttributes: NSString方法,用来测量一段文字在指定字体先占的宽度
+    ///  参数传一个字典: @{NSFonAttributeName: font} 告诉用的是那个字体, 返回一个CGSize
+    ///  这里 28 是指左右两边留白之和
     CGFloat width = [title sizeWithAttributes:@{NSFontAttributeName: font}].width + 28.0;
 
     UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
     button.frame = CGRectMake(0, 0, width, 28.0);
     [button setTitle:title forState:UIControlStateNormal];
     button.titleLabel.font = font;
+    
     [button setTitleColor:selected ? [UIColor blackColor] : [UIColor labelColor]
                  forState:UIControlStateNormal];
     button.backgroundColor = selected
         ? [UIColor systemGreenColor]
     
         // 未选中背景用 labelColor 的半透明，浅色模式下才看得见
-        : [[UIColor labelColor] colorWithAlphaComponent:0.10];
+        : [[UIColor labelColor] colorWithAlphaComponent:0.15];
     
     button.layer.cornerRadius = 14.0;
     [button addTarget:self action:action forControlEvents:UIControlEventTouchUpInside];

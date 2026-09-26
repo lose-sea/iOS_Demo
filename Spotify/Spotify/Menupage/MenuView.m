@@ -241,7 +241,8 @@
     self.nightModeButton.configuration = config;
 
     if (self.onNightModeToggle) {
-        self.onNightModeToggle(self.isNightMode);
+        // 回调
+//        self.onNightModeToggle(self.isNightMode);
     }
 }
 
