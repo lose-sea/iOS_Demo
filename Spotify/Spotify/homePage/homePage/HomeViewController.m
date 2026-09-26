@@ -18,6 +18,7 @@
 #import "Song.h"
 #import "UIResponder+AppActions.h"
 
+/// 顶部三个 "全部, 音乐, 播客" 筛选按钮的状态标识
 typedef NS_ENUM(NSUInteger, HomeFilterIndex) {
     HomeFilterIndexAll = 0,
     HomeFilterIndexMusic,
@@ -72,6 +73,7 @@ typedef NS_ENUM(NSUInteger, HomeFilterIndex) {
 - (void)setUpNavigation {
     UIImage *original = [UIImage imageNamed:@"51.jpg"];
     UIImage *avatar = [[self croppedToSquare:original size:CGSizeMake(36, 36)]
+                       // 裁剪为正方形
                        imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
 
     UIButton *imageButton = [UIButton buttonWithType:UIButtonTypeCustom];

@@ -7,32 +7,19 @@
 	objects = {
 
 /* Begin PBXFileReference section */
-		542818F7305BF6DF004B8850 /* MusicPlayer.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MusicPlayer.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		5473DCD93067A8620067A92D /* enum.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = enum.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
-/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
-		5428190E305BF6E1004B8850 /* Exceptions for "MusicPlayer" folder in "MusicPlayer" target */ = {
-			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
-			membershipExceptions = (
-				Info.plist,
-			);
-			target = 542818F6305BF6DF004B8850 /* MusicPlayer */;
-		};
-/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
-
 /* Begin PBXFileSystemSynchronizedRootGroup section */
-		542818F9305BF6DF004B8850 /* MusicPlayer */ = {
+		5473DCDB3067A8620067A92D /* enum */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
-			exceptions = (
-				5428190E305BF6E1004B8850 /* Exceptions for "MusicPlayer" folder in "MusicPlayer" target */,
-			);
-			path = MusicPlayer;
+			path = enum;
 			sourceTree = "<group>";
 		};
 /* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
-		542818F4305BF6DF004B8850 /* Frameworks */ = {
+		5473DCD63067A8620067A92D /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -42,18 +29,18 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		542818EE305BF6DF004B8850 = {
+		5473DCD03067A8620067A92D = {
 			isa = PBXGroup;
 			children = (
-				542818F9305BF6DF004B8850 /* MusicPlayer */,
-				542818F8305BF6DF004B8850 /* Products */,
+				5473DCDB3067A8620067A92D /* enum */,
+				5473DCDA3067A8620067A92D /* Products */,
 			);
 			sourceTree = "<group>";
 		};
-		542818F8305BF6DF004B8850 /* Products */ = {
+		5473DCDA3067A8620067A92D /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				542818F7305BF6DF004B8850 /* MusicPlayer.app */,
+				5473DCD93067A8620067A92D /* enum.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -61,63 +48,63 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		542818F6305BF6DF004B8850 /* MusicPlayer */ = {
+		5473DCD83067A8620067A92D /* enum */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 5428190F305BF6E1004B8850 /* Build configuration list for PBXNativeTarget "MusicPlayer" */;
+			buildConfigurationList = 5473DCF13067A8630067A92D /* Build configuration list for PBXNativeTarget "enum" */;
 			buildPhases = (
-				542818F3305BF6DF004B8850 /* Sources */,
-				542818F4305BF6DF004B8850 /* Frameworks */,
-				542818F5305BF6DF004B8850 /* Resources */,
+				5473DCD53067A8620067A92D /* Sources */,
+				5473DCD63067A8620067A92D /* Frameworks */,
+				5473DCD73067A8620067A92D /* Resources */,
 			);
 			buildRules = (
 			);
 			dependencies = (
 			);
 			fileSystemSynchronizedGroups = (
-				542818F9305BF6DF004B8850 /* MusicPlayer */,
+				5473DCDB3067A8620067A92D /* enum */,
 			);
-			name = MusicPlayer;
+			name = enum;
 			packageProductDependencies = (
 			);
-			productName = MusicPlayer;
-			productReference = 542818F7305BF6DF004B8850 /* MusicPlayer.app */;
+			productName = enum;
+			productReference = 5473DCD93067A8620067A92D /* enum.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
-		542818EF305BF6DF004B8850 /* Project object */ = {
+		5473DCD13067A8620067A92D /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
 				LastUpgradeCheck = 2630;
 				TargetAttributes = {
-					542818F6305BF6DF004B8850 = {
+					5473DCD83067A8620067A92D = {
 						CreatedOnToolsVersion = 26.3;
 					};
 				};
 			};
-			buildConfigurationList = 542818F2305BF6DF004B8850 /* Build configuration list for PBXProject "MusicPlayer" */;
+			buildConfigurationList = 5473DCD43067A8620067A92D /* Build configuration list for PBXProject "enum" */;
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = (
 				en,
 				Base,
 			);
-			mainGroup = 542818EE305BF6DF004B8850;
+			mainGroup = 5473DCD03067A8620067A92D;
 			minimizedProjectReferenceProxies = 1;
 			preferredProjectObjectVersion = 77;
-			productRefGroup = 542818F8305BF6DF004B8850 /* Products */;
+			productRefGroup = 5473DCDA3067A8620067A92D /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				542818F6305BF6DF004B8850 /* MusicPlayer */,
+				5473DCD83067A8620067A92D /* enum */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
-		542818F5305BF6DF004B8850 /* Resources */ = {
+		5473DCD73067A8620067A92D /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -127,7 +114,7 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
-		542818F3305BF6DF004B8850 /* Sources */ = {
+		5473DCD53067A8620067A92D /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -137,7 +124,7 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin XCBuildConfiguration section */
-		54281910305BF6E1004B8850 /* Debug */ = {
+		5473DCF23067A8630067A92D /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
@@ -145,7 +132,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = MusicPlayer/Info.plist;
+				INFOPLIST_FILE = enum/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
@@ -156,7 +143,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = ggg.MusicPlayer;
+				PRODUCT_BUNDLE_IDENTIFIER = ggg.enum;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				STRING_CATALOG_GENERATE_SYMBOLS = YES;
 				SWIFT_EMIT_LOC_STRINGS = YES;
@@ -164,7 +151,7 @@
 			};
 			name = Debug;
 		};
-		54281911305BF6E1004B8850 /* Release */ = {
+		5473DCF33067A8630067A92D /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
@@ -172,7 +159,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = MusicPlayer/Info.plist;
+				INFOPLIST_FILE = enum/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
@@ -183,7 +170,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = ggg.MusicPlayer;
+				PRODUCT_BUNDLE_IDENTIFIER = ggg.enum;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				STRING_CATALOG_GENERATE_SYMBOLS = YES;
 				SWIFT_EMIT_LOC_STRINGS = YES;
@@ -191,7 +178,7 @@
 			};
 			name = Release;
 		};
-		54281912305BF6E1004B8850 /* Debug */ = {
+		5473DCF43067A8630067A92D /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -252,7 +239,7 @@
 			};
 			name = Debug;
 		};
-		54281913305BF6E1004B8850 /* Release */ = {
+		5473DCF53067A8630067A92D /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -310,25 +297,25 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		542818F2305BF6DF004B8850 /* Build configuration list for PBXProject "MusicPlayer" */ = {
+		5473DCD43067A8620067A92D /* Build configuration list for PBXProject "enum" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				54281912305BF6E1004B8850 /* Debug */,
-				54281913305BF6E1004B8850 /* Release */,
+				5473DCF43067A8630067A92D /* Debug */,
+				5473DCF53067A8630067A92D /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		5428190F305BF6E1004B8850 /* Build configuration list for PBXNativeTarget "MusicPlayer" */ = {
+		5473DCF13067A8630067A92D /* Build configuration list for PBXNativeTarget "enum" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				54281910305BF6E1004B8850 /* Debug */,
-				54281911305BF6E1004B8850 /* Release */,
+				5473DCF23067A8630067A92D /* Debug */,
+				5473DCF33067A8630067A92D /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
-	rootObject = 542818EF305BF6DF004B8850 /* Project object */;
+	rootObject = 5473DCD13067A8620067A92D /* Project object */;
 }

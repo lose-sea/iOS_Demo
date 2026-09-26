@@ -30,13 +30,14 @@ static const CGFloat kMiniPlayerReservedHeight = 64.0 + 24.0;
     return self;
 }
 
+
 - (void)setUpInterface {
     self.backgroundColor = [UIColor systemBackgroundColor];
 
     self.tableView = [[UITableView alloc] initWithFrame:CGRectZero style:UITableViewStylePlain];
     self.tableView.backgroundColor = [UIColor systemBackgroundColor];
     
-    //  去掉cell之间的分隔细线
+    ///  去掉cell之间的分隔细线
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     
     // 底部留白, 防止播放器将最后一行遮盖
