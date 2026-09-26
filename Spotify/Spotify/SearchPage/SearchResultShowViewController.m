@@ -10,7 +10,7 @@
 #import "PlayerModel.h"
 #import "PlayerViewController.h"
 #import "UserModel.h"
-#import "HomeViewTableViewCell.h"
+#import "SongRowCell.h"
 #import "Song.h"
 #import <Masonry/Masonry.h>
 
@@ -196,9 +196,9 @@ static NSArray<NSString *> *kProviderNames = nil;   // 接好数据源后填，�
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    HomeViewTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:kResultSongCellID];
+    SongRowCell *cell = [tableView dequeueReusableCellWithIdentifier:kResultSongCellID];
     if (!cell) {
-        cell = [[HomeViewTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault
+        cell = [[SongRowCell alloc] initWithStyle:UITableViewCellStyleDefault
                                            reuseIdentifier:kResultSongCellID];
     }
     cell.delegate = self;
@@ -210,7 +210,7 @@ static NSArray<NSString *> *kProviderNames = nil;   // 接好数据源后填，�
 #pragma mark - UITableViewDelegate
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    return [HomeViewTableViewCell rowHeight];
+    return [SongRowCell rowHeight];
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -220,7 +220,7 @@ static NSArray<NSString *> *kProviderNames = nil;   // 接好数据源后填，�
 
 #pragma mark - HomeViewTableViewCellDelegate
 
-- (void)songCellDidTapPlay:(HomeViewTableViewCell *)cell {
+- (void)songCellDidTapPlay:(SongRowCell *)cell {
     NSIndexPath *indexPath = [self.tableView indexPathForCell:cell];
     if (!indexPath) return;
 
@@ -233,7 +233,7 @@ static NSArray<NSString *> *kProviderNames = nil;   // 接好数据源后填，�
     [self playSongAtIndex:indexPath.row];
 }
 
-- (void)songCellDidTapFavourite:(HomeViewTableViewCell *)cell {
+- (void)songCellDidTapFavourite:(SongRowCell *)cell {
     NSIndexPath *indexPath = [self.tableView indexPathForCell:cell];
     if (!indexPath) return;
 

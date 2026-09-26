@@ -10,19 +10,19 @@
 NS_ASSUME_NONNULL_BEGIN
 
 @class Song;
-@class HomeViewTableViewCell;
+@class SongRowCell;
 
 @protocol HomeViewTableViewCellDelegate <NSObject>
 
 /// 点击行内的收藏（爱心）按钮
-- (void)songCellDidTapFavourite:(HomeViewTableViewCell *)cell;
+- (void)songCellDidTapFavourite:(SongRowCell *)cell;
 /// 点击行内的播放按钮
-- (void)songCellDidTapPlay:(HomeViewTableViewCell *)cell;
+- (void)songCellDidTapPlay:(SongRowCell *)cell;
 
 @end
 
 /// 歌曲行：封面 + 歌名 + 歌手 + 收藏 + 播放
-@interface HomeViewTableViewCell : UITableViewCell
+@interface SongRowCell : UITableViewCell
 
 @property (nonatomic, weak, nullable) id<HomeViewTableViewCellDelegate> delegate;
 

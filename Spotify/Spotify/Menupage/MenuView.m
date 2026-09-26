@@ -225,6 +225,8 @@
 // 切换太阳/月亮图标，并通知外部切换主题
 - (void)toggleNightMode {
     self.isNightMode = !self.isNightMode;
+    
+    self.window.overrideUserInterfaceStyle = self.isNightMode? UIUserInterfaceStyleDark : UIUserInterfaceStyleLight; 
 
     NSString *iconName = self.isNightMode ? @"sun.max.fill" : @"moon.fill";
     NSString *title = self.isNightMode ? @"夜间模式" : @"日间模式";

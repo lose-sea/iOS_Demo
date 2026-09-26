@@ -5,7 +5,7 @@
 //  Created by lose_sea on 2026/9/18.
 //
 
-#import "HomeViewTableViewCell.h"
+#import "SongRowCell.h"
 #import "Song.h"
 #import "Singer.h"
 #import "UIImageView+Spotify.h"
@@ -15,7 +15,7 @@ static const CGFloat kSongCoverSide = 56.0;
 static const CGFloat kSongRowHeight = 72.0;
 static const CGFloat kButtonSide = 44.0;
 
-@interface HomeViewTableViewCell ()
+@interface SongRowCell ()
 
 @property (nonatomic, strong) UIImageView *coverImageView;
 @property (nonatomic, strong) UILabel *songNameLabel;
@@ -25,7 +25,7 @@ static const CGFloat kButtonSide = 44.0;
 
 @end
 
-@implementation HomeViewTableViewCell
+@implementation SongRowCell
 
 + (CGFloat)rowHeight {
     return kSongRowHeight;

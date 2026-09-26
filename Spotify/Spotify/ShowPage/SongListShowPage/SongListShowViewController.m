@@ -8,7 +8,7 @@
 #import "SongListShowViewController.h"
 #import "SongListShowView.h"
 #import "MarqueeLabel.h"
-#import "HomeViewTableViewCell.h"
+#import "SongRowCell.h"
 #import "PlayerViewController.h"
 #import "PlayerModel.h"
 #import "UserModel.h"
@@ -97,9 +97,9 @@
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    HomeViewTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:SongListSongCellID];
+    SongRowCell *cell = [tableView dequeueReusableCellWithIdentifier:SongListSongCellID];
     if (!cell) {
-        cell = [[HomeViewTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault
+        cell = [[SongRowCell alloc] initWithStyle:UITableViewCellStyleDefault
                                            reuseIdentifier:SongListSongCellID];
     }
     cell.delegate = self;
@@ -111,7 +111,7 @@
 #pragma mark - UITableViewDelegate
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    return [HomeViewTableViewCell rowHeight];
+    return [SongRowCell rowHeight];
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -122,7 +122,7 @@
 #pragma mark - HomeViewTableViewCellDelegate
 
 // 单独收藏某一首歌
-- (void)songCellDidTapFavourite:(HomeViewTableViewCell *)cell {
+- (void)songCellDidTapFavourite:(SongRowCell *)cell {
     NSIndexPath *indexPath = [self.songListView.tableView indexPathForCell:cell];
     if (!indexPath) return;
 
@@ -142,7 +142,7 @@
     // TODO: 接 WCDB 后在这里写收藏表（FavoriteDAO）
 }
 
-- (void)songCellDidTapPlay:(HomeViewTableViewCell *)cell {
+- (void)songCellDidTapPlay:(SongRowCell *)cell {
     NSIndexPath *indexPath = [self.songListView.tableView indexPathForCell:cell];
     if (!indexPath) return;
 

@@ -57,7 +57,7 @@
         [self likedArtistSection],
         [self favouriteArtistSection],
         [self radioSection],
-        [self albumSection]
+        [self albumSection]     // 专辑
     ];
 }
 

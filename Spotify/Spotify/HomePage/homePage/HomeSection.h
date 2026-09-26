@@ -29,7 +29,10 @@ typedef NS_ENUM(NSUInteger, HomeSectionType) {
 
 /// 分区标题，为空则不显示
 @property (nonatomic, copy) NSString *title;
+///  分区的展示样式
 @property (nonatomic, assign) HomeSectionType type;
+
+///  分区中所有卡片
 @property (nonatomic, copy) NSArray<HomeCard *> *cards;
 
 @end
