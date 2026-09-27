@@ -128,7 +128,9 @@ static const CGFloat kCardSpacing = 12.0;
     NSString *identifier = [HomeSectionCell cellIdentifierForType:self.section.type];
     UICollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:identifier
                                                                            forIndexPath:indexPath];
+    // 判断子类是否实现了 configWithCard 方法
     if ([cell respondsToSelector:@selector(configureWithCard:)]) {
+        // 强制类型转换, id (任意对象), 编译器不再检查,绕过编译期检查
         [(id)cell configureWithCard:card];
     }
     return cell;
@@ -172,6 +174,8 @@ static const CGFloat kCardSpacing = 12.0;
     }
 }
 
+
+// 复用cell时进行初始化
 - (void)prepareForReuse {
     [super prepareForReuse];
     self.section = nil;
