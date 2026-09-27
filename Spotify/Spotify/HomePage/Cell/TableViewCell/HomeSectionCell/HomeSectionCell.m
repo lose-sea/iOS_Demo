@@ -61,6 +61,8 @@ static const CGFloat kCardSpacing = 12.0;
     self.collectionView.alwaysBounceHorizontal = YES;
     self.collectionView.delegate = self;
     self.collectionView.dataSource = self;
+    
+    // 注册 UICollectionViewCell
     [self.collectionView registerClass:[HomeShortcutCardCell class] forCellWithReuseIdentifier:@"HomeShortcutCardCell"];
     [self.collectionView registerClass:[HomePlayListCardCell class] forCellWithReuseIdentifier:@"HomePlayListCardCell"];
     [self.collectionView registerClass:[HomeArtistCardCell class] forCellWithReuseIdentifier:@"HomeArtistCardCell"];
