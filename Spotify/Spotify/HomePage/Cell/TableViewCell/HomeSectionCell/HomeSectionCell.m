@@ -110,6 +110,7 @@ static const CGFloat kCardSpacing = 12.0;
     }];
 
     self.layout.itemSize = [HomeSectionCell cardSizeForType:section.type];
+    
     [self.collectionView reloadData];
     [self.collectionView setContentOffset:CGPointZero animated:NO];
 }
@@ -119,6 +120,7 @@ static const CGFloat kCardSpacing = 12.0;
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
     return self.section.cards.count;
 }
+
 
 - (__kindof UICollectionViewCell *)collectionView:(UICollectionView *)collectionView
                            cellForItemAtIndexPath:(NSIndexPath *)indexPath {
