@@ -40,6 +40,7 @@ static const CGFloat kCardSpacing = 12.0;
 }
 
 - (void)setUpInterface {
+    // 去掉点击 cell 时候的高亮
     self.selectionStyle = UITableViewCellSelectionStyleNone;
     self.backgroundColor = [UIColor clearColor];
     self.contentView.backgroundColor = [UIColor clearColor];
