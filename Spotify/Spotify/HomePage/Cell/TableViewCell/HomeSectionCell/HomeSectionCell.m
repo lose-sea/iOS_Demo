@@ -43,23 +43,31 @@ static const CGFloat kCardSpacing = 12.0;
     
     // 去掉点击 cell 时候的高亮
     self.selectionStyle = UITableViewCellSelectionStyleNone;
+    // TableViewCell 的背景
     self.backgroundColor = [UIColor clearColor];
+    // cell内部填充内容容器视图的背景
     self.contentView.backgroundColor = [UIColor clearColor];
 
     self.titleLabel = [[UILabel alloc] init];
-    self.titleLabel.font = [UIFont systemFontOfSize:22.0 weight:UIFontWeightBold];
+    self.titleLabel.font = [UIFont systemFontOfSize:22.0 weight:UIFontWeightBold]; // 字号 22.0，字重 Bold（粗体）
     self.titleLabel.textColor = [UIColor labelColor];
     [self.contentView addSubview:self.titleLabel];
 
     self.layout = [[UICollectionViewFlowLayout alloc] init];
+    // UICollectionViewScrollDirectionVertical 默认纵向滚动
+    // UICollectionViewScrollDirectionHorizontal 横向滚动
     self.layout.scrollDirection = UICollectionViewScrollDirectionHorizontal;
+    // 上下行之间的间距
     self.layout.minimumLineSpacing = kCardSpacing;
+    // 同一行内左右列间距
     self.layout.minimumInteritemSpacing = kCardSpacing;
     self.layout.sectionInset = UIEdgeInsetsMake(0, kHorizontalInset, 0, kHorizontalInset);
 
     self.collectionView = [[UICollectionView alloc] initWithFrame:CGRectZero collectionViewLayout:self.layout];
     self.collectionView.backgroundColor = [UIColor clearColor];
+    // 默认横向滚动滚动时,底部出现滑动条, 设置为NO,关闭
     self.collectionView.showsHorizontalScrollIndicator = NO;
+    // 允许回弹
     self.collectionView.alwaysBounceHorizontal = YES;
     self.collectionView.delegate = self;
     self.collectionView.dataSource = self;
