@@ -11,6 +11,7 @@
 #import "MyPlaylistCell.h"
 #import "SongListModel.h"
 #import "SongListShowViewController.h"
+#import "UserModel.h"
 
 @interface MyViewController () <UITableViewDelegate, UITableViewDataSource>
 
@@ -36,6 +37,17 @@
     [self.myView configureWithModel:self.myModel];
     [self setUpTableView];
     [self setUpActions];
+    [self setUpNotifications];
+}
+
+// 切回本 tab、或从歌单页 pop 回来时重读一次收藏数据
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    [self refreshData];
+}
+
+- (void)dealloc {
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
 #pragma mark - 初始化
@@ -56,6 +68,24 @@
     self.myView.onCreatePlaylist = ^{
         [weakSelf showCreatePlaylistAlert];
     };
+}
+
+// 用底部 mini 播放器红心收藏时，本页就在屏幕上，靠通知即时刷新
+- (void)setUpNotifications {
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(favouriteDidChange:)
+                                                 name:UserModelFavouriteDidChangeNotification
+                                               object:nil];
+}
+
+- (void)favouriteDidChange:(NSNotification *)notification {
+    [self refreshData];
+}
+
+/// favouritePlaylist / favouriteSongCount 都是从 UserModel 现算的，重读一次即同步
+- (void)refreshData {
+    [self.myView configureWithModel:self.myModel];   // 顶部「喜欢的歌曲」统计
+    [self.myView.tableView reloadData];              // 「我的喜欢 xx 首歌曲」
 }
 
 #pragma mark - UITableViewDataSource
