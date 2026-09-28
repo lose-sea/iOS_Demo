@@ -192,7 +192,9 @@ static const CGFloat kCardSpacing = 12.0;
     if (width <= 0) return;
 
     CGFloat cardWidth = (width - kHorizontalInset * 2 - kCardSpacing) / 2.0;
-    if (fabs(cardWidth - self.layout.itemSize.width) < 0.5) return;
+    if (fabs(cardWidth - self.layout.itemSize.width) < 0.5) {
+        return;
+    }
     self.layout.itemSize = CGSizeMake(cardWidth, [HomeShortcutCardCell cardSize].height);
 }
 

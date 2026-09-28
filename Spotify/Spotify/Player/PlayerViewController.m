@@ -53,6 +53,9 @@
     [self.playerView.favouriteButton addTarget:self
                                         action:@selector(toggleFavourite)
                               forControlEvents:UIControlEventTouchUpInside];
+    [self.playerView.nextButton addTarget:self
+                                   action:@selector(pressNextButton)
+                         forControlEvents:UIControlEventTouchUpInside];
     
     [self refreshUI]; 
 }
@@ -85,6 +88,11 @@
     NSLog(@"点击了播放按钮");
     self.playerModel.isPlay = !self.playerModel.isPlay;
     [self refreshUI];
+}
+
+// 和详情页走同一个 PlayerModel 入口：在当前歌单里循环下一首，播完自动切
+- (void)pressNextButton {
+    [self.playerModel playNextSong];
 }
 
 - (Song *)currentSong {
