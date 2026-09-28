@@ -7,6 +7,7 @@
 
 #import "PlayerModel.h"
 #import "SPAudioPlayer.h"
+#import "UserModel.h"
 
 NSString *const PlayerModelDidChangeNotification = @"PlayerModelDidChangeNotification";
 
@@ -23,12 +24,22 @@ NSString *const PlayerModelDidChangeNotification = @"PlayerModelDidChangeNotific
     return instance;
 }
 
-// 设置默认播放音乐
+// 设置默认播放音乐 + 默认歌单
 - (void) setUpDefaultSong {
     Song *song = [[Song alloc] initWithCoverURL:@"53.jpg"
                                             name:@"春娇与志明"
                                           singer:[[Singer alloc] initWithSingerName:@"朱玉仙"]
                                         audioURL:[Song demoAudioURLAtIndex:0]];
+
+    // 默认歌单：把默认歌曲放在首位，再接上曲库，启动时就能上一首/下一首
+    // 用 UserModel 里那批 Song 实例，收藏标记才和「我的喜欢」一致
+    SongListModel *defaultList = [[SongListModel alloc] init];
+    defaultList.playlistName = @"默认播放列表";
+    defaultList.coverURL = song.coverURL;
+    NSArray<Song *> *library = [UserModel sharedInstance].recentlySongs ?: @[];
+    defaultList.songs = [@[song] arrayByAddingObjectsFromArray:library];
+    _currentPlayList = defaultList;
+
     _song = song;
     _isPlay = NO;
     // 先把音频源准备好，等用户点播放再出声（App 启动就响会很打扰）
