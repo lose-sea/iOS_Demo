@@ -32,7 +32,7 @@ static const CGFloat kNameOverlap = 32.0;
 @property (nonatomic, strong, readwrite) UIButton *moreButton;
 
 @property (nonatomic, strong) UIView *headerView;
-@property (nonatomic, strong) UIView *backdropContainer;      // 封面背景容器（整体带渐隐蒙版）
+@property (nonatomic, strong) UIView *backdropContainer;      // 封面背景容器（整体带渐隐蒙版）     
 @property (nonatomic, strong) UIView *blurWrapView;           // 模糊层包装（对包装做蒙版，不动 UIVisualEffectView 本身）
 @property (nonatomic, strong) UIVisualEffectView *blurEffectView;
 @property (nonatomic, strong) CAGradientLayer *fadeMaskLayer; // 背景整体：底部渐隐到透明
