@@ -23,7 +23,7 @@ UIKIT_EXTERN NSString *const PlayerModelDidChangeNotification;
 
 + (instancetype)sharedInstance;
 // 当前播放的音乐
-@property (nonatomic, strong, nullable) Song *song;
+@property (nonatomic, strong, nullable) Song *currentSong;
 
 @property (nonatomic, assign) BOOL isPlay;
 

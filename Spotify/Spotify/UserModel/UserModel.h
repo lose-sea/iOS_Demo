@@ -46,6 +46,10 @@ UIKIT_EXTERN NSString *const UserModelFavouriteDidChangeNotification;
 - (void)setSong:(Song *)song favourite:(BOOL)favourite;
 /// 取反
 - (void)toggleFavouriteForSong:(Song *)song;
+/// 把歌曲加进一个「我创建的歌单」（已存在则不重复添加）
+/// createSongLists 里存的就是这批 SongListModel 实例，改它的 songs 即生效
+- (void)addSong:(Song *)song toPlaylist:(SongListModel *)playlist;
+
 /// 这首歌是否已收藏
 - (BOOL)isFavouriteSong:(Song *)song;
 

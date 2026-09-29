@@ -133,7 +133,7 @@
                                       withRowAnimation:UITableViewRowAnimationNone];
 
     // 收藏的正好是当前播放的歌时，通知播放器页面同步红心
-    if (song == [PlayerModel sharedInstance].song) {
+    if (song == [PlayerModel sharedInstance].currentSong) {
         [[NSNotificationCenter defaultCenter] postNotificationName:PlayerModelDidChangeNotification
                                                             object:[PlayerModel sharedInstance]];
     }
@@ -150,7 +150,7 @@
     PlayerModel *playerModel = [PlayerModel sharedInstance];
 
     // 点的就是当前这首歌 → 暂停 / 继续
-    if (song == playerModel.song) {
+    if (song == playerModel.currentSong) {
         playerModel.isPlay = !playerModel.isPlay;
         return;
     }
@@ -194,7 +194,7 @@
 
 - (BOOL)isSongPlaying:(Song *)song {
     PlayerModel *playerModel = [PlayerModel sharedInstance];
-    return (song == playerModel.song) && playerModel.isPlay;
+    return (song == playerModel.currentSong) && playerModel.isPlay;
 }
 
 - (void)playSongAtIndex:(NSInteger)index {

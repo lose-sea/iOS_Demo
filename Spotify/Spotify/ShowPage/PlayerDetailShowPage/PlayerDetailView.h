@@ -37,6 +37,8 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, strong, readonly) UIButton *previousButton;
 @property (nonatomic, strong, readonly) UIButton *playButton;
 @property (nonatomic, strong, readonly) UIButton *nextButton;
+/// 更多：点击弹出菜单（分享 / 添加到我的歌单）
+@property (nonatomic, strong, readonly) UIButton *moreButton;
 
 /// 封面旋转开关：播放时旋转，暂停时停住
 - (void)setCoverRotating:(BOOL)rotating;

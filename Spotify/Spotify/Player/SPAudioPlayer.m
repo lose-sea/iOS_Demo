@@ -10,9 +10,13 @@
 #import "UIImageView+Spotify.h"
 #import "Singer.h"
 
+// 换首歌
 NSString *const SPAudioPlayerDidChangeSongNotification        = @"SPAudioPlayerDidChangeSongNotification";
+// 播放/停止
 NSString *const SPAudioPlayerPlaybackStateDidChangeNotification = @"SPAudioPlayerPlaybackStateDidChangeNotification";
+// 进度改变
 NSString *const SPAudioPlayerProgressNotification             = @"SPAudioPlayerProgressNotification";
+//  一首歌播放完
 NSString *const SPAudioPlayerDidPlayToEndNotification         = @"SPAudioPlayerDidPlayToEndNotification";
 
 static void *SPPlayerItemStatusContext = &SPPlayerItemStatusContext;
@@ -36,7 +40,7 @@ static void *SPPlayerItemStatusContext = &SPPlayerItemStatusContext;
 
 @end
 
-@implementation SPAudioPlayer
+@implementation SPAudioPlayer      
 
 + (instancetype)sharedPlayer {
     static SPAudioPlayer *instance = nil;

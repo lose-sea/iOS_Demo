@@ -203,7 +203,7 @@ static NSArray<NSString *> *kProviderNames = nil;   // 接好数据源后填，�
     }
     cell.delegate = self;
     Song *song = self.songs[indexPath.row];
-    [cell configureWithSong:song isPlaying:(song == [PlayerModel sharedInstance].song && [PlayerModel sharedInstance].isPlay)];
+    [cell configureWithSong:song isPlaying:(song == [PlayerModel sharedInstance].currentSong && [PlayerModel sharedInstance].isPlay)];
     return cell;
 }
 
@@ -226,7 +226,7 @@ static NSArray<NSString *> *kProviderNames = nil;   // 接好数据源后填，�
 
     Song *song = self.songs[indexPath.row];
     PlayerModel *playerModel = [PlayerModel sharedInstance];
-    if (song == playerModel.song) {
+    if (song == playerModel.currentSong) {
         playerModel.isPlay = !playerModel.isPlay;   // 同一首：暂停 / 继续
         return;
     }
@@ -244,7 +244,7 @@ static NSArray<NSString *> *kProviderNames = nil;   // 接好数据源后填，�
                           withRowAnimation:UITableViewRowAnimationNone];
 
     // 收藏的正好是当前播放的歌时，同步播放器页面的红心
-    if (song == [PlayerModel sharedInstance].song) {
+    if (song == [PlayerModel sharedInstance].currentSong) {
         [[NSNotificationCenter defaultCenter] postNotificationName:PlayerModelDidChangeNotification
                                                             object:[PlayerModel sharedInstance]];
     }

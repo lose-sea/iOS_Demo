@@ -40,7 +40,7 @@ NSString *const PlayerModelDidChangeNotification = @"PlayerModelDidChangeNotific
     defaultList.songs = [@[song] arrayByAddingObjectsFromArray:library];
     _currentPlayList = defaultList;
 
-    _song = song;
+    _currentSong = song;
     _isPlay = NO;
     // 先把音频源准备好，等用户点播放再出声（App 启动就响会很打扰）
     [[SPAudioPlayer sharedPlayer] prepareSong:song];
@@ -88,8 +88,8 @@ NSString *const PlayerModelDidChangeNotification = @"PlayerModelDidChangeNotific
 
 
 // 换歌 = 立即加载并播放新的音频源
-- (void)setSong:(Song *)song {
-    _song = song;
+- (void)setCurrentSong:(Song *)song {
+    _currentSong = song;
     _isPlay = YES;
     [[SPAudioPlayer sharedPlayer] playSong:song];
     [[NSNotificationCenter defaultCenter] postNotificationName:PlayerModelDidChangeNotification
@@ -130,11 +130,13 @@ NSString *const PlayerModelDidChangeNotification = @"PlayerModelDidChangeNotific
         return;
     }
 
-    NSUInteger index = [songs indexOfObject:self.song];
-    if (index == NSNotFound) index = 0;
+    NSUInteger index = [songs indexOfObject:self.currentSong];
+    if (index == NSNotFound) {
+        index = 0;
+    }
     index = (index + offset + songs.count) % songs.count;
 
-    self.song = songs[index];
+    self.currentSong = songs[index];
     self.isPlay = YES;
 }
 

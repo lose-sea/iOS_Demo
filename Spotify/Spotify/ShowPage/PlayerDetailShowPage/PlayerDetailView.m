@@ -26,6 +26,7 @@ static NSString * const kCoverRotationKey = @"coverRotation";
 @property (nonatomic, strong, readwrite) UIButton *previousButton;
 @property (nonatomic, strong, readwrite) UIButton *playButton;
 @property (nonatomic, strong, readwrite) UIButton *nextButton;
+@property (nonatomic, strong, readwrite) UIButton *moreButton;
 
 @end
 
@@ -187,6 +188,7 @@ static NSString * const kCoverRotationKey = @"coverRotation";
     self.commentButton = [self buttonWithImageName:@"ellipsis.bubble" configuration:normal];
     self.previousButton = [self buttonWithImageName:@"backward.end.fill" configuration:normal];
     self.nextButton = [self buttonWithImageName:@"forward.end.fill" configuration:normal];
+    self.moreButton = [self buttonWithImageName:@"ellipsis" configuration:normal];
 
     // 大播放按钮：底色用 labelColor、图标用 systemBackgroundColor，两套主题下都不会和页面同色
     // 深色：白圆 + 黑图标；浅色：黑圆 + 白图标
@@ -200,7 +202,8 @@ static NSString * const kCoverRotationKey = @"coverRotation";
     self.playButton.layer.cornerRadius = 32.0;
 
     UIStackView *buttonRow = [[UIStackView alloc] initWithArrangedSubviews:@[
-        self.favouriteButton, self.commentButton, self.previousButton, self.playButton, self.nextButton
+        self.favouriteButton, self.commentButton, self.previousButton, self.playButton,
+        self.nextButton, self.moreButton
     ]];
     buttonRow.axis = UILayoutConstraintAxisHorizontal;
     buttonRow.distribution = UIStackViewDistributionEqualCentering;

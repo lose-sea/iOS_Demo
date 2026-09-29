@@ -96,6 +96,12 @@ static const NSUInteger kDefaultFavouriteCount = 3;
     [self setSong:song favourite:!song.isFavourite];
 }
 
+- (void)addSong:(Song *)song toPlaylist:(SongListModel *)playlist {
+    if (!song || !playlist) return;
+    if ([playlist.songs containsObject:song]) return;   // 同一首不重复加
+    playlist.songs = [(playlist.songs ?: @[]) arrayByAddingObject:song];
+}
+
 - (BOOL)isFavouriteSong:(Song *)song {
     return song ? [self.favoriteSongs containsObject:song] : NO;
 }

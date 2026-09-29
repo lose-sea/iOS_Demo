@@ -80,7 +80,7 @@
 
 #pragma mark - Public
 - (void)playSong:(Song *)song {
-    self.playerModel.song = song;
+    self.playerModel.currentSong = song;
     self.playerModel.isPlay = YES;
 }
 
@@ -96,7 +96,7 @@
 }
 
 - (Song *)currentSong {
-    return self.playerModel.song;
+    return self.playerModel.currentSong;
 }
 
 - (BOOL)isPlaying {
@@ -116,7 +116,7 @@
 #pragma mark - Private
 
 - (void)toggleFavourite {
-    Song *song = self.playerModel.song;
+    Song *song = self.playerModel.currentSong;
     if (!song) return;
     // 统一入口：同步「我的喜欢」歌单
     [[UserModel sharedInstance] toggleFavouriteForSong:song];
@@ -131,7 +131,7 @@
 
 
 - (void)refreshUI {
-    Song *song = self.playerModel.song;
+    Song *song = self.playerModel.currentSong;
     if (!song) {
         NSLog(@"song 为 nil");
         return;
