@@ -15,7 +15,9 @@
 NS_ASSUME_NONNULL_BEGIN
 
 /// 任何界面可监听此通知来刷新自己的播放相关 UI（miniPlayer、tabBar 角标等）
+/// UIKIT_EXTERN  声明一个全局常量/函数,定义在别处,全局可见
 UIKIT_EXTERN NSString *const PlayerModelDidChangeNotification;
+
 
 @interface PlayerModel : NSObject
 

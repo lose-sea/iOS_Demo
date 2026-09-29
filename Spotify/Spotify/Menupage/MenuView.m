@@ -52,19 +52,25 @@
 
 - (void)setUpHeader {
     self.avatarImageView = [[UIImageView alloc] init];
+    /// caleAspectFit    等比缩放到完整放进视图，可能留白
+    /// ScaleAspectFill    等比缩放到填满视图，超出裁掉（头像常用）
+    /// ScaleToFill    拉伸变形填满，不保持比例
     self.avatarImageView.contentMode = UIViewContentModeScaleAspectFill;
     self.avatarImageView.clipsToBounds = YES;
     self.avatarImageView.layer.cornerRadius = 32.0;
+    //占位背景色。在图片还没加载出来（或加载失败）时，显示一块浅灰的半透明色块
     self.avatarImageView.backgroundColor = [UIColor tertiarySystemFillColor];
     [self addSubview:self.avatarImageView];
 
     self.nicknameLabel = [[UILabel alloc] init];
     self.nicknameLabel.font = [UIFont systemFontOfSize:22.0 weight:UIFontWeightBold];
+    // 粗体字体
     self.nicknameLabel.textColor = [UIColor labelColor];
     [self addSubview:self.nicknameLabel];
 
     self.accountLabel = [[UILabel alloc] init];
     self.accountLabel.font = [UIFont systemFontOfSize:15.0];
+    // 设置文字颜色为系统语义里的次级文字色 (半透明, 比label淡)
     self.accountLabel.textColor = [UIColor secondaryLabelColor];
     [self addSubview:self.accountLabel];
 
@@ -98,7 +104,9 @@
         [self menuRowWithIcon:@"megaphone"               title:@"你的更新"],
         [self menuRowWithIcon:@"gearshape"               title:@"设置和隐私"]
     ]];
+    // 排列方向: 竖向
     self.rowsStackView.axis = UILayoutConstraintAxisVertical;
+    // 行与行之间间隔
     self.rowsStackView.spacing = 8.0;
     [self addSubview:self.rowsStackView];
 
@@ -116,6 +124,7 @@
                                                  font:[UIFont systemFontOfSize:18.0]
                                             imagePadding:16.0
                                           contentInsets:NSDirectionalEdgeInsetsMake(0, 16, 0, 8)];
+    // 内容靠左
     row.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
     [row addTarget:self action:@selector(pressMenuRow:) forControlEvents:UIControlEventTouchUpInside];
 
@@ -138,9 +147,11 @@
     UIButtonConfiguration *config = [UIButtonConfiguration plainButtonConfiguration];
     config.image = icon;
     config.attributedTitle = [[NSAttributedString alloc] initWithString:title
+                              // 设置字体
                                                              attributes:@{NSFontAttributeName: font,
                                                                           NSForegroundColorAttributeName: [UIColor labelColor]}];
     config.imagePadding = imagePadding;
+    // 内边距
     config.contentInsets = contentInsets;
     config.baseForegroundColor = [UIColor labelColor];
 
@@ -158,7 +169,9 @@
     UIStackView *bottomBar = [[UIStackView alloc] initWithArrangedSubviews:@[
         self.settingButton, self.nightModeButton
     ]];
+    // 排列方向: 横向排列
     bottomBar.axis = UILayoutConstraintAxisHorizontal;
+    // 空间不足时候子视图的空间分配方式所有自视图等宽等高
     bottomBar.distribution = UIStackViewDistributionFillEqually;
     bottomBar.spacing = 12.0;
     [self addSubview:bottomBar];
