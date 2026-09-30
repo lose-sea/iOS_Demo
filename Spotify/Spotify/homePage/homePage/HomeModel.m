@@ -10,6 +10,7 @@
 
 @implementation HomeModel
 
+// 创建示例歌单和歌曲
 + (NSArray<Song *> *)sampleSongs {
     NSArray *raw = @[
         @{@"image": @"9.jpg",  @"title": @"晴天",             @"singer": @"周杰伦", @"singerImg": @"21.jpg"},
@@ -28,18 +29,18 @@
 
     NSMutableArray<Song *> *songs = [NSMutableArray array];
     NSUInteger index = 0;
-    for (NSDictionary *d in raw) {
+    for (NSDictionary *songConfig in raw) {
         Singer *singer = [[Singer alloc] init];
-        singer.singerName = d[@"singer"];
-        singer.avatarURL = d[@"singerImg"];
+        singer.singerName = songConfig[@"singer"];
+        singer.avatarURL = songConfig[@"singerImg"];
 
         Song *song = [[Song alloc] init];
-        song.songName = d[@"title"];
-        song.coverURL = d[@"image"];
+        song.songName = songConfig[@"title"];
+        song.coverURL = songConfig[@"image"];
         song.singer = singer;
         song.isFavourite = NO;
         // 真实发声用的音频地址：换成自己的 mp3 时改成文件名（如 @"晴天.mp3"）或 http(s) 直链
-        song.audioURL = d[@"audio"] ?: [Song demoAudioURLAtIndex:index];
+        song.audioURL = songConfig[@"audio"] ?: [Song demoAudioURLAtIndex:index];
         [songs addObject:song];
         index++;
     }
