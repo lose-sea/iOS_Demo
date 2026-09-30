@@ -143,6 +143,51 @@
     [self.navigationController pushViewController:songListVC animated:YES];
 }
 
+#pragma mark - 删除歌单
+
+// 左滑出现「删除」：只允许删「我创建的歌单」
+- (UISwipeActionsConfiguration *)tableView:(UITableView *)tableView
+trailingSwipeActionsConfigurationForRowAtIndexPath:(NSIndexPath *)indexPath {
+    // 分区 0 是「我的喜欢」系统歌单；收藏的歌单属于“取消收藏”，都不是删除
+    if (indexPath.section == 0 || self.myView.showingCollected) return nil;
+
+    __weak typeof(self) weakSelf = self;
+    UIContextualAction *deleteAction = [UIContextualAction contextualActionWithStyle:UIContextualActionStyleDestructive
+                                                                              title:@"删除"
+                                                                            handler:^(UIContextualAction *action,
+                                                                                      UIView *sourceView,
+                                                                                      void (^completionHandler)(BOOL)) {
+        [weakSelf confirmDeletePlaylistAtIndexPath:indexPath completion:completionHandler];
+    }];
+    return [UISwipeActionsConfiguration configurationWithActions:@[deleteAction]];
+}
+
+/// 删除前先确认；completion 交给系统决定最后收不收起这一行
+- (void)confirmDeletePlaylistAtIndexPath:(NSIndexPath *)indexPath completion:(void (^)(BOOL))completion {
+    NSArray<SongListModel *> *playlists = self.myModel.createdPlaylists;
+    if (indexPath.row >= playlists.count) {
+        completion(NO);
+        return;
+    }
+    SongListModel *playlist = playlists[indexPath.row];
+
+    UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"删除歌单"
+                                                                   message:[NSString stringWithFormat:@"确定删除「%@」？", playlist.playlistName]
+                                                            preferredStyle:UIAlertControllerStyleAlert];
+    [alert addAction:[UIAlertAction actionWithTitle:@"取消"
+                                              style:UIAlertActionStyleCancel
+                                            handler:^(UIAlertAction *action) {
+        completion(NO);       // 取消：cell 滑回原位
+    }]];
+    [alert addAction:[UIAlertAction actionWithTitle:@"删除"
+                                              style:UIAlertActionStyleDestructive
+                                            handler:^(UIAlertAction *action) {
+        [[UserModel sharedInstance] removeCreatedPlaylist:playlist];
+        completion(YES);      // 由系统移除这一行
+    }]];
+    [self presentViewController:alert animated:YES completion:nil];
+}
+
 #pragma mark - 创建歌单
 
 - (void)showCreatePlaylistAlert {

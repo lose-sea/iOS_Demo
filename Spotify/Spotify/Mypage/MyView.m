@@ -54,10 +54,14 @@ static const CGFloat kMiniPlayerReservedHeight = 64.0 + 24.0;
 
     self.tableView = [[UITableView alloc] initWithFrame:CGRectZero style:UITableViewStyleGrouped];
     self.tableView.backgroundColor = [UIColor systemBackgroundColor];
+    // 关闭单元分隔线
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
+    //
     self.tableView.contentInset = UIEdgeInsetsMake(0, 0, kMiniPlayerReservedHeight, 0);
+    // 设置滚动条与内容一致
     self.tableView.scrollIndicatorInsets = self.tableView.contentInset;
     if (@available(iOS 15.0, *)) {
+        // UITableView 每个分区头上方的额外间距
         self.tableView.sectionHeaderTopPadding = 0;
     }
     [self addSubview:self.tableView];
@@ -95,7 +99,9 @@ static const CGFloat kMiniPlayerReservedHeight = 64.0 + 24.0;
 
     // 统计行：最近 / 喜欢的歌曲 / 喜欢的歌单 / 等级
     self.statsStackView = [[UIStackView alloc] init];
+    // 主轴方向: 水平
     self.statsStackView.axis = UILayoutConstraintAxisHorizontal;
+    // 主轴空间分配方式
     self.statsStackView.distribution = UIStackViewDistributionFillEqually;
     [header addSubview:self.statsStackView];
 
@@ -151,9 +157,11 @@ static const CGFloat kMiniPlayerReservedHeight = 64.0 + 24.0;
 #pragma mark - 歌单切换条
 
 - (UIView *)playlistTabHeader {
-    if (_playlistTabHeaderView) return _playlistTabHeaderView;
+    if (_playlistTabHeaderView) {
+        return _playlistTabHeaderView;
+    }
 
-    UIView *header = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 0, kTabBarHeight)];
+    UIView *header = [[UIView alloc] initWithFrame: CGRectMake(0, 0, 0, kTabBarHeight)];
     header.backgroundColor = [UIColor systemBackgroundColor];
 
     self.createdButton = [UIButton buttonWithType:UIButtonTypeSystem];

@@ -43,6 +43,12 @@
     [self setUpNotification];
 }
 
+// 收藏状态可能在别的页面改过，每次出现都重读一次，保证红心和「我的收藏」一致
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    [self refreshFavouriteButton];
+}
+
 - (void)dealloc {
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
@@ -183,7 +189,22 @@
 }
 
 - (void)pressFavouriteButton {
-    NSLog(@"收藏歌单：%@", self.songList.playlistName);
+    if (!self.songList) return;
+
+    BOOL collected = [[UserModel sharedInstance] isFavouritePlaylist:self.songList];
+    [[UserModel sharedInstance] setPlaylist:self.songList favourite:!collected];
+    NSLog(@"%@收藏歌单：%@", collected ? @"取消" : @"", self.songList.playlistName);
+
+    [self refreshFavouriteButton];
+}
+
+/// 歌单收藏状态：已收藏实心红心 + 粉色，未收藏空心 + 默认色
+- (void)refreshFavouriteButton {
+    BOOL collected = [[UserModel sharedInstance] isFavouritePlaylist:self.songList];
+    NSString *iconName = collected ? @"heart.fill" : @"heart";
+    [self.songListView.favouriteButton setImage:[UIImage systemImageNamed:iconName]
+                                       forState:UIControlStateNormal];
+    self.songListView.favouriteButton.tintColor = collected ? [UIColor systemPinkColor] : [UIColor labelColor];
 }
 
 - (void)pressMoreButton {

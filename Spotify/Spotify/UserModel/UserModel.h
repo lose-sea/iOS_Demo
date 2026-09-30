@@ -50,8 +50,19 @@ UIKIT_EXTERN NSString *const UserModelFavouriteDidChangeNotification;
 /// createSongLists 里存的就是这批 SongListModel 实例，改它的 songs 即生效
 - (void)addSong:(Song *)song toPlaylist:(SongListModel *)playlist;
 
+/// 删除一个「我创建的歌单」（系统歌单如“我的喜欢”不在 createSongLists 里，删不掉）
+- (void)removeCreatedPlaylist:(SongListModel *)playlist;
+
 /// 这首歌是否已收藏
 - (BOOL)isFavouriteSong:(Song *)song;
+
+#pragma mark - 收藏歌单
+
+/// 收藏 / 取消收藏歌单：加入 / 移出 favouriteSongLists
+/// 首页卡片每次都是新建的 SongListModel，所以按 playlistId → 歌单名匹配，不会重复添加
+- (void)setPlaylist:(SongListModel *)playlist favourite:(BOOL)favourite;
+/// 这个歌单是否已收藏
+- (BOOL)isFavouritePlaylist:(SongListModel *)playlist;
 
 /// 全局唯一实例
 + (instancetype)sharedInstance;

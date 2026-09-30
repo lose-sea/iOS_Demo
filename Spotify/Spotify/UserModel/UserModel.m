@@ -43,13 +43,15 @@ static const NSUInteger kDefaultFavouriteCount = 3;
     self.recentlySongs = songs;
 
     // 初始只有前几首是「已喜欢」，它们同时进「我的喜欢」歌单
-    NSMutableArray<Song *> *favourites = [NSMutableArray array];
+    NSMutableArray<Song *> *favouriteSongs = [NSMutableArray array];
     for (NSUInteger index = 0; index < songs.count; index++) {
         BOOL liked = (index < kDefaultFavouriteCount);
         songs[index].isFavourite = liked;
-        if (liked) [favourites addObject:songs[index]];
+        if (liked) {
+            [favouriteSongs addObject:songs[index]];
+        }
     }
-    self.favoriteSongs = [favourites copy];
+    self.favoriteSongs = [favouriteSongs copy];
 
     self.createSongLists = [self samplePlaylistsWithNames:@[@"每日推荐", @"通勤必备", @"深夜安静"]
                                                   covers:@[@"2.jpg", @"3.jpg", @"4.jpg"]];
@@ -102,8 +104,53 @@ static const NSUInteger kDefaultFavouriteCount = 3;
     playlist.songs = [(playlist.songs ?: @[]) arrayByAddingObject:song];
 }
 
+- (void)removeCreatedPlaylist:(SongListModel *)playlist {
+    if (!playlist) return;
+    NSMutableArray<SongListModel *> *created = [self.createSongLists mutableCopy] ?: [NSMutableArray array];
+    [created removeObject:playlist];
+    self.createSongLists = [created copy];
+}
+
 - (BOOL)isFavouriteSong:(Song *)song {
     return song ? [self.favoriteSongs containsObject:song] : NO;
+}
+
+#pragma mark - 收藏歌单
+
+/// 优先按 playlistId 匹配；首页卡片是每次新建的临时歌单、没有 id，退回按歌单名匹配
+- (SongListModel *)favouritePlaylistMatching:(SongListModel *)playlist {
+    if (!playlist) return nil;
+    for (SongListModel *item in self.favouriteSongLists) {
+        if (playlist.playlistId.length > 0 && item.playlistId.length > 0) {
+            if ([item.playlistId isEqualToString:playlist.playlistId]) return item;
+        } else if ([item.playlistName isEqualToString:playlist.playlistName]) {
+            return item;
+        }
+    }
+    return nil;
+}
+
+- (void)setPlaylist:(SongListModel *)playlist favourite:(BOOL)favourite {
+    if (!playlist) return;
+
+    NSMutableArray<SongListModel *> *lists = [self.favouriteSongLists mutableCopy] ?: [NSMutableArray array];
+    SongListModel *existing = [self favouritePlaylistMatching:playlist];
+
+    if (favourite) {
+        if (!existing) [lists addObject:playlist];   // 已收藏过就不重复加
+    } else if (existing) {
+        [lists removeObject:existing];                // 取消收藏：移除之前存的那一个
+    }
+    self.favouriteSongLists = [lists copy];
+
+    [[NSNotificationCenter defaultCenter] postNotificationName:UserModelFavouriteDidChangeNotification
+                                                        object:self
+                                                      userInfo:@{@"playlist": playlist,
+                                                                 @"isFavourite": @(favourite)}];
+}
+
+- (BOOL)isFavouritePlaylist:(SongListModel *)playlist {
+    return [self favouritePlaylistMatching:playlist] != nil;
 }
 
 #pragma mark - Private

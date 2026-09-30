@@ -110,7 +110,7 @@
     section.cards = [cards copy];
     return section;
 }
-
+  
 /// 你喜欢的艺人：封面 + 中间横幅名字 + 下方描述
 + (HomeSection *)likedArtistSection {
     HomeSection *section = [[HomeSection alloc] init];
@@ -132,6 +132,8 @@
     section.title = @"你最喜欢的艺人";
     section.type = HomeSectionTypeCircle;
     section.cards = @[
+        // subtitle: 副标题
+        // badge: 角标
         [self cardWithImage:@"21.jpg" title:@"周杰伦"        subtitle:@"" badge:nil],
         [self cardWithImage:@"26.jpg" title:@"刘若英"        subtitle:@"" badge:nil],
         [self cardWithImage:@"28.jpg" title:@"朴树"          subtitle:@"" badge:nil],
@@ -174,7 +176,7 @@
 }
 
 #pragma mark - Private
-
+// 创建卡片
 + (HomeCard *)cardWithImage:(NSString *)imageURL
                       title:(NSString *)title
                    subtitle:(NSString *)subtitle
