@@ -39,6 +39,7 @@ UIKIT_EXTERN NSString *const UserModelFavouriteDidChangeNotification;
 /// “我的喜欢”歌单：由 favoriteSongs 生成，默认存在、不可删除（isSystemPlaylist = YES）
 - (SongListModel *)favouritePlaylist;
 
+
 #pragma mark - 喜欢 / 取消喜欢
 
 /// 统一的收藏入口：改歌曲状态 + 同步「我的喜欢」歌单 + 发通知

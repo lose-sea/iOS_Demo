@@ -74,7 +74,9 @@ static const NSUInteger kDefaultFavouriteCount = 3;
 #pragma mark - 喜欢 / 取消喜欢
 
 - (void)setSong:(Song *)song favourite:(BOOL)favourite {
-    if (!song) return;
+    if (!song) {
+        return;
+    }
 
     song.isFavourite = favourite;
 
@@ -94,18 +96,28 @@ static const NSUInteger kDefaultFavouriteCount = 3;
                                                                  @"isFavourite": @(favourite)}];
 }
 
+// 点击了歌曲的收藏按钮
 - (void)toggleFavouriteForSong:(Song *)song {
     [self setSong:song favourite:!song.isFavourite];
 }
 
+// 添加歌曲到指定歌单
 - (void)addSong:(Song *)song toPlaylist:(SongListModel *)playlist {
-    if (!song || !playlist) return;
-    if ([playlist.songs containsObject:song]) return;   // 同一首不重复加
+    // 判空处理
+    if (!song || !playlist) {
+        return;
+    }
+    // 同一首不重复加
+    if ([playlist.songs containsObject:song]) {
+        return;
+    }
     playlist.songs = [(playlist.songs ?: @[]) arrayByAddingObject:song];
 }
 
 - (void)removeCreatedPlaylist:(SongListModel *)playlist {
-    if (!playlist) return;
+    if (!playlist) {
+        return;
+    }
     NSMutableArray<SongListModel *> *created = [self.createSongLists mutableCopy] ?: [NSMutableArray array];
     [created removeObject:playlist];
     self.createSongLists = [created copy];
@@ -122,7 +134,9 @@ static const NSUInteger kDefaultFavouriteCount = 3;
     if (!playlist) return nil;
     for (SongListModel *item in self.favouriteSongLists) {
         if (playlist.playlistId.length > 0 && item.playlistId.length > 0) {
-            if ([item.playlistId isEqualToString:playlist.playlistId]) return item;
+            if ([item.playlistId isEqualToString:playlist.playlistId]) {
+                return item;
+            }
         } else if ([item.playlistName isEqualToString:playlist.playlistName]) {
             return item;
         }
@@ -130,6 +144,7 @@ static const NSUInteger kDefaultFavouriteCount = 3;
     return nil;
 }
 
+// 
 - (void)setPlaylist:(SongListModel *)playlist favourite:(BOOL)favourite {
     if (!playlist) return;
 
