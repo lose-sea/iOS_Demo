@@ -12,6 +12,7 @@
 #import "SongListModel.h"
 #import "SongListShowViewController.h"
 #import "UserModel.h"
+#import "FavouriteManager.h"
 
 @interface MyViewController () <UITableViewDelegate, UITableViewDataSource>
 
@@ -74,7 +75,7 @@
 - (void)setUpNotifications {
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(favouriteDidChange:)
-                                                 name:UserModelFavouriteDidChangeNotification
+                                                 name:FavouriteDidChangeNotification
                                                object:nil];
 }
 

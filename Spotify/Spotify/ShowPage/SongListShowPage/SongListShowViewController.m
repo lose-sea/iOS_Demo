@@ -11,7 +11,7 @@
 #import "SongRowCell.h"
 #import "PlayerViewController.h"
 #import "PlayerModel.h"
-#import "UserModel.h"
+#import "FavouriteManager.h"
 #import "Song.h"
 
 @interface SongListShowViewController () <UITableViewDelegate, UITableViewDataSource,
@@ -134,7 +134,7 @@
 
     Song *song = self.songList.songs[indexPath.row];
     // 统一入口：同步「我的喜欢」歌单
-    [[UserModel sharedInstance] toggleFavouriteForSong:song];
+    [[FavouriteManager sharedInstance] toggleFavouriteForSong:song];
     [self.songListView.tableView reloadRowsAtIndexPaths:@[indexPath]
                                       withRowAnimation:UITableViewRowAnimationNone];
 
@@ -191,8 +191,8 @@
 - (void)pressFavouriteButton {
     if (!self.songList) return;
 
-    BOOL collected = [[UserModel sharedInstance] isFavouritePlaylist:self.songList];
-    [[UserModel sharedInstance] setPlaylist:self.songList favourite:!collected];
+    BOOL collected = [[FavouriteManager sharedInstance] isFavouritePlaylist:self.songList];
+    [[FavouriteManager sharedInstance] setPlaylist:self.songList favourite:!collected];
     NSLog(@"%@收藏歌单：%@", collected ? @"取消" : @"", self.songList.playlistName);
 
     [self refreshFavouriteButton];
@@ -200,7 +200,7 @@
 
 /// 歌单收藏状态：已收藏实心红心 + 粉色，未收藏空心 + 默认色
 - (void)refreshFavouriteButton {
-    BOOL collected = [[UserModel sharedInstance] isFavouritePlaylist:self.songList];
+    BOOL collected = [[FavouriteManager sharedInstance] isFavouritePlaylist:self.songList];
     NSString *iconName = collected ? @"heart.fill" : @"heart";
     [self.songListView.favouriteButton setImage:[UIImage systemImageNamed:iconName]
                                        forState:UIControlStateNormal];

@@ -9,7 +9,7 @@
 #import "HomeModel.h"
 #import "PlayerModel.h"
 #import "PlayerViewController.h"
-#import "UserModel.h"
+#import "FavouriteManager.h"
 #import "SongRowCell.h"
 #import "Song.h"
 #import <Masonry/Masonry.h>
@@ -239,7 +239,7 @@ static NSArray<NSString *> *kProviderNames = nil;   // 接好数据源后填，�
 
     Song *song = self.songs[indexPath.row];
     // 统一入口：同步「我的喜欢」歌单
-    [[UserModel sharedInstance] toggleFavouriteForSong:song];
+    [[FavouriteManager sharedInstance] toggleFavouriteForSong:song];
     [self.tableView reloadRowsAtIndexPaths:@[indexPath]
                           withRowAnimation:UITableViewRowAnimationNone];
 

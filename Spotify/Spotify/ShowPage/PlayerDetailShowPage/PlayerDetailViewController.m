@@ -10,6 +10,7 @@
 #import "PlayerModel.h"
 #import "SPAudioPlayer.h"
 #import "UserModel.h"
+#import "FavouriteManager.h"
 #import "Song.h"
 #import "Singer.h"
 #import "UIImageView+Spotify.h"
@@ -220,7 +221,7 @@
     Song *song = self.playerModel.currentSong;
     if (!song) return;
     // 统一入口：同步「我的喜欢」歌单
-    [[UserModel sharedInstance] toggleFavouriteForSong:song];
+    [[FavouriteManager sharedInstance] toggleFavouriteForSong:song];
     [self refreshUI];
 }
 
