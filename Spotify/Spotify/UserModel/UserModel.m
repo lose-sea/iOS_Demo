@@ -85,6 +85,7 @@ static const NSUInteger kDefaultFavouriteCount = 3;
     playlist.songs = [(playlist.songs ?: @[]) arrayByAddingObject:song];
 }
 
+// 删除创建歌单
 - (void)removeCreatedPlaylist:(SongListModel *)playlist {
     if (!playlist) {
         return;
@@ -94,8 +95,11 @@ static const NSUInteger kDefaultFavouriteCount = 3;
     self.createSongLists = [created copy];
 }
 
+
+
+
 #pragma mark - Private
-// 创建默认歌单
+// 创建歌单的占位数据
 - (NSArray<SongListModel *> *)samplePlaylistsWithNames:(NSArray<NSString *> *)names
                                                 covers:(NSArray<NSString *> *)covers {
     NSMutableArray<SongListModel *> *playlists = [NSMutableArray array];

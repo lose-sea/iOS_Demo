@@ -103,8 +103,10 @@ NSString *const PlayerModelDidChangeNotification = @"PlayerModelDidChangeNotific
     if (_isPlay == isPlay) return;
     _isPlay = isPlay;
     if (isPlay) {
+        // 播放
         [[SPAudioPlayer sharedPlayer] play];
     } else {
+        // 暂停
         [[SPAudioPlayer sharedPlayer] pause];
     }
     [[NSNotificationCenter defaultCenter] postNotificationName:PlayerModelDidChangeNotification
@@ -123,6 +125,7 @@ NSString *const PlayerModelDidChangeNotification = @"PlayerModelDidChangeNotific
 }
 
 // 在当前歌单里循环切换；setSong / setIsPlay 内部会发通知刷新 UI
+// 切换歌曲
 - (void)switchToSongWithOffset:(NSInteger)offset {
     NSArray<Song *> *songs = self.currentPlayList.songs;
     if (songs.count == 0) {
@@ -134,6 +137,7 @@ NSString *const PlayerModelDidChangeNotification = @"PlayerModelDidChangeNotific
     if (index == NSNotFound) {
         index = 0;
     }
+    // 取余,最后一首歌的下一首是第一首歌
     index = (index + offset + songs.count) % songs.count;
 
     self.currentSong = songs[index];
