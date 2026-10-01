@@ -53,6 +53,7 @@ static const NSUInteger kDefaultFavouriteCount = 3;
     }
     self.favoriteSongs = [favouriteSongs copy];
 
+    // 创建默认歌单
     self.createSongLists = [self samplePlaylistsWithNames:@[@"每日推荐", @"通勤必备", @"深夜安静"]
                                                   covers:@[@"2.jpg", @"3.jpg", @"4.jpg"]];
     self.favouriteSongLists = [self samplePlaylistsWithNames:@[@"热门华语", @"运动节拍"]
@@ -144,7 +145,7 @@ static const NSUInteger kDefaultFavouriteCount = 3;
     return nil;
 }
 
-// 
+// 收藏歌单
 - (void)setPlaylist:(SongListModel *)playlist favourite:(BOOL)favourite {
     if (!playlist) return;
 
@@ -169,7 +170,7 @@ static const NSUInteger kDefaultFavouriteCount = 3;
 }
 
 #pragma mark - Private
-
+// 创建默认歌单
 - (NSArray<SongListModel *> *)samplePlaylistsWithNames:(NSArray<NSString *> *)names
                                                 covers:(NSArray<NSString *> *)covers {
     NSMutableArray<SongListModel *> *playlists = [NSMutableArray array];
