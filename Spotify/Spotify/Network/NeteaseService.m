@@ -10,27 +10,15 @@
 #import "NetworkManager.h"
 #import "Song.h"
 #import "Singer.h"
-
-#pragma mark - ⚠️ 开放平台控制台里的三个值（内置客户端属于演示级做法，正式产品应由后端持有密钥签名）
-
-static NSString * const kNeteaseAppID = @"";
-static NSString * const kNeteaseAppSecret = @"";
-static NSString * const kNeteasePrivateKey = @"";   // RSA 私钥，用于签名
+#import "SongListModel.h"
+#import <YYModel/YYModel.h>
 
 #pragma mark - 接口
 
-// 文档：http://openapi.music.163.com/openapi/music/basic/song/list/get/v2
-static NSString * const kNeteaseBaseURL = @"https://openapi.music.163.com";
-static NSString * const kSongListPath = @"/openapi/music/basic/song/list/get/v2";
-
+/// 本地 Node 音乐服务（学长博客那套 NeteaseCloudMusicApi，默认占用 3000 端口）
+/// 模拟器里 localhost 直连即可；真机需换成 Mac 的局域网 IP（如 http://192.168.x.x:3000）
+static NSString * const kNeteaseBaseURL = @"http://localhost:3000";
 static NSString * const kErrorDomain = @"com.spotify.netease.error";
-
-@interface NeteaseService ()
-
-/// accessToken：按文档的授权接口换取后填进来（TODO: 实现刷新逻辑）
-@property (nonatomic, copy, nullable) NSString *accessToken;
-
-@end
 
 @implementation NeteaseService
 
@@ -43,188 +31,322 @@ static NSString * const kErrorDomain = @"com.spotify.netease.error";
     return instance;
 }
 
-#pragma mark - 批量获取歌曲信息
+#pragma mark - 搜索歌曲
 
-- (void)fetchSongsWithIds:(NSArray<NSString *> *)songIds
-              qualityFlag:(BOOL)qualityFlag
-               completion:(void (^)(NSArray<Song *> *, NSError *))completion {
-    if (songIds.count == 0) {
-        if (completion) completion(@[], [self errorWithCode:1001 message:@"songIdList 为空"]);
+- (void)searchSongsWithKeyword:(NSString *)keyword
+                         limit:(NSInteger)limit
+                    completion:(void (^)(NSArray<Song *> *, NSError * _Nullable))completion {
+    if (keyword.length == 0) {
+        if (completion) completion(@[], nil);
         return;
     }
-    if (songIds.count > 500) {
-        NSLog(@"[Netease] 单次最多 500 个 id，超出部分会被截断");
-        songIds = [songIds subarrayWithRange:NSMakeRange(0, 500)];
-    }
-
-    NSDictionary *bizContent = @{@"qualityFlag": @(qualityFlag),
-                                 @"songIdList": songIds};
-    NSDictionary *parameters = [self commonParametersWithBizContent:bizContent];
-    NSString *urlString = [NSString stringWithFormat:@"%@%@", kNeteaseBaseURL, kSongListPath];
+    NSString *urlString = [NSString stringWithFormat:@"%@/search?keywords=%@&limit=%ld&offset=0",
+                           kNeteaseBaseURL, [self URLEncoded:keyword], (long)limit];
 
     [[NetworkManager sharedInstance] GETWithURLString:urlString
-                                          parameters:parameters
+                                          parameters:nil
                                              success:^(id responseObject) {
-        NSError *apiError = [self errorFromResponse:responseObject];
-        if (apiError) {
-            NSLog(@"[Netease] 接口返回错误：code=%ld %@", (long)apiError.code, apiError.localizedDescription);
-            if (completion) completion(@[], apiError);
+        NSArray *songs = [responseObject valueForKeyPath:@"result.songs"];
+        if (![songs isKindOfClass:NSArray.class] || songs.count == 0) {
+            if (completion) completion(@[], [self errorWithCode:404 message:@"未搜到结果"]);
             return;
         }
-
-        NSArray *data = [responseObject objectForKey:@"data"];
-        NSMutableArray<Song *> *songs = [NSMutableArray array];
-        for (NSDictionary *dict in data) {
-            Song *song = [self songFromDictionary:dict];
-            if (song) [songs addObject:song];
+        // 搜索结果里专辑封面是空的（album 只有 picId），用 /song/detail 拿带封面的完整信息
+        NSMutableArray<NSString *> *ids = [NSMutableArray array];
+        for (NSDictionary *d in songs) {
+            id rawId = d[@"id"];
+            if (rawId) [ids addObject:[rawId isKindOfClass:NSNumber.class] ? [rawId stringValue] : [rawId description]];
         }
-        NSLog(@"[Netease] 拿到 %lu 首歌曲信息", (unsigned long)songs.count);
-        if (completion) completion([songs copy], nil);
+        [self fetchSongsWithIds:ids qualityFlag:NO completion:completion];
     }
                                              failure:^(NSError *error) {
         if (completion) completion(@[], error);
     }];
 }
 
-#pragma mark - TODO 等文档补齐
-
-- (void)searchSongsWithKeyword:(NSString *)keyword
-                         limit:(NSInteger)limit
-                    completion:(void (^)(NSArray<Song *> *, NSError *))completion {
-    // TODO: 需要「搜索歌曲」那页文档（路径 + bizContent 参数）
-    if (completion) {
-        completion(@[], [self errorWithCode:-1 message:@"搜索接口尚未接入（缺文档）"]);
-    }
-}
-
-- (void)fetchSongURLWithId:(NSString *)songId
-                completion:(void (^)(NSString *, NSError *))completion {
-    // TODO: 需要「歌曲播放地址」那页文档（文档里明确说 song/list/get 拿不到播放地址）
-    if (completion) {
-        completion(nil, [self errorWithCode:-1 message:@"播放地址接口尚未接入（缺文档）"]);
-    }
-}
+#pragma mark - 歌单详情（含歌曲列表）
 
 - (void)fetchPlaylistDetailWithId:(NSString *)playlistId
-                       completion:(void (^)(SongListModel *, NSError *))completion {
-    if (completion) {
-        completion(nil, [self errorWithCode:-1 message:@"歌单详情接口尚未接入（缺文档）"]);
+                       completion:(void (^)(SongListModel * _Nullable, NSError * _Nullable))completion {
+    if (playlistId.length == 0) {
+        if (completion) completion(nil, [self errorWithCode:1001 message:@"playlistId 为空"]);
+        return;
     }
+    NSString *urlString = [NSString stringWithFormat:@"%@/playlist/detail?id=%@",
+                           kNeteaseBaseURL, [self URLEncoded:playlistId]];
+
+    [[NetworkManager sharedInstance] GETWithURLString:urlString
+                                          parameters:nil
+                                             success:^(id responseObject) {
+        NSDictionary *playlist = [responseObject valueForKeyPath:@"playlist"];
+        if ([playlist isKindOfClass:NSDictionary.class]) {
+            SongListModel *model = [SongListModel yy_modelWithDictionary:playlist];
+            if (completion) completion(model, nil);
+        } else {
+            if (completion) completion(nil, [self errorWithCode:404 message:@"歌单不存在"]);
+        }
+    }
+                                             failure:^(NSError *error) {
+        if (completion) completion(nil, error);
+    }];
 }
+
+#pragma mark - 歌曲播放地址（有时效，建议播放前现取）
+
+- (void)fetchSongURLWithId:(NSString *)songId
+                completion:(void (^)(NSString * _Nullable, NSError * _Nullable))completion {
+    if (songId.length == 0) {
+        if (completion) completion(nil, [self errorWithCode:1001 message:@"songId 为空"]);
+        return;
+    }
+    NSString *urlString = [NSString stringWithFormat:@"%@/song/url?id=%@",
+                           kNeteaseBaseURL, [self URLEncoded:songId]];
+
+    [[NetworkManager sharedInstance] GETWithURLString:urlString
+                                          parameters:nil
+                                             success:^(id responseObject) {
+        NSArray *data = [responseObject valueForKeyPath:@"data"];
+        NSString *url = nil;
+        if ([data isKindOfClass:NSArray.class] && data.count > 0) {
+            // 注意：JSON 里的 null 会被 AFNetworking 转成 NSNull，直接调 .length 会崩
+            // （VIP / 已下架歌曲的 url 就是 null），必须先判断类型
+            id raw = [data.firstObject valueForKey:@"url"];
+            if ([raw isKindOfClass:NSString.class]) {
+                // 音频地址同样是 http（m701/m801.music.126.net），ATS 会拦，统一升级成 https
+                url = [Song secureURL:raw];
+            }
+        }
+        if (url.length > 0) {
+            if (completion) completion(url, nil);
+        } else {
+            if (completion) completion(nil, [self errorWithCode:404
+                                                        message:@"该歌曲暂无可用播放地址（可能需 VIP 或已下架）"]);
+        }
+    }
+                                             failure:^(NSError *error) {
+        if (completion) completion(nil, error);
+    }];
+}
+
+#pragma mark - 歌词
 
 - (void)fetchLyricWithId:(NSString *)songId
-              completion:(void (^)(NSString *, NSError *))completion {
-    if (completion) {
-        completion(nil, [self errorWithCode:-1 message:@"歌词接口尚未接入（缺文档）"]);
+              completion:(void (^)(NSString * _Nullable, NSError * _Nullable))completion {
+    if (songId.length == 0) {
+        if (completion) completion(nil, [self errorWithCode:1001 message:@"songId 为空"]);
+        return;
     }
-}
+    NSString *urlString = [NSString stringWithFormat:@"%@/lyric?id=%@",
+                           kNeteaseBaseURL, [self URLEncoded:songId]];
 
-#pragma mark - 公共参数
-
-/// IOT 公共参数：appId / appSecret / accessToken / signType / device / timestamp / bizContent（+ sign）
-- (NSDictionary *)commonParametersWithBizContent:(NSDictionary *)bizContent {
-    NSMutableDictionary *parameters = [NSMutableDictionary dictionary];
-    parameters[@"appId"] = kNeteaseAppID;
-    parameters[@"appSecret"] = kNeteaseAppSecret;
-    parameters[@"accessToken"] = self.accessToken ?: @"";
-    parameters[@"signType"] = @"RSA_SHA256";
-    parameters[@"timestamp"] = [self currentTimestampString];
-    parameters[@"device"] = [self deviceJSONString];
-    parameters[@"bizContent"] = [self jsonStringFromObject:bizContent];
-
-    NSString *sign = [self signWithParameters:parameters];
-    if (sign.length > 0) {
-        parameters[@"sign"] = sign;
+    [[NetworkManager sharedInstance] GETWithURLString:urlString
+                                          parameters:nil
+                                             success:^(id responseObject) {
+        // 同上：null 会被转成 NSNull，先判类型再调 .length
+        id raw = [responseObject valueForKeyPath:@"lrc.lyric"];
+        NSString *lyric = [raw isKindOfClass:NSString.class] ? raw : nil;
+        if (lyric.length > 0) {
+            if (completion) completion(lyric, nil);
+        } else {
+            if (completion) completion(nil, [self errorWithCode:404 message:@"暂无歌词"]);
+        }
     }
-    return [parameters copy];
+                                             failure:^(NSError *error) {
+        if (completion) completion(nil, error);
+    }];
 }
 
-- (NSString *)currentTimestampString {
-    NSTimeInterval milliseconds = [[NSDate date] timeIntervalSince1970] * 1000.0;
-    return [NSString stringWithFormat:@"%.0f", milliseconds];
-}
+#pragma mark - 批量歌曲详情（ID 列表 → 歌曲详情，不含播放地址）
 
-/// device 参数：{"deviceType":"iOS","os":"iOS","appVer":"0.1","channel":"...","model":"...","deviceId":"...","brand":"Apple","osVer":"..."}
-- (NSString *)deviceJSONString {
-    NSDictionary *device = @{
-        @"deviceType": @"iOS",
-        @"os": @"iOS",
-        @"appVer": @"0.1",
-        @"channel": @"spotify-clone",
-        @"model": [[UIDevice currentDevice] model],
-        @"deviceId": [[[UIDevice currentDevice] identifierForVendor] UUIDString] ?: @"",
-        @"brand": @"Apple",
-        @"osVer": [[UIDevice currentDevice] systemVersion]
-    };
-    return [self jsonStringFromObject:device] ?: @"";
-}
-
-- (nullable NSString *)jsonStringFromObject:(id)object {
-    if (!object) return nil;
-    NSData *data = [NSJSONSerialization dataWithJSONObject:object options:0 error:nil];
-    if (!data) return nil;
-    return [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
-}
-
-#pragma mark - 签名（TODO）
-
-// TODO: 需要「IOT 公共参数 / 签名规则」那页文档才能写：
-//   1. 哪些参数参与签名、按什么顺序拼接
-//   2. 用 PrivateKey 做 RSA-SHA256（PKCS1？）后 Base64
-//   3. accessToken 的换取与刷新接口
-- (NSString *)signWithParameters:(NSDictionary *)parameters {
-    NSLog(@"[Netease] 签名未实现，请求会缺少 sign 参数（需要签名规则文档）");
-    return @"";
-}
-
-#pragma mark - 解析
-
-/// 歌手是 artists 数组、专辑是嵌套对象，所以手工映射（YYModel 不好处理 duration/1000 这种换算）
-- (nullable Song *)songFromDictionary:(NSDictionary *)dict {
-    if (![dict isKindOfClass:NSDictionary.class]) return nil;
-
-    NSString *songId = [dict objectForKey:@"id"];
-    NSString *name = [dict objectForKey:@"name"];
-    if (songId.length == 0 || name.length == 0) return nil;
-
-    Song *song = [[Song alloc] init];
-    song.songId = songId;
-    song.songName = name;
-    song.coverURL = [dict objectForKey:@"coverImgUrl"];
-
-    // 文档里的 duration 单位是毫秒
-    NSNumber *duration = [dict objectForKey:@"duration"];
-    song.duration = duration ? ([duration doubleValue] / 1000.0) : 0;
-
-    // 版权 / 付费信息：播放前要用
-    song.canPlay = [[dict objectForKey:@"playFlag"] boolValue];
-    song.needVip = [[dict objectForKey:@"vipPlayFlag"] boolValue];
-    song.supportTrail = [[dict objectForKey:@"freeTrailFlag"] boolValue];
-
-    NSDictionary *artist = [[dict objectForKey:@"artists"] firstObject];
-    if ([artist isKindOfClass:NSDictionary.class]) {
-        Singer *singer = [[Singer alloc] init];
-        singer.singerId = [artist objectForKey:@"id"];
-        singer.singerName = [artist objectForKey:@"name"];
-        song.singer = singer;
+- (void)fetchSongsWithIds:(NSArray<NSString *> *)songIds
+              qualityFlag:(BOOL)qualityFlag
+               completion:(void (^)(NSArray<Song *> *, NSError * _Nullable))completion {
+    (void)qualityFlag;
+    if (songIds.count == 0) {
+        if (completion) completion(@[], [self errorWithCode:1001 message:@"songIdList 为空"]);
+        return;
     }
+    NSString *ids = [songIds componentsJoinedByString:@","];
+    NSString *urlString = [NSString stringWithFormat:@"%@/song/detail?ids=%@",
+                           kNeteaseBaseURL, [self URLEncoded:ids]];
 
-    return song;
+    [[NetworkManager sharedInstance] GETWithURLString:urlString
+                                          parameters:nil
+                                             success:^(id responseObject) {
+        NSArray *songs = [responseObject valueForKeyPath:@"songs"];
+        if ([songs isKindOfClass:NSArray.class] && songs.count > 0) {
+            NSArray<Song *> *list = [self songsFromArray:songs];
+            if (completion) completion(list, nil);
+        } else {
+            if (completion) completion(@[], [self errorWithCode:404 message:@"未找到歌曲"]);
+        }
+    }
+                                             failure:^(NSError *error) {
+        if (completion) completion(@[], error);
+    }];
 }
 
-/// {"code":200,"subCode":"200"} 才算成功；404 通常是 id 里有下架歌曲
-- (nullable NSError *)errorFromResponse:(id)responseObject {
-    if (![responseObject isKindOfClass:NSDictionary.class]) return nil;
+#pragma mark - 首页分区
 
-    NSInteger code = [[responseObject objectForKey:@"code"] integerValue];
-    if (code == 200) return nil;
-
-    NSString *message = [responseObject objectForKey:@"message"] ?: @"网易云接口返回错误";
-    NSString *subCode = [responseObject objectForKey:@"subCode"];
-    if (subCode.length > 0) {
-        message = [NSString stringWithFormat:@"%@（subCode=%@）", message, subCode];
+- (void)fetchToplistWithLimit:(NSInteger)limit
+                   completion:(void (^)(NSArray<SongListModel *> *, NSError * _Nullable))completion {
+    NSString *urlString = [NSString stringWithFormat:@"%@/toplist", kNeteaseBaseURL];
+    [[NetworkManager sharedInstance] GETWithURLString:urlString
+                                          parameters:nil
+                                             success:^(id responseObject) {
+        if (completion) completion([self playlistsFromArray:[responseObject valueForKeyPath:@"list"]
+                                                     limit:limit], nil);
     }
-    return [self errorWithCode:code message:message];
+                                             failure:^(NSError *error) {
+        if (completion) completion(@[], error);
+    }];
+}
+
+- (void)fetchTopArtistsWithLimit:(NSInteger)limit
+                      completion:(void (^)(NSArray<Singer *> *, NSError * _Nullable))completion {
+    NSString *urlString = [NSString stringWithFormat:@"%@/top/artists?limit=%ld",
+                           kNeteaseBaseURL, (long)MAX(limit, 1)];
+    [[NetworkManager sharedInstance] GETWithURLString:urlString
+                                          parameters:nil
+                                             success:^(id responseObject) {
+        NSArray *artists = [responseObject valueForKeyPath:@"artists"];
+        NSMutableArray<Singer *> *list = [NSMutableArray array];
+        for (id item in artists) {
+            if (![item isKindOfClass:NSDictionary.class]) continue;
+            Singer *singer = [Singer yy_modelWithDictionary:item];
+            if (singer.singerName.length > 0) [list addObject:singer];
+            if ((NSInteger)list.count >= limit) break;
+        }
+        if (completion) completion([list copy], nil);
+    }
+                                             failure:^(NSError *error) {
+        if (completion) completion(@[], error);
+    }];
+}
+
+- (void)fetchHotRadiosWithLimit:(NSInteger)limit
+                     completion:(void (^)(NSArray<SongListModel *> *, NSError * _Nullable))completion {
+    NSString *urlString = [NSString stringWithFormat:@"%@/dj/hot?limit=%ld",
+                           kNeteaseBaseURL, (long)MAX(limit, 1)];
+    [[NetworkManager sharedInstance] GETWithURLString:urlString
+                                          parameters:nil
+                                             success:^(id responseObject) {
+        NSArray<SongListModel *> *radios = [self playlistsFromArray:[responseObject valueForKeyPath:@"djRadios"]
+                                                              limit:limit];
+        // 副标题用分类 / 推荐语（rcmdtext 在接口里就是 desc）
+        NSArray *raw = [responseObject valueForKeyPath:@"djRadios"];
+        NSUInteger index = 0;
+        for (SongListModel *radio in radios) {
+            if (index >= raw.count) break;
+            NSDictionary *d = raw[index];
+            radio.subtitle = [d valueForKey:@"category"] ?: [d valueForKey:@"rcmdtext"];
+            index++;
+        }
+        if (completion) completion(radios, nil);
+    }
+                                             failure:^(NSError *error) {
+        if (completion) completion(@[], error);
+    }];
+}
+
+- (void)fetchNewAlbumsWithLimit:(NSInteger)limit
+                     completion:(void (^)(NSArray<SongListModel *> *, NSError * _Nullable))completion {
+    NSString *urlString = [NSString stringWithFormat:@"%@/album/new?area=ALL&limit=%ld",
+                           kNeteaseBaseURL, (long)MAX(limit, 1)];
+    [[NetworkManager sharedInstance] GETWithURLString:urlString
+                                          parameters:nil
+                                             success:^(id responseObject) {
+        NSArray<SongListModel *> *albums = [self playlistsFromArray:[responseObject valueForKeyPath:@"albums"]
+                                                              limit:limit];
+        // 副标题用专辑歌手名
+        NSArray *raw = [responseObject valueForKeyPath:@"albums"];
+        NSUInteger index = 0;
+        for (SongListModel *album in albums) {
+            if (index >= raw.count) break;
+            NSArray *artists = [raw[index] valueForKey:@"artists"];
+            album.subtitle = [artists.firstObject valueForKey:@"name"];
+            index++;
+        }
+        if (completion) completion(albums, nil);
+    }
+                                             failure:^(NSError *error) {
+        if (completion) completion(@[], error);
+    }];
+}
+
+- (void)fetchArtistSongsWithId:(NSString *)artistId
+                    completion:(void (^)(NSArray<Song *> *, NSError * _Nullable))completion {
+    if (artistId.length == 0) {
+        if (completion) completion(@[], [self errorWithCode:1001 message:@"artistId 为空"]);
+        return;
+    }
+    NSString *urlString = [NSString stringWithFormat:@"%@/artists?id=%@",
+                           kNeteaseBaseURL, [self URLEncoded:artistId]];
+    [self fetchSongsFromURLString:urlString arrayKeyPath:@"hotSongs" completion:completion];
+}
+
+- (void)fetchAlbumSongsWithId:(NSString *)albumId
+                   completion:(void (^)(NSArray<Song *> *, NSError * _Nullable))completion {
+    if (albumId.length == 0) {
+        if (completion) completion(@[], [self errorWithCode:1001 message:@"albumId 为空"]);
+        return;
+    }
+    NSString *urlString = [NSString stringWithFormat:@"%@/album?id=%@",
+                           kNeteaseBaseURL, [self URLEncoded:albumId]];
+    [self fetchSongsFromURLString:urlString arrayKeyPath:@"songs" completion:completion];
+}
+
+#pragma mark - 工具
+
+/// 把接口下发的歌曲字典数组转成 Song 模型数组（逐个用 YYModel 解析，跳过解析失败的）
+- (NSArray<Song *> *)songsFromArray:(NSArray *)array {
+    NSMutableArray<Song *> *list = [NSMutableArray array];
+    for (id item in array) {
+        if ([item isKindOfClass:NSDictionary.class]) {
+            Song *song = [Song yy_modelWithDictionary:item];
+            if (song) [list addObject:song];
+        }
+    }
+    return [list copy];
+}
+
+/// 按 keyPath 取歌曲数组并解析（艺人 hotSongs / 专辑 songs 都走这里）
+- (void)fetchSongsFromURLString:(NSString *)urlString
+                  arrayKeyPath:(NSString *)keyPath
+                    completion:(void (^)(NSArray<Song *> *, NSError * _Nullable))completion {
+    [[NetworkManager sharedInstance] GETWithURLString:urlString
+                                          parameters:nil
+                                             success:^(id responseObject) {
+        NSArray *raw = [responseObject valueForKeyPath:keyPath];
+        if ([raw isKindOfClass:NSArray.class] && raw.count > 0) {
+            if (completion) completion([self songsFromArray:raw], nil);
+        } else {
+            if (completion) completion(@[], [self errorWithCode:404 message:@"未找到歌曲"]);
+        }
+    }
+                                             failure:^(NSError *error) {
+        if (completion) completion(@[], error);
+    }];
+}
+
+/// 榜单 / 电台 / 专辑这类「有 id+name+封面」的对象统一转成 SongListModel，最多取 limit 个
+- (NSArray<SongListModel *> *)playlistsFromArray:(id)array limit:(NSInteger)limit {
+    NSMutableArray<SongListModel *> *list = [NSMutableArray array];
+    if (![array isKindOfClass:NSArray.class]) return @[];
+    for (id item in array) {
+        if (![item isKindOfClass:NSDictionary.class]) continue;
+        SongListModel *model = [SongListModel yy_modelWithDictionary:item];
+        if (model.playlistId.length > 0 && model.playlistName.length > 0) {
+            [list addObject:model];
+        }
+        if ((NSInteger)list.count >= limit) break;
+    }
+    return [list copy];
+}
+
+- (NSString *)URLEncoded:(NSString *)string {
+    if (!string) return @"";
+    return [string stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLQueryAllowedCharacterSet]] ?: string;
 }
 
 - (NSError *)errorWithCode:(NSInteger)code message:(NSString *)message {

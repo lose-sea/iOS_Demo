@@ -175,6 +175,103 @@
     return section;
 }
 
+#pragma mark - 网络数据分区
+
++ (HomeSection *)shortcutSectionWithPlaylists:(NSArray<SongListModel *> *)playlists {
+    HomeSection *section = [[HomeSection alloc] init];
+    section.title = @"";
+    section.type = HomeSectionTypeShortcut;
+
+    NSMutableArray<HomeCard *> *cards = [NSMutableArray array];
+    for (SongListModel *playlist in playlists) {
+        HomeCard *card = [self cardWithImage:playlist.coverURL
+                                      title:playlist.playlistName
+                                   subtitle:@"官方榜单"
+                                      badge:nil];
+        card.source = HomeCardSourcePlaylist;
+        card.sourceId = playlist.playlistId;
+        [cards addObject:card];
+    }
+    section.cards = [cards copy];
+    return section;
+}
+
++ (HomeSection *)artistSectionWithSingers:(NSArray<Singer *> *)singers {
+    HomeSection *section = [[HomeSection alloc] init];
+    section.title = @"你喜欢的艺人";
+    section.type = HomeSectionTypeArtist;
+
+    NSMutableArray<HomeCard *> *cards = [NSMutableArray array];
+    for (Singer *singer in singers) {
+        HomeCard *card = [self cardWithImage:singer.avatarURL
+                                      title:singer.singerName
+                                   subtitle:@"热门歌手"
+                                      badge:nil];
+        card.source = HomeCardSourceArtist;
+        card.sourceId = singer.singerId;
+        [cards addObject:card];
+    }
+    section.cards = [cards copy];
+    return section;
+}
+
++ (HomeSection *)circleSectionWithSingers:(NSArray<Singer *> *)singers {
+    HomeSection *section = [[HomeSection alloc] init];
+    section.title = @"你最喜欢的艺人";
+    section.type = HomeSectionTypeCircle;
+
+    NSMutableArray<HomeCard *> *cards = [NSMutableArray array];
+    for (Singer *singer in singers) {
+        HomeCard *card = [self cardWithImage:singer.avatarURL
+                                      title:singer.singerName
+                                   subtitle:@""
+                                      badge:nil];
+        card.source = HomeCardSourceArtist;
+        card.sourceId = singer.singerId;
+        [cards addObject:card];
+    }
+    section.cards = [cards copy];
+    return section;
+}
+
++ (HomeSection *)radioSectionWithRadios:(NSArray<SongListModel *> *)radios {
+    HomeSection *section = [[HomeSection alloc] init];
+    section.title = @"推荐电台";
+    section.type = HomeSectionTypeRadio;
+
+    NSMutableArray<HomeCard *> *cards = [NSMutableArray array];
+    for (SongListModel *radio in radios) {
+        HomeCard *card = [self cardWithImage:radio.coverURL
+                                      title:radio.playlistName
+                                   subtitle:radio.subtitle ?: @"电台"
+                                      badge:@"电台"];
+        // 电台没有「歌曲列表」接口，点进去按电台名搜歌
+        card.source = HomeCardSourceKeyword;
+        [cards addObject:card];
+    }
+    section.cards = [cards copy];
+    return section;
+}
+
++ (HomeSection *)albumSectionWithAlbums:(NSArray<SongListModel *> *)albums {
+    HomeSection *section = [[HomeSection alloc] init];
+    section.title = @"收录你喜爱歌曲的专辑";
+    section.type = HomeSectionTypePlaylist;
+
+    NSMutableArray<HomeCard *> *cards = [NSMutableArray array];
+    for (SongListModel *album in albums) {
+        HomeCard *card = [self cardWithImage:album.coverURL
+                                      title:album.playlistName
+                                   subtitle:album.subtitle ?: @""
+                                      badge:nil];
+        card.source = HomeCardSourceAlbum;
+        card.sourceId = album.playlistId;
+        [cards addObject:card];
+    }
+    section.cards = [cards copy];
+    return section;
+}
+
 #pragma mark - Private
 // 创建卡片
 + (HomeCard *)cardWithImage:(NSString *)imageURL

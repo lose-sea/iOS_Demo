@@ -11,11 +11,12 @@ NS_ASSUME_NONNULL_BEGIN
 
 @class Song;
 @class SongListModel;
+@class Singer;
 
-/// 网易云音乐开放平台服务（AppID/AppSecret/PrivateKey 方式接入）
+/// 网易云音乐服务：本地 Node 接口（NeteaseCloudMusicApi，默认 http://localhost:3000）
 ///
-/// ⚠️ 待补齐：签名与 access_token 流程需要按开放平台文档实现，
-/// 目前除批量获取歌曲信息外，其余方法返回“未接入”错误。
+/// 接学长博客那套本地服务即可，无需 AppID / 签名。
+/// 模拟器 localhost 直连；真机需换 Mac 局域网 IP 并放行 ATS。
 @interface NeteaseService : NSObject
 
 + (instancetype)sharedInstance;
@@ -42,6 +43,32 @@ NS_ASSUME_NONNULL_BEGIN
 /// 歌词（做歌词滚动时用）
 - (void)fetchLyricWithId:(NSString *)songId
               completion:(void (^)(NSString * _Nullable lyric, NSError * _Nullable error))completion;
+
+#pragma mark - 首页分区
+
+/// 官方榜单列表（飙升榜 / 新歌榜 / 原创榜 …），首页快捷入口
+- (void)fetchToplistWithLimit:(NSInteger)limit
+                   completion:(void (^)(NSArray<SongListModel *> *playlists, NSError * _Nullable error))completion;
+
+/// 热门歌手，首页「你喜欢的艺人」
+- (void)fetchTopArtistsWithLimit:(NSInteger)limit
+                      completion:(void (^)(NSArray<Singer *> *singers, NSError * _Nullable error))completion;
+
+/// 热门电台，首页「推荐电台」（电台没有歌曲列表，点进去按电台名搜歌曲）
+- (void)fetchHotRadiosWithLimit:(NSInteger)limit
+                     completion:(void (^)(NSArray<SongListModel *> *radios, NSError * _Nullable error))completion;
+
+/// 最新专辑，首页「收录你喜爱歌曲的专辑」
+- (void)fetchNewAlbumsWithLimit:(NSInteger)limit
+                     completion:(void (^)(NSArray<SongListModel *> *albums, NSError * _Nullable error))completion;
+
+/// 艺人热门歌曲（点艺人卡时用）
+- (void)fetchArtistSongsWithId:(NSString *)artistId
+                    completion:(void (^)(NSArray<Song *> *songs, NSError * _Nullable error))completion;
+
+/// 专辑歌曲（点专辑卡时用）
+- (void)fetchAlbumSongsWithId:(NSString *)albumId
+                   completion:(void (^)(NSArray<Song *> *songs, NSError * _Nullable error))completion;
 
 @end
 

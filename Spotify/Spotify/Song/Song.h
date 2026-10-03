@@ -45,6 +45,11 @@ NS_ASSUME_NONNULL_BEGIN
 /// 想换成自己/真实的歌：把 mp3 拖进工程后直接写文件名，或填一个 http(s) 直链即可，不需要改这里。
 + (NSString *)demoAudioURLAtIndex:(NSUInteger)index;
 
+/// 网易资源（封面 / 音频）部分接口下发 http 链接，会被 ATS 直接拦掉
+/// （Info.plist 只放行了少数域名）；同一地址 CDN 支持 https，加载前统一升级。
+/// 歌曲 / 歌单 / 歌手封面、歌曲播放地址都走这里。
++ (NSString *)secureURL:(NSString *)url;
+
 @end
 
 NS_ASSUME_NONNULL_END

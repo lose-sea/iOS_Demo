@@ -44,6 +44,11 @@
                                              selector:@selector(playerModelDidChange)
                                                  name:PlayerModelDidChangeNotification
                                                object:nil];
+    // 详情页 / 歌单页改了收藏，这里也要跟着换红心
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(favouriteDidChange:)
+                                                 name:FavouriteDidChangeNotification
+                                               object:nil];
 
     
 
@@ -127,6 +132,11 @@
     [self refreshUI];
 }
 
+// 别的地方（详情页 / 歌单页）改了当前歌的收藏，mini player 要同步红心
+- (void)favouriteDidChange:(NSNotification *)notification {
+    [self refreshUI];
+}
+
 
 
 
@@ -148,11 +158,13 @@
     [self.playerView.playButton setImage:[UIImage systemImageNamed:iconName]
                                 forState:UIControlStateNormal];
 
-    // 喜欢按钮状态
-    NSString *favIcon = song.isFavourite ? @"heart.fill" : @"heart";
+    // 喜欢按钮状态：问 FavouriteManager 而不是读 song.isFavourite，
+    // 同一首歌在别的页面可能是另一个实例，只有按 songId 判断才一致
+    BOOL favourite = [[FavouriteManager sharedInstance] isFavouriteSong:song];
+    NSString *favIcon = favourite ? @"heart.fill" : @"heart";
     [self.playerView.favouriteButton setImage:[UIImage systemImageNamed:favIcon]
                                      forState:UIControlStateNormal];
-    self.playerView.favouriteButton.tintColor = song.isFavourite
+    self.playerView.favouriteButton.tintColor = favourite
         ? [UIColor systemPinkColor]
         : [UIColor labelColor];
 }

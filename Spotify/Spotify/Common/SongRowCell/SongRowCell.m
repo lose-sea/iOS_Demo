@@ -8,6 +8,7 @@
 #import "SongRowCell.h"
 #import "Song.h"
 #import "Singer.h"
+#import "FavouriteManager.h"
 #import "UIImageView+Spotify.h"
 #import <Masonry/Masonry.h>
 
@@ -121,10 +122,13 @@ static const CGFloat kButtonSide = 44.0;
     self.playButton.tintColor = isPlaying ? [UIColor systemGreenColor] : [UIColor labelColor];
 
     // 收藏状态：实心红心 + 粉色
-    NSString *favIcon = song.isFavourite ? @"heart.fill" : @"heart";
+    // 问 FavouriteManager（按 songId 判断），别读 song.isFavourite：
+    // 列表里的实例和正在播放的实例可能不是同一个，读自己的标记会和「我的喜欢」不一致
+    BOOL favourite = [[FavouriteManager sharedInstance] isFavouriteSong:song];
+    NSString *favIcon = favourite ? @"heart.fill" : @"heart";
     [self.favouriteButton setImage:[UIImage systemImageNamed:favIcon withConfiguration:config]
                           forState:UIControlStateNormal];
-    self.favouriteButton.tintColor = song.isFavourite
+    self.favouriteButton.tintColor = favourite
         ? [UIColor systemPinkColor]
         : [UIColor secondaryLabelColor];
 }

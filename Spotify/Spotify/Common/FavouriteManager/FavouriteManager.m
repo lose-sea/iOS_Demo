@@ -23,6 +23,20 @@ NSString *const FavouriteDidChangeNotification = @"FavouriteDidChangeNotificatio
 
 #pragma mark - 收藏歌曲
 
+/// 同一首歌在不同页面可能是不同实例（每个接口各解析一次，比如默认曲库和「每日推荐」都取自热歌榜），
+/// 所以优先按 songId 匹配，没有 id 的本地占位歌才退回指针比较
+- (Song *)favouriteSongMatching:(Song *)song {
+    if (!song) return nil;
+    for (Song *item in [UserModel sharedInstance].favoriteSongs) {
+        if (song.songId.length > 0 && item.songId.length > 0) {
+            if ([item.songId isEqualToString:song.songId]) return item;
+        } else if (item == song) {
+            return item;
+        }
+    }
+    return nil;
+}
+
 - (void)setSong:(Song *)song favourite:(BOOL)favourite {
     if (!song) return;
 
@@ -31,12 +45,12 @@ NSString *const FavouriteDidChangeNotification = @"FavouriteDidChangeNotificatio
     song.isFavourite = favourite;
 
     NSMutableArray<Song *> *songs = [user.favoriteSongs mutableCopy] ?: [NSMutableArray array];
+    Song *existing = [self favouriteSongMatching:song];
     if (favourite) {
-        if (![songs containsObject:song]) {
-            [songs addObject:song];     // 新喜欢的歌排到最后
-        }
-    } else {
-        [songs removeObject:song];      // 取消喜欢就从「我的喜欢」里移除
+        if (!existing) [songs addObject:song];     // 新喜欢的歌排到最后
+    } else if (existing) {
+        [songs removeObject:existing];             // 取消喜欢就从「我的喜欢」里移除
+        existing.isFavourite = NO;                 // 同 id 的另一个实例也要把标记清掉
     }
     user.favoriteSongs = [songs copy];
 
@@ -47,11 +61,13 @@ NSString *const FavouriteDidChangeNotification = @"FavouriteDidChangeNotificatio
 }
 
 - (void)toggleFavouriteForSong:(Song *)song {
-    [self setSong:song favourite:!song.isFavourite];
+    // 用 isFavouriteSong: 而不是 song.isFavourite：同一首歌的别的实例可能已经收藏过，
+    // 只看自己这个实例会「取消」不成、反而重复收藏
+    [self setSong:song favourite:![self isFavouriteSong:song]];
 }
 
 - (BOOL)isFavouriteSong:(Song *)song {
-    return song ? [[UserModel sharedInstance].favoriteSongs containsObject:song] : NO;
+    return [self favouriteSongMatching:song] != nil;
 }
 
 #pragma mark - 收藏歌单

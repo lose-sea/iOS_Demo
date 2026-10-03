@@ -8,8 +8,12 @@
 #import "PlayerModel.h"
 #import "SPAudioPlayer.h"
 #import "UserModel.h"
+#import "NeteaseService.h"
 
 NSString *const PlayerModelDidChangeNotification = @"PlayerModelDidChangeNotification";
+
+/// 默认歌曲取自这张官方榜单（热歌榜）
+static NSString * const kDefaultPlaylistId = @"3778678";
 
 @implementation PlayerModel
 
@@ -44,6 +48,51 @@ NSString *const PlayerModelDidChangeNotification = @"PlayerModelDidChangeNotific
     _isPlay = NO;
     // 先把音频源准备好，等用户点播放再出声（App 启动就响会很打扰）
     [[SPAudioPlayer sharedPlayer] prepareSong:song];
+
+    // 上面的本地歌只是占位：本地 Node 服务可用时换成热歌榜第一首
+    [self loadDefaultSongFromNetwork];
+}
+
+/// 默认歌曲换成热歌榜第一首（播放地址现取）；服务不可用 / 取不到地址时保留上面的占位歌
+- (void)loadDefaultSongFromNetwork {
+    __weak typeof(self) weakSelf = self;
+    [[NeteaseService sharedInstance] fetchPlaylistDetailWithId:kDefaultPlaylistId
+                                                    completion:^(SongListModel *playlist, NSError *error) {
+        dispatch_async(dispatch_get_main_queue(), ^{
+            Song *first = playlist.songs.firstObject;
+            if (!first) {
+                NSLog(@"[Player] 默认歌曲拉取失败：%@", error.localizedDescription);
+                return;
+            }
+            [weakSelf prepareDefaultSong:first inPlaylist:playlist];
+        });
+    }];
+}
+
+/// 播放地址有时效，取到地址后再把这首设为默认（只预置不出声）
+- (void)prepareDefaultSong:(Song *)song inPlaylist:(SongListModel *)playlist {
+    [[NeteaseService sharedInstance] fetchSongURLWithId:song.songId
+                                            completion:^(NSString *url, NSError *error) {
+        dispatch_async(dispatch_get_main_queue(), ^{
+            if (url.length == 0) {
+                NSLog(@"[Player] 默认歌曲取播放地址失败：%@", error.localizedDescription);
+                return;
+            }
+            song.audioURL = url;
+
+            playlist.playlistName = @"热歌榜";
+            playlist.coverURL = song.coverURL;
+            _currentPlayList = playlist;
+            // 直接改 ivar：走 setCurrentSong: 会立刻出声，启动时不该自动播
+            _currentSong = song;
+            _isPlay = NO;
+            [[SPAudioPlayer sharedPlayer] prepareSong:song];
+
+            [[NSNotificationCenter defaultCenter] postNotificationName:PlayerModelDidChangeNotification
+                                                                object:self
+                                                              userInfo:@{@"changed": @"song"}];
+        });
+    }];
 }
 
 #pragma mark - 音频引擎

@@ -16,6 +16,8 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, copy) NSString *playlistName;
 /// 封面地址：网络 URL 或本地资源名
 @property (nonatomic, copy) NSString *coverURL;
+/// 副标题：专辑的歌手名 / 电台的分类，首页卡片展示用，歌单页不读
+@property (nonatomic, copy, nullable) NSString *subtitle;
 @property (nonatomic, strong) NSArray<Song *> *songs;
 
 /// 系统默认歌单（如“我的喜欢”）：默认存在，不可删除

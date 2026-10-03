@@ -13,6 +13,7 @@
 #import "PlayerModel.h"
 #import "FavouriteManager.h"
 #import "Song.h"
+#import "NeteaseService.h"
 
 @interface SongListShowViewController () <UITableViewDelegate, UITableViewDataSource,
                                           HomeViewTableViewCellDelegate>
@@ -60,9 +61,19 @@
                                              selector:@selector(playerModelDidChange)
                                                  name:PlayerModelDidChangeNotification
                                                object:nil];
+    // 在详情页 / mini player 收藏了列表里的歌，回到这页（或这页就在下面）时红心要同步
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(favouriteDidChange:)
+                                                 name:FavouriteDidChangeNotification
+                                               object:nil];
 }
 
 - (void)playerModelDidChange {
+    [self.songListView.tableView reloadData];
+}
+
+// 收藏状态变了：重刷整张列表，让每一行的红心都和「我的喜欢」一致
+- (void)favouriteDidChange:(NSNotification *)notification {
     [self.songListView.tableView reloadData];
 }
 
@@ -95,6 +106,15 @@
     [self.songListView.moreButton addTarget:self
                                      action:@selector(pressMoreButton)
                            forControlEvents:UIControlEventTouchUpInside];
+}
+
+#pragma mark - 异步回填
+
+// 首页卡片点进来时歌曲还没到，到了之后填进当前歌单并刷新（header 的「N 首歌曲」也要更新）
+- (void)updateWithSongs:(NSArray<Song *> *)songs {
+    self.songList.songs = songs ?: @[];
+    [self.songListView configureWithSongList:self.songList];
+    [self.songListView.tableView reloadData];
 }
 
 #pragma mark - UITableViewDataSource
@@ -136,14 +156,9 @@
     Song *song = self.songList.songs[indexPath.row];
     // 统一入口：同步「我的喜欢」歌单
     [[FavouriteManager sharedInstance] toggleFavouriteForSong:song];
+    // FavouriteManager 会发 FavouriteDidChangeNotification，本页和播放器都会自己刷新，不用再手动同步
     [self.songListView.tableView reloadRowsAtIndexPaths:@[indexPath]
                                       withRowAnimation:UITableViewRowAnimationNone];
-
-    // 收藏的正好是当前播放的歌时，通知播放器页面同步红心
-    if (song == [PlayerModel sharedInstance].currentSong) {
-        [[NSNotificationCenter defaultCenter] postNotificationName:PlayerModelDidChangeNotification
-                                                            object:[PlayerModel sharedInstance]];
-    }
 
     NSLog(@"%@收藏：%@", song.isFavourite ? @"" : @"取消", song.songName);
     // TODO: 接 WCDB 后在这里写收藏表（FavoriteDAO）
@@ -223,9 +238,25 @@
     NSArray<Song *> *songs = self.songList.songs;
     if (index >= songs.count) return;
 
+    Song *song = songs[index];
+
     // 先设置歌单，上一首/下一首才知道在哪个列表里切
     [PlayerModel sharedInstance].currentPlayList = self.songList;
-    [[PlayerViewController sharedInstance] playSong:songs[index]];
+
+    // 搜索等接口拿到的歌可能还没有播放地址，播放前现取一次（已取过则直接播）
+    if (song.audioURL.length == 0 && song.songId.length > 0) {
+        [[NeteaseService sharedInstance] fetchSongURLWithId:song.songId
+                                                 completion:^(NSString *url, NSError *error) {
+            if (url.length > 0) {
+                song.audioURL = url;
+            } else {
+                NSLog(@"[SongList] 取播放地址失败：%@", error.localizedDescription);
+            }
+            [[PlayerViewController sharedInstance] playSong:song];
+        }];
+    } else {
+        [[PlayerViewController sharedInstance] playSong:song];
+    }
 }
 
 @end

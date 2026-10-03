@@ -13,6 +13,9 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+/// 网络曲库加载完成（最近播放 / 我的喜欢 / 我的歌单已填好），「我的」页面收到后刷新
+extern NSString *const UserModelLibraryDidLoadNotification;
+
 /// 全局当前用户（单例）：各页面统一通过 sharedInstance 读写同一份数据
 /// 只存数据；收藏 / 取消收藏请走 FavouriteManager
 @interface UserModel : NSObject

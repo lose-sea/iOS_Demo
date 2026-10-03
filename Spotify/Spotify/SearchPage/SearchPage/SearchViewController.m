@@ -141,7 +141,9 @@ static const NSInteger kMaxHistoryCount = 5;
 
 - (void)setUpSearchController {
     self.resultsViewController = [[SearchResultShowViewController alloc] init];
-    self.searchController = [[UISearchController alloc] initWithSearchResultsController:self.resultsViewController];
+    // 结果页点 cell 要 push 进详情页，所以把它包一层导航控制器
+    UINavigationController *resultsNav = [[UINavigationController alloc] initWithRootViewController:self.resultsViewController];
+    self.searchController = [[UISearchController alloc] initWithSearchResultsController:resultsNav];
     self.searchController.searchResultsUpdater = self;
     self.searchController.delegate = self;
     self.searchController.obscuresBackgroundDuringPresentation = NO;

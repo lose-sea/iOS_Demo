@@ -31,7 +31,7 @@ UIKIT_EXTERN NSString *const FavouriteDidChangeNotification;
 - (void)setSong:(Song *)song favourite:(BOOL)favourite;
 /// 取反
 - (void)toggleFavouriteForSong:(Song *)song;
-/// 这首歌是否已收藏
+/// 这首歌是否已收藏：优先按 songId 匹配，同一首歌的不同实例结果一致
 - (BOOL)isFavouriteSong:(Song *)song;
 
 #pragma mark - 收藏歌单

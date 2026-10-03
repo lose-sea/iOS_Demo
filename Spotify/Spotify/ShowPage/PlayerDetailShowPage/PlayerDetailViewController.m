@@ -13,6 +13,7 @@
 #import "FavouriteManager.h"
 #import "Song.h"
 #import "Singer.h"
+#import "NeteaseService.h"
 #import "UIImageView+Spotify.h"
 #import <SDWebImage/SDWebImage.h>
 #import <Masonry/Masonry.h>
@@ -23,6 +24,12 @@
 @property (nonatomic, strong) PlayerModel *playerModel;
 /// 正在拖动进度条时暂停自动回写，避免手指被系统回调顶回去
 @property (nonatomic, assign) BOOL isDraggingProgress;
+/// 解析后的歌词行：@[@{@"t": 秒数, @"w": 文本}, ...]，按时间升序
+@property (nonatomic, copy) NSArray<NSDictionary *> *lyricLines;
+/// 已加载歌词对应的歌曲 ID，避免每次 refreshUI（切歌/收藏）都重复请求
+@property (nonatomic, copy) NSString *lastLyricSongId;
+/// 歌词请求进行中标记，防止同一首歌并发重复拉取
+@property (nonatomic, assign) BOOL isLyricLoading;
 
 @end
 
@@ -133,6 +140,11 @@
                                              selector:@selector(audioPlayerSongDidChange:)
                                                  name:SPAudioPlayerDidChangeSongNotification
                                                object:nil];
+    // 收藏在别处被改（mini player / 歌单页）时同步红心
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(favouriteDidChange:)
+                                                 name:FavouriteDidChangeNotification
+                                               object:nil];
 }
 
 #pragma mark - UI 刷新
@@ -153,11 +165,13 @@
     [self.detailView.playButton setImage:[UIImage systemImageNamed:playIcon]
                                 forState:UIControlStateNormal];
 
-    // 喜欢状态
-    NSString *favIcon = song.isFavourite ? @"heart.fill" : @"heart";
+    // 喜欢状态：问 FavouriteManager 而不是读 song.isFavourite，
+    // 同一首歌在别的页面可能是另一个实例，只有按 songId 判断才一致
+    BOOL favourite = [[FavouriteManager sharedInstance] isFavouriteSong:song];
+    NSString *favIcon = favourite ? @"heart.fill" : @"heart";
     [self.detailView.favouriteButton setImage:[UIImage systemImageNamed:favIcon]
                                      forState:UIControlStateNormal];
-    self.detailView.favouriteButton.tintColor = song.isFavourite
+    self.detailView.favouriteButton.tintColor = favourite
         ? [UIColor systemPinkColor]
         : [UIColor labelColor];
 
@@ -168,6 +182,7 @@
     self.detailView.moreButton.menu = [self makeMoreMenu];
 
     [self refreshProgressUI];
+    [self fetchAndShowLyric];
 }
 
 #pragma mark - 进度
@@ -188,6 +203,7 @@
 - (void)audioPlayerProgressDidChange:(NSNotification *)notification {
     if (self.isDraggingProgress) return;
     [self refreshProgressUI];
+    [self updateLyricAtTime:[SPAudioPlayer sharedPlayer].currentTime];
 }
 
 - (void)audioPlayerSongDidChange:(NSNotification *)notification {
@@ -198,6 +214,113 @@
 
 - (void)playerModelDidChange {
     [self refreshUI];
+}
+
+// 收藏在别处被改（mini player / 歌单页）时同步红心
+- (void)favouriteDidChange:(NSNotification *)notification {
+    [self refreshUI];
+}
+
+#pragma mark - 歌词
+
+/// 拉取当前歌曲歌词并解析。refreshUI 会在切歌/收藏等场景被多次调用，这里用 lastLyricSongId 去重，避免重复请求和刷新进度被重置
+- (void)fetchAndShowLyric {
+    Song *song = self.playerModel.currentSong;
+    if (!song || song.songId.length == 0) {
+        self.lyricLines = @[];
+        self.detailView.currentLyricsLabel.text = @"暂无歌词";
+        self.detailView.nextLyricsLabel.text = @"";
+        return;
+    }
+    // 同一首歌：已加载或正在加载就别再请求，直接按当前进度刷新显示
+    if ([self.lastLyricSongId isEqualToString:song.songId]
+        && (self.lyricLines.count > 0 || self.isLyricLoading)) {
+        [self updateLyricAtTime:[SPAudioPlayer sharedPlayer].currentTime];
+        return;
+    }
+
+    self.lastLyricSongId = song.songId;
+    self.isLyricLoading = YES;
+    self.lyricLines = @[];   // 先清空，避免显示上一首残留
+
+    __weak typeof(self) weakSelf = self;
+    [[NeteaseService sharedInstance] fetchLyricWithId:song.songId
+                                          completion:^(NSString *lyric, NSError *error) {
+        dispatch_async(dispatch_get_main_queue(), ^{
+            weakSelf.isLyricLoading = NO;
+            if (!lyric || lyric.length == 0) {
+                weakSelf.lyricLines = @[];
+                weakSelf.detailView.currentLyricsLabel.text = @"暂无歌词";
+                weakSelf.detailView.nextLyricsLabel.text = @"";
+                return;
+            }
+            weakSelf.lyricLines = [weakSelf parseLyric:lyric];
+            [weakSelf updateLyricAtTime:[SPAudioPlayer sharedPlayer].currentTime];
+        });
+    }];
+}
+
+/// 把 LRC 文本解析成 @[@{@"t":秒数, @"w":文本}]。支持一行多时间戳（[00:01.00][00:05.00]文本）、忽略 [ti:]/[ar:] 等元数据
+- (NSArray<NSDictionary *> *)parseLyric:(NSString *)lyric {
+    NSMutableArray<NSDictionary *> *lines = [NSMutableArray array];
+    NSArray<NSString *> *rawLines = [lyric componentsSeparatedByString:@"\n"];
+    NSRegularExpression *regex = [NSRegularExpression regularExpressionWithPattern:@"\\[(\\d{2}):(\\d{2})(?:\\.(\\d{1,3}))?\\]"
+                                                                           options:0
+                                                                             error:nil];
+    for (NSString *line in rawLines) {
+        if (line.length == 0) continue;
+        NSArray<NSTextCheckingResult *> *matches = [regex matchesInString:line
+                                                                   options:0
+                                                                     range:NSMakeRange(0, line.length)];
+        if (matches.count == 0) continue;   // 没有时间戳的行（元数据标签）直接跳过
+
+        // 文本 = 最后一个时间戳之后的内容
+        NSTextCheckingResult *last = matches.lastObject;
+        NSString *text = [line substringFromIndex:last.range.location + last.range.length];
+        text = [text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+
+        for (NSTextCheckingResult *m in matches) {
+            NSInteger min = [[line substringWithRange:[m rangeAtIndex:1]] integerValue];
+            NSInteger sec = [[line substringWithRange:[m rangeAtIndex:2]] integerValue];
+            NSString *fracStr = [m rangeAtIndex:3].length > 0 ? [line substringWithRange:[m rangeAtIndex:3]] : @"0";
+            double frac = fracStr.doubleValue / pow(10.0, (double)fracStr.length);
+            NSTimeInterval t = min * 60 + sec + frac;
+            [lines addObject:@{@"t": @(t), @"w": text ?: @""}];
+        }
+    }
+    // 按时间升序，多时间戳展开后也保持顺序
+    [lines sortUsingComparator:^NSComparisonResult(NSDictionary *a, NSDictionary *b) {
+        return [a[@"t"] compare:b[@"t"]];
+    }];
+    return [lines copy];
+}
+
+/// 根据播放进度定位当前行 / 下一行，更新两个 label
+- (void)updateLyricAtTime:(NSTimeInterval)currentTime {
+    if (self.lyricLines.count == 0) {
+        self.detailView.currentLyricsLabel.text = @"暂无歌词";
+        self.detailView.nextLyricsLabel.text = @"";
+        return;
+    }
+    NSDictionary *currentLine = nil;
+    NSDictionary *nextLine = nil;
+    for (NSInteger i = 0; i < (NSInteger)self.lyricLines.count; i++) {
+        NSDictionary *line = self.lyricLines[i];
+        NSTimeInterval t = [line[@"t"] doubleValue];
+        if (t <= currentTime + 0.15) {   // 容差，避免正好卡在边界时抖动
+            currentLine = line;
+            if (i + 1 < (NSInteger)self.lyricLines.count) {
+                nextLine = self.lyricLines[i + 1];
+            }
+        } else {
+            break;
+        }
+    }
+    if (!currentLine) {
+        currentLine = self.lyricLines.firstObject;   // 还没到第一句，先显示第一句
+    }
+    self.detailView.currentLyricsLabel.text = currentLine[@"w"] ?: @"";
+    self.detailView.nextLyricsLabel.text = nextLine[@"w"] ?: @"";
 }
 
 #pragma mark - 事件
@@ -347,3 +470,6 @@
 }
 
 @end
+
+
+

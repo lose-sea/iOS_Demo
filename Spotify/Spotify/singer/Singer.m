@@ -27,15 +27,23 @@
 
 #pragma mark - YYModel
 
-// 歌手字段映射，网易云接口确认后补齐
+// 歌手字段映射（网易云接口字段）
 + (NSDictionary *)modelCustomPropertyMapper {
     return @{@"singerId"   : @"id",
-             @"singerName" : @"name"};
+             @"singerName" : @"name",
+             // 头像：搜索接口给 img1v1Url，详情接口可能给 picUrl，都兜底
+             @"avatarURL"  : @[@"img1v1Url", @"picUrl"]};
 }
 
 // 数组里元素的类型
 + (NSDictionary *)modelContainerPropertyGenericClass {
     return @{@"songs" : Song.class};
+}
+
+/// 歌手头像同样可能被 ATS 拦掉，统一升级成 https
+- (BOOL)modelCustomTransformFromDictionary:(NSDictionary *)dic {
+    self.avatarURL = [Song secureURL:self.avatarURL];
+    return YES;
 }
 
 @end

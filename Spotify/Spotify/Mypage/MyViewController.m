@@ -77,6 +77,11 @@
                                              selector:@selector(favouriteDidChange:)
                                                  name:FavouriteDidChangeNotification
                                                object:nil];
+    // 网络曲库是异步拉的，加载完本页可能已经在屏幕上，收到后要刷新一次
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(favouriteDidChange:)
+                                                 name:UserModelLibraryDidLoadNotification
+                                               object:nil];
 }
 
 - (void)favouriteDidChange:(NSNotification *)notification {

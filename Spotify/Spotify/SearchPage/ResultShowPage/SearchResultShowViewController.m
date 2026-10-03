@@ -7,20 +7,19 @@
 
 #import "SearchResultShowViewController.h"
 #import "HomeModel.h"
-#import "PlayerModel.h"
-#import "PlayerViewController.h"
-#import "FavouriteManager.h"
 #import "SongRowCell.h"
 #import "Song.h"
+#import "Singer.h"
+#import "SongListShowViewController.h"
+#import "NeteaseService.h"
 #import <Masonry/Masonry.h>
 
 static NSString * const kResultSongCellID = @"SearchResultSongCell";
 static const CGFloat kMiniPlayerReservedHeight = 64.0 + 24.0;
 /// 数据源尝试顺序（与 runProviderAtIndex: 的 case 顺序一致）
-static NSArray<NSString *> *kProviderNames = nil;   // 接好数据源后填，例如 @"网易云"
+static NSArray<NSString *> *kProviderNames = nil;   // 已接数据源：本地 Node 网易云接口
 
-@interface SearchResultShowViewController () <UITableViewDelegate, UITableViewDataSource,
-                                              HomeViewTableViewCellDelegate>
+@interface SearchResultShowViewController () <UITableViewDelegate, UITableViewDataSource>
 
 @property (nonatomic, strong) UITableView *tableView;
 @property (nonatomic, strong) UILabel *placeholderLabel;
@@ -35,7 +34,7 @@ static NSArray<NSString *> *kProviderNames = nil;   // 接好数据源后填，�
 
 + (void)initialize {
     if (self == SearchResultShowViewController.class) {
-        kProviderNames = @[];   // 网易云接好后填 @"网易云"
+        kProviderNames = @[@"网易云"];   // 本地 Node 网易云接口
     }
 }
 
@@ -157,15 +156,30 @@ static NSArray<NSString *> *kProviderNames = nil;   // 接好数据源后填，�
     }];
 }
 
-/// 具体某个数据源的请求（接网易云时在这里加 case 即可）
+/// 具体某个数据源的请求
 - (void)runProviderAtIndex:(NSInteger)index
                    keyword:(NSString *)keyword
                 completion:(void (^)(NSArray<Song *> *songs, NSError * _Nullable error))completion {
-    // 目前没有接入任何数据源
-    if (completion) {
-        completion(@[], [NSError errorWithDomain:@"com.spotify.search"
-                                           code:-1
-                                       userInfo:@{NSLocalizedDescriptionKey: @"暂无网络数据源"}]);
+    if (index < 0 || index >= kProviderNames.count) {
+        if (completion) {
+            completion(@[], [NSError errorWithDomain:@"com.spotify.search"
+                                               code:-1
+                                           userInfo:@{NSLocalizedDescriptionKey: @"暂无网络数据源"}]);
+        }
+        return;
+    }
+
+    NSString *name = kProviderNames[index];
+    if ([name isEqualToString:@"网易云"]) {
+        [[NeteaseService sharedInstance] searchSongsWithKeyword:keyword
+                                                          limit:30
+                                                     completion:completion];
+    } else {
+        if (completion) {
+            completion(@[], [NSError errorWithDomain:@"com.spotify.search"
+                                               code:-1
+                                           userInfo:@{NSLocalizedDescriptionKey: @"未知数据源"}]);
+        }
     }
 }
 
@@ -201,9 +215,11 @@ static NSArray<NSString *> *kProviderNames = nil;   // 接好数据源后填，�
         cell = [[SongRowCell alloc] initWithStyle:UITableViewCellStyleDefault
                                            reuseIdentifier:kResultSongCellID];
     }
-    cell.delegate = self;
     Song *song = self.songs[indexPath.row];
-    [cell configureWithSong:song isPlaying:(song == [PlayerModel sharedInstance].currentSong && [PlayerModel sharedInstance].isPlay)];
+    [cell configureWithSong:song isPlaying:NO];
+    // 结果列表只展示，不提供播放 / 收藏操作
+    cell.playButton.hidden = YES;
+    cell.favouriteButton.hidden = YES;
     return cell;
 }
 
@@ -215,55 +231,19 @@ static NSArray<NSString *> *kProviderNames = nil;   // 接好数据源后填，�
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
-    [self playSongAtIndex:indexPath.row];
-}
 
-#pragma mark - HomeViewTableViewCellDelegate
-
-- (void)songCellDidTapPlay:(SongRowCell *)cell {
-    NSIndexPath *indexPath = [self.tableView indexPathForCell:cell];
-    if (!indexPath) return;
-
-    Song *song = self.songs[indexPath.row];
-    PlayerModel *playerModel = [PlayerModel sharedInstance];
-    if (song == playerModel.currentSong) {
-        playerModel.isPlay = !playerModel.isPlay;   // 同一首：暂停 / 继续
-        return;
-    }
-    [self playSongAtIndex:indexPath.row];
-}
-
-- (void)songCellDidTapFavourite:(SongRowCell *)cell {
-    NSIndexPath *indexPath = [self.tableView indexPathForCell:cell];
-    if (!indexPath) return;
-
-    Song *song = self.songs[indexPath.row];
-    // 统一入口：同步「我的喜欢」歌单
-    [[FavouriteManager sharedInstance] toggleFavouriteForSong:song];
-    [self.tableView reloadRowsAtIndexPaths:@[indexPath]
-                          withRowAnimation:UITableViewRowAnimationNone];
-
-    // 收藏的正好是当前播放的歌时，同步播放器页面的红心
-    if (song == [PlayerModel sharedInstance].currentSong) {
-        [[NSNotificationCenter defaultCenter] postNotificationName:PlayerModelDidChangeNotification
-                                                            object:[PlayerModel sharedInstance]];
-    }
+    // 搜索结果只做展示，点 cell 进入详情页（详情页里才能播放 / 收藏）
+    Song *tappedSong = self.songs[indexPath.row];
+    SongListModel *list = [[SongListModel alloc] init];
+    list.playlistName = [NSString stringWithFormat:@"搜索：%@", self.keyword ?: @""];
+    // 头部大图用点中的这首歌的封面
+    list.coverURL = tappedSong.coverURL;
+    list.songs = self.songs;
+    SongListShowViewController *detail = [[SongListShowViewController alloc] init];
+    detail.songList = list;
+    [self.navigationController pushViewController:detail animated:YES];
 }
 
 #pragma mark - Private
-
-- (void)playSongAtIndex:(NSInteger)index {
-    if (index >= self.songs.count) return;
-
-    // 播放列表就是本次搜索结果，上一首 / 下一首在其中循环
-    // 搜索结果先包装成临时歌单，供上一首 / 下一首使用
-    // 把结果包装成一个临时歌单，供切歌使用
-    SongListModel *songList = [[SongListModel alloc] init];
-    songList.playlistName = [NSString stringWithFormat:@"搜索：%@", self.keyword ?: @""];
-    songList.songs = self.songs;
-    [PlayerModel sharedInstance].currentPlayList = songList;
-
-    [[PlayerViewController sharedInstance] playSong:self.songs[index]];
-}
 
 @end

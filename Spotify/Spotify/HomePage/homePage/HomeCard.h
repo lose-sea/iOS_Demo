@@ -11,6 +11,22 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+/// 卡片的数据来源：决定点进去之后怎么取歌曲
+typedef NS_ENUM(NSUInteger, HomeCardSource) {
+    /// 纯展示，没有可播放内容
+    HomeCardSourceNone = 0,
+    /// 已带 song，直接播（今日推荐）
+    HomeCardSourceSong,
+    /// 歌单 / 榜单 → /playlist/detail?id=
+    HomeCardSourcePlaylist,
+    /// 艺人 → /artists?id= 取热门歌曲
+    HomeCardSourceArtist,
+    /// 专辑 → /album?id= 取专辑歌曲
+    HomeCardSourceAlbum,
+    /// 关键字搜索（电台这类没有歌曲列表的对象，用卡片标题搜）
+    HomeCardSourceKeyword
+};
+
 /// 首页卡片数据（一张封面 + 主标题 + 副标题）
 @interface HomeCard : NSObject
 
@@ -26,6 +42,11 @@ NS_ASSUME_NONNULL_BEGIN
 /// 卡片对应的歌曲：网络数据才有，本地占位卡片为 nil。
 /// 有值时点卡片会用它所在的分区歌曲当播放列表，并直接播放这首歌
 @property (nonatomic, strong, nullable) Song *song;
+
+/// 歌曲来源类型
+@property (nonatomic, assign) HomeCardSource source;
+/// 对应 source 的 id（歌单 / 艺人 / 专辑 id）；HomeCardSourceKeyword 用 title 当关键字，这里为 nil
+@property (nonatomic, copy, nullable) NSString *sourceId;
 
 @end
 
