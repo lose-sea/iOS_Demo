@@ -9,8 +9,13 @@
 #import <Masonry/Masonry.h>
 
 static NSString * const kCoverRotationKey = @"coverRotation";
+/// 转一圈的时长（秒）
+static const NSTimeInterval kCoverRotationDuration = 20.0;
 
-@interface PlayerDetailView ()
+@interface PlayerDetailView () {
+    /// 封面当前停住的角度（弧度）。动画只改表现层，暂停后要把它写回模型层，否则会弹回 0°
+    CGFloat _coverRotationAngle;
+}
 
 @property (nonatomic, strong, readwrite) UIButton *closeButton;
 @property (nonatomic, strong, readwrite) UIImageView *coverImageView;
@@ -54,19 +59,29 @@ static NSString * const kCoverRotationKey = @"coverRotation";
 
 - (void)setUpCloseButton {
     self.closeButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    // 系统图标创建按钮
     UIImage *closeIcon = [UIImage systemImageNamed:@"chevron.down"
-                                  withConfiguration:[UIImageSymbolConfiguration configurationWithPointSize:20.0]];
+                                  withConfiguration:[UIImageSymbolConfiguration configurationWithPointSize:20.0]]; // 创建符号配置,尺寸20
     [self.closeButton setImage:closeIcon forState:UIControlStateNormal];
     self.closeButton.tintColor = [UIColor labelColor];
     [self addSubview:self.closeButton];
 
-    // TODO: Masonry 1.1.0 没有 safeArea API，这里用固定值，真机刘海屏如需精确可改用 safeAreaLayoutGuide
-    [self.closeButton mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self).offset(56.0);
-        make.left.equalTo(self).offset(16.0);
-        make.size.mas_equalTo(CGSizeMake(36.0, 36.0));
-    }];
+//    // TODO: Masonry 1.1.0 没有 safeArea API，这里用固定值，真机刘海屏如需精确可改用 safeAreaLayoutGuide
+//    [self.closeButton mas_makeConstraints:^(MASConstraintMaker *make) {
+//        make.top.equalTo(self).offset(56.0);
+//        make.left.equalTo(self).offset(16.0);
+//        make.size.mas_equalTo(CGSizeMake(36.0, 36.0));
+//    }];
     
+    // 预留安全区间距
+    [self.closeButton mas_makeConstraints:^(MASConstraintMaker *make) {
+        // 顶部安全区
+         make.top.equalTo(self.mas_safeAreaLayoutGuideTop).offset(16.0);
+        // 左边安全区
+         make.left.equalTo(self.mas_safeAreaLayoutGuideLeft).offset(16.0);
+         make.size.mas_equalTo(CGSizeMake(36.0, 36.0));
+     }];
+
 }
 
 - (void)setUpCover {
@@ -144,7 +159,9 @@ static NSString * const kCoverRotationKey = @"coverRotation";
     self.progressSlider.minimumValue = 0.0;
     self.progressSlider.maximumValue = 1.0;
     self.progressSlider.value = 0.0;
+    // 一播放部分颜色
     self.progressSlider.minimumTrackTintColor = [UIColor systemGreenColor];
+    // 未播放部分颜色
     self.progressSlider.maximumTrackTintColor = [UIColor tertiaryLabelColor];
     [self addSubview:self.progressSlider];
 
@@ -183,6 +200,7 @@ static NSString * const kCoverRotationKey = @"coverRotation";
 - (void)setUpButtonRow {
     UIImageSymbolConfiguration *normal = [UIImageSymbolConfiguration configurationWithPointSize:24.0];
     UIImageSymbolConfiguration *big = [UIImageSymbolConfiguration configurationWithPointSize:40.0];
+    
 
     self.favouriteButton = [self buttonWithImageName:@"heart" configuration:normal];
     self.commentButton = [self buttonWithImageName:@"ellipsis.bubble" configuration:normal];
@@ -192,7 +210,17 @@ static NSString * const kCoverRotationKey = @"coverRotation";
 
     // 大播放按钮：底色用 labelColor、图标用 systemBackgroundColor，两套主题下都不会和页面同色
     // 深色：白圆 + 黑图标；浅色：黑圆 + 白图标
+ 
+    
+//    UIImage *playImage = [UIImage systemImageNamed:@"play.fill"
+//                                  withConfiguration:[UIImageSymbolConfiguration configurationWithPointSize:40.0]]; // 创建符号配置,尺寸20
+//    
+//    self.playButton = [UIButton buttonWithType: UIButtonTypeCustom];
+//    [self.playButton setImage: playImage forState: UIControlStateNormal];
+    
     self.playButton = [self buttonWithImageName:@"play.fill" configuration:big];
+    
+    
 //    self.playButton.backgroundColor = [UIColor labelColor];
     self.playButton.tintColor = [UIColor labelColor];
     // 圆角半径写死 32，必须给固定 64 尺寸，否则 intrinsic size 会被裁成奇怪的形状
@@ -206,7 +234,9 @@ static NSString * const kCoverRotationKey = @"coverRotation";
         self.nextButton, self.moreButton
     ]];
     buttonRow.axis = UILayoutConstraintAxisHorizontal;
+    // 主轴空间分配: 中心点等距
     buttonRow.distribution = UIStackViewDistributionEqualCentering;
+    // 垂直居中
     buttonRow.alignment = UIStackViewAlignmentCenter;
     [self addSubview:buttonRow];
 
@@ -240,16 +270,42 @@ static NSString * const kCoverRotationKey = @"coverRotation";
 
 - (void)setCoverRotating:(BOOL)rotating {
     if (rotating) {
-        if ([self.coverImageView.layer animationForKey:kCoverRotationKey]) return;
-        CABasicAnimation *rotation = [CABasicAnimation animationWithKeyPath:@"transform.rotation.z"];
-        rotation.fromValue = @0;
-        rotation.toValue = @(M_PI * 2);
-        rotation.duration = 20.0;
-        rotation.repeatCount = HUGE_VALF;
-        [self.coverImageView.layer addAnimation:rotation forKey:kCoverRotationKey];
+        [self startCoverRotation];
     } else {
-        [self.coverImageView.layer removeAnimationForKey:kCoverRotationKey];
+        [self stopCoverRotation];
     }
+}
+
+/// 从 _coverRotationAngle 接着转，而不是每次都从 0° 重新开始
+- (void)startCoverRotation {
+    // 已经在转了就不重复添加，否则动画会被重置
+    if ([self.coverImageView.layer animationForKey:kCoverRotationKey]) {
+        return;
+    }
+    // 创建动画
+    CABasicAnimation *rotation = [CABasicAnimation animationWithKeyPath:@"transform.rotation.z"]; // 绕 z 轴旋转(垂直于屏幕)
+    rotation.fromValue = @(_coverRotationAngle);
+    rotation.toValue = @(_coverRotationAngle + M_PI * 2);
+    // 一圈 20 秒
+    rotation.duration = kCoverRotationDuration;
+    // 无限循环
+    // HUGE_VALF -> float无穷大
+    rotation.repeatCount = HUGE_VALF;
+    [self.coverImageView.layer addAnimation:rotation forKey:kCoverRotationKey];
+}
+
+/// 暂停：先记下当前角度，把角度写进模型层，最后才移除动画
+/// 顺序不能反：removeAnimationForKey: 之后 presentationLayer 就被丢弃了，取不到角度
+- (void)stopCoverRotation {
+    CALayer *presentationLayer = self.coverImageView.layer.presentationLayer;
+    if (presentationLayer) {
+        CATransform3D transform = presentationLayer.transform;
+        // 纯 Z 轴旋转：m11 = cos(θ)，m12 = sin(θ)，反解出当前角度
+        _coverRotationAngle = atan2(transform.m12, transform.m11);
+    }
+    [self.coverImageView.layer removeAnimationForKey:kCoverRotationKey];
+    // 动画只作用于表现层，移除后必须把角度落到模型层，否则封面会弹回 0°
+    self.coverImageView.layer.transform = CATransform3DMakeRotation(_coverRotationAngle, 0.0, 0.0, 1.0);
 }
 
 @end

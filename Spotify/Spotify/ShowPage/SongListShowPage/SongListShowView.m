@@ -59,9 +59,13 @@ static const CGFloat kNameOverlap = 32.0;
 
     self.tableView = [[UITableView alloc] initWithFrame:CGRectZero style:UITableViewStylePlain];
     self.tableView.backgroundColor = [UIColor systemBackgroundColor];
+    
+    // 设置 UITableView 里单元格分隔线的"内缩"——让分隔线不从最左边开始，而是从 88pt 处开始
     self.tableView.separatorInset = UIEdgeInsetsMake(0, 88.0, 0, 0);
+    
     // 底部给 mini player 留白
     self.tableView.contentInset = UIEdgeInsetsMake(0, 0, kMiniPlayerReservedHeight, 0);
+    // 滚动条位置与内容内边距一致
     self.tableView.scrollIndicatorInsets = self.tableView.contentInset;
     [self addSubview:self.tableView];
 
@@ -93,6 +97,8 @@ static const CGFloat kNameOverlap = 32.0;
 
     // 深色模糊盖在图片上，只露出底部一段（歌名叠在模糊区上）
     self.blurWrapView = [[UIView alloc] init];
+    
+    // 毛玻璃效果视图
     self.blurEffectView = [[UIVisualEffectView alloc] initWithEffect:[UIBlurEffect effectWithStyle:UIBlurEffectStyleSystemMaterialDark]];
     self.blurEffectView.frame = self.blurWrapView.bounds;
     self.blurEffectView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
@@ -100,6 +106,7 @@ static const CGFloat kNameOverlap = 32.0;
     [self.backdropContainer addSubview:self.blurWrapView];
 
     // 整体蒙版：底部渐隐到透明，衔接页面背景
+    // 渐变图层
     self.fadeMaskLayer = [CAGradientLayer layer];
     self.fadeMaskLayer.colors = @[(id)[UIColor whiteColor].CGColor,
                                   (id)[UIColor whiteColor].CGColor,
@@ -180,7 +187,9 @@ static const CGFloat kNameOverlap = 32.0;
     UIStackView *buttonRow = [[UIStackView alloc] initWithArrangedSubviews:@[
         self.playButton, self.favouriteButton, self.moreButton
     ]];
+    // 水平排列
     buttonRow.axis = UILayoutConstraintAxisHorizontal;
+    // 垂直居中
     buttonRow.alignment = UIStackViewAlignmentCenter;
     buttonRow.spacing = 16.0;
     [header addSubview:buttonRow];

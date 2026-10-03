@@ -13,11 +13,11 @@ static const CGFloat kDefaultSpeed = 30.0;
 
 @interface MarqueeLabel ()
 
-@property (nonatomic, strong) UIView *contentView;
-@property (nonatomic, strong) UILabel *mainLabel;
-@property (nonatomic, strong) UILabel *duplicateLabel;
-@property (nonatomic, assign) BOOL isScrolling;
-@property (nonatomic, assign) CGFloat textWidth;
+@property (nonatomic, strong) UIView *contentView;        // 滚动容器
+@property (nonatomic, strong) UILabel *mainLabel;         // 主文字
+@property (nonatomic, strong) UILabel *duplicateLabel;    // 副本文字
+@property (nonatomic, assign) BOOL isScrolling;           // 是否正在滚动
+@property (nonatomic, assign) CGFloat textWidth;          // 文字宽度
 
 @end
 
@@ -90,7 +90,8 @@ static const CGFloat kDefaultSpeed = 30.0;
     CGFloat height = CGRectGetHeight(self.bounds);
     CGFloat visibleWidth = CGRectGetWidth(self.bounds);
     if (height <= 0 || visibleWidth <= 0) return;
-
+ 
+    // 让视图根据内容自动调衡到合适大小
     [self.mainLabel sizeToFit];
     self.textWidth = CGRectGetWidth(self.mainLabel.bounds);
 
@@ -113,27 +114,39 @@ static const CGFloat kDefaultSpeed = 30.0;
 #pragma mark - 滚动
 
 - (void)restartMarqueeIfNeeded {
+    // 如果已经在滚动，就不需要重新开始动画了
     if (self.isScrolling) return;
 
+    /// KLabelGap 是两份文字之间的间隔，distance 是滚动的总距离（文字宽度 + 间隔）
     CGFloat distance = self.textWidth + kLabelGap;
+    // 滚动时长, 距离 / 速度
     CGFloat duration = distance / MAX(self.scrollSpeed, 1.0);
 
+    // 创建动画: 沿着 x 轴平移
     CABasicAnimation *animation = [CABasicAnimation animationWithKeyPath:@"transform.translation.x"];
     animation.fromValue = @0;
+    // 终点
     animation.toValue = @(-distance);
+    // 时长
     animation.duration = duration;
+    // 重复次数: 无穷大
     animation.repeatCount = HUGE_VALF;
+    // 动画结束后不自动从 layer 移除。
+    // 默认 YES —— 动画结束后 —— layer 回到"模型值"（transform 是 identity） —— 视图"跳回"原位。
     animation.removedOnCompletion = NO;
     [self.contentView.layer addAnimation:animation forKey:kMarqueeAnimationKey];
 
+    // 更新状态
     self.isScrolling = YES;
 }
 
+// 启动动画
 - (void)startMarquee {
     [self stopMarquee];
     [self restartMarqueeIfNeeded];
 }
 
+// 停止动画
 - (void)stopMarquee {
     [self.contentView.layer removeAnimationForKey:kMarqueeAnimationKey];
     self.isScrolling = NO;

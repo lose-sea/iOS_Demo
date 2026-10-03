@@ -27,6 +27,7 @@
 
 #pragma mark - 生命周期
 
+// self.view 创建的时候调用
 - (void)loadView {
     SongListShowView *songListView = [[SongListShowView alloc] init];
     self.songListView = songListView;
@@ -173,7 +174,7 @@
                                                                       toView:scrollView];
     CGFloat navBottom = CGRectGetMaxY(navBarFrame);
 
-    // 内容坐标 → 屏幕坐标：往上滑 contentOffset.y 变大，歌单名位置变小（之前这里写成了 +，导致永远算不出渐变）
+    // 内容坐标 → 屏幕坐标：往上滑 contentOffset.y 变大，歌单名位置变小
     CGFloat nameBottom = [self.songListView nameLabelBottomInHeader] - scrollView.contentOffset.y;
 
     // nameBottom 小于 navBottom 说明歌单名已经被导航栏盖住，此时把标题显示到导航栏上

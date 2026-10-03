@@ -22,7 +22,7 @@ UIKIT_EXTERN NSString *const SongListSongCellID;
 /// 头部：封面 + 跑马灯歌单名 + 歌曲数 + 操作按钮
 @property (nonatomic, strong, readonly) UIImageView *coverImageView;
 @property (nonatomic, strong, readonly) MarqueeLabel *nameLabel;
-@property (nonatomic, strong, readonly) UILabel *infoLabel;
+@property (nonatomic, strong, readonly) UILabel *infoLabel;     //歌曲数
 @property (nonatomic, strong, readonly) UIButton *playButton;
 @property (nonatomic, strong, readonly) UIButton *favouriteButton;
 @property (nonatomic, strong, readonly) UIButton *moreButton;

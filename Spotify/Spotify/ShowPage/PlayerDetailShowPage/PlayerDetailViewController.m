@@ -29,6 +29,7 @@
 @implementation PlayerDetailViewController
 
 // 状态栏跟随当前外观：深色页面用白字，浅色页面用黑字
+// 系统方法,用来决定"状态栏（顶部时间/电量那块）的文字颜色"
 - (UIStatusBarStyle)preferredStatusBarStyle {
     BOOL isDark = (self.traitCollection.userInterfaceStyle == UIUserInterfaceStyleDark);
     return isDark ? UIStatusBarStyleLightContent : UIStatusBarStyleDarkContent;
@@ -325,20 +326,20 @@
 }
 
 - (void)progressSliderTouchDown:(UISlider *)slider {
-    self.isDraggingProgress = YES;
-}
-
-- (void)progressSliderTouchUp:(UISlider *)slider {
-    self.isDraggingProgress = NO;
-    [[SPAudioPlayer sharedPlayer] seekToProgress:slider.value];
+    self.isDraggingProgress = YES;   // 暂停自动更新
 }
 
 - (void)progressSliderValueChanged:(UISlider *)slider {
-    // 拖动过程中只更新时间显示，松手才真正 seek
+    // 只更新时间标签
     NSTimeInterval duration = [SPAudioPlayer sharedPlayer].duration;
     if (duration > 0) {
         self.detailView.currentTimeLabel.text = [SPAudioPlayer timeStringFromSeconds:duration * slider.value];
     }
+}
+
+- (void)progressSliderTouchUp:(UISlider *)slider {
+    self.isDraggingProgress = NO;   // 恢复自动更新
+    [[SPAudioPlayer sharedPlayer] seekToProgress:slider.value];   // 真正 seek
 }
 
 - (void)handleSwipeDown:(UISwipeGestureRecognizer *)gesture {
