@@ -15,6 +15,7 @@
 #import "Singer.h"
 #import "NeteaseService.h"
 #import "UIImageView+Spotify.h"
+#import "CommentViewController.h"
 #import <SDWebImage/SDWebImage.h>
 #import <Masonry/Masonry.h>
 
@@ -350,7 +351,22 @@
 }
 
 - (void)pressCommentButton {
-    NSLog(@"打开评论（待实现）");
+    Song *song = self.playerModel.currentSong;
+    if (!song) return;
+
+    // 评论页以 page sheet 弹出（抖音评论区那种从底部升起的大半屏）
+    CommentViewController *commentVC = [[CommentViewController alloc] initWithSongId:song.songId
+                                                                          songName:song.songName];
+    UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:commentVC];
+    nav.modalPresentationStyle = UIModalPresentationPageSheet;
+    if (@available(iOS 15.0, *)) {
+        UISheetPresentationController *sheet = nav.sheetPresentationController;
+        sheet.detents = @[[UISheetPresentationControllerDetent mediumDetent],
+                          [UISheetPresentationControllerDetent largeDetent]];
+        sheet.prefersGrabberVisible = YES;
+        sheet.preferredCornerRadius = 16;
+    }
+    [self presentViewController:nav animated:YES completion:nil];
 }
 
 #pragma mark - 更多菜单

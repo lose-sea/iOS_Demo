@@ -162,6 +162,9 @@ static const NSInteger kMaxHistoryCount = 5;
     NSString *keyword = searchController.searchBar.text ?: @"";
     NSLog(@"[Search] 输入变化：%@", keyword);
 
+    // 重新输入前先退回结果列表：否则新结果被之前点进去的详情页盖住，看起来像没反应
+    [self popResultsToRootIfNeeded];
+
     [self cancelPendingSearch];
 
     __weak typeof(self) weakSelf = self;
@@ -171,6 +174,14 @@ static const NSInteger kMaxHistoryCount = 5;
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.3 * NSEC_PER_SEC)),
                    dispatch_get_main_queue(),
                    self.pendingSearchBlock);
+}
+
+/// 结果页里点 cell 会 push 出详情页；再搜新内容时要先退回结果列表，不然新结果看不见
+- (void)popResultsToRootIfNeeded {
+    UINavigationController *resultsNav = self.resultsViewController.navigationController;
+    if (resultsNav.viewControllers.count > 1) {
+        [resultsNav popToRootViewControllerAnimated:NO];
+    }
 }
 
 - (void)cancelPendingSearch {
@@ -189,6 +200,8 @@ static const NSInteger kMaxHistoryCount = 5;
     [self cancelPendingSearch];
     [self saveKeyword:keyword];
     self.searchController.searchBar.text = keyword;
+    // 点热词/历史时也可能正停在详情页，先退回结果列表
+    [self popResultsToRootIfNeeded];
     [self.resultsViewController searchWithKeyword:keyword];
     [self.searchController setActive:YES];
 }

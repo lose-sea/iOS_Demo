@@ -12,6 +12,7 @@ NS_ASSUME_NONNULL_BEGIN
 @class Song;
 @class SongListModel;
 @class Singer;
+@class CommentModel;
 
 /// 网易云音乐服务：本地 Node 接口（NeteaseCloudMusicApi，默认 http://localhost:3000）
 ///
@@ -69,6 +70,18 @@ NS_ASSUME_NONNULL_BEGIN
 /// 专辑歌曲（点专辑卡时用）
 - (void)fetchAlbumSongsWithId:(NSString *)albumId
                    completion:(void (^)(NSArray<Song *> *songs, NSError * _Nullable error))completion;
+
+/// 歌曲评论（网易云 /comment/music）。第一页会带 hotComments，翻页后只有 comments。
+/// @param page       第几页（从 0 开始），每页 20 条
+/// @param sortNewest 是否按最新排序（否则按热门）
+- (void)fetchCommentsWithId:(NSString *)songId
+                       page:(NSInteger)page
+                 sortNewest:(BOOL)sortNewest
+                 completion:(void (^)(NSArray<CommentModel *> *hotComments,
+                                      NSArray<CommentModel *> *comments,
+                                      NSInteger total,
+                                      BOOL more,
+                                      NSError * _Nullable error))completion;
 
 @end
 

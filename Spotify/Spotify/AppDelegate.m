@@ -6,6 +6,7 @@
 //
 
 #import "AppDelegate.h"
+#import "WCDBManager.h"
 
 @interface AppDelegate ()
 
@@ -15,7 +16,8 @@
 
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
-    // Override point for customization after application launch.
+    // 初始化 WCDB：建库 + 建表（首次启动创建，之后自动复用）
+    [[WCDBManager shared] setup];
     return YES;
 }
 

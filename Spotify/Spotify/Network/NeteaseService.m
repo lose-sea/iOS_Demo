@@ -11,6 +11,7 @@
 #import "Song.h"
 #import "Singer.h"
 #import "SongListModel.h"
+#import "CommentModel.h"
 #import <YYModel/YYModel.h>
 
 #pragma mark - 接口
@@ -294,6 +295,48 @@ static NSString * const kErrorDomain = @"com.spotify.netease.error";
     NSString *urlString = [NSString stringWithFormat:@"%@/album?id=%@",
                            kNeteaseBaseURL, [self URLEncoded:albumId]];
     [self fetchSongsFromURLString:urlString arrayKeyPath:@"songs" completion:completion];
+}
+
+#pragma mark - 歌曲评论
+
+- (void)fetchCommentsWithId:(NSString *)songId
+                       page:(NSInteger)page
+                 sortNewest:(BOOL)sortNewest
+                 completion:(void (^)(NSArray<CommentModel *> *,
+                                      NSArray<CommentModel *> *,
+                                      NSInteger, BOOL, NSError * _Nullable))completion {
+    if (songId.length == 0) {
+        if (completion) completion(@[], @[], 0, NO, [self errorWithCode:1001 message:@"songId 为空"]);
+        return;
+    }
+    NSInteger limit = 20;
+    NSInteger offset = MAX(page, 0) * limit;
+    // before 参数用于按时间翻页（sortNewest 时忽略）
+    NSString *urlString = [NSString stringWithFormat:@"%@/comment/music?id=%@&limit=%ld&offset=%ld",
+                           kNeteaseBaseURL, [self URLEncoded:songId], (long)limit, (long)offset];
+
+    [[NetworkManager sharedInstance] GETWithURLString:urlString
+                                          parameters:nil
+                                             success:^(id responseObject) {
+        if (![responseObject isKindOfClass:NSDictionary.class]) {
+            if (completion) completion(@[], @[], 0, NO, [self errorWithCode:404 message:@"评论数据异常"]);
+            return;
+        }
+        NSDictionary *resp = (NSDictionary *)responseObject;
+        NSArray<CommentModel *> *hot = [CommentModel modelsFromArray:[resp valueForKeyPath:@"hotComments"]];
+        NSArray<CommentModel *> *comments = [CommentModel modelsFromArray:[resp valueForKeyPath:@"comments"]];
+        NSInteger total = 0;
+        id rawTotal = resp[@"total"];
+        if ([rawTotal isKindOfClass:NSNumber.class]) total = [rawTotal integerValue];
+        BOOL more = NO;
+        id rawMore = resp[@"more"];
+        if ([rawMore isKindOfClass:NSNumber.class]) more = [rawMore boolValue];
+
+        if (completion) completion(hot ?: @[], comments ?: @[], total, more, nil);
+    }
+                                             failure:^(NSError *error) {
+        if (completion) completion(@[], @[], 0, NO, error);
+    }];
 }
 
 #pragma mark - 工具
