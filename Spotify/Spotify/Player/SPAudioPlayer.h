@@ -39,6 +39,8 @@ extern NSString *const SPAudioPlayerDidPlayToEndNotification;
 - (void)playSong:(Song *)song;
 /// 只加载不播放（预置当前歌曲，等用户点播放再出声）
 - (void)prepareSong:(Song *)song;
+/// 预置歌曲并在可播放时跳到指定进度（用于跨启动续播的恢复）
+- (void)prepareSong:(Song *)song initialPosition:(NSTimeInterval)position;
 - (void)play;
 - (void)pause;
 /// 停止播放并丢弃当前资源

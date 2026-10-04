@@ -38,7 +38,16 @@
 
 + (void)saveTracks:(NSArray<Track *> *)tracks forPlaylistId:(NSString *)playlistId {
     if (tracks.count == 0 || playlistId.length == 0) return;
-    [[self db] insertOrReplaceObjects:tracks intoTable:@"Track"];
+    // 只补全曲目行：已存在的（可能带着「喜欢」等状态）不整体覆盖，避免首页缓存把喜欢冲掉
+    for (Track *t in tracks) {
+        if (t.trackId.length == 0) continue;
+        NSArray<Track *> *exist = [[self db] getObjectsOfClass:Track.class
+                                                    fromTable:@"Track"
+                                                        where:Track.trackId == t.trackId];
+        if (exist.count == 0) {
+            [[self db] insertOrReplaceObject:t intoTable:@"Track"];
+        }
+    }
 
     NSMutableArray<PlaylistTrack *> *relations = [NSMutableArray array];
     NSInteger idx = 0;

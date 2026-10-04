@@ -18,6 +18,10 @@
 #import "Song.h"
 #import "NeteaseService.h"
 #import "UIResponder+AppActions.h"
+#import "PlaylistRepository.h"
+#import "Playlist.h"
+#import "TrackRepository.h"
+#import "Track.h"
 
 /// 顶部三个 "全部, 音乐, 播客" 筛选按钮的状态标识
 typedef NS_ENUM(NSUInteger, HomeFilterIndex) {
@@ -62,6 +66,9 @@ typedef NS_ENUM(NSUInteger, HomeFilterIndex) {
     // 先用本地占位数据秒出页面，网络数据回来后逐个替换对应分区
     self.sections = [HomeModel sampleSections];
 
+    // 先铺 L3 缓存里的真实数据，做到「打开首页即可见」，网络回来再个别刷新
+    [self loadCachedHomeData];
+
     [self fetchShortcutSection];
     [self fetchTodaySection];
     [self fetchArtistSections];
@@ -69,9 +76,89 @@ typedef NS_ENUM(NSUInteger, HomeFilterIndex) {
     [self fetchAlbumSection];
 }
 
+#pragma mark - 首页缓存（L3 秒开）
+
+/// 缓存分类标识，存在 Playlist.desc 里，还原时据此拼回对应分区
+static NSString * const kCacheCatToday    = @"today";
+static NSString * const kCacheCatShortcut = @"shortcut";
+static NSString * const kCacheCatRadio    = @"radio";
+static NSString * const kCacheCatAlbum    = @"album";
+
+/// 启动先用 L3 缓存把首页真实数据铺出来，网络回来再个别替换（实现「打开即快速可读」）
+- (void)loadCachedHomeData {
+    NSArray<Playlist *> *all = [PlaylistRepository allPlaylists];
+    if (all.count == 0) return;   // 没有缓存就保留占位数据
+
+    NSMutableArray<SongListModel *> *shortcuts = [NSMutableArray array];
+    NSMutableArray<SongListModel *> *radios    = [NSMutableArray array];
+    NSMutableArray<SongListModel *> *albums    = [NSMutableArray array];
+    NSArray<Song *> *todaySongs = nil;
+
+    for (Playlist *p in all) {
+        SongListModel *m = [[SongListModel alloc] init];
+        m.playlistId = p.playlistId;
+        m.playlistName = p.name;
+        m.coverURL = p.coverURL;
+        NSMutableArray<Song *> *songs = [NSMutableArray array];
+        for (Track *t in [PlaylistRepository tracksInPlaylist:p.playlistId]) {
+            Song *s = [TrackRepository songFromTrack:t];
+            if (s) [songs addObject:s];
+        }
+        m.songs = songs;
+
+        if ([p.desc isEqualToString:kCacheCatShortcut]) [shortcuts addObject:m];
+        else if ([p.desc isEqualToString:kCacheCatRadio]) [radios addObject:m];
+        else if ([p.desc isEqualToString:kCacheCatAlbum]) [albums addObject:m];
+        else if ([p.desc isEqualToString:kCacheCatToday]) todaySongs = songs;
+    }
+
+    if (shortcuts.count) [self replaceSection:[HomeModel shortcutSectionWithPlaylists:shortcuts]];
+    if (radios.count)    [self replaceSection:[HomeModel radioSectionWithRadios:radios]];
+    if (albums.count)    [self replaceSection:[HomeModel albumSectionWithAlbums:albums]];
+    if (todaySongs.count) [self replaceSection:[HomeModel todaySectionWithSongs:todaySongs]];
+}
+
+/// 把一组歌单按分类写入 L3（歌单元信息 + 曲目 + 关联）
+- (void)cacheSongListModels:(NSArray<SongListModel *> *)models category:(NSString *)category {
+    NSInteger idx = 0;
+    for (SongListModel *m in models) {
+        [self cacheSongListModel:m category:category sort:idx++];
+    }
+}
+
+- (void)cacheSongListModel:(SongListModel *)m category:(NSString *)category sort:(NSInteger)sort {
+    if (!m) return;
+    NSString *pid = m.playlistId.length ? m.playlistId
+                  : [NSString stringWithFormat:@"%@_%@", category, @(sort)];
+    Playlist *p = [[Playlist alloc] init];
+    p.playlistId = pid;
+    p.name = m.playlistName;
+    p.coverURL = m.coverURL;
+    p.desc = category;
+    p.sort = sort;
+    p.updatedAt = (NSInteger)[NSDate date].timeIntervalSince1970;
+    [PlaylistRepository insertOrUpdatePlaylist:p];
+
+    NSMutableArray<Track *> *tracks = [NSMutableArray array];
+    for (Song *s in m.songs) {
+        Track *t = [TrackRepository trackFromSong:s];
+        if (t) [tracks addObject:t];
+    }
+    [PlaylistRepository saveTracks:tracks forPlaylistId:pid];
+}
+
+- (void)cacheTodaySongs:(NSArray<Song *> *)songs {
+    if (songs.count == 0) return;
+    SongListModel *m = [[SongListModel alloc] init];
+    m.playlistName = @"今日推荐";
+    m.coverURL = songs.firstObject.coverURL;
+    m.songs = songs;
+    [self cacheSongListModel:m category:kCacheCatToday sort:0];
+}
+
 #pragma mark - 网络分区
 
-/// 快捷入口：官方榜单（飙升榜 / 新歌榜 …）
+/// 快捷入口：官方榜单（飙升榜 / 新歌榜 …
 - (void)fetchShortcutSection {
     __weak typeof(self) weakSelf = self;
     [[NeteaseService sharedInstance] fetchToplistWithLimit:2
@@ -82,6 +169,7 @@ typedef NS_ENUM(NSUInteger, HomeFilterIndex) {
                 return;
             }
             [weakSelf replaceSection:[HomeModel shortcutSectionWithPlaylists:playlists]];
+            [weakSelf cacheSongListModels:playlists category:kCacheCatShortcut];
         });
     }];
 }
@@ -100,6 +188,7 @@ typedef NS_ENUM(NSUInteger, HomeFilterIndex) {
             NSUInteger count = MIN(20, playlist.songs.count);
             NSArray<Song *> *songs = [playlist.songs subarrayWithRange:NSMakeRange(0, count)];
             [weakSelf replaceSection:[HomeModel todaySectionWithSongs:songs]];
+            [weakSelf cacheTodaySongs:songs];
         });
     }];
 }
@@ -137,6 +226,7 @@ typedef NS_ENUM(NSUInteger, HomeFilterIndex) {
                 return;
             }
             [weakSelf replaceSection:[HomeModel radioSectionWithRadios:radios]];
+            [weakSelf cacheSongListModels:radios category:kCacheCatRadio];
         });
     }];
 }
@@ -151,6 +241,7 @@ typedef NS_ENUM(NSUInteger, HomeFilterIndex) {
                 return;
             }
             [weakSelf replaceSection:[HomeModel albumSectionWithAlbums:albums]];
+            [weakSelf cacheSongListModels:albums category:kCacheCatAlbum];
         });
     }];
 }

@@ -7,6 +7,9 @@
 
 #import "FavouriteManager.h"
 #import "UserModel.h"
+#import "Track.h"
+#import "TrackRepository.h"
+#import "AudioCache.h"
 
 NSString *const FavouriteDidChangeNotification = @"FavouriteDidChangeNotification";
 
@@ -54,10 +57,22 @@ NSString *const FavouriteDidChangeNotification = @"FavouriteDidChangeNotificatio
     }
     user.favoriteSongs = [songs copy];
 
+    // 跨启动持久化：把喜欢状态落到 WCDB（L3），喜欢的歌顺手缓存到本地，离线也能播
+    [self persistLikeState:song liked:favourite];
+
     [[NSNotificationCenter defaultCenter] postNotificationName:FavouriteDidChangeNotification
                                                         object:self
                                                       userInfo:@{@"song": song,
                                                                  @"isFavourite": @(favourite)}];
+}
+
+/// 写入 WCDB 并（仅喜欢时）触发本地音频缓存
+- (void)persistLikeState:(Song *)song liked:(BOOL)liked {
+    if (song.songId.length == 0) return;   // 本地占位歌不持久化
+    Track *track = [TrackRepository syncTrackFromSong:song liked:liked];
+    if (liked && track) {
+        [[AudioCache shared] cacheTrack:track completion:nil];
+    }
 }
 
 - (void)toggleFavouriteForSong:(Song *)song {

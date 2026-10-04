@@ -7,6 +7,8 @@
 #import "Track+WCTTableCoding.h"
 #import <WCDBObjc/WCDBObjc.h>
 #import "WCDBManager.h"
+#import "Song.h"
+#import "Singer.h"
 
 @implementation TrackRepository
 
@@ -46,7 +48,10 @@
 
 + (void)setLiked:(BOOL)liked forTrackId:(NSString *)trackId {
     Track *t = [self trackWithId:trackId];
-    if (!t) return;
+    if (!t) {
+        t = [[Track alloc] init];
+        t.trackId = trackId;
+    }
     t.isLiked = liked;
     t.updatedAt = (NSInteger)[NSDate date].timeIntervalSince1970;
     [[self db] insertOrReplaceObject:t intoTable:@"Track"];
@@ -62,6 +67,60 @@
 
 + (nullable NSString *)localPathForTrackId:(NSString *)trackId {
     return [self trackWithId:trackId].localPath;
+}
+
++ (void)setAudioURL:(NSString *)url forTrackId:(NSString *)trackId {
+    if (trackId.length == 0 || url.length == 0) return;
+    Track *t = [self trackWithId:trackId];
+    if (!t) return;
+    t.audioURL = url;
+    t.updatedAt = (NSInteger)[NSDate date].timeIntervalSince1970;
+    [[self db] insertOrReplaceObject:t intoTable:@"Track"];
+}
+
+/// Song → Track 的字段映射集中在这里，FavouriteManager / UserModel 都走它，避免两处各写一遍
++ (nullable Track *)syncTrackFromSong:(Song *)song liked:(BOOL)liked {
+    if (!song || song.songId.length == 0) return nil;   // 本地占位歌（无 id）不持久化
+    Track *track = [[Track alloc] init];
+    track.trackId  = song.songId;
+    track.title    = song.songName;
+    track.artist   = song.singer.singerName;
+    track.coverURL = [Song secureURL:song.coverURL] ?: song.coverURL;
+    track.audioURL = [Song secureURL:song.audioURL] ?: song.audioURL;
+    track.duration = (NSInteger)song.duration;
+    track.isLiked  = liked;
+    track.updatedAt = (NSInteger)[NSDate date].timeIntervalSince1970;
+    [[self db] insertOrReplaceObject:track intoTable:@"Track"];
+    return track;
+}
+
+/// 仅映射，不落库（isLiked 不设置），给 PlaylistRepository 装配用
++ (nullable Track *)trackFromSong:(Song *)song {
+    if (!song || song.songId.length == 0) return nil;
+    Track *track = [[Track alloc] init];
+    track.trackId  = song.songId;
+    track.title    = song.songName;
+    track.artist   = song.singer.singerName;
+    track.coverURL = [Song secureURL:song.coverURL] ?: song.coverURL;
+    track.audioURL = [Song secureURL:song.audioURL] ?: song.audioURL;
+    track.duration = (NSInteger)song.duration;
+    return track;
+}
+
+/// Track → Song 字段映射（还原展示 / 播放信息）
++ (nullable Song *)songFromTrack:(Track *)track {
+    if (!track) return nil;
+    Song *song = [[Song alloc] init];
+    song.songId    = track.trackId;
+    song.songName  = track.title;
+    song.coverURL  = track.coverURL;
+    song.audioURL  = track.audioURL;
+    song.duration  = track.duration;
+    song.canPlay   = YES;   // 还原的歌默认可播（canPlay 等字段未持久化，Demo 里视为可播）
+    Singer *singer = [[Singer alloc] init];
+    singer.singerName = track.artist;
+    song.singer = singer;
+    return song;
 }
 
 @end

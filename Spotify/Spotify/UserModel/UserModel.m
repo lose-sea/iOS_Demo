@@ -7,6 +7,8 @@
 
 #import "UserModel.h"
 #import "NeteaseService.h"
+#import "Track.h"
+#import "TrackRepository.h"
 
 /// 初始默认喜欢的首数
 static const NSUInteger kDefaultFavouriteCount = 3;
@@ -82,6 +84,9 @@ static NSString * const kCollectedPlaylistKeywords[] = {@"华语", @"运动"};
             NSArray<Song *> *songs = playlist.songs;
             if (!songs.count) {
                 NSLog(@"[User] 默认曲库拉取失败：%@", error.localizedDescription);
+                // 网络挂了也尽量用本地持久化的喜欢恢复，别让「我的喜欢」空着
+                [weakSelf restoreFavouritesFromDatabase];
+                [weakSelf postLibraryDidLoad];
                 return;
             }
             weakSelf.recentlySongs = [songs subarrayWithRange:NSMakeRange(0, MIN(12, songs.count))];
@@ -94,6 +99,9 @@ static NSString * const kCollectedPlaylistKeywords[] = {@"华语", @"运动"};
                 [liked addObject:song];
             }
             weakSelf.favoriteSongs = [liked copy];
+
+            // 用本地持久化的喜欢状态覆盖/补充网络默认（保证跨启动一致）
+            [weakSelf restoreFavouritesFromDatabase];
             [weakSelf postLibraryDidLoad];
         });
     }];
@@ -160,6 +168,26 @@ static NSString * const kCollectedPlaylistKeywords[] = {@"华语", @"运动"};
     playlist.songs = self.favoriteSongs;
     playlist.isSystemPlaylist = YES;   // 默认歌单，删除操作必须检查这个标记
     return playlist;
+}
+
+#pragma mark - 喜欢持久化（与 FavouriteManager 共用 WCDB）
+
+/// 启动时把内存里的「我的喜欢」对齐到 WCDB：
+///  - 数据库尚未初始化（allTracks 为空，真正的首次启动）→ 把当前网络默认的喜欢写进 DB 做种子
+///  - 数据库已初始化 → 以 DB 的喜欢状态为准（likedTracks 可能为空，即用户全取消了）
+- (void)restoreFavouritesFromDatabase {
+    if ([TrackRepository allTracks].count == 0) {
+        for (Song *s in self.favoriteSongs) {
+            [TrackRepository syncTrackFromSong:s liked:YES];
+        }
+        return;
+    }
+    NSMutableArray<Song *> *restored = [NSMutableArray array];
+    for (Track *t in [TrackRepository likedTracks]) {
+        if (t.trackId.length == 0) continue;
+        [restored addObject:[TrackRepository songFromTrack:t]];
+    }
+    self.favoriteSongs = [restored copy];
 }
 
 #pragma mark - 歌单增删（收藏 / 取消收藏歌单走 FavouriteManager）

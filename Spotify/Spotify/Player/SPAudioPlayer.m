@@ -32,6 +32,8 @@ static void *SPPlayerItemStatusContext = &SPPlayerItemStatusContext;
 @property (nonatomic, strong, readwrite, nullable) Song *currentSong;
 @property (nonatomic, assign, readwrite) NSTimeInterval duration;
 @property (nonatomic, assign, readwrite, getter=isPlaying) BOOL playing;
+/// 预置歌曲后待应用的初始进度（>=0 表示有待生效的 seek；-1 表示无），歌曲就绪后自动 apply
+@property (nonatomic, assign) NSTimeInterval pendingSeekTime;
 
 /// 锁屏封面（异步下载后缓存）
 @property (nonatomic, strong, nullable) UIImage *coverImage;
@@ -140,11 +142,19 @@ static void *SPPlayerItemStatusContext = &SPPlayerItemStatusContext;
 
 /// 只加载不播放：用于「进入 App 时预置一首歌，等用户点播放再出声」
 - (void)prepareSong:(Song *)song {
+    _pendingSeekTime = -1;   // 普通预置不需要续播定位
     [self loadSong:song];
     [self updateNowPlayingInfo];
 }
 
+/// 预置歌曲并在就绪后跳到指定进度（续播恢复用）
+- (void)prepareSong:(Song *)song initialPosition:(NSTimeInterval)position {
+    [self prepareSong:song];
+    if (position > 0) _pendingSeekTime = position;
+}
+
 - (void)playSong:(Song *)song {
+    _pendingSeekTime = -1;   // 用户主动切歌，取消任何待生效的续播定位
     if (![self loadSong:song]) return;
     [self play];
 }
@@ -342,6 +352,15 @@ static void *SPPlayerItemStatusContext = &SPPlayerItemStatusContext;
             CMTime duration = self.currentItem.duration;
             if (CMTIME_IS_VALID(duration)) {
                 self.duration = CMTimeGetSeconds(duration);
+            }
+            // 续播恢复：歌曲就绪后跳到上次的进度
+            if (self.pendingSeekTime >= 0) {
+                NSTimeInterval pos = self.pendingSeekTime;
+                self.pendingSeekTime = -1;
+                [self.player seekToTime:CMTimeMakeWithSeconds(pos, NSEC_PER_SEC)
+                        toleranceBefore:kCMTimeZero
+                         toleranceAfter:kCMTimeZero
+                      completionHandler:nil];
             }
             [self updateNowPlayingInfo];
             [self postProgress];
