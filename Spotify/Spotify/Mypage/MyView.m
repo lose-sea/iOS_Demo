@@ -242,8 +242,12 @@ static const CGFloat kMiniPlayerReservedHeight = 64.0 + 24.0;
 
     // 统计行每次重建，数据变了直接刷
     NSMutableArray<UIView *> *items = [NSMutableArray array];
-    [items addObject:[self statItemWithValue:[NSString stringWithFormat:@"%ld", (long)model.recentCount]
-                                       label:@"最近"]];
+    UIView *recentItem = [self statItemWithValue:[NSString stringWithFormat:@"%ld", (long)model.recentCount]
+                                           label:@"最近"];
+    recentItem.userInteractionEnabled = YES;   // “最近”可点：跳到最近播放歌单
+    [recentItem addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self
+                                                                           action:@selector(recentItemTapped)]];
+    [items addObject:recentItem];
     [items addObject:[self statItemWithValue:[NSString stringWithFormat:@"%ld", (long)model.favouriteSongCount]
                                        label:@"喜欢的歌曲"]];
     [items addObject:[self statItemWithValue:[NSString stringWithFormat:@"%ld", (long)model.favouritePlaylistCount]
@@ -285,6 +289,12 @@ static const CGFloat kMiniPlayerReservedHeight = 64.0 + 24.0;
 - (void)pressAddPlaylist {
     if (self.onCreatePlaylist) {
         self.onCreatePlaylist();
+    }
+}
+
+- (void)recentItemTapped {
+    if (self.onRecentTapped) {
+        self.onRecentTapped();
     }
 }
 

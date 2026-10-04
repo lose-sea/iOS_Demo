@@ -49,6 +49,10 @@ extern NSString *const UserModelLibraryDidLoadNotification;
 /// 删除一个「我创建的歌单」（系统歌单如“我的喜欢”不在 createSongLists 里，删不掉）
 - (void)removeCreatedPlaylist:(SongListModel *)playlist;
 
+/// 把「我创建的 / 我收藏的」歌单整组落盘到 L3（跨启动持久保存）
+- (void)persistCreatedPlaylists;
+- (void)persistCollectedPlaylists;
+
 /// 全局唯一实例
 + (instancetype)sharedInstance;
 

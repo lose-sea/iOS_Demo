@@ -24,4 +24,13 @@
 /// 删除歌单（同时清理关联）
 + (void)deletePlaylist:(NSString *)playlistId;
 
+#pragma mark - 最近播放（LRU，最多 100 首）
+
+/// 记录一首最近播放的歌：同一首提到最前，超过 100 首淘汰最旧的
++ (void)recordRecentTrack:(Track *)track;
+/// 最近播放的曲目，按时间从新到旧（最多 100 首）
++ (NSArray<Track *> *)recentTracks;
+/// 最近播放数量
++ (NSInteger)recentCount;
+
 @end

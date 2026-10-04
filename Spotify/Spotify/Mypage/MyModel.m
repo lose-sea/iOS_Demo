@@ -6,6 +6,7 @@
 //
 
 #import "MyModel.h"
+#import "PlaylistRepository.h"
 
 @implementation MyModel
 
@@ -19,7 +20,7 @@
 }
 
 - (NSInteger)recentCount {
-    return self.user.recentlySongs.count;
+    return [PlaylistRepository recentCount];   // 实际播放历史（LRU，最多 100 首）
 }
 
 - (NSInteger)favouriteSongCount {

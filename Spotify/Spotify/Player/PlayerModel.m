@@ -219,10 +219,18 @@ static NSString * const kDefaultPlaylistId = @"3778678";
     _currentSong = song;
     _isPlay = YES;
     [[SPAudioPlayer sharedPlayer] playSong:song];
+    [self recordRecentPlayForSong:song];   // 记入「最近播放」LRU
     [self savePlaybackState];
     [[NSNotificationCenter defaultCenter] postNotificationName:PlayerModelDidChangeNotification
                                                         object:self
                                                       userInfo:@{@"changed": @"song"}];
+}
+
+/// 把实际播放的歌记入最近播放，供「我的」页 最近 标签展示
+- (void)recordRecentPlayForSong:(Song *)song {
+    if (!song || song.songId.length == 0) return;
+    Track *track = [TrackRepository trackFromSong:song];
+    if (track) [PlaylistRepository recordRecentTrack:track];
 }
 
 #pragma mark - 播放（缺失播放地址时现取）

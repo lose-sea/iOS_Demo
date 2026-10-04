@@ -23,6 +23,8 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, copy, nullable) void (^onPlaylistTypeChanged)(BOOL showingCollected);
 /// 点击 ＋ 创建歌单
 @property (nonatomic, copy, nullable) void (^onCreatePlaylist)(void);
+/// 点击顶部“最近”统计项（跳转到最近播放歌单）
+@property (nonatomic, copy, nullable) void (^onRecentTapped)(void);
 
 - (void)configureWithModel:(MyModel *)model;
 

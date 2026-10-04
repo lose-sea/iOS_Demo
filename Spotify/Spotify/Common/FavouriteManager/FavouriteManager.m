@@ -116,6 +116,9 @@ NSString *const FavouriteDidChangeNotification = @"FavouriteDidChangeNotificatio
     }
     user.favouriteSongLists = [lists copy];
 
+    // 收藏/取消收藏歌单立即落盘，保证「我收藏的歌单」跨启动保留
+    [[UserModel sharedInstance] persistCollectedPlaylists];
+
     [[NSNotificationCenter defaultCenter] postNotificationName:FavouriteDidChangeNotification
                                                         object:self
                                                       userInfo:@{@"playlist": playlist,

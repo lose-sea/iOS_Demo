@@ -13,6 +13,8 @@
 #import "SongListShowViewController.h"
 #import "UserModel.h"
 #import "FavouriteManager.h"
+#import "PlaylistRepository.h"
+#import "TrackRepository.h"
 
 @interface MyViewController () <UITableViewDelegate, UITableViewDataSource>
 
@@ -68,6 +70,10 @@
 
     self.myView.onCreatePlaylist = ^{
         [weakSelf showCreatePlaylistAlert];
+    };
+
+    self.myView.onRecentTapped = ^{
+        [weakSelf openRecentPlaylist];
     };
 }
 
@@ -194,6 +200,38 @@ trailingSwipeActionsConfigurationForRowAtIndexPath:(NSIndexPath *)indexPath {
     [self presentViewController:alert animated:YES completion:nil];
 }
 
+#pragma mark - 最近播放
+
+// “最近”标签被点：用 LRU 最近播放记录拼一个歌单，跳到详情页
+- (void)openRecentPlaylist {
+    NSArray<Track *> *recent = [PlaylistRepository recentTracks];
+    if (recent.count == 0) {
+        UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"最近播放"
+                                                                       message:@"还没有播放记录"
+                                                                preferredStyle:UIAlertControllerStyleAlert];
+        [alert addAction:[UIAlertAction actionWithTitle:@"知道了"
+                                                 style:UIAlertActionStyleDefault
+                                               handler:nil]];
+        [self presentViewController:alert animated:YES completion:nil];
+        return;
+    }
+
+    NSMutableArray<Song *> *songs = [NSMutableArray array];
+    for (Track *t in recent) {
+        Song *s = [TrackRepository songFromTrack:t];
+        if (s) [songs addObject:s];
+    }
+    SongListModel *list = [[SongListModel alloc] init];
+    list.playlistName = @"最近播放";
+    list.coverURL = songs.firstObject.coverURL;
+    list.songs = songs;
+
+    SongListShowViewController *vc = [[SongListShowViewController alloc] init];
+    vc.songList = list;
+    vc.hidesBottomBarWhenPushed = YES;
+    [self.navigationController pushViewController:vc animated:YES];
+}
+
 #pragma mark - 创建歌单
 
 - (void)showCreatePlaylistAlert {
@@ -229,6 +267,7 @@ trailingSwipeActionsConfigurationForRowAtIndexPath:(NSIndexPath *)indexPath {
     NSMutableArray<SongListModel *> *created = [user.createSongLists mutableCopy] ?: [NSMutableArray array];
     [created addObject:playlist];
     user.createSongLists = created;
+    [user persistCreatedPlaylists];   // 新建歌单立即落盘，跨启动保留
 
     // 切回“创建的歌单”让用户新建的立刻可见
     [self.myView setTabShowingCollected:NO];

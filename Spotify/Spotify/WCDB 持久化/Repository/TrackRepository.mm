@@ -78,6 +78,12 @@
     [[self db] insertOrReplaceObject:t intoTable:@"Track"];
 }
 
++ (void)insertTrackIfAbsent:(Track *)track {
+    if (!track || track.trackId.length == 0) return;
+    if ([self trackWithId:track.trackId]) return;   // 已存在（可能带喜欢状态）则不覆盖
+    [[self db] insertOrReplaceObject:track intoTable:@"Track"];
+}
+
 /// Song → Track 的字段映射集中在这里，FavouriteManager / UserModel 都走它，避免两处各写一遍
 + (nullable Track *)syncTrackFromSong:(Song *)song liked:(BOOL)liked {
     if (!song || song.songId.length == 0) return nil;   // 本地占位歌（无 id）不持久化

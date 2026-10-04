@@ -38,5 +38,7 @@
 + (nullable NSString *)localPathForTrackId:(NSString *)trackId;
 /// 回写音频直链：L3 里缓存的曲目在播放地址现取后补上，方便离线续播
 + (void)setAudioURL:(NSString *)url forTrackId:(NSString *)trackId;
+/// 仅当该 trackId 不存在时才插入（保留已有的 isLiked 等字段，供最近播放等场景用）
++ (void)insertTrackIfAbsent:(Track *)track;
 
 @end
