@@ -15,7 +15,7 @@
     [super viewDidLoad];
     self.view.backgroundColor = [UIColor systemRedColor];
     // 你可以在这里调用不同的示例方法进行测试
-    [self sendETRequest];
+    [self sendGETRequest];
 //     [self sendPOSTRequest];
 //     [self uploadImage];
 //     [self loadImageWithAFNetworking];
