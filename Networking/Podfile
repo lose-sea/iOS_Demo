@@ -1,9 +1,19 @@
-
-
 platform:ios, '17.0'
- 
+
 target 'Networking' do
   pod 'Masonry', '~> 1.1.0'
   pod 'LookinServer', :configurations => ['Debug']
   pod 'AFNetworking', '~> 4.0'
+end
+
+post_install do |installer|
+  installer.pods_project.targets.each do |target|
+    target.build_configurations.each do |config|
+      config.build_settings['IPHONEOS_DEPLOYMENT_TARGET'] = '15.0'
+      # 正确的key！！
+      config.build_settings['CLANG_ALLOW_NON_MODULAR_INCLUDES_IN_FRAMEWORK_MODULES'] = 'YES'
+      # 关闭模块验证器，这是Xcode27新增校验，必须关掉
+      config.build_settings['ENABLE_MODULE_VERIFIER'] = 'NO'
+    end
+  end
 end

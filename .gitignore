@@ -1,7 +1,6 @@
 Pods/
-# 忽略外层独立工作区，保留xcodeproj内部文件
+# 忽略 CocoaPods 自动生成的 xcworkspace，保留 xcodeproj 项目文件
 *.xcworkspace
-!*.xcodeproj/
 
 # Mac系统文件
 .DS_Store
@@ -9,19 +8,18 @@ Pods/
 .AppleDouble
 .LSOverride
 
-# Xcode 用户缓存
+# Xcode 用户个人缓存
 xcuserdata/
 *.xcuserstate
 
-# 编译产物
+# 编译打包产物
 build/
-DerivedData/
 *.log
 *.dSYM
 *.ipa
 *.xcarchive
 
-# Xcode 杂项
+# Xcode 杂项文件
 *.xccheckout
 *.moved-aside
 *.xcscmblueprint
@@ -31,7 +29,3 @@ DerivedData/
 # 临时文件
 *.tmp
 *.temp
-
-# 个人demo才打开下面这行；多人协作务必注释掉
-# Podfile.lock
-/spotify--clone
