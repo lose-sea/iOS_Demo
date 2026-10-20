@@ -7,13 +7,19 @@ target 'Networking' do
 end
 
 post_install do |installer|
-  installer.pods_project.targets.each do |target|
-    target.build_configurations.each do |config|
-      config.build_settings['IPHONEOS_DEPLOYMENT_TARGET'] = '15.0'
-      # 正确的key！！
-      config.build_settings['CLANG_ALLOW_NON_MODULAR_INCLUDES_IN_FRAMEWORK_MODULES'] = 'YES'
-      # 关闭模块验证器，这是Xcode27新增校验，必须关掉
-      config.build_settings['ENABLE_MODULE_VERIFIER'] = 'NO'
+  # 建议针对 AFNetworking 的源码目录进行遍历，而不是全目录，速度更快
+  af_path = 'Pods/AFNetworking'
+  
+  if Dir.exist?(af_path)
+    Dir.glob("#{af_path}/**/*.{m,mm}").each do |file|
+      content = File.read(file)
+      # 使用正则匹配带有任意缩进的该行，并连同换行符一起去掉，更稳妥
+      if content.match(/#import <netinet6\/in6\.h>/)
+        content.gsub!(/^\s*#import <netinet6\/in6\.h>\s*$\n?/, '')
+        File.chmod(0644, file) # 确保有写入权限
+        File.write(file, content)
+        puts "✅ 已自动修复 #{file} 的私有头文件引用问题"
+      end
     end
   end
 end
