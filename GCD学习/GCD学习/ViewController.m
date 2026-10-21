@@ -188,33 +188,33 @@
     
     
     
-    // dispatch_barrier
-    
-    
-    dispatch_queue_t queue = dispatch_queue_create("com.demo.database", DISPATCH_QUEUE_CONCURRENT);
-    dispatch_async(queue, ^{
-        NSLog(@"read A");
-    });
-    
-    dispatch_async(queue, ^{
-        NSLog(@"read B");
-        for (int i = 0; i < 5; i++) {
-            NSLog(@"read B - %d", i);
-        }
-    });
-    
+//    // dispatch_barrier
 //    
-    dispatch_barrier_async(queue, ^{
-        NSLog(@"写入");
-    });
-    
-    dispatch_async(queue, ^{
-        NSLog(@"read C");
-    });
-    
-    dispatch_async(queue, ^{
-        NSLog(@"read D");
-    });
+//    
+//    dispatch_queue_t queue = dispatch_queue_create("com.demo.database", DISPATCH_QUEUE_CONCURRENT);
+//    dispatch_async(queue, ^{
+//        NSLog(@"read A");
+//    });
+//    
+//    dispatch_async(queue, ^{
+//        NSLog(@"read B");
+//        for (int i = 0; i < 5; i++) {
+//            NSLog(@"read B - %d", i);
+//        }
+//    });
+//    
+////    
+//    dispatch_barrier_async(queue, ^{
+//        NSLog(@"写入");
+//    });
+//    
+//    dispatch_async(queue, ^{
+//        NSLog(@"read C");
+//    });
+//    
+//    dispatch_async(queue, ^{
+//        NSLog(@"read D");
+//    });
 
     
     
@@ -246,6 +246,50 @@
 //        });
 //    }
     
+    
+    
+    NSLog(@"调用前：%@", [NSThread currentThread]);
+
+    [NSThread detachNewThreadSelector:@selector(syncMain)
+                               toTarget:self
+                             withObject:nil];
+
+    NSLog(@"调用后：%@", [NSThread currentThread]);
+}
+
+
+/**
+ * 同步执行 + 主队列
+ * 特点(主线程调用)：互等卡主不执行。
+ * 特点(其他线程调用)：不会开启新线程，执行完一个任务，再执行下一个任务。
+ */
+- (void)syncMain {
+    
+    NSLog(@"currentThread---%@",[NSThread currentThread]);  // 打印当前线程
+    NSLog(@"syncMain---begin");
+    
+    dispatch_queue_t queue = dispatch_get_main_queue();
+    
+    dispatch_sync(queue, ^{
+        // 追加任务 1
+        [NSThread sleepForTimeInterval:2];              // 模拟耗时操作
+        NSLog(@"1---%@",[NSThread currentThread]);      // 打印当前线程
+    });
+    
+    dispatch_sync(queue, ^{
+        // 追加任务 2
+        [NSThread sleepForTimeInterval:2];              // 模拟耗时操作
+        NSLog(@"2---%@",[NSThread currentThread]);      // 打印当前线程
+    });
+    
+    dispatch_sync(queue, ^{
+        // 追加任务 3
+        [NSThread sleepForTimeInterval:2];              // 模拟耗时操作
+        NSLog(@"3---%@",[NSThread currentThread]);      // 打印当前线程
+    });
+    
+    NSLog(@"syncMain---end");
+    NSLog(@"end-Thread: %@", [NSThread currentThread]); 
 }
 
 
