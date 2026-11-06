@@ -1,0 +1,35 @@
+platform :ios, '17.0'
+ 
+target '网络请求' do
+  pod 'Masonry', '~> 1.1.0'
+  pod 'LookinServer', :configurations => ['Debug']
+  pod 'AFNetworking', '~> 4.0'
+  pod 'YYModel'
+  pod 'SDWebImage', '~> 5.0'
+  pod 'WCDB.objc'
+end
+
+post_install do |installer|
+  # 1. 统一修复所有 Pods 的 Deployment Target
+  installer.pods_project.targets.each do |target|
+    target.build_configurations.each do |config|
+      config.build_settings['IPHONEOS_DEPLOYMENT_TARGET'] = '17.0'
+    end
+  end
+
+  # 2. 修复 AFNetworking 私有头文件报错（带权限修正）
+  afnetworking_dir = File.join(installer.sandbox.root, 'AFNetworking')
+  if File.exist?(afnetworking_dir)
+    Dir.glob("#{afnetworking_dir}/**/*.{m,h}").each do |file|
+      content = File.read(file)
+      patched = content.gsub(/^#import\s+<netinet6\/in6\.h>\s*$\n?/, '')
+      
+      if patched != content
+        # 关键：先去掉只读限制，再写入
+        File.chmod(0644, file)
+        File.open(file, 'w') { |f| f.write(patched) }
+        puts "[post_install] 已修复 AFNetworking 私有头文件问题: #{file}"
+      end
+    end
+  end
+end
